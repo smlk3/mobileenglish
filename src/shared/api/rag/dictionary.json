@@ -1,0 +1,478 @@
+[
+    {
+        "word": "hello",
+        "translation": "merhaba",
+        "cefrLevel": "A1",
+        "category": "greetings",
+        "exampleSentence": "Hello, how are you today?"
+    },
+    {
+        "word": "goodbye",
+        "translation": "hoşça kal",
+        "cefrLevel": "A1",
+        "category": "greetings",
+        "exampleSentence": "Goodbye, see you tomorrow!"
+    },
+    {
+        "word": "please",
+        "translation": "lütfen",
+        "cefrLevel": "A1",
+        "category": "daily",
+        "exampleSentence": "Please open the door."
+    },
+    {
+        "word": "thank you",
+        "translation": "teşekkür ederim",
+        "cefrLevel": "A1",
+        "category": "daily",
+        "exampleSentence": "Thank you for your help."
+    },
+    {
+        "word": "water",
+        "translation": "su",
+        "cefrLevel": "A1",
+        "category": "food",
+        "exampleSentence": "Can I have a glass of water?"
+    },
+    {
+        "word": "food",
+        "translation": "yemek",
+        "cefrLevel": "A1",
+        "category": "food",
+        "exampleSentence": "The food at this restaurant is delicious."
+    },
+    {
+        "word": "house",
+        "translation": "ev",
+        "cefrLevel": "A1",
+        "category": "daily",
+        "exampleSentence": "We live in a small house."
+    },
+    {
+        "word": "family",
+        "translation": "aile",
+        "cefrLevel": "A1",
+        "category": "people",
+        "exampleSentence": "My family is very important to me."
+    },
+    {
+        "word": "school",
+        "translation": "okul",
+        "cefrLevel": "A1",
+        "category": "education",
+        "exampleSentence": "I go to school every morning."
+    },
+    {
+        "word": "work",
+        "translation": "iş, çalışmak",
+        "cefrLevel": "A1",
+        "category": "business",
+        "exampleSentence": "I work at a hospital."
+    },
+    {
+        "word": "beautiful",
+        "translation": "güzel",
+        "cefrLevel": "A1",
+        "category": "adjectives",
+        "exampleSentence": "The sunset is beautiful tonight."
+    },
+    {
+        "word": "happy",
+        "translation": "mutlu",
+        "cefrLevel": "A1",
+        "category": "emotions",
+        "exampleSentence": "She looks very happy today."
+    },
+    {
+        "word": "understand",
+        "translation": "anlamak",
+        "cefrLevel": "A2",
+        "category": "daily",
+        "exampleSentence": "I don't understand this question."
+    },
+    {
+        "word": "remember",
+        "translation": "hatırlamak",
+        "cefrLevel": "A2",
+        "category": "daily",
+        "exampleSentence": "I can't remember her name."
+    },
+    {
+        "word": "important",
+        "translation": "önemli",
+        "cefrLevel": "A2",
+        "category": "adjectives",
+        "exampleSentence": "It is important to study every day."
+    },
+    {
+        "word": "different",
+        "translation": "farklı",
+        "cefrLevel": "A2",
+        "category": "adjectives",
+        "exampleSentence": "These two words have different meanings."
+    },
+    {
+        "word": "experience",
+        "translation": "deneyim",
+        "cefrLevel": "A2",
+        "category": "business",
+        "exampleSentence": "She has a lot of experience in teaching."
+    },
+    {
+        "word": "environment",
+        "translation": "çevre",
+        "cefrLevel": "A2",
+        "category": "nature",
+        "exampleSentence": "We must protect the environment."
+    },
+    {
+        "word": "opportunity",
+        "translation": "fırsat",
+        "cefrLevel": "A2",
+        "category": "business",
+        "exampleSentence": "This is a great opportunity for you."
+    },
+    {
+        "word": "decision",
+        "translation": "karar",
+        "cefrLevel": "A2",
+        "category": "daily",
+        "exampleSentence": "Making a decision is not always easy."
+    },
+    {
+        "word": "improve",
+        "translation": "geliştirmek",
+        "cefrLevel": "B1",
+        "category": "education",
+        "exampleSentence": "I want to improve my English skills."
+    },
+    {
+        "word": "achieve",
+        "translation": "başarmak",
+        "cefrLevel": "B1",
+        "category": "business",
+        "exampleSentence": "She worked hard to achieve her goals."
+    },
+    {
+        "word": "recommend",
+        "translation": "tavsiye etmek",
+        "cefrLevel": "B1",
+        "category": "daily",
+        "exampleSentence": "I recommend this book to everyone."
+    },
+    {
+        "word": "communicate",
+        "translation": "iletişim kurmak",
+        "cefrLevel": "B1",
+        "category": "business",
+        "exampleSentence": "Good leaders communicate effectively."
+    },
+    {
+        "word": "compare",
+        "translation": "karşılaştırmak",
+        "cefrLevel": "B1",
+        "category": "education",
+        "exampleSentence": "Let's compare the two options."
+    },
+    {
+        "word": "advantage",
+        "translation": "avantaj",
+        "cefrLevel": "B1",
+        "category": "business",
+        "exampleSentence": "The main advantage is the lower cost."
+    },
+    {
+        "word": "influence",
+        "translation": "etki, etkilemek",
+        "cefrLevel": "B1",
+        "category": "people",
+        "exampleSentence": "Music can influence your mood."
+    },
+    {
+        "word": "responsibility",
+        "translation": "sorumluluk",
+        "cefrLevel": "B1",
+        "category": "business",
+        "exampleSentence": "It's your responsibility to finish the project."
+    },
+    {
+        "word": "unfortunately",
+        "translation": "maalesef",
+        "cefrLevel": "B1",
+        "category": "daily",
+        "exampleSentence": "Unfortunately, the concert was cancelled."
+    },
+    {
+        "word": "technology",
+        "translation": "teknoloji",
+        "cefrLevel": "B1",
+        "category": "technology",
+        "exampleSentence": "Technology has changed the way we live."
+    },
+    {
+        "word": "maintain",
+        "translation": "sürdürmek",
+        "cefrLevel": "B1",
+        "category": "daily",
+        "exampleSentence": "It's important to maintain a healthy lifestyle."
+    },
+    {
+        "word": "variety",
+        "translation": "çeşitlilik",
+        "cefrLevel": "B1",
+        "category": "daily",
+        "exampleSentence": "The store offers a wide variety of products."
+    },
+    {
+        "word": "approximately",
+        "translation": "yaklaşık",
+        "cefrLevel": "B1",
+        "category": "math",
+        "exampleSentence": "There are approximately 200 students."
+    },
+    {
+        "word": "consequence",
+        "translation": "sonuç",
+        "cefrLevel": "B1",
+        "category": "daily",
+        "exampleSentence": "Every action has a consequence."
+    },
+    {
+        "word": "diagnose",
+        "translation": "teşhis koymak",
+        "cefrLevel": "B2",
+        "category": "medical",
+        "exampleSentence": "The doctor will diagnose the illness."
+    },
+    {
+        "word": "prescription",
+        "translation": "reçete",
+        "cefrLevel": "B2",
+        "category": "medical",
+        "exampleSentence": "You need a prescription for this medicine."
+    },
+    {
+        "word": "symptom",
+        "translation": "belirti",
+        "cefrLevel": "B2",
+        "category": "medical",
+        "exampleSentence": "Fever is a common symptom of infection."
+    },
+    {
+        "word": "resilient",
+        "translation": "dayanıklı",
+        "cefrLevel": "B2",
+        "category": "personality",
+        "exampleSentence": "She is a resilient person who never gives up."
+    },
+    {
+        "word": "inevitable",
+        "translation": "kaçınılmaz",
+        "cefrLevel": "B2",
+        "category": "adjectives",
+        "exampleSentence": "Change is inevitable in every industry."
+    },
+    {
+        "word": "significant",
+        "translation": "önemli, kayda değer",
+        "cefrLevel": "B2",
+        "category": "adjectives",
+        "exampleSentence": "There was a significant increase in sales."
+    },
+    {
+        "word": "persistent",
+        "translation": "ısrarcı, kalıcı",
+        "cefrLevel": "B2",
+        "category": "personality",
+        "exampleSentence": "His persistent efforts finally paid off."
+    },
+    {
+        "word": "elaborate",
+        "translation": "ayrıntılı",
+        "cefrLevel": "B2",
+        "category": "adjectives",
+        "exampleSentence": "She gave an elaborate explanation of the theory."
+    },
+    {
+        "word": "contradict",
+        "translation": "çelişmek",
+        "cefrLevel": "B2",
+        "category": "daily",
+        "exampleSentence": "The two reports contradict each other."
+    },
+    {
+        "word": "negotiate",
+        "translation": "müzakere etmek",
+        "cefrLevel": "B2",
+        "category": "business",
+        "exampleSentence": "They need to negotiate a new contract."
+    },
+    {
+        "word": "substantial",
+        "translation": "önemli miktarda",
+        "cefrLevel": "B2",
+        "category": "business",
+        "exampleSentence": "The company made a substantial profit."
+    },
+    {
+        "word": "compatible",
+        "translation": "uyumlu",
+        "cefrLevel": "B2",
+        "category": "technology",
+        "exampleSentence": "These devices are compatible with each other."
+    },
+    {
+        "word": "hypothesis",
+        "translation": "hipotez",
+        "cefrLevel": "B2",
+        "category": "education",
+        "exampleSentence": "We need to test this hypothesis."
+    },
+    {
+        "word": "implement",
+        "translation": "uygulamak",
+        "cefrLevel": "B2",
+        "category": "business",
+        "exampleSentence": "We plan to implement the new system next month."
+    },
+    {
+        "word": "ambiguous",
+        "translation": "belirsiz, muğlak",
+        "cefrLevel": "C1",
+        "category": "adjectives",
+        "exampleSentence": "The instructions were ambiguous and confusing."
+    },
+    {
+        "word": "benevolent",
+        "translation": "hayırsever",
+        "cefrLevel": "C1",
+        "category": "personality",
+        "exampleSentence": "The benevolent donor funded the entire project."
+    },
+    {
+        "word": "meticulous",
+        "translation": "titiz",
+        "cefrLevel": "C1",
+        "category": "personality",
+        "exampleSentence": "She is meticulous in her approach to research."
+    },
+    {
+        "word": "unprecedented",
+        "translation": "emsalsiz",
+        "cefrLevel": "C1",
+        "category": "adjectives",
+        "exampleSentence": "The pandemic caused unprecedented challenges."
+    },
+    {
+        "word": "eloquent",
+        "translation": "etkili konuşan",
+        "cefrLevel": "C1",
+        "category": "personality",
+        "exampleSentence": "He is an eloquent speaker who captivates audiences."
+    },
+    {
+        "word": "paradigm",
+        "translation": "paradigma",
+        "cefrLevel": "C1",
+        "category": "education",
+        "exampleSentence": "This discovery shifted the scientific paradigm."
+    },
+    {
+        "word": "pragmatic",
+        "translation": "pragmatik, pratik",
+        "cefrLevel": "C1",
+        "category": "personality",
+        "exampleSentence": "We need a pragmatic approach to this problem."
+    },
+    {
+        "word": "scrutinize",
+        "translation": "dikkatle incelemek",
+        "cefrLevel": "C1",
+        "category": "business",
+        "exampleSentence": "The auditor will scrutinize the financial records."
+    },
+    {
+        "word": "facilitate",
+        "translation": "kolaylaştırmak",
+        "cefrLevel": "C1",
+        "category": "business",
+        "exampleSentence": "The new software will facilitate communication."
+    },
+    {
+        "word": "inherent",
+        "translation": "doğasında var olan",
+        "cefrLevel": "C1",
+        "category": "adjectives",
+        "exampleSentence": "Risk is inherent in any business venture."
+    },
+    {
+        "word": "ephemeral",
+        "translation": "geçici, kısa ömürlü",
+        "cefrLevel": "C2",
+        "category": "adjectives",
+        "exampleSentence": "Social media stories are ephemeral by design."
+    },
+    {
+        "word": "ubiquitous",
+        "translation": "her yerde bulunan",
+        "cefrLevel": "C2",
+        "category": "adjectives",
+        "exampleSentence": "Smartphones have become ubiquitous in modern life."
+    },
+    {
+        "word": "clandestine",
+        "translation": "gizli",
+        "cefrLevel": "C2",
+        "category": "adjectives",
+        "exampleSentence": "They held a clandestine meeting at midnight."
+    },
+    {
+        "word": "juxtapose",
+        "translation": "yan yana koymak",
+        "cefrLevel": "C2",
+        "category": "education",
+        "exampleSentence": "The artist likes to juxtapose light and darkness."
+    },
+    {
+        "word": "recalcitrant",
+        "translation": "inatçı, söz dinlemez",
+        "cefrLevel": "C2",
+        "category": "personality",
+        "exampleSentence": "The recalcitrant student refused to follow rules."
+    },
+    {
+        "word": "sycophant",
+        "translation": "dalkavuk",
+        "cefrLevel": "C2",
+        "category": "personality",
+        "exampleSentence": "He surrounded himself with sycophants."
+    },
+    {
+        "word": "obfuscate",
+        "translation": "karmaşık hale getirmek",
+        "cefrLevel": "C2",
+        "category": "daily",
+        "exampleSentence": "Politicians often obfuscate the truth."
+    },
+    {
+        "word": "surreptitious",
+        "translation": "gizli, sinsi",
+        "cefrLevel": "C2",
+        "category": "adjectives",
+        "exampleSentence": "She took a surreptitious glance at the document."
+    },
+    {
+        "word": "ameliorate",
+        "translation": "iyileştirmek",
+        "cefrLevel": "C2",
+        "category": "medical",
+        "exampleSentence": "The treatment helped ameliorate his symptoms."
+    },
+    {
+        "word": "perfunctory",
+        "translation": "göstermelik",
+        "cefrLevel": "C2",
+        "category": "adjectives",
+        "exampleSentence": "He gave a perfunctory nod before leaving."
+    }
+]

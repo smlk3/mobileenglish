@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "temp_init",
-    "slug": "temp_init",
+    "name": "LinguaLearn",
+    "slug": "lingua-learn",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "tempinit",
+    "scheme": "lingualearn",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -19,7 +19,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.smlk3.lingualearn"
     },
     "web": {
       "output": "static",
@@ -43,6 +44,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "5f717f6a-538b-41eb-bc71-f8a621cb63d6"
+      }
+    },
+    "owner": "smlk3"
   }
 }
