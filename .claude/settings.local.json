@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /c/git/mobileenglish/app -name \"*.tsx\" -type f -exec basename {} ;)",
+      "Bash(ls -la /c/git/mobileenglish/*.txt)"
+    ]
+  }
+}
