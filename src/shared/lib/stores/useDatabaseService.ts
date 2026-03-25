@@ -286,3 +286,153 @@ export async function getUserSettings(): Promise<UserSettings | null> {
         return null;
     }
 }
+
+// ─── Detailed Statistics ──────────────────────────────────
+
+export interface DayStats {
+    label: string; // 'Mon', 'Tue', ...
+    date: string;  // 'YYYY-MM-DD'
+    count: number;
+}
+
+export interface DeckAccuracy {
+    deckId: string;
+    deckName: string;
+    cardsStudied: number;
+    cardsCorrect: number;
+    accuracy: number;
+    cardCount: number;
+}
+
+export interface SessionTypeBreakdown {
+    flashcard: number;
+    quiz: number;
+}
+
+export interface DetailedStats {
+    totalWordsLearned: number;
+    totalStudySeconds: number;
+    longestStreak: number;
+    currentStreak: number;
+    last7Days: DayStats[];
+    deckAccuracies: DeckAccuracy[];
+    sessionBreakdown: SessionTypeBreakdown;
+    totalSessions: number;
+}
+
+const DAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+export async function getDetailedStats(): Promise<DetailedStats> {
+    try {
+        // All cards
+        const allCards = await getCardsCollection().query().fetch();
+        const totalWordsLearned = allCards.filter((c) => c.status !== 'new').length;
+
+        // All sessions
+        const allSessions = await getStudySessionsCollection()
+            .query(Q.sortBy('completed_at', Q.desc))
+            .fetch();
+
+        const totalStudySeconds = allSessions.reduce((sum, s) => sum + s.durationSeconds, 0);
+        const totalSessions = allSessions.length;
+
+        // Streak calculations
+        const currentStreak = calculateStreak(allSessions);
+        let longestStreak = 0;
+        if (allSessions.length > 0) {
+            // Find longest streak by walking through all unique days
+            const uniqueDays = Array.from(
+                new Set(
+                    allSessions.map((s) => {
+                        const d = new Date(s.completedAt);
+                        d.setHours(0, 0, 0, 0);
+                        return d.getTime();
+                    }),
+                ),
+            ).sort((a, b) => a - b);
+
+            let run = 1;
+            const ONE_DAY = 86400000;
+            for (let i = 1; i < uniqueDays.length; i++) {
+                if (uniqueDays[i] - uniqueDays[i - 1] === ONE_DAY) {
+                    run++;
+                    longestStreak = Math.max(longestStreak, run);
+                } else {
+                    run = 1;
+                }
+            }
+            longestStreak = Math.max(longestStreak, 1);
+        }
+
+        // Last 7 days
+        const last7Days: DayStats[] = [];
+        for (let i = 6; i >= 0; i--) {
+            const day = new Date();
+            day.setHours(0, 0, 0, 0);
+            day.setDate(day.getDate() - i);
+            const dayEnd = new Date(day);
+            dayEnd.setHours(23, 59, 59, 999);
+
+            const count = allSessions
+                .filter((s) => s.completedAt >= day.getTime() && s.completedAt <= dayEnd.getTime())
+                .reduce((sum, s) => sum + s.cardsStudied, 0);
+
+            const dateStr = day.toISOString().split('T')[0];
+            last7Days.push({
+                label: DAY_LABELS[day.getDay()],
+                date: dateStr,
+                count,
+            });
+        }
+
+        // Deck accuracies
+        const decks = await getDecksCollection().query().fetch();
+        const deckAccuracies: DeckAccuracy[] = [];
+        for (const deck of decks) {
+            const deckSessions = allSessions.filter((s) => s.deckId === deck.id);
+            const total = deckSessions.reduce((sum, s) => sum + s.cardsStudied, 0);
+            const correct = deckSessions.reduce((sum, s) => sum + s.cardsCorrect, 0);
+            if (total > 0) {
+                deckAccuracies.push({
+                    deckId: deck.id,
+                    deckName: deck.name,
+                    cardsStudied: total,
+                    cardsCorrect: correct,
+                    accuracy: Math.round((correct / total) * 100),
+                    cardCount: deck.cardCount,
+                });
+            }
+        }
+        deckAccuracies.sort((a, b) => b.accuracy - a.accuracy);
+
+        // Session type breakdown
+        const breakdown: SessionTypeBreakdown = { flashcard: 0, quiz: 0 };
+        for (const s of allSessions) {
+            if (s.sessionType === 'flashcard') breakdown.flashcard += s.cardsStudied;
+            else breakdown.quiz += s.cardsStudied;
+        }
+
+        return {
+            totalWordsLearned,
+            totalStudySeconds,
+            longestStreak,
+            currentStreak,
+            last7Days,
+            deckAccuracies,
+            sessionBreakdown: breakdown,
+            totalSessions,
+        };
+    } catch {
+        return {
+            totalWordsLearned: 0,
+            totalStudySeconds: 0,
+            longestStreak: 0,
+            currentStreak: 0,
+            last7Days: [],
+            deckAccuracies: [],
+            sessionBreakdown: { flashcard: 0, quiz: 0 },
+            totalSessions: 0,
+        };
+    }
+}
+

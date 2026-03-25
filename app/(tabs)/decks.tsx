@@ -3,6 +3,8 @@ import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import {
   Alert,
+  Modal,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -32,6 +34,8 @@ export default function DecksScreen() {
   const tc = themeMode === 'dark' ? colors.dark : colors.light;
 
   const [decks, setDecks] = useState<Deck[]>([]);
+  const [quizModalDeck, setQuizModalDeck] = useState<Deck | null>(null);
+  const [deckOptionsFor, setDeckOptionsFor] = useState<Deck | null>(null); // UX #1
 
   const loadDecks = useCallback(async () => {
     const data = await fetchDecks();
@@ -48,9 +52,10 @@ export default function DecksScreen() {
   const uniqueLevels = new Set(decks.map((d) => d.cefrLevel)).size;
 
   const handleDeleteDeck = (deck: Deck) => {
+    setDeckOptionsFor(null);
     Alert.alert(
       'Delete Deck',
-      `Are you sure you want to delete "${deck.name}" and all its cards?`,
+      `Delete "${deck.name}" and all its cards? This cannot be undone.`,
       [
         { text: 'Cancel', style: 'cancel' },
         {
@@ -63,6 +68,13 @@ export default function DecksScreen() {
         },
       ],
     );
+  };
+
+  const handleQuizMode = (mode: 'mc' | 'match' | 'spell') => {
+    if (!quizModalDeck) return;
+    setQuizModalDeck(null);
+    const route = mode === 'mc' ? '/quiz-mc' : mode === 'match' ? '/quiz-match' : '/quiz-spell';
+    router.push({ pathname: route as any, params: { deckId: quizModalDeck.id, deckName: quizModalDeck.name } });
   };
 
   return (
@@ -121,7 +133,6 @@ export default function DecksScreen() {
           <TouchableOpacity
             style={[styles.deckCard, { backgroundColor: tc.surface }]}
             onPress={() => router.push({ pathname: '/study', params: { deckId: deck.id, deckName: deck.name } })}
-            onLongPress={() => handleDeleteDeck(deck)}
             activeOpacity={0.8}
           >
             <View style={[styles.deckIcon, { backgroundColor: (DECK_COLORS[index % DECK_COLORS.length]) + '20' }]}>
@@ -146,9 +157,137 @@ export default function DecksScreen() {
               <Text style={[styles.cardCount, { color: tc.text }]}>{deck.cardCount}</Text>
               <Text style={[styles.cardCountLabel, { color: tc.textMuted }]}>cards</Text>
             </View>
+            {/* UX #1: ⋯ menu button replaces long press */}
+            <TouchableOpacity
+              style={styles.optionsBtn}
+              onPress={() => setDeckOptionsFor(deck)}
+              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+            >
+              <Ionicons name="ellipsis-vertical" size={18} color={tc.textMuted} />
+            </TouchableOpacity>
+          </TouchableOpacity>
+          {/* Test Yourself button */}
+          <TouchableOpacity
+            style={[styles.testBtn, { backgroundColor: colors.primary[500] + '15', borderColor: colors.primary[500] + '40' }]}
+            onPress={() => setQuizModalDeck(deck)}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="trophy-outline" size={15} color={colors.primary[400]} />
+            <Text style={[styles.testBtnText, { color: colors.primary[400] }]}>Test Yourself</Text>
           </TouchableOpacity>
         </Animated.View>
-      ))}
+      ))}      {/* Quiz mode modal */}
+      <Modal
+        visible={quizModalDeck !== null}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setQuizModalDeck(null)}
+      >
+        <Pressable style={styles.modalOverlay} onPress={() => setQuizModalDeck(null)}>
+          <Pressable style={[styles.modalBox, { backgroundColor: tc.surface }]} onPress={() => {}}>
+            <Text style={[styles.modalTitle, { color: tc.text }]}>Test Yourself</Text>
+            <Text style={[styles.modalSubtitle, { color: tc.textSecondary }]}>
+              {quizModalDeck?.name}
+            </Text>
+            <TouchableOpacity
+              style={[styles.modeBtn, { backgroundColor: colors.primary[500] + '18', borderColor: colors.primary[500] }]}
+              onPress={() => handleQuizMode('mc')}
+              activeOpacity={0.8}
+            >
+              <View style={[styles.modeIcon, { backgroundColor: colors.primary[500] + '25' }]}>
+                <Ionicons name="list" size={22} color={colors.primary[400]} />
+              </View>
+              <View style={styles.modeTextArea}>
+                <Text style={[styles.modeName, { color: tc.text }]}>Multiple Choice</Text>
+                <Text style={[styles.modeDesc, { color: tc.textMuted }]}>Pick the correct answer from 4 choices</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={18} color={tc.textMuted} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.modeBtn, { backgroundColor: colors.accent[500] + '18', borderColor: colors.accent[400] }]}
+              onPress={() => handleQuizMode('match')}
+              activeOpacity={0.8}
+            >
+              <View style={[styles.modeIcon, { backgroundColor: colors.accent[400] + '25' }]}>
+                <Ionicons name="git-compare-outline" size={22} color={colors.accent[400]} />
+              </View>
+              <View style={styles.modeTextArea}>
+                <Text style={[styles.modeName, { color: tc.text }]}>Matching</Text>
+                <Text style={[styles.modeDesc, { color: tc.textMuted }]}>Match words with their meanings</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={18} color={tc.textMuted} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.modeBtn, { backgroundColor: colors.success.main + '18', borderColor: colors.success.main }]}
+              onPress={() => handleQuizMode('spell')}
+              activeOpacity={0.8}
+            >
+              <View style={[styles.modeIcon, { backgroundColor: colors.success.main + '25' }]}>
+                <Ionicons name="pencil-outline" size={22} color={colors.success.main} />
+              </View>
+              <View style={styles.modeTextArea}>
+                <Text style={[styles.modeName, { color: tc.text }]}>Spelling</Text>
+                <Text style={[styles.modeDesc, { color: tc.textMuted }]}>Type the word, use hints if needed</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={18} color={tc.textMuted} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setQuizModalDeck(null)} style={styles.modalCancel}>
+              <Text style={[styles.modalCancelText, { color: tc.textMuted }]}>Cancel</Text>
+            </TouchableOpacity>
+          </Pressable>
+        </Pressable>
+      </Modal>
+
+      {/* UX #1: Deck options modal (⋯ menu) */}
+      <Modal
+        visible={deckOptionsFor !== null}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setDeckOptionsFor(null)}
+      >
+        <Pressable style={styles.modalOverlay} onPress={() => setDeckOptionsFor(null)}>
+          <Pressable style={[styles.modalBox, { backgroundColor: tc.surface }]} onPress={() => {}}>
+            <Text style={[styles.modalTitle, { color: tc.text }]}>{deckOptionsFor?.name}</Text>
+            <Text style={[styles.modalSubtitle, { color: tc.textSecondary }]}>
+              {deckOptionsFor?.cardCount} cards · {deckOptionsFor?.cefrLevel}
+            </Text>
+            <TouchableOpacity
+              style={[styles.modeBtn, { backgroundColor: tc.border + '40', borderColor: tc.border }]}
+              onPress={() => {
+                if (!deckOptionsFor) return;
+                setDeckOptionsFor(null);
+                router.push({ pathname: '/study', params: { deckId: deckOptionsFor.id, deckName: deckOptionsFor.name } });
+              }}
+              activeOpacity={0.8}
+            >
+              <View style={[styles.modeIcon, { backgroundColor: colors.primary[500] + '20' }]}>
+                <Ionicons name="book-outline" size={22} color={colors.primary[400]} />
+              </View>
+              <View style={styles.modeTextArea}>
+                <Text style={[styles.modeName, { color: tc.text }]}>Study</Text>
+                <Text style={[styles.modeDesc, { color: tc.textMuted }]}>Review cards with flashcards</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={18} color={tc.textMuted} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.modeBtn, { backgroundColor: colors.error.main + '12', borderColor: colors.error.main + '60' }]}
+              onPress={() => deckOptionsFor && handleDeleteDeck(deckOptionsFor)}
+              activeOpacity={0.8}
+            >
+              <View style={[styles.modeIcon, { backgroundColor: colors.error.main + '20' }]}>
+                <Ionicons name="trash-outline" size={22} color={colors.error.main} />
+              </View>
+              <View style={styles.modeTextArea}>
+                <Text style={[styles.modeName, { color: colors.error.main }]}>Delete Deck</Text>
+                <Text style={[styles.modeDesc, { color: tc.textMuted }]}>Remove deck and all its cards</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setDeckOptionsFor(null)} style={styles.modalCancel}>
+              <Text style={[styles.modalCancelText, { color: tc.textMuted }]}>Cancel</Text>
+            </TouchableOpacity>
+          </Pressable>
+        </Pressable>
+      </Modal>
 
       {/* Add new deck button */}
       <TouchableOpacity
@@ -238,4 +377,60 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   addButtonText: { fontSize: typography.fontSize.base, fontWeight: '600' },
+
+  testBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: spacing.xs,
+    paddingVertical: spacing.xs,
+    paddingHorizontal: spacing.md,
+    borderRadius: borderRadius.md,
+    borderWidth: 1,
+    marginTop: -spacing.xs,
+    marginBottom: spacing.sm,
+    marginHorizontal: spacing.sm,
+  },
+  testBtnText: { fontSize: typography.fontSize.xs, fontWeight: '700' },
+
+  // Modal
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.55)',
+    justifyContent: 'flex-end',
+  },
+  modalBox: {
+    borderTopLeftRadius: borderRadius['2xl'],
+    borderTopRightRadius: borderRadius['2xl'],
+    padding: spacing['2xl'],
+    paddingBottom: 40,
+    ...shadows.lg,
+  },
+  modalTitle: { fontSize: typography.fontSize.xl, fontWeight: '800', marginBottom: 4 },
+  modalSubtitle: { fontSize: typography.fontSize.sm, marginBottom: spacing.xl },
+  modeBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: borderRadius.lg,
+    borderWidth: 1.5,
+    padding: spacing.base,
+    marginBottom: spacing.sm,
+    gap: spacing.md,
+  },
+  modeIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: borderRadius.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modeTextArea: { flex: 1 },
+  modeName: { fontSize: typography.fontSize.base, fontWeight: '700', marginBottom: 2 },
+  modeDesc: { fontSize: typography.fontSize.xs },
+  modalCancel: { alignItems: 'center', paddingTop: spacing.md },
+  modalCancelText: { fontSize: typography.fontSize.base, fontWeight: '600' },
+  optionsBtn: {
+    padding: spacing.xs,
+    marginLeft: spacing.xs,
+  },
 });

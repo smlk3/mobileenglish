@@ -34,7 +34,9 @@ import {
     updateCardSRS,
 } from '../src/shared/lib/stores/useDatabaseService';
 import { useProfileStore } from '../src/shared/lib/stores/useProfileStore';
+import { useXPStore } from '../src/shared/lib/stores/useXPStore';
 import { borderRadius, colors, shadows, spacing, typography } from '../src/shared/lib/theme';
+import { XP } from '../src/shared/lib/xpSystem';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.3;
@@ -46,6 +48,7 @@ export default function StudyScreen() {
     const params = useLocalSearchParams<{ deckId?: string; deckName?: string }>();
     const themeMode = useProfileStore((s) => s.themeMode);
     const tc = themeMode === 'dark' ? colors.dark : colors.light;
+    const awardXP = useXPStore((s) => s.awardXP);
 
     const [cards, setCards] = useState<Card[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -53,6 +56,8 @@ export default function StudyScreen() {
     const [phase, setPhase] = useState<Phase>('loading');
     const [results, setResults] = useState<{ rating: Rating; cardId: string }[]>([]);
     const [startTime] = useState(Date.now());
+    const [isReviewingAll, setIsReviewingAll] = useState(false); // UX #5
+    const [sessionXP, setSessionXP] = useState(0); // UX #6
 
     // Card swipe animation values
     const translateX = useSharedValue(0);
@@ -67,13 +72,12 @@ export default function StudyScreen() {
             try {
                 let loadedCards: Card[];
                 if (params.deckId) {
-                    // Load due cards for this deck, fallback to all cards
                     loadedCards = await fetchDueCards(params.deckId);
                     if (loadedCards.length === 0) {
                         loadedCards = await fetchCardsByDeck(params.deckId);
+                        setIsReviewingAll(true); // UX #5: no due cards, reviewing all
                     }
                 } else {
-                    // Load all due cards across all decks
                     loadedCards = await fetchDueCards();
                 }
 
@@ -102,6 +106,12 @@ export default function StudyScreen() {
                 } catch (e) {
                     console.warn('Failed to update SRS:', e);
                 }
+                // Award XP silently (no toast — too frequent in flashcard mode)
+                const xpAmount = rating === 'again' ? XP.FLASHCARD_WRONG : XP.FLASHCARD_CORRECT;
+                const isFirst = results.length === 0 && currentIndex === 0;
+                awardXP(xpAmount, { isFirstSession: isFirst }).then((res) => {
+                    setSessionXP((prev) => prev + res.xpAwarded); // UX #6: track session XP
+                }).catch(() => {});
                 setResults((prev) => [...prev, { rating, cardId: card.id }]);
             }
             setIsFlipped(false);
@@ -130,7 +140,7 @@ export default function StudyScreen() {
                 setPhase('results');
             }
         },
-        [currentIndex, cards, results, startTime, params.deckId],
+        [currentIndex, cards, results, startTime, params.deckId, awardXP, setSessionXP],
     );
 
     const handleSwipeComplete = useCallback(
@@ -289,6 +299,19 @@ export default function StudyScreen() {
                             </View>
                         </View>
 
+                        {/* UX #6: XP earned this session */}
+                        {sessionXP > 0 && (
+                            <Animated.View
+                                entering={FadeInDown.delay(300).duration(400)}
+                                style={[styles.xpEarnedRow, { backgroundColor: colors.primary[500] + '15', borderColor: colors.primary[500] + '40' }]}
+                            >
+                                <Text style={styles.xpEarnedEmoji}>⚡</Text>
+                                <Text style={[styles.xpEarnedText, { color: colors.primary[400] }]}>
+                                    +{sessionXP} XP earned this session
+                                </Text>
+                            </Animated.View>
+                        )}
+
                         <TouchableOpacity
                             style={[styles.doneButton, { backgroundColor: colors.primary[500] }]}
                             onPress={() => router.back()}
@@ -330,6 +353,15 @@ export default function StudyScreen() {
                     {currentIndex + 1}/{cards.length}
                 </Text>
             </View>
+            {/* UX #5: Banner when reviewing all cards (no due) */}
+            {isReviewingAll && (
+                <View style={[styles.reviewingAllBanner, { backgroundColor: colors.warning.main + '18' }]}>
+                    <Ionicons name="information-circle-outline" size={14} color={colors.warning.main} />
+                    <Text style={[styles.reviewingAllText, { color: colors.warning.main }]}>
+                        No due cards — reviewing all
+                    </Text>
+                </View>
+            )}
 
             {/* Flashcard */}
             {currentCard && (
@@ -637,4 +669,27 @@ const styles = StyleSheet.create({
         fontSize: typography.fontSize.md,
         fontWeight: '700',
     },
+    // UX #6: XP earned row
+    xpEarnedRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: spacing.sm,
+        paddingVertical: spacing.sm,
+        paddingHorizontal: spacing.lg,
+        borderRadius: borderRadius.full,
+        borderWidth: 1,
+        marginBottom: spacing.xl,
+    },
+    xpEarnedEmoji: { fontSize: 16 },
+    xpEarnedText: { fontSize: typography.fontSize.sm, fontWeight: '800' },
+    // UX #5: Reviewing all banner
+    reviewingAllBanner: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: spacing.xs,
+        paddingVertical: spacing.xs,
+        paddingHorizontal: spacing.base,
+        justifyContent: 'center',
+    },
+    reviewingAllText: { fontSize: typography.fontSize.xs, fontWeight: '600' },
 });
