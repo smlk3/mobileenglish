@@ -142,6 +142,17 @@ export class VectorStore {
         return Array.from(levels).sort();
     }
 
+    /**
+     * Find a single entry by exact word match (case-insensitive).
+     * Falls back to prefix match if no exact result found.
+     */
+    findByWord(word: string): DictionaryEntry | null {
+        const lower = word.toLowerCase().trim();
+        const exact = this.dictionary.find((e) => e.word.toLowerCase() === lower);
+        if (exact) return exact;
+        return this.dictionary.find((e) => e.word.toLowerCase().startsWith(lower)) ?? null;
+    }
+
     /** Get word count per level */
     getStats(): Record<string, number> {
         const stats: Record<string, number> = {};

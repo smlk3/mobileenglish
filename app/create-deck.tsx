@@ -28,6 +28,7 @@ interface GeneratedWord {
     cefrLevel: string;
     category: string;
     exampleSentence: string;
+    source: 'ai' | 'manual';
 }
 
 export default function CreateDeckScreen() {
@@ -36,14 +37,34 @@ export default function CreateDeckScreen() {
     const tc = themeMode === 'dark' ? colors.dark : colors.light;
     const profile = useProfileStore();
 
+    // Deck metadata
     const [name, setName] = useState('');
     const [selectedLevel, setSelectedLevel] = useState('B1');
     const [selectedCategory, setSelectedCategory] = useState('General');
     const [wordCount, setWordCount] = useState(10);
+
+    // Word list (shared between both tabs)
     const [generatedWords, setGeneratedWords] = useState<GeneratedWord[]>([]);
     const [isGenerating, setIsGenerating] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
 
+    // Tab state
+    const [activeTab, setActiveTab] = useState<'ai' | 'manual'>('ai');
+
+    // Manual Add state
+    const [manualWord, setManualWord] = useState('');
+    const [manualTranslation, setManualTranslation] = useState('');
+    const [manualExample, setManualExample] = useState('');
+    const [showManualFields, setShowManualFields] = useState(false);
+    const [isLookingUp, setIsLookingUp] = useState(false);
+
+    // Inline edit state
+    const [editingIndex, setEditingIndex] = useState<number | null>(null);
+    const [editWord, setEditWord] = useState('');
+    const [editTranslation, setEditTranslation] = useState('');
+    const [editExample, setEditExample] = useState('');
+
+    // ─── AI Generate ───────────────────────────────────────────────
     const generateWords = async () => {
         setIsGenerating(true);
         try {
@@ -61,26 +82,123 @@ export default function CreateDeckScreen() {
                     cefrLevel: w.cefrLevel,
                     category: w.category,
                     exampleSentence: w.exampleSentence,
+                    source: 'ai',
                 })),
             );
-        } catch (error) {
+        } catch {
             Alert.alert('Error', 'Failed to generate words. Please try again.');
         } finally {
             setIsGenerating(false);
         }
     };
 
-    const removeWord = (index: number) => {
-        setGeneratedWords((prev) => prev.filter((_, i) => i !== index));
+    // ─── Manual Add ────────────────────────────────────────────────
+    const lookupWord = () => {
+        const trimmed = manualWord.trim();
+        if (!trimmed) return;
+
+        // Duplicate check
+        if (generatedWords.some((w) => w.word.toLowerCase() === trimmed.toLowerCase())) {
+            Alert.alert('Duplicate', `"${trimmed}" is already in the list.`);
+            return;
+        }
+
+        setIsLookingUp(true);
+        try {
+            const vectorStore = getVectorStore();
+            const found = vectorStore.findByWord(trimmed);
+
+            if (found) {
+                // Auto-fill from dictionary and add immediately
+                setGeneratedWords((prev) => [
+                    ...prev,
+                    {
+                        word: found.word,
+                        translation: found.translation,
+                        cefrLevel: found.cefrLevel,
+                        category: found.category,
+                        exampleSentence: found.exampleSentence,
+                        source: 'manual',
+                    },
+                ]);
+                setManualWord('');
+                setManualTranslation('');
+                setManualExample('');
+                setShowManualFields(false);
+            } else {
+                // Word not in dictionary — show manual form
+                setShowManualFields(true);
+                setManualTranslation('');
+                setManualExample('');
+            }
+        } finally {
+            setIsLookingUp(false);
+        }
     };
 
+    const addManualWord = () => {
+        const trimmed = manualWord.trim();
+        if (!trimmed || !manualTranslation.trim()) {
+            Alert.alert('Required', 'Word and translation are required.');
+            return;
+        }
+
+        setGeneratedWords((prev) => [
+            ...prev,
+            {
+                word: trimmed,
+                translation: manualTranslation.trim(),
+                cefrLevel: selectedLevel,
+                category: selectedCategory,
+                exampleSentence: manualExample.trim(),
+                source: 'manual',
+            },
+        ]);
+        setManualWord('');
+        setManualTranslation('');
+        setManualExample('');
+        setShowManualFields(false);
+    };
+
+    // ─── Word List Actions ──────────────────────────────────────────
+    const removeWord = (index: number) => {
+        setGeneratedWords((prev) => prev.filter((_, i) => i !== index));
+        if (editingIndex === index) setEditingIndex(null);
+    };
+
+    const startEdit = (index: number) => {
+        const w = generatedWords[index];
+        setEditingIndex(index);
+        setEditWord(w.word);
+        setEditTranslation(w.translation);
+        setEditExample(w.exampleSentence);
+    };
+
+    const saveEdit = (index: number) => {
+        if (!editWord.trim() || !editTranslation.trim()) {
+            Alert.alert('Required', 'Word and translation cannot be empty.');
+            return;
+        }
+        setGeneratedWords((prev) =>
+            prev.map((w, i) =>
+                i === index
+                    ? { ...w, word: editWord.trim(), translation: editTranslation.trim(), exampleSentence: editExample.trim() }
+                    : w,
+            ),
+        );
+        setEditingIndex(null);
+    };
+
+    const cancelEdit = () => setEditingIndex(null);
+
+    // ─── Save Deck ─────────────────────────────────────────────────
     const saveDeck = async () => {
         if (!name.trim()) {
             Alert.alert('Error', 'Please enter a deck name.');
             return;
         }
         if (generatedWords.length === 0) {
-            Alert.alert('Error', 'Please generate words first.');
+            Alert.alert('Error', 'Add at least one word before saving.');
             return;
         }
 
@@ -104,13 +222,14 @@ export default function CreateDeckScreen() {
             );
 
             router.back();
-        } catch (error) {
+        } catch {
             Alert.alert('Error', 'Failed to save deck. Please try again.');
         } finally {
             setIsSaving(false);
         }
     };
 
+    // ─── Render ────────────────────────────────────────────────────
     return (
         <KeyboardAvoidingView
             style={[styles.container, { backgroundColor: tc.background }]}
@@ -212,59 +331,158 @@ export default function CreateDeckScreen() {
                     </ScrollView>
                 </Animated.View>
 
-                {/* Word Count */}
-                <Animated.View entering={FadeInDown.duration(400).delay(150)}>
-                    <Text style={[styles.label, { color: tc.textSecondary }]}>WORD COUNT</Text>
-                    <View style={styles.chipRow}>
-                        {[5, 10, 15, 20].map((count) => (
-                            <TouchableOpacity
-                                key={count}
-                                style={[
-                                    styles.chip,
-                                    {
-                                        backgroundColor: wordCount === count ? colors.primary[500] : tc.surface,
-                                        borderColor: wordCount === count ? colors.primary[500] : tc.border,
-                                    },
-                                ]}
-                                onPress={() => setWordCount(count)}
-                            >
-                                <Text
-                                    style={[
-                                        styles.chipText,
-                                        { color: wordCount === count ? '#fff' : tc.text },
-                                    ]}
-                                >
-                                    {count}
-                                </Text>
-                            </TouchableOpacity>
-                        ))}
-                    </View>
-                </Animated.View>
-
-                {/* Generate Button */}
-                <Animated.View entering={FadeInDown.duration(400).delay(200)}>
+                {/* ── Tab Switcher ─────────────────────────────── */}
+                <Animated.View entering={FadeInDown.duration(400).delay(150)} style={[styles.tabSwitcher, { backgroundColor: tc.surface, borderColor: tc.border }]}>
                     <TouchableOpacity
-                        style={[styles.generateButton, { backgroundColor: colors.accent[600] }]}
-                        onPress={generateWords}
-                        disabled={isGenerating}
-                        activeOpacity={0.8}
+                        style={[styles.tab, activeTab === 'ai' && { backgroundColor: colors.accent[600] }]}
+                        onPress={() => setActiveTab('ai')}
                     >
-                        {isGenerating ? (
-                            <ActivityIndicator size="small" color="#fff" />
-                        ) : (
-                            <>
-                                <Ionicons name="sparkles" size={20} color="#fff" />
-                                <Text style={styles.generateText}>Generate Words</Text>
-                            </>
-                        )}
+                        <Ionicons name="sparkles" size={14} color={activeTab === 'ai' ? '#fff' : tc.textSecondary} />
+                        <Text style={[styles.tabText, { color: activeTab === 'ai' ? '#fff' : tc.textSecondary }]}>
+                            AI Generate
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.tab, activeTab === 'manual' && { backgroundColor: colors.primary[500] }]}
+                        onPress={() => setActiveTab('manual')}
+                    >
+                        <Ionicons name="pencil" size={14} color={activeTab === 'manual' ? '#fff' : tc.textSecondary} />
+                        <Text style={[styles.tabText, { color: activeTab === 'manual' ? '#fff' : tc.textSecondary }]}>
+                            Manual Add
+                        </Text>
                     </TouchableOpacity>
                 </Animated.View>
 
-                {/* Generated Words Preview */}
+                {/* ── AI Generate Tab ──────────────────────────── */}
+                {activeTab === 'ai' && (
+                    <Animated.View entering={FadeInDown.duration(300)}>
+                        {/* Word Count */}
+                        <Text style={[styles.label, { color: tc.textSecondary }]}>WORD COUNT</Text>
+                        <View style={styles.chipRow}>
+                            {[5, 10, 15, 20].map((count) => (
+                                <TouchableOpacity
+                                    key={count}
+                                    style={[
+                                        styles.chip,
+                                        {
+                                            backgroundColor: wordCount === count ? colors.primary[500] : tc.surface,
+                                            borderColor: wordCount === count ? colors.primary[500] : tc.border,
+                                        },
+                                    ]}
+                                    onPress={() => setWordCount(count)}
+                                >
+                                    <Text
+                                        style={[
+                                            styles.chipText,
+                                            { color: wordCount === count ? '#fff' : tc.text },
+                                        ]}
+                                    >
+                                        {count}
+                                    </Text>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+
+                        {/* Generate Button */}
+                        <TouchableOpacity
+                            style={[styles.generateButton, { backgroundColor: colors.accent[600] }]}
+                            onPress={generateWords}
+                            disabled={isGenerating}
+                            activeOpacity={0.8}
+                        >
+                            {isGenerating ? (
+                                <ActivityIndicator size="small" color="#fff" />
+                            ) : (
+                                <>
+                                    <Ionicons name="sparkles" size={20} color="#fff" />
+                                    <Text style={styles.generateText}>Generate Words</Text>
+                                </>
+                            )}
+                        </TouchableOpacity>
+                    </Animated.View>
+                )}
+
+                {/* ── Manual Add Tab ───────────────────────────── */}
+                {activeTab === 'manual' && (
+                    <Animated.View entering={FadeInDown.duration(300)}>
+                        <Text style={[styles.label, { color: tc.textSecondary }]}>ADD A WORD</Text>
+
+                        {/* Word input row */}
+                        <View style={styles.manualInputRow}>
+                            <TextInput
+                                style={[
+                                    styles.manualWordInput,
+                                    { backgroundColor: tc.surface, color: tc.text, borderColor: tc.border },
+                                ]}
+                                placeholder="Type a word..."
+                                placeholderTextColor={tc.textMuted}
+                                value={manualWord}
+                                onChangeText={(t) => {
+                                    setManualWord(t);
+                                    if (showManualFields) setShowManualFields(false);
+                                }}
+                                autoCapitalize="none"
+                                returnKeyType="search"
+                                onSubmitEditing={lookupWord}
+                            />
+                            <TouchableOpacity
+                                style={[styles.addWordButton, { backgroundColor: colors.primary[500] }]}
+                                onPress={lookupWord}
+                                disabled={isLookingUp || !manualWord.trim()}
+                                activeOpacity={0.8}
+                            >
+                                {isLookingUp ? (
+                                    <ActivityIndicator size="small" color="#fff" />
+                                ) : (
+                                    <Ionicons name="add" size={24} color="#fff" />
+                                )}
+                            </TouchableOpacity>
+                        </View>
+
+                        {/* Manual fallback form — shown when word not found in dictionary */}
+                        {showManualFields && (
+                            <Animated.View
+                                entering={FadeInDown.duration(300)}
+                                style={[styles.manualForm, { backgroundColor: tc.surface, borderColor: tc.border }]}
+                            >
+                                <View style={styles.manualFormHeader}>
+                                    <Ionicons name="information-circle-outline" size={16} color={tc.textSecondary} />
+                                    <Text style={[styles.manualFormNote, { color: tc.textSecondary }]}>
+                                        Word not found in dictionary. Fill in manually:
+                                    </Text>
+                                </View>
+                                <TextInput
+                                    style={[styles.input, { backgroundColor: tc.background, color: tc.text, borderColor: tc.border, marginTop: spacing.sm }]}
+                                    placeholder="Translation (required)"
+                                    placeholderTextColor={tc.textMuted}
+                                    value={manualTranslation}
+                                    onChangeText={setManualTranslation}
+                                />
+                                <TextInput
+                                    style={[styles.input, { backgroundColor: tc.background, color: tc.text, borderColor: tc.border, marginTop: spacing.sm }]}
+                                    placeholder="Example sentence (optional)"
+                                    placeholderTextColor={tc.textMuted}
+                                    value={manualExample}
+                                    onChangeText={setManualExample}
+                                />
+                                <TouchableOpacity
+                                    style={[styles.generateButton, { backgroundColor: colors.primary[500], marginTop: spacing.base }]}
+                                    onPress={addManualWord}
+                                    activeOpacity={0.8}
+                                >
+                                    <Ionicons name="checkmark" size={20} color="#fff" />
+                                    <Text style={styles.generateText}>Add to List</Text>
+                                </TouchableOpacity>
+                            </Animated.View>
+                        )}
+                    </Animated.View>
+                )}
+
+                {/* ── Word List (shared) ───────────────────────── */}
                 {generatedWords.length > 0 && (
                     <Animated.View entering={FadeInDown.duration(400)}>
                         <Text style={[styles.label, { color: tc.textSecondary }]}>
-                            GENERATED WORDS ({generatedWords.length})
+                            WORDS ({generatedWords.length})
                         </Text>
                         {generatedWords.map((word, index) => (
                             <Animated.View
@@ -272,26 +490,91 @@ export default function CreateDeckScreen() {
                                 entering={FadeInDown.duration(300).delay(index * 40)}
                                 style={[styles.wordCard, { backgroundColor: tc.surface }]}
                             >
-                                <View style={styles.wordContent}>
-                                    <Text style={[styles.wordText, { color: tc.text }]}>
-                                        {word.word}
-                                    </Text>
-                                    <Text style={[styles.translationText, { color: colors.primary[400] }]}>
-                                        {word.translation}
-                                    </Text>
-                                    <Text
-                                        style={[styles.exampleText, { color: tc.textSecondary }]}
-                                        numberOfLines={2}
-                                    >
-                                        {word.exampleSentence}
-                                    </Text>
-                                </View>
-                                <TouchableOpacity
-                                    onPress={() => removeWord(index)}
-                                    style={styles.removeButton}
-                                >
-                                    <Ionicons name="close-circle" size={22} color={colors.error.main} />
-                                </TouchableOpacity>
+                                {editingIndex === index ? (
+                                    /* ── Inline Edit Form ── */
+                                    <View style={styles.editForm}>
+                                        <TextInput
+                                            style={[styles.editInput, { backgroundColor: tc.background, color: tc.text, borderColor: tc.border }]}
+                                            value={editWord}
+                                            onChangeText={setEditWord}
+                                            placeholder="Word"
+                                            placeholderTextColor={tc.textMuted}
+                                        />
+                                        <TextInput
+                                            style={[styles.editInput, { backgroundColor: tc.background, color: tc.text, borderColor: tc.border }]}
+                                            value={editTranslation}
+                                            onChangeText={setEditTranslation}
+                                            placeholder="Translation"
+                                            placeholderTextColor={tc.textMuted}
+                                        />
+                                        <TextInput
+                                            style={[styles.editInput, { backgroundColor: tc.background, color: tc.text, borderColor: tc.border }]}
+                                            value={editExample}
+                                            onChangeText={setEditExample}
+                                            placeholder="Example sentence"
+                                            placeholderTextColor={tc.textMuted}
+                                        />
+                                        <View style={styles.editActions}>
+                                            <TouchableOpacity
+                                                style={[styles.editActionBtn, { backgroundColor: colors.primary[500] }]}
+                                                onPress={() => saveEdit(index)}
+                                            >
+                                                <Text style={styles.editActionText}>Save</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity
+                                                style={[styles.editActionBtn, { backgroundColor: tc.border }]}
+                                                onPress={cancelEdit}
+                                            >
+                                                <Text style={[styles.editActionText, { color: tc.text }]}>Cancel</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+                                ) : (
+                                    /* ── Normal Card View ── */
+                                    <>
+                                        <View style={styles.wordContent}>
+                                            <View style={styles.wordHeader}>
+                                                <Text style={[styles.wordText, { color: tc.text }]}>
+                                                    {word.word}
+                                                </Text>
+                                                {/* Source badge */}
+                                                <View style={[
+                                                    styles.sourceBadge,
+                                                    { backgroundColor: word.source === 'ai' ? colors.accent[600] : colors.primary[500] },
+                                                ]}>
+                                                    <Text style={styles.sourceBadgeText}>
+                                                        {word.source === 'ai' ? '✨ AI' : '✏️'}
+                                                    </Text>
+                                                </View>
+                                            </View>
+                                            <Text style={[styles.translationText, { color: colors.primary[400] }]}>
+                                                {word.translation}
+                                            </Text>
+                                            {word.exampleSentence ? (
+                                                <Text
+                                                    style={[styles.exampleText, { color: tc.textSecondary }]}
+                                                    numberOfLines={2}
+                                                >
+                                                    {word.exampleSentence}
+                                                </Text>
+                                            ) : null}
+                                        </View>
+                                        <View style={styles.cardActions}>
+                                            <TouchableOpacity
+                                                onPress={() => startEdit(index)}
+                                                style={styles.cardActionBtn}
+                                            >
+                                                <Ionicons name="pencil-outline" size={18} color={tc.textSecondary} />
+                                            </TouchableOpacity>
+                                            <TouchableOpacity
+                                                onPress={() => removeWord(index)}
+                                                style={styles.cardActionBtn}
+                                            >
+                                                <Ionicons name="close-circle" size={22} color={colors.error.main} />
+                                            </TouchableOpacity>
+                                        </View>
+                                    </>
+                                )}
                             </Animated.View>
                         ))}
                     </Animated.View>
@@ -367,6 +650,29 @@ const styles = StyleSheet.create({
         fontSize: typography.fontSize.sm,
         fontWeight: '600',
     },
+    // Tab switcher
+    tabSwitcher: {
+        flexDirection: 'row',
+        borderRadius: borderRadius.lg,
+        borderWidth: 1,
+        padding: 4,
+        marginTop: spacing.xl,
+        gap: 4,
+    },
+    tab: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: spacing.sm,
+        borderRadius: borderRadius.md,
+        gap: spacing.xs,
+    },
+    tabText: {
+        fontSize: typography.fontSize.sm,
+        fontWeight: '600',
+    },
+    // Generate button (reused in both tabs)
     generateButton: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -382,9 +688,45 @@ const styles = StyleSheet.create({
         fontSize: typography.fontSize.md,
         fontWeight: '700',
     },
-    wordCard: {
+    // Manual Add
+    manualInputRow: {
+        flexDirection: 'row',
+        gap: spacing.sm,
+        alignItems: 'center',
+    },
+    manualWordInput: {
+        flex: 1,
+        paddingHorizontal: spacing.base,
+        paddingVertical: spacing.md,
+        borderRadius: borderRadius.md,
+        borderWidth: 1,
+        fontSize: typography.fontSize.base,
+    },
+    addWordButton: {
+        width: 48,
+        height: 48,
+        borderRadius: borderRadius.md,
+        alignItems: 'center',
+        justifyContent: 'center',
+        ...shadows.sm,
+    },
+    manualForm: {
+        marginTop: spacing.base,
+        padding: spacing.base,
+        borderRadius: borderRadius.md,
+        borderWidth: 1,
+    },
+    manualFormHeader: {
         flexDirection: 'row',
         alignItems: 'center',
+        gap: spacing.xs,
+    },
+    manualFormNote: {
+        fontSize: typography.fontSize.xs,
+        flex: 1,
+    },
+    // Word card
+    wordCard: {
         padding: spacing.base,
         borderRadius: borderRadius.md,
         marginBottom: spacing.sm,
@@ -393,9 +735,26 @@ const styles = StyleSheet.create({
     wordContent: {
         flex: 1,
     },
+    wordHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
     wordText: {
         fontSize: typography.fontSize.base,
         fontWeight: '600',
+        flex: 1,
+    },
+    sourceBadge: {
+        paddingHorizontal: spacing.sm,
+        paddingVertical: 2,
+        borderRadius: borderRadius.full,
+        marginLeft: spacing.sm,
+    },
+    sourceBadgeText: {
+        color: '#fff',
+        fontSize: 10,
+        fontWeight: '700',
     },
     translationText: {
         fontSize: typography.fontSize.sm,
@@ -406,7 +765,41 @@ const styles = StyleSheet.create({
         marginTop: 4,
         fontStyle: 'italic',
     },
-    removeButton: {
+    cardActions: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        marginTop: spacing.sm,
+        gap: spacing.xs,
+    },
+    cardActionBtn: {
         padding: spacing.xs,
+    },
+    // Inline edit
+    editForm: {
+        gap: spacing.sm,
+    },
+    editInput: {
+        paddingHorizontal: spacing.base,
+        paddingVertical: spacing.sm,
+        borderRadius: borderRadius.md,
+        borderWidth: 1,
+        fontSize: typography.fontSize.sm,
+    },
+    editActions: {
+        flexDirection: 'row',
+        gap: spacing.sm,
+        marginTop: spacing.xs,
+    },
+    editActionBtn: {
+        flex: 1,
+        paddingVertical: spacing.sm,
+        borderRadius: borderRadius.md,
+        alignItems: 'center',
+    },
+    editActionText: {
+        color: '#fff',
+        fontWeight: '600',
+        fontSize: typography.fontSize.sm,
     },
 });
