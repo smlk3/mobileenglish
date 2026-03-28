@@ -132,7 +132,7 @@ export default function DecksScreen() {
         >
           <TouchableOpacity
             style={[styles.deckCard, { backgroundColor: tc.surface }]}
-            onPress={() => router.push({ pathname: '/study', params: { deckId: deck.id, deckName: deck.name } })}
+            onPress={() => router.push({ pathname: '/deck-detail' as any, params: { deckId: deck.id, deckName: deck.name } })}
             activeOpacity={0.8}
           >
             <View style={[styles.deckIcon, { backgroundColor: (DECK_COLORS[index % DECK_COLORS.length]) + '20' }]}>
@@ -251,6 +251,24 @@ export default function DecksScreen() {
             <Text style={[styles.modalSubtitle, { color: tc.textSecondary }]}>
               {deckOptionsFor?.cardCount} cards · {deckOptionsFor?.cefrLevel}
             </Text>
+            <TouchableOpacity
+              style={[styles.modeBtn, { backgroundColor: tc.border + '40', borderColor: tc.border }]}
+              onPress={() => {
+                if (!deckOptionsFor) return;
+                setDeckOptionsFor(null);
+                router.push({ pathname: '/deck-detail' as any, params: { deckId: deckOptionsFor.id, deckName: deckOptionsFor.name } });
+              }}
+              activeOpacity={0.8}
+            >
+              <View style={[styles.modeIcon, { backgroundColor: colors.accent[500] + '20' }]}>
+                <Ionicons name="layers-outline" size={22} color={colors.accent[400]} />
+              </View>
+              <View style={styles.modeTextArea}>
+                <Text style={[styles.modeName, { color: tc.text }]}>View & Edit Cards</Text>
+                <Text style={[styles.modeDesc, { color: tc.textMuted }]}>Browse, edit or add words</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={18} color={tc.textMuted} />
+            </TouchableOpacity>
             <TouchableOpacity
               style={[styles.modeBtn, { backgroundColor: tc.border + '40', borderColor: tc.border }]}
               onPress={() => {
