@@ -1,0 +1,200 @@
+import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
+import { useEffect } from 'react';
+import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useProfileStore } from '../src/shared/lib/stores/useProfileStore';
+import { colors } from '../src/shared/lib/theme';
+
+type IoniconName = React.ComponentProps<typeof Ionicons>['name'];
+
+const TAB_CONFIG: Record<string, { focused: IoniconName; unfocused: IoniconName }> = {
+  index:    { focused: 'home',                   unfocused: 'home-outline' },
+  decks:    { focused: 'library',                unfocused: 'library-outline' },
+  stats:    { focused: 'bar-chart',              unfocused: 'bar-chart-outline' },
+  chat:     { focused: 'chatbubble-ellipses',    unfocused: 'chatbubble-ellipses-outline' },
+  settings: { focused: 'settings',              unfocused: 'settings-outline' },
+};
+
+// Export so screens can add matching bottom padding
+export const FLOATING_TAB_HEIGHT = 80;
+
+function TabItem({
+  name,
+  isFocused,
+  onPress,
+  onLongPress,
+  isDark,
+}: {
+  name: string;
+  isFocused: boolean;
+  onPress: () => void;
+  onLongPress: () => void;
+  isDark: boolean;
+}) {
+  const scale    = useSharedValue(isFocused ? 1.05 : 1);
+  const glowOpacity = useSharedValue(isFocused ? 1 : 0);
+
+  useEffect(() => {
+    scale.value       = withSpring(isFocused ? 1.05 : 1,  { damping: 10, stiffness: 200 });
+    glowOpacity.value = withSpring(isFocused ? 1 : 0,      { damping: 14, stiffness: 160 });
+  }, [isFocused]);
+
+  const iconStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
+
+  const glowStyle = useAnimatedStyle(() => ({
+    opacity: glowOpacity.value,
+  }));
+
+  const icons = TAB_CONFIG[name] ?? { focused: 'ellipse', unfocused: 'ellipse-outline' };
+
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      onLongPress={onLongPress}
+      activeOpacity={0.75}
+      style={st.tabItem}
+      accessibilityRole="button"
+      accessibilityState={{ selected: isFocused }}
+    >
+      {/* Soft glow halo behind active icon */}
+      <Animated.View style={[st.halo, glowStyle]} />
+
+      <Animated.View style={[st.iconWrap, isFocused && st.iconWrapActive, iconStyle]}>
+        <Ionicons
+          name={isFocused ? icons.focused : icons.unfocused}
+          size={22}
+          color={
+            isFocused
+              ? '#ffffff'
+              : isDark
+              ? colors.dark.textMuted
+              : colors.light.textMuted
+          }
+        />
+      </Animated.View>
+    </TouchableOpacity>
+  );
+}
+
+export default function FloatingTabBar({ state, navigation }: BottomTabBarProps) {
+  const insets  = useSafeAreaInsets();
+  const isDark  = useProfileStore((s) => s.themeMode) === 'dark';
+
+  const bottomPad = Math.max(insets.bottom, Platform.OS === 'android' ? 12 : 16);
+
+  return (
+    <View
+      style={[st.outer, { paddingBottom: bottomPad }]}
+      pointerEvents="box-none"
+    >
+      <View
+        style={[
+          st.pill,
+          isDark ? st.pillDark : st.pillLight,
+        ]}
+      >
+        {state.routes.map((route, index) => {
+          const isFocused = state.index === index;
+
+          const onPress = () => {
+            const event = navigation.emit({
+              type: 'tabPress',
+              target: route.key,
+              canPreventDefault: true,
+            });
+            if (!isFocused && !event.defaultPrevented) {
+              navigation.navigate(route.name as never);
+            }
+          };
+
+          const onLongPress = () => {
+            navigation.emit({ type: 'tabLongPress', target: route.key });
+          };
+
+          return (
+            <TabItem
+              key={route.key}
+              name={route.name}
+              isFocused={isFocused}
+              onPress={onPress}
+              onLongPress={onLongPress}
+              isDark={isDark}
+            />
+          );
+        })}
+      </View>
+    </View>
+  );
+}
+
+const st = StyleSheet.create({
+  outer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  pill: {
+    flexDirection: 'row',
+    borderRadius: 9999,
+    paddingHorizontal: 8,
+    paddingVertical: 8,
+    borderWidth: 1,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    // elevation shadow
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.4,
+    shadowRadius: 24,
+    elevation: 24,
+  },
+  pillDark: {
+    backgroundColor: 'rgba(18, 18, 36, 0.97)',
+    borderColor: `${colors.primary[500]}38`,
+    shadowColor: colors.primary[600],
+  },
+  pillLight: {
+    backgroundColor: 'rgba(255, 255, 255, 0.97)',
+    borderColor: `${colors.primary[300]}55`,
+    shadowColor: colors.primary[400],
+  },
+  tabItem: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 4,
+  },
+  halo: {
+    position: 'absolute',
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    backgroundColor: `${colors.primary[400]}15`,
+  },
+  iconWrap: {
+    width: 46,
+    height: 46,
+    borderRadius: 23,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  iconWrapActive: {
+    backgroundColor: colors.primary[500],
+    shadowColor: colors.primary[300],
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.75,
+    shadowRadius: 14,
+    elevation: 10,
+  },
+});

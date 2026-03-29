@@ -97,6 +97,10 @@ export default function QuizMCScreen() {
     const comboScale = useSharedValue(1);
     const questionOpacity = useSharedValue(1);
     const questionTranslateY = useSharedValue(0);
+    // Screen shake on wrong answer
+    const shakeX = useSharedValue(0);
+    // Correct flash overlay
+    const flashOpacity = useSharedValue(0);
 
     const feedbackTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -202,6 +206,21 @@ export default function QuizMCScreen() {
                 handleXPAward(xpAmount, comboLabel, { isComboX3: newCombo >= 5 });
             } else {
                 setCombo(0);
+                // Screen shake on wrong answer
+                shakeX.value = withSequence(
+                    withSpring(-12, { damping: 4, stiffness: 500 }),
+                    withSpring(12,  { damping: 4, stiffness: 500 }),
+                    withSpring(-8,  { damping: 4, stiffness: 500 }),
+                    withSpring(8,   { damping: 4, stiffness: 500 }),
+                    withSpring(0,   { damping: 12, stiffness: 300 }),
+                );
+            }
+            if (isCorrect) {
+                // Green flash on correct
+                flashOpacity.value = withSequence(
+                    withTiming(0.18, { duration: 100 }),
+                    withTiming(0, { duration: 400 }),
+                );
             }
 
             feedbackTimeout.current = setTimeout(async () => {
@@ -280,7 +299,11 @@ export default function QuizMCScreen() {
 
     const questionStyle = useAnimatedStyle(() => ({
         opacity: questionOpacity.value,
-        transform: [{ translateY: questionTranslateY.value }],
+        transform: [{ translateY: questionTranslateY.value }, { translateX: shakeX.value }],
+    }));
+
+    const flashStyle = useAnimatedStyle(() => ({
+        opacity: flashOpacity.value,
     }));
 
     // Loading
@@ -317,47 +340,87 @@ export default function QuizMCScreen() {
     // Results
     if (phase === 'results') {
         const accuracy = Math.round((correctCount / questions.length) * 100);
-        const emoji = accuracy >= 80 ? '🏆' : accuracy >= 50 ? '👍' : '💪';
+        const isPerfect = accuracy === 100;
+        const isGood    = accuracy >= 80;
+        const emoji     = isPerfect ? '🏆' : isGood ? '⭐' : accuracy >= 50 ? '👍' : '💪';
+        const resultColor = isPerfect
+            ? colors.warning.main
+            : isGood
+            ? colors.success.main
+            : colors.primary[400];
+
         return (
             <View style={[styles.container, { backgroundColor: tc.background }]}>
-                <Animated.View entering={FadeInDown.duration(600)} style={styles.resultsContent}>
-                    <Text style={{ fontSize: 72, marginBottom: spacing.lg }}>{emoji}</Text>
-                    <Text style={[styles.resultsTitle, { color: tc.text }]}>Quiz Complete!</Text>
-                    <Text style={[styles.resultsSubtitle, { color: tc.textSecondary }]}>
-                        {params.deckName || 'Deck'}
-                    </Text>
+                <Animated.View entering={FadeInDown.duration(700)} style={styles.resultsContent}>
+                    {/* Result emoji with glow ring */}
+                    <View style={[styles.resultEmojiWrap, {
+                        shadowColor: resultColor,
+                        shadowOffset: { width: 0, height: 0 },
+                        shadowOpacity: 0.6,
+                        shadowRadius: 28,
+                        backgroundColor: resultColor + '18',
+                        borderColor: resultColor + '50',
+                    }]}>
+                        <Text style={{ fontSize: 56 }}>{emoji}</Text>
+                    </View>
 
-                    <View style={[styles.statsRow, { backgroundColor: tc.surface }]}>
+                    <Animated.Text
+                        entering={FadeInDown.delay(150).duration(500)}
+                        style={[styles.resultsTitle, { color: tc.text }]}
+                    >
+                        {isPerfect ? 'Perfect Score!' : isGood ? 'Great Job!' : 'Quiz Complete!'}
+                    </Animated.Text>
+                    <Animated.Text
+                        entering={FadeInDown.delay(220).duration(500)}
+                        style={[styles.resultsSubtitle, { color: tc.textSecondary }]}
+                    >
+                        {params.deckName || 'Deck'}
+                    </Animated.Text>
+
+                    <Animated.View
+                        entering={FadeInDown.delay(300).duration(500)}
+                        style={[styles.statsRow, {
+                            backgroundColor: tc.surface,
+                            borderColor: tc.border,
+                            borderWidth: 1,
+                            shadowColor: colors.primary[500],
+                            shadowOffset: { width: 0, height: 4 },
+                            shadowOpacity: 0.15,
+                            shadowRadius: 12,
+                            elevation: 6,
+                        }]}
+                    >
                         <View style={styles.statItem}>
-                            <Text style={[styles.statValue, { color: colors.primary[400] }]}>
-                                {score}
-                            </Text>
+                            <Text style={[styles.statValue, { color: colors.primary[400] }]}>{score}</Text>
                             <Text style={[styles.statLabel, { color: tc.textMuted }]}>Score</Text>
                         </View>
                         <View style={[styles.statDivider, { backgroundColor: tc.border }]} />
                         <View style={styles.statItem}>
-                            <Text style={[styles.statValue, { color: colors.success.main }]}>
-                                {correctCount}
-                            </Text>
+                            <Text style={[styles.statValue, { color: colors.success.main }]}>{correctCount}</Text>
                             <Text style={[styles.statLabel, { color: tc.textMuted }]}>Correct</Text>
                         </View>
                         <View style={[styles.statDivider, { backgroundColor: tc.border }]} />
                         <View style={styles.statItem}>
-                            <Text style={[styles.statValue, { color: colors.warning.main }]}>
-                                {accuracy}%
-                            </Text>
-                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>
-                                Accuracy
-                            </Text>
+                            <Text style={[styles.statValue, { color: resultColor }]}>{accuracy}%</Text>
+                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>Accuracy</Text>
                         </View>
-                    </View>
+                    </Animated.View>
 
-                    <TouchableOpacity
-                        style={[styles.doneBtn, { backgroundColor: colors.primary[500] }]}
-                        onPress={() => router.back()}
-                    >
-                        <Text style={styles.doneBtnText}>Done</Text>
-                    </TouchableOpacity>
+                    <Animated.View entering={FadeInDown.delay(420).duration(500)}>
+                        <TouchableOpacity
+                            style={[styles.doneBtn, {
+                                backgroundColor: colors.primary[500],
+                                shadowColor: colors.primary[400],
+                                shadowOffset: { width: 0, height: 6 },
+                                shadowOpacity: 0.45,
+                                shadowRadius: 14,
+                                elevation: 8,
+                            }]}
+                            onPress={() => router.back()}
+                        >
+                            <Text style={styles.doneBtnText}>Done</Text>
+                        </TouchableOpacity>
+                    </Animated.View>
                 </Animated.View>
             </View>
         );
@@ -371,6 +434,15 @@ export default function QuizMCScreen() {
 
     return (
         <View style={[styles.container, { backgroundColor: tc.background }]}>
+            {/* Correct answer flash overlay */}
+            <Animated.View
+                pointerEvents="none"
+                style={[
+                    StyleSheet.absoluteFill,
+                    { backgroundColor: colors.success.main, zIndex: 999 },
+                    flashStyle,
+                ]}
+            />
             {/* XP Toast */}
             <XPToast
                 amount={xpToast.amount}
@@ -620,6 +692,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: spacing.xl,
+    },
+    resultEmojiWrap: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 2,
+        marginBottom: spacing.xl,
     },
     resultsTitle: {
         fontSize: typography.fontSize['2xl'],
