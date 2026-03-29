@@ -471,7 +471,7 @@ export default function HomeScreen() {
         </TouchableOpacity>
       </Animated.View>
 
-      <View style={{ height: 120 }} />
+      <View style={{ height: 24 }} />
     </ScrollView>
   );
 }
