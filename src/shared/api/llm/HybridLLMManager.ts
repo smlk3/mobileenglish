@@ -5,8 +5,10 @@
  * On-Device SLM (Tutor): Offline chat, quiz generation, grammar checking
  */
 
-import { CloudLLMClient } from './CloudLLMClient';
+import { CloudLLMClient, type CloudProvider } from './CloudLLMClient';
 import { LocalSLMClient } from './LocalSLMClient';
+
+export type { CloudProvider };
 
 export interface ChatMessage {
     role: 'user' | 'assistant' | 'system';
@@ -43,6 +45,15 @@ export interface ProfileAnalysis {
     goals: string[];
 }
 
+const LANGUAGE_NAMES: Record<string, string> = {
+    tr: 'Turkish',
+    en: 'English',
+    de: 'German',
+    fr: 'French',
+    es: 'Spanish',
+    ar: 'Arabic',
+};
+
 class HybridLLMManager {
     private static instance: HybridLLMManager;
     private cloudClient: CloudLLMClient;
@@ -55,7 +66,6 @@ class HybridLLMManager {
         this.localClient = new LocalSLMClient();
     }
 
-    /** Get or create the singleton instance */
     static getInstance(): HybridLLMManager {
         if (!HybridLLMManager.instance) {
             HybridLLMManager.instance = new HybridLLMManager();
@@ -65,12 +75,10 @@ class HybridLLMManager {
 
     // ─── Initialization ───────────────────────────────────────
 
-    /** Initialize the local SLM model (llama.rn) */
     async initLocalModel(modelPath?: string): Promise<boolean> {
         try {
             await this.localClient.initialize(modelPath);
             this.isLocalReady = this.localClient.isReady && !this.localClient.isMockMode;
-            // Even if it falls back to mock mode, it handles offline chat
             return true;
         } catch (error) {
             console.error('Failed to initialize local model:', error);
@@ -79,13 +87,38 @@ class HybridLLMManager {
         }
     }
 
-    /** Configure the Cloud LLM API */
-    configureCloud(apiKey: string, provider: 'openai' | 'gemini' = 'openai'): void {
-        this.cloudClient.configure(apiKey, provider);
+    /**
+     * Configure cloud without validation — used for silent startup loading of saved keys.
+     * For user-entered keys, prefer configureCloudAndValidate().
+     */
+    configureCloud(apiKey: string, provider: CloudProvider = 'openai', baseUrl?: string, model?: string): void {
+        this.cloudClient.configure(apiKey, provider, baseUrl, model);
         this.isCloudReady = true;
     }
 
-    /** Check which models are available */
+    /**
+     * Configure cloud and validate the key with a real API call.
+     * Sets isCloudReady only on success.
+     */
+    async configureCloudAndValidate(
+        apiKey: string,
+        provider: CloudProvider,
+        baseUrl?: string,
+        model?: string,
+    ): Promise<{ success: boolean; error?: string }> {
+        try {
+            this.cloudClient.configure(apiKey, provider, baseUrl, model);
+            await this.cloudClient.validateKey();
+            this.isCloudReady = true;
+            return { success: true };
+        } catch (err: any) {
+            this.isCloudReady = false;
+            const msg: string = err?.message || 'Connection failed';
+            // Surface a readable error, strip verbose HTTP body after first 200 chars
+            return { success: false, error: msg.length > 200 ? msg.substring(0, 200) + '…' : msg };
+        }
+    }
+
     getStatus() {
         return {
             localReady: this.isLocalReady,
@@ -96,16 +129,11 @@ class HybridLLMManager {
 
     // ─── On-Device SLM (The Tutor) ────────────────────────────
 
-    /**
-     * Chat with the local SLM - works offline
-     * Maintains conversation context locally for privacy
-     */
     async chatLocal(messages: ChatMessage[], onToken?: (token: string) => void, forceCloud: boolean = false): Promise<string> {
         if (forceCloud && this.isCloudReady) {
             return this.cloudClient.chat(messages);
         }
         if (!this.isLocalReady) {
-            // Fallback to cloud if local is not ready
             if (this.isCloudReady) {
                 return this.cloudClient.chat(messages);
             }
@@ -114,12 +142,8 @@ class HybridLLMManager {
         return this.localClient.chat(messages, onToken);
     }
 
-    /**
-     * Generate quiz content from a word list
-     * Uses local SLM for instant, offline generation
-     */
     async generateQuizContent(words: WordSelection[]): Promise<QuizContent[]> {
-        const prompt = `Generate fill-in-the-blank quiz questions for these English words. 
+        const prompt = `Generate fill-in-the-blank quiz questions for these English words.
 For each word, create a sentence with a blank where the word should go, and provide 4 options.
 
 Words: ${words.map((w) => `${w.word} (${w.translation})`).join(', ')}
@@ -142,10 +166,6 @@ Return JSON array: [{ "question": "sentence with ___", "options": ["a","b","c","
         }
     }
 
-    /**
-     * Check grammar of a user's sentence
-     * Uses local SLM for immediate, non-judgmental corrections
-     */
     async checkGrammar(sentence: string, targetWord?: string): Promise<GrammarResult> {
         const prompt = `Check this English sentence for grammar: "${sentence}"
 ${targetWord ? `The sentence should use the word "${targetWord}".` : ''}
@@ -180,19 +200,17 @@ Return JSON: { "isCorrect": bool, "correctedSentence": "...", "explanation": "br
 
     // ─── Cloud LLM (The Strategist) ────────────────────────────
 
-    /**
-     * Select new words using RAG + Cloud LLM
-     * Queries local dictionary, then asks Cloud to pick the best words for the user
-     */
     async selectNewWords(
         profile: ProfileAnalysis,
         existingWords: string[],
         count: number = 5,
+        nativeLanguage: string = 'tr',
     ): Promise<WordSelection[]> {
         if (!this.isCloudReady) {
-            // Return empty if no cloud - the RAG module will handle fallback
             return [];
         }
+
+        const langName = LANGUAGE_NAMES[nativeLanguage] || nativeLanguage;
 
         const prompt = `You are selecting English vocabulary words for a language learner.
 
@@ -210,7 +228,7 @@ Select ${count} new words that are:
 3. Practical and commonly used in real life
 4. NOT already in their known words list
 
-Return JSON array: [{ "word": "...", "translation": "Turkish translation", "cefrLevel": "B1", "category": "medical/sports/daily", "exampleSentence": "...", "pronunciation": "" }]`;
+Return JSON array: [{ "word": "...", "translation": "${langName} translation", "cefrLevel": "B1", "category": "medical/sports/daily", "exampleSentence": "...", "pronunciation": "" }]`;
 
         const messages: ChatMessage[] = [
             { role: 'system', content: 'You are a vocabulary selection specialist. Return valid JSON only.' },
@@ -225,10 +243,6 @@ Return JSON array: [{ "word": "...", "translation": "Turkish translation", "cefr
         }
     }
 
-    /**
-     * Analyze user chat history to extract profile tags
-     * Uses "Smart Filtering" to ignore generic sentences
-     */
     async analyzeProfile(chatHistory: string[]): Promise<Partial<ProfileAnalysis>> {
         if (!this.isCloudReady) return {};
 
@@ -264,11 +278,14 @@ Only include fields where you found specific information. Return {} if nothing s
 
     private parseJSON<T>(text: string): T | null {
         try {
-            // Try to extract JSON from the response (in case of markdown code blocks)
-            const jsonMatch = text.match(/```json\s*([\s\S]*?)```/) || text.match(/\[[\s\S]*\]/) || text.match(/\{[\s\S]*\}/);
-            if (jsonMatch) {
-                return JSON.parse(jsonMatch[1] || jsonMatch[0]);
+            const codeBlockMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+            if (codeBlockMatch) {
+                return JSON.parse(codeBlockMatch[1].trim());
             }
+            const arrayMatch = text.match(/\[[\s\S]*\]/);
+            if (arrayMatch) return JSON.parse(arrayMatch[0]);
+            const objectMatch = text.match(/\{[\s\S]*\}/);
+            if (objectMatch) return JSON.parse(objectMatch[0]);
             return JSON.parse(text);
         } catch {
             console.warn('Failed to parse JSON from LLM response:', text.substring(0, 200));
@@ -276,19 +293,24 @@ Only include fields where you found specific information. Return {} if nothing s
         }
     }
 
-    /** Fallback quiz generator when AI is not available */
+    /** Fallback quiz generator — uses translations from the word list as wrong answers */
     private generateFallbackQuiz(words: WordSelection[]): QuizContent[] {
-        return words.map((word) => ({
-            question: `What is the meaning of "${word.word}"?`,
-            options: [
-                word.translation,
-                'unknown word 1',
-                'unknown word 2',
-                'unknown word 3',
-            ].sort(() => Math.random() - 0.5),
-            correctAnswer: word.translation,
-            explanation: `"${word.word}" means "${word.translation}". Example: ${word.exampleSentence}`,
-        }));
+        const allTranslations = words.map((w) => w.translation);
+        return words.map((word, index) => {
+            const wrongOptions = allTranslations
+                .filter((_, i) => i !== index)
+                .slice(0, 3);
+            // Pad with generic options if the list is too short
+            while (wrongOptions.length < 3) {
+                wrongOptions.push(`option ${wrongOptions.length + 1}`);
+            }
+            return {
+                question: `What is the meaning of "${word.word}"?`,
+                options: [word.translation, ...wrongOptions].sort(() => Math.random() - 0.5),
+                correctAnswer: word.translation,
+                explanation: `"${word.word}" means "${word.translation}". Example: ${word.exampleSentence}`,
+            };
+        });
     }
 }
 

@@ -9,9 +9,16 @@ export interface ProfileTags {
     goals: string[];
 }
 
+export interface CustomEndpoint {
+    apiKey: string;
+    baseUrl: string;
+    model: string;
+}
+
 export interface ApiKeys {
     openai?: string;
     gemini?: string;
+    custom?: CustomEndpoint;
 }
 
 export default class UserSettings extends Model {

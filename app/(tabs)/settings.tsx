@@ -48,6 +48,11 @@ export default function SettingsScreen() {
             } else if (keys.gemini) {
                 HybridLLMManager.getInstance().configureCloud(keys.gemini, 'gemini');
                 useProfileStore.getState().setCloudAvailable(true);
+            } else if (keys.custom) {
+                HybridLLMManager.getInstance().configureCloud(
+                    keys.custom.apiKey, 'custom', keys.custom.baseUrl, keys.custom.model,
+                );
+                useProfileStore.getState().setCloudAvailable(true);
             }
         }
     }, []);
@@ -101,7 +106,9 @@ export default function SettingsScreen() {
                     subtitle: apiKeys?.openai
                         ? `OpenAI: ••••${apiKeys.openai.slice(-4)}`
                         : apiKeys?.gemini
-                            ? `Gemini: ••••${apiKeys.gemini.slice(-4)}`
+                          ? `Gemini: ••••${apiKeys.gemini.slice(-4)}`
+                          : apiKeys?.custom
+                            ? `Custom: ••••${apiKeys.custom.apiKey.slice(-4)}`
                             : 'Not configured',
                     type: 'nav' as const,
                     onPress: () => navigateToSettingModal('api_key', 'Cloud API Key', ''),
@@ -110,9 +117,15 @@ export default function SettingsScreen() {
                     icon: 'swap-horizontal' as const,
                     iconColor: colors.warning.main,
                     title: 'AI Provider',
-                    subtitle: apiKeys?.gemini ? 'Google Gemini' : apiKeys?.openai ? 'OpenAI GPT-4o-mini' : 'Mock Mode',
+                    subtitle: apiKeys?.custom
+                        ? `Custom: ${apiKeys.custom.model}`
+                        : apiKeys?.gemini
+                          ? 'Google Gemini'
+                          : apiKeys?.openai
+                            ? 'OpenAI GPT-4o-mini'
+                            : 'Mock Mode',
                     type: 'nav' as const,
-                    onPress: () => navigateToSettingModal('ai_provider', 'AI Provider', apiKeys?.gemini ? 'gemini' : 'openai'),
+                    onPress: () => navigateToSettingModal('ai_provider', 'AI Provider', apiKeys?.custom ? 'custom' : apiKeys?.gemini ? 'gemini' : 'openai'),
                 },
                 {
                     icon: 'hardware-chip-outline' as const,

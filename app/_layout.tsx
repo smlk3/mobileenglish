@@ -41,12 +41,14 @@ export default function RootLayout() {
       }
 
       await llm.initLocalModel(localModelPath);
-      
-      useProfileStore.getState().setLocalModelLoaded(true);
-      if (localModelPath) {
+
+      // isLocalReady is false when running in mock mode — reflect the real state
+      const isRealLocalModel = llm.getStatus().localReady;
+      useProfileStore.getState().setLocalModelLoaded(isRealLocalModel);
+      if (isRealLocalModel) {
           useProfileStore.getState().setActiveLocalModelId(activeLocalModelId);
+          useProfileStore.getState().setActiveModel('local');
       }
-      useProfileStore.getState().setActiveModel('local');
 
       // Load user settings and configure cloud if API key exists
       const settings = await getUserSettings();
@@ -65,7 +67,7 @@ export default function RootLayout() {
           useProfileStore.getState().setThemeMode('light');
         }
 
-        // Configure cloud API if key exists
+        // Configure cloud API if key exists (no validation on startup — keys were validated on entry)
         const keys = settings.apiKeys;
         if (keys.openai) {
           llm.configureCloud(keys.openai, 'openai');
@@ -75,6 +77,14 @@ export default function RootLayout() {
           llm.configureCloud(keys.gemini, 'gemini');
           useProfileStore.getState().setCloudAvailable(true);
           useProfileStore.getState().setActiveModel('cloud');
+        } else if (keys.custom) {
+          llm.configureCloud(keys.custom.apiKey, 'custom', keys.custom.baseUrl, keys.custom.model);
+          useProfileStore.getState().setCloudAvailable(true);
+          useProfileStore.getState().setActiveModel('cloud');
+        }
+
+        if (!isRealLocalModel && !keys.openai && !keys.gemini && !keys.custom) {
+          useProfileStore.getState().setActiveModel('none');
         }
       }
     };

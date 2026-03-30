@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
+    ActivityIndicator,
     Alert,
     KeyboardAvoidingView,
     Platform,
@@ -13,17 +14,25 @@ import {
     View,
 } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
-import HybridLLMManager from '../src/shared/api/llm/HybridLLMManager';
+import HybridLLMManager, { type CloudProvider } from '../src/shared/api/llm/HybridLLMManager';
 import { getUserSettings } from '../src/shared/lib/stores/useDatabaseService';
 import { useProfileStore } from '../src/shared/lib/stores/useProfileStore';
 import { borderRadius, colors, spacing, typography } from '../src/shared/lib/theme';
 
 const CEFR_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 const DAILY_GOALS = [5, 10, 15, 20, 30, 50];
-const PROVIDERS = [
-    { key: 'openai', label: 'OpenAI', subtitle: 'GPT-4o-mini' },
+
+const CLOUD_PROVIDERS: { key: CloudProvider; label: string; subtitle: string }[] = [
+    { key: 'openai', label: 'OpenAI', subtitle: 'GPT-4o-mini (default)' },
     { key: 'gemini', label: 'Google Gemini', subtitle: 'Gemini 2.0 Flash' },
+    { key: 'custom', label: 'Custom Endpoint', subtitle: 'Groq, Deepseek, OpenRouter, Ollama…' },
 ];
+
+function detectProvider(key: string): CloudProvider {
+    if (key.startsWith('sk-')) return 'openai';
+    if (key.startsWith('AI') || key.startsWith('ai')) return 'gemini';
+    return 'custom';
+}
 
 export default function SettingModalScreen() {
     const router = useRouter();
@@ -33,6 +42,20 @@ export default function SettingModalScreen() {
 
     const [textValue, setTextValue] = useState(params.currentValue || '');
     const [selectedValue, setSelectedValue] = useState(params.currentValue || '');
+
+    // API key screen specific state
+    const [selectedProvider, setSelectedProvider] = useState<CloudProvider>('openai');
+    const [customBaseUrl, setCustomBaseUrl] = useState('');
+    const [customModel, setCustomModel] = useState('');
+    const [isSaving, setIsSaving] = useState(false);
+
+    const handleApiKeyChange = (key: string) => {
+        setTextValue(key);
+        // Auto-suggest provider based on key format
+        if (key.length > 4) {
+            setSelectedProvider(detectProvider(key));
+        }
+    };
 
     const save = async () => {
         try {
@@ -44,20 +67,52 @@ export default function SettingModalScreen() {
 
             switch (params.type) {
                 case 'api_key': {
-                    if (!textValue.trim()) {
+                    const key = textValue.trim();
+                    if (!key) {
                         Alert.alert('Error', 'Please enter an API key.');
                         return;
                     }
+                    if (selectedProvider === 'custom' && !customBaseUrl.trim()) {
+                        Alert.alert('Error', 'Please enter the Base URL for your custom endpoint.');
+                        return;
+                    }
+
+                    setIsSaving(true);
+                    const baseUrl = customBaseUrl.trim() || undefined;
+                    const model = customModel.trim() || undefined;
+                    const result = await HybridLLMManager.getInstance().configureCloudAndValidate(
+                        key,
+                        selectedProvider,
+                        baseUrl,
+                        model,
+                    );
+                    setIsSaving(false);
+
+                    if (!result.success) {
+                        Alert.alert(
+                            'Connection Failed',
+                            result.error || 'Could not connect to the API. Please check your key and try again.',
+                        );
+                        return;
+                    }
+
                     const currentKeys = settings.apiKeys;
-                    // Detect provider from key format (sk- = OpenAI, AI = Gemini)
-                    if (textValue.trim().startsWith('sk-')) {
-                        await settings.updateApiKeys({ ...currentKeys, openai: textValue.trim() });
-                        HybridLLMManager.getInstance().configureCloud(textValue.trim(), 'openai');
+                    if (selectedProvider === 'custom') {
+                        await settings.updateApiKeys({
+                            ...currentKeys,
+                            custom: {
+                                apiKey: key,
+                                baseUrl: customBaseUrl.trim(),
+                                model: customModel.trim() || 'gpt-4o-mini',
+                            },
+                        });
+                    } else if (selectedProvider === 'openai') {
+                        await settings.updateApiKeys({ ...currentKeys, openai: key });
                     } else {
-                        await settings.updateApiKeys({ ...currentKeys, gemini: textValue.trim() });
-                        HybridLLMManager.getInstance().configureCloud(textValue.trim(), 'gemini');
+                        await settings.updateApiKeys({ ...currentKeys, gemini: key });
                     }
                     useProfileStore.getState().setCloudAvailable(true);
+                    useProfileStore.getState().setActiveModel('cloud');
                     break;
                 }
                 case 'ai_provider': {
@@ -66,8 +121,24 @@ export default function SettingModalScreen() {
                         HybridLLMManager.getInstance().configureCloud(keys.openai, 'openai');
                     } else if (selectedValue === 'gemini' && keys.gemini) {
                         HybridLLMManager.getInstance().configureCloud(keys.gemini, 'gemini');
+                    } else if (selectedValue === 'custom' && keys.custom) {
+                        HybridLLMManager.getInstance().configureCloud(
+                            keys.custom.apiKey,
+                            'custom',
+                            keys.custom.baseUrl,
+                            keys.custom.model,
+                        );
                     } else {
-                        Alert.alert('Info', `No ${selectedValue === 'openai' ? 'OpenAI' : 'Gemini'} API key configured. Please add one first.`);
+                        const name =
+                            selectedValue === 'openai'
+                                ? 'OpenAI'
+                                : selectedValue === 'gemini'
+                                  ? 'Gemini'
+                                  : 'Custom Endpoint';
+                        Alert.alert(
+                            'No key configured',
+                            `No ${name} API key found. Please add one in Cloud API Key settings.`,
+                        );
                         return;
                     }
                     break;
@@ -113,6 +184,7 @@ export default function SettingModalScreen() {
             }
             router.back();
         } catch (error) {
+            setIsSaving(false);
             Alert.alert('Error', 'Failed to save. Please try again.');
         }
     };
@@ -123,21 +195,135 @@ export default function SettingModalScreen() {
                 return (
                     <Animated.View entering={FadeInDown.duration(400)}>
                         <Text style={[styles.description, { color: tc.textSecondary }]}>
-                            Enter your API key to enable cloud AI features like personalized word generation and advanced chat.
+                            Enter your API key to enable cloud AI features. The connection will be tested before saving.
                         </Text>
-                        <Text style={[styles.label, { color: tc.textMuted }]}>API KEY</Text>
+
+                        {/* Provider selector */}
+                        <Text style={[styles.label, { color: tc.textMuted }]}>PROVIDER</Text>
+                        <View style={styles.providerRow}>
+                            {CLOUD_PROVIDERS.map((p) => (
+                                <TouchableOpacity
+                                    key={p.key}
+                                    style={[
+                                        styles.providerChip,
+                                        {
+                                            backgroundColor:
+                                                selectedProvider === p.key
+                                                    ? colors.primary[500]
+                                                    : tc.surface,
+                                            borderColor:
+                                                selectedProvider === p.key
+                                                    ? colors.primary[500]
+                                                    : tc.border,
+                                        },
+                                    ]}
+                                    onPress={() => setSelectedProvider(p.key)}
+                                >
+                                    <Text
+                                        style={[
+                                            styles.providerChipText,
+                                            {
+                                                color:
+                                                    selectedProvider === p.key
+                                                        ? '#fff'
+                                                        : tc.text,
+                                            },
+                                        ]}
+                                    >
+                                        {p.label}
+                                    </Text>
+                                    <Text
+                                        style={[
+                                            styles.providerChipSub,
+                                            {
+                                                color:
+                                                    selectedProvider === p.key
+                                                        ? 'rgba(255,255,255,0.75)'
+                                                        : tc.textMuted,
+                                            },
+                                        ]}
+                                        numberOfLines={1}
+                                    >
+                                        {p.subtitle}
+                                    </Text>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+
+                        <Text style={[styles.label, { color: tc.textMuted, marginTop: spacing.md }]}>
+                            API KEY
+                        </Text>
                         <TextInput
-                            style={[styles.input, { backgroundColor: tc.surface, color: tc.text, borderColor: tc.border }]}
-                            placeholder="sk-... or AI..."
+                            style={[
+                                styles.input,
+                                { backgroundColor: tc.surface, color: tc.text, borderColor: tc.border },
+                            ]}
+                            placeholder={
+                                selectedProvider === 'openai'
+                                    ? 'sk-...'
+                                    : selectedProvider === 'gemini'
+                                      ? 'AIzaSy...'
+                                      : 'Your API key'
+                            }
                             placeholderTextColor={tc.textMuted}
                             value={textValue}
-                            onChangeText={setTextValue}
+                            onChangeText={handleApiKeyChange}
                             secureTextEntry
                             autoCapitalize="none"
                             autoCorrect={false}
                         />
-                        <Text style={[styles.hint, { color: tc.textMuted }]}>
-                            Keys starting with "sk-" will be used as OpenAI. Others will be used as Gemini.
+
+                        {/* Custom endpoint extra fields */}
+                        {selectedProvider === 'custom' && (
+                            <>
+                                <Text style={[styles.label, { color: tc.textMuted, marginTop: spacing.md }]}>
+                                    BASE URL
+                                </Text>
+                                <TextInput
+                                    style={[
+                                        styles.input,
+                                        {
+                                            backgroundColor: tc.surface,
+                                            color: tc.text,
+                                            borderColor: tc.border,
+                                        },
+                                    ]}
+                                    placeholder="https://api.groq.com/openai/v1"
+                                    placeholderTextColor={tc.textMuted}
+                                    value={customBaseUrl}
+                                    onChangeText={setCustomBaseUrl}
+                                    autoCapitalize="none"
+                                    autoCorrect={false}
+                                    keyboardType="url"
+                                />
+                                <Text style={[styles.hint, { color: tc.textMuted }]}>
+                                    Any OpenAI-compatible endpoint: Groq, Deepseek, Together, OpenRouter, Ollama…
+                                </Text>
+
+                                <Text style={[styles.label, { color: tc.textMuted, marginTop: spacing.md }]}>
+                                    MODEL NAME
+                                </Text>
+                                <TextInput
+                                    style={[
+                                        styles.input,
+                                        {
+                                            backgroundColor: tc.surface,
+                                            color: tc.text,
+                                            borderColor: tc.border,
+                                        },
+                                    ]}
+                                    placeholder="gpt-4o-mini"
+                                    placeholderTextColor={tc.textMuted}
+                                    value={customModel}
+                                    onChangeText={setCustomModel}
+                                    autoCapitalize="none"
+                                    autoCorrect={false}
+                                />
+                            </>
+                        )}
+
+                        <Text style={[styles.hint, { color: tc.textMuted, marginTop: spacing.sm }]}>
+                            A test request will be made to verify the key before saving.
                         </Text>
                     </Animated.View>
                 );
@@ -145,25 +331,36 @@ export default function SettingModalScreen() {
             case 'ai_provider':
                 return (
                     <Animated.View entering={FadeInDown.duration(400)}>
-                        {PROVIDERS.map((provider) => (
+                        {CLOUD_PROVIDERS.map((provider) => (
                             <TouchableOpacity
                                 key={provider.key}
                                 style={[
                                     styles.optionCard,
                                     {
                                         backgroundColor: tc.surface,
-                                        borderColor: selectedValue === provider.key ? colors.primary[500] : tc.border,
+                                        borderColor:
+                                            selectedValue === provider.key
+                                                ? colors.primary[500]
+                                                : tc.border,
                                         borderWidth: selectedValue === provider.key ? 2 : 1,
                                     },
                                 ]}
                                 onPress={() => setSelectedValue(provider.key)}
                             >
                                 <View>
-                                    <Text style={[styles.optionTitle, { color: tc.text }]}>{provider.label}</Text>
-                                    <Text style={[styles.optionSubtitle, { color: tc.textSecondary }]}>{provider.subtitle}</Text>
+                                    <Text style={[styles.optionTitle, { color: tc.text }]}>
+                                        {provider.label}
+                                    </Text>
+                                    <Text style={[styles.optionSubtitle, { color: tc.textSecondary }]}>
+                                        {provider.subtitle}
+                                    </Text>
                                 </View>
                                 {selectedValue === provider.key && (
-                                    <Ionicons name="checkmark-circle" size={24} color={colors.primary[500]} />
+                                    <Ionicons
+                                        name="checkmark-circle"
+                                        size={24}
+                                        color={colors.primary[500]}
+                                    />
                                 )}
                             </TouchableOpacity>
                         ))}
@@ -183,8 +380,14 @@ export default function SettingModalScreen() {
                                     style={[
                                         styles.gridItem,
                                         {
-                                            backgroundColor: selectedValue === level ? colors.primary[500] : tc.surface,
-                                            borderColor: selectedValue === level ? colors.primary[500] : tc.border,
+                                            backgroundColor:
+                                                selectedValue === level
+                                                    ? colors.primary[500]
+                                                    : tc.surface,
+                                            borderColor:
+                                                selectedValue === level
+                                                    ? colors.primary[500]
+                                                    : tc.border,
                                         },
                                     ]}
                                     onPress={() => setSelectedValue(level)}
@@ -216,8 +419,14 @@ export default function SettingModalScreen() {
                                     style={[
                                         styles.gridItem,
                                         {
-                                            backgroundColor: selectedValue === String(goal) ? colors.primary[500] : tc.surface,
-                                            borderColor: selectedValue === String(goal) ? colors.primary[500] : tc.border,
+                                            backgroundColor:
+                                                selectedValue === String(goal)
+                                                    ? colors.primary[500]
+                                                    : tc.surface,
+                                            borderColor:
+                                                selectedValue === String(goal)
+                                                    ? colors.primary[500]
+                                                    : tc.border,
                                         },
                                     ]}
                                     onPress={() => setSelectedValue(String(goal))}
@@ -225,7 +434,10 @@ export default function SettingModalScreen() {
                                     <Text
                                         style={[
                                             styles.gridItemText,
-                                            { color: selectedValue === String(goal) ? '#fff' : tc.text },
+                                            {
+                                                color:
+                                                    selectedValue === String(goal) ? '#fff' : tc.text,
+                                            },
                                         ]}
                                     >
                                         {goal}
@@ -244,7 +456,10 @@ export default function SettingModalScreen() {
                         </Text>
                         <Text style={[styles.label, { color: tc.textMuted }]}>PROFESSION</Text>
                         <TextInput
-                            style={[styles.input, { backgroundColor: tc.surface, color: tc.text, borderColor: tc.border }]}
+                            style={[
+                                styles.input,
+                                { backgroundColor: tc.surface, color: tc.text, borderColor: tc.border },
+                            ]}
                             placeholder="e.g. Software Engineer, Nurse, Teacher"
                             placeholderTextColor={tc.textMuted}
                             value={textValue}
@@ -261,7 +476,11 @@ export default function SettingModalScreen() {
                         </Text>
                         <Text style={[styles.label, { color: tc.textMuted }]}>INTERESTS</Text>
                         <TextInput
-                            style={[styles.input, styles.multilineInput, { backgroundColor: tc.surface, color: tc.text, borderColor: tc.border }]}
+                            style={[
+                                styles.input,
+                                styles.multilineInput,
+                                { backgroundColor: tc.surface, color: tc.text, borderColor: tc.border },
+                            ]}
                             placeholder="e.g. football, cooking, technology, travel"
                             placeholderTextColor={tc.textMuted}
                             value={textValue}
@@ -291,15 +510,22 @@ export default function SettingModalScreen() {
                                     styles.optionCard,
                                     {
                                         backgroundColor: tc.surface,
-                                        borderColor: textValue === lang.key ? colors.primary[500] : tc.border,
+                                        borderColor:
+                                            textValue === lang.key ? colors.primary[500] : tc.border,
                                         borderWidth: textValue === lang.key ? 2 : 1,
                                     },
                                 ]}
                                 onPress={() => setTextValue(lang.key)}
                             >
-                                <Text style={[styles.optionTitle, { color: tc.text }]}>{lang.label}</Text>
+                                <Text style={[styles.optionTitle, { color: tc.text }]}>
+                                    {lang.label}
+                                </Text>
                                 {textValue === lang.key && (
-                                    <Ionicons name="checkmark-circle" size={24} color={colors.primary[500]} />
+                                    <Ionicons
+                                        name="checkmark-circle"
+                                        size={24}
+                                        color={colors.primary[500]}
+                                    />
                                 )}
                             </TouchableOpacity>
                         ))}
@@ -317,16 +543,38 @@ export default function SettingModalScreen() {
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
             {/* Header */}
-            <View style={[styles.header, { backgroundColor: tc.surface, borderBottomColor: tc.border }]}>
-                <TouchableOpacity onPress={() => router.back()} style={styles.headerButton}>
-                    <Ionicons name="close" size={24} color={tc.text} />
+            <View
+                style={[
+                    styles.header,
+                    { backgroundColor: tc.surface, borderBottomColor: tc.border },
+                ]}
+            >
+                <TouchableOpacity
+                    onPress={() => router.back()}
+                    style={styles.headerButton}
+                    disabled={isSaving}
+                >
+                    <Ionicons name="close" size={24} color={isSaving ? tc.textMuted : tc.text} />
                 </TouchableOpacity>
-                <Text style={[styles.headerTitle, { color: tc.text }]}>{params.title || 'Setting'}</Text>
+                <Text style={[styles.headerTitle, { color: tc.text }]}>
+                    {params.title || 'Setting'}
+                </Text>
                 <TouchableOpacity
                     onPress={save}
-                    style={[styles.headerButton, styles.saveButton, { backgroundColor: colors.primary[500] }]}
+                    disabled={isSaving}
+                    style={[
+                        styles.headerButton,
+                        styles.saveButton,
+                        { backgroundColor: isSaving ? colors.primary[300] : colors.primary[500] },
+                    ]}
                 >
-                    <Text style={styles.saveButtonText}>Save</Text>
+                    {isSaving ? (
+                        <ActivityIndicator size="small" color="#fff" />
+                    ) : (
+                        <Text style={styles.saveButtonText}>
+                            {params.type === 'api_key' ? 'Test & Save' : 'Save'}
+                        </Text>
+                    )}
                 </TouchableOpacity>
             </View>
 
@@ -363,6 +611,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.base,
         paddingVertical: spacing.sm,
         borderRadius: borderRadius.md,
+        minWidth: 90,
+        alignItems: 'center',
     },
     saveButtonText: {
         color: '#fff',
@@ -398,6 +648,23 @@ const styles = StyleSheet.create({
     hint: {
         fontSize: typography.fontSize.xs,
         marginTop: spacing.sm,
+    },
+    providerRow: {
+        gap: spacing.sm,
+    },
+    providerChip: {
+        padding: spacing.md,
+        borderRadius: borderRadius.md,
+        borderWidth: 1,
+        marginBottom: 2,
+    },
+    providerChipText: {
+        fontSize: typography.fontSize.base,
+        fontWeight: '600',
+    },
+    providerChipSub: {
+        fontSize: typography.fontSize.xs,
+        marginTop: 2,
     },
     optionCard: {
         flexDirection: 'row',

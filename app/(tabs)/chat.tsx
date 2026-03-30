@@ -30,17 +30,30 @@ interface Message {
 
 const SESSION_ID = 'main_chat';
 
-const SYSTEM_PROMPT = `You are a friendly English learning assistant called LinguaLearn Owl 🦉. 
-You help Turkish-speaking users learn English. Your role:
+const LANGUAGE_NAMES: Record<string, string> = {
+    tr: 'Turkish',
+    en: 'English',
+    de: 'German',
+    fr: 'French',
+    es: 'Spanish',
+    ar: 'Arabic',
+};
+
+function buildSystemPrompt(nativeLanguage: string): string {
+    const langName = LANGUAGE_NAMES[nativeLanguage] || nativeLanguage;
+    return `You are a friendly English learning assistant called LinguaLearn Owl 🦉.
+You help ${langName}-speaking users learn English. Your role:
 - Have natural conversations in English to help users practice
 - Teach vocabulary contextually
 - Gently correct grammar mistakes with encouraging feedback
 - Adjust complexity to the user's level
 - Use emojis occasionally to keep things fun
 Always be supportive and encouraging.`;
+}
 
 export default function ChatScreen() {
     const themeMode = useProfileStore((s) => s.themeMode);
+    const nativeLanguage = useProfileStore((s) => s.nativeLanguage);
     const tc = themeMode === 'dark' ? colors.dark : colors.light;
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
@@ -120,13 +133,15 @@ export default function ChatScreen() {
         // Persist user message
         try {
             await saveChatMessage('user', userMessage.content, SESSION_ID);
-        } catch {}
+        } catch (e) {
+            console.error('[Chat] Failed to save user message:', e);
+        }
 
         // Get AI response
         try {
             const llm = HybridLLMManager.getInstance();
             const chatHistory = [
-                { role: 'system' as const, content: SYSTEM_PROMPT },
+                { role: 'system' as const, content: buildSystemPrompt(nativeLanguage) },
                 ...messages.slice(-10).map((m) => ({
                     role: m.role as 'user' | 'assistant',
                     content: m.content,
@@ -156,7 +171,9 @@ export default function ChatScreen() {
             // Persist AI message
             try {
                 await saveChatMessage('assistant', aiMessage.content, SESSION_ID);
-            } catch {}
+            } catch (e) {
+                console.error('[Chat] Failed to save AI message:', e);
+            }
         } catch {
             const errorMsg: Message = {
                 id: uuidv4(),

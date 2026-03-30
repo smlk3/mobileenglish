@@ -6,10 +6,13 @@
 import { initLlama } from 'llama.rn';
 import type { ChatMessage } from './HybridLLMManager';
 
+type PromptFormat = 'phi3' | 'chatml' | 'llama3';
+
 export class LocalSLMClient {
     private context: any = null;
     private isInitialized = false;
     private useMock = true;
+    private modelPath = '';
 
     async initialize(modelPath?: string): Promise<void> {
         if (!modelPath) {
@@ -21,16 +24,16 @@ export class LocalSLMClient {
 
         try {
             console.log(`Initializing llama.rn with model: ${modelPath}`);
-            // Real native build with llama.rn
             this.context = await initLlama({
                 model: modelPath,
                 n_ctx: 2048,
                 n_batch: 512,
-                n_threads: 6, // Optimize for mobile CPUs
-                n_gpu_layers: 32, // Offload to GPU (Vulkan/Metal)
+                n_threads: 6,
+                n_gpu_layers: 32,
             });
             this.useMock = false;
             this.isInitialized = true;
+            this.modelPath = modelPath;
             console.log('llama.rn successfully initialized.');
         } catch (error) {
             console.warn('Failed to initialize llama.rn. Falling back to mock mode.', error);
@@ -51,12 +54,59 @@ export class LocalSLMClient {
         if (!this.isInitialized) {
             throw new Error('Local SLM not initialized. Call initialize() first.');
         }
-    
         if (this.useMock) {
             return this.mockChat(messages, onToken);
         }
-    
         return this.llamaChat(messages, onToken);
+    }
+
+    /**
+     * Detects the appropriate prompt format based on model filename.
+     * - SmolLM2, Qwen, Mistral → ChatML (<|im_start|>)
+     * - Llama 3.x             → Llama 3 (<|begin_of_text|>)
+     * - Phi-3 / default       → Phi-3 (<|system|>)
+     */
+    private getPromptFormat(path: string): PromptFormat {
+        const lower = path.toLowerCase();
+        if (lower.includes('smollm') || lower.includes('qwen') || lower.includes('mistral')) {
+            return 'chatml';
+        }
+        if (lower.includes('llama')) {
+            return 'llama3';
+        }
+        return 'phi3';
+    }
+
+    private buildPrompt(messages: ChatMessage[]): string {
+        const format = this.getPromptFormat(this.modelPath);
+        let prompt = '';
+
+        if (format === 'chatml') {
+            for (const m of messages) {
+                prompt += `<|im_start|>${m.role}\n${m.content}<|im_end|>\n`;
+            }
+            prompt += '<|im_start|>assistant\n';
+        } else if (format === 'llama3') {
+            prompt += '<|begin_of_text|>';
+            for (const m of messages) {
+                prompt += `<|start_header_id|>${m.role}<|end_header_id|>\n\n${m.content}<|eot_id|>`;
+            }
+            prompt += '<|start_header_id|>assistant<|end_header_id|>\n\n';
+        } else {
+            // Phi-3 format
+            for (const m of messages) {
+                if (m.role === 'system') {
+                    prompt += `<|system|>\n${m.content}<|end|>\n`;
+                } else if (m.role === 'user') {
+                    prompt += `<|user|>\n${m.content}<|end|>\n`;
+                } else {
+                    prompt += `<|assistant|>\n${m.content}<|end|>\n`;
+                }
+            }
+            prompt += '<|assistant|>\n';
+        }
+
+        return prompt;
     }
 
     private async llamaChat(messages: ChatMessage[], onToken?: (token: string) => void): Promise<string> {
@@ -64,18 +114,7 @@ export class LocalSLMClient {
             throw new Error('Llama context not available');
         }
 
-        // Format prompt
-        let prompt = '';
-        for (const m of messages) {
-            if (m.role === 'system') {
-                prompt += `<|system|>\n${m.content}<|end|>\n`;
-            } else if (m.role === 'user') {
-                prompt += `<|user|>\n${m.content}<|end|>\n`;
-            } else {
-                prompt += `<|assistant|>\n${m.content}<|end|>\n`;
-            }
-        }
-        prompt += `<|assistant|>\n`;
+        const prompt = this.buildPrompt(messages);
 
         try {
             const result = await this.context.completion({
@@ -84,15 +123,10 @@ export class LocalSLMClient {
                 temperature: 0.7,
                 top_p: 0.9,
                 stop: [
-                    '<|user|>',
-                    '<|system|>',
-                    '<|assistant|>',
-                    '<|end|>',
-                    '<|im_end|>',
-                    '<|im_start|>',
-                    '</s>',
-                    '<|end_of_text|>',
-                    '\n<|',
+                    '<|user|>', '<|system|>', '<|assistant|>', '<|end|>',
+                    '<|im_end|>', '<|im_start|>',
+                    '<|eot_id|>', '<|start_header_id|>', '<|end_of_text|>',
+                    '</s>', '\n<|',
                 ],
                 onToken: (event: any) => {
                     if (onToken && event.token) {
@@ -103,7 +137,7 @@ export class LocalSLMClient {
 
             const text = result.text || '';
             return text
-                .replace(/<\|.*?\|>/g, '') 
+                .replace(/<\|.*?\|>/g, '')
                 .split(/\n(User|Assistant|System|USER|ASSISTANT|SYSTEM):/i)[0]
                 .trim();
         } catch (error: any) {
@@ -112,11 +146,7 @@ export class LocalSLMClient {
         }
     }
 
-    /**
-     * Mock chat for development without llama.rn
-     */
     private async mockChat(messages: ChatMessage[], onToken?: (token: string) => void): Promise<string> {
-        // Simulate processing delay
         await new Promise((resolve) => setTimeout(resolve, 300));
 
         const lastMessage = messages[messages.length - 1]?.content || '';
