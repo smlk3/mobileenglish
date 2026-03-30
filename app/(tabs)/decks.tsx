@@ -125,58 +125,89 @@ export default function DecksScreen() {
       )}
 
       {/* Deck list */}
-      {decks.map((deck, index) => (
-        <Animated.View
-          key={deck.id}
-          entering={FadeInDown.duration(400).delay(index * 80)}
-        >
-          <TouchableOpacity
-            style={[styles.deckCard, { backgroundColor: tc.surface }]}
-            onPress={() => router.push({ pathname: '/study', params: { deckId: deck.id, deckName: deck.name } })}
-            activeOpacity={0.8}
+      {decks.map((deck, index) => {
+        const deckColor = DECK_COLORS[index % DECK_COLORS.length];
+        return (
+          <Animated.View
+            key={deck.id}
+            entering={FadeInDown.duration(400).delay(index * 80)}
           >
-            <View style={[styles.deckIcon, { backgroundColor: (DECK_COLORS[index % DECK_COLORS.length]) + '20' }]}>
-              <Ionicons name="library" size={24} color={DECK_COLORS[index % DECK_COLORS.length]} />
-            </View>
-            <View style={styles.deckInfo}>
-              <Text style={[styles.deckName, { color: tc.text }]}>{deck.name}</Text>
-              <View style={styles.deckMeta}>
-                <View style={[styles.cefrBadge, { backgroundColor: (CEFR_COLORS[deck.cefrLevel] || '#6366F1') + '20' }]}>
-                  <Text style={[styles.cefrText, { color: CEFR_COLORS[deck.cefrLevel] || '#6366F1' }]}>
-                    {deck.cefrLevel}
-                  </Text>
+            {/* 3D Stack wrapper */}
+            <View style={styles.deckStackWrap}>
+              {/* Back stack layers */}
+              <View style={[styles.stackLayer, {
+                backgroundColor: deckColor + '22',
+                transform: [{ rotate: '2.5deg' }, { translateX: 4 }, { translateY: 5 }],
+              }]} />
+              <View style={[styles.stackLayer, {
+                backgroundColor: deckColor + '14',
+                transform: [{ rotate: '1.2deg' }, { translateX: 2 }, { translateY: 2.5 }],
+              }]} />
+
+              {/* Main card */}
+              <TouchableOpacity
+                style={[styles.deckCard, {
+                  backgroundColor: tc.surface,
+                  borderColor: deckColor + '25',
+                  borderWidth: 1,
+                  shadowColor: deckColor,
+                  shadowOffset: { width: 0, height: 4 },
+                  shadowOpacity: 0.2,
+                  shadowRadius: 10,
+                  elevation: 6,
+                }]}
+                onPress={() => router.push({ pathname: '/deck-detail' as any, params: { deckId: deck.id, deckName: deck.name } })}
+                activeOpacity={0.8}
+              >
+                <View style={[styles.deckIcon, { backgroundColor: deckColor + '22' }]}>
+                  <Ionicons name="library" size={24} color={deckColor} />
                 </View>
-                {deck.category && (
-                  <Text style={[styles.deckCategory, { color: tc.textSecondary }]}>
-                    {deck.category}
-                  </Text>
-                )}
-              </View>
+                <View style={styles.deckInfo}>
+                  <Text style={[styles.deckName, { color: tc.text }]}>{deck.name}</Text>
+                  <View style={styles.deckMeta}>
+                    <View style={[styles.cefrBadge, {
+                      backgroundColor: (CEFR_COLORS[deck.cefrLevel] || '#6366F1') + '22',
+                      borderWidth: 1,
+                      borderColor: (CEFR_COLORS[deck.cefrLevel] || '#6366F1') + '50',
+                    }]}>
+                      <Text style={[styles.cefrText, { color: CEFR_COLORS[deck.cefrLevel] || '#6366F1' }]}>
+                        {deck.cefrLevel}
+                      </Text>
+                    </View>
+                    {deck.category && (
+                      <Text style={[styles.deckCategory, { color: tc.textSecondary }]}>
+                        {deck.category}
+                      </Text>
+                    )}
+                  </View>
+                </View>
+                {/* Card count badge */}
+                <View style={[styles.cardCountBadge, { backgroundColor: deckColor + '20', borderColor: deckColor + '40' }]}>
+                  <Text style={[styles.cardCount, { color: deckColor }]}>{deck.cardCount}</Text>
+                  <Text style={[styles.cardCountLabel, { color: deckColor + 'BB' }]}>cards</Text>
+                </View>
+                <TouchableOpacity
+                  style={styles.optionsBtn}
+                  onPress={() => setDeckOptionsFor(deck)}
+                  hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                >
+                  <Ionicons name="ellipsis-vertical" size={18} color={tc.textMuted} />
+                </TouchableOpacity>
+              </TouchableOpacity>
             </View>
-            <View style={styles.deckRight}>
-              <Text style={[styles.cardCount, { color: tc.text }]}>{deck.cardCount}</Text>
-              <Text style={[styles.cardCountLabel, { color: tc.textMuted }]}>cards</Text>
-            </View>
-            {/* UX #1: ⋯ menu button replaces long press */}
+
+            {/* Test Yourself button */}
             <TouchableOpacity
-              style={styles.optionsBtn}
-              onPress={() => setDeckOptionsFor(deck)}
-              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              style={[styles.testBtn, { backgroundColor: colors.primary[500] + '15', borderColor: colors.primary[500] + '40' }]}
+              onPress={() => setQuizModalDeck(deck)}
+              activeOpacity={0.7}
             >
-              <Ionicons name="ellipsis-vertical" size={18} color={tc.textMuted} />
+              <Ionicons name="trophy-outline" size={15} color={colors.primary[400]} />
+              <Text style={[styles.testBtnText, { color: colors.primary[400] }]}>Test Yourself</Text>
             </TouchableOpacity>
-          </TouchableOpacity>
-          {/* Test Yourself button */}
-          <TouchableOpacity
-            style={[styles.testBtn, { backgroundColor: colors.primary[500] + '15', borderColor: colors.primary[500] + '40' }]}
-            onPress={() => setQuizModalDeck(deck)}
-            activeOpacity={0.7}
-          >
-            <Ionicons name="trophy-outline" size={15} color={colors.primary[400]} />
-            <Text style={[styles.testBtnText, { color: colors.primary[400] }]}>Test Yourself</Text>
-          </TouchableOpacity>
-        </Animated.View>
-      ))}      {/* Quiz mode modal */}
+          </Animated.View>
+        );
+      })}      {/* Quiz mode modal */}
       <Modal
         visible={quizModalDeck !== null}
         transparent
@@ -256,6 +287,24 @@ export default function DecksScreen() {
               onPress={() => {
                 if (!deckOptionsFor) return;
                 setDeckOptionsFor(null);
+                router.push({ pathname: '/deck-detail' as any, params: { deckId: deckOptionsFor.id, deckName: deckOptionsFor.name } });
+              }}
+              activeOpacity={0.8}
+            >
+              <View style={[styles.modeIcon, { backgroundColor: colors.accent[500] + '20' }]}>
+                <Ionicons name="layers-outline" size={22} color={colors.accent[400]} />
+              </View>
+              <View style={styles.modeTextArea}>
+                <Text style={[styles.modeName, { color: tc.text }]}>View & Edit Cards</Text>
+                <Text style={[styles.modeDesc, { color: tc.textMuted }]}>Browse, edit or add words</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={18} color={tc.textMuted} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.modeBtn, { backgroundColor: tc.border + '40', borderColor: tc.border }]}
+              onPress={() => {
+                if (!deckOptionsFor) return;
+                setDeckOptionsFor(null);
                 router.push({ pathname: '/study', params: { deckId: deckOptionsFor.id, deckName: deckOptionsFor.name } });
               }}
               activeOpacity={0.8}
@@ -308,7 +357,7 @@ export default function DecksScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: spacing.base, paddingBottom: spacing['3xl'] },
+  content: { padding: spacing.base, paddingBottom: 120 },
   summary: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -337,13 +386,23 @@ const styles = StyleSheet.create({
     fontSize: typography.fontSize.base,
     textAlign: 'center',
   },
+  deckStackWrap: {
+    position: 'relative',
+    marginBottom: spacing.xs,
+  },
+  stackLayer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderRadius: borderRadius.lg,
+  },
   deckCard: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: spacing.base,
     borderRadius: borderRadius.lg,
-    marginBottom: spacing.sm,
-    ...shadows.sm,
   },
   deckIcon: {
     width: 48,
@@ -362,9 +421,16 @@ const styles = StyleSheet.create({
   },
   cefrText: { fontSize: typography.fontSize.xs, fontWeight: '700' },
   deckCategory: { fontSize: typography.fontSize.xs },
-  deckRight: { alignItems: 'center' },
-  cardCount: { fontSize: typography.fontSize.lg, fontWeight: '700' },
-  cardCountLabel: { fontSize: typography.fontSize.xs },
+  cardCountBadge: {
+    alignItems: 'center',
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderRadius: borderRadius.md,
+    borderWidth: 1,
+    marginRight: spacing.xs,
+  },
+  cardCount: { fontSize: typography.fontSize.md, fontWeight: '800' },
+  cardCountLabel: { fontSize: 9, fontWeight: '600', marginTop: 1 },
   addButton: {
     flexDirection: 'row',
     alignItems: 'center',

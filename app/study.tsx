@@ -66,6 +66,11 @@ export default function StudyScreen() {
     const cardScale = useSharedValue(1);
     const flipRotation = useSharedValue(0);
 
+    // Neon glow overlay opacities
+    const redGlow   = useSharedValue(0);
+    const greenGlow = useSharedValue(0);
+    const upGlow    = useSharedValue(0);
+
     // Load cards
     useEffect(() => {
         const load = async () => {
@@ -166,6 +171,10 @@ export default function StudyScreen() {
                 [-15, 0, 15],
                 Extrapolation.CLAMP,
             );
+            // Neon glow: red = left, green = right, gold = up
+            redGlow.value   = interpolate(e.translationX, [0, -SWIPE_THRESHOLD], [0, 1], Extrapolation.CLAMP);
+            greenGlow.value = interpolate(e.translationX, [0, SWIPE_THRESHOLD],  [0, 1], Extrapolation.CLAMP);
+            upGlow.value    = interpolate(e.translationY, [0, -100],             [0, 1], Extrapolation.CLAMP);
         })
         .onEnd((e) => {
             if (Math.abs(e.translationX) > SWIPE_THRESHOLD) {
@@ -190,7 +199,10 @@ export default function StudyScreen() {
             } else {
                 translateX.value = withSpring(0, { damping: 15 });
                 translateY.value = withSpring(0, { damping: 15 });
-                rotation.value = withSpring(0);
+                rotation.value   = withSpring(0);
+                redGlow.value    = withSpring(0);
+                greenGlow.value  = withSpring(0);
+                upGlow.value     = withSpring(0);
             }
         });
 
@@ -237,6 +249,11 @@ export default function StudyScreen() {
     const upIndicatorStyle = useAnimatedStyle(() => ({
         opacity: interpolate(translateY.value, [-100, 0], [1, 0], Extrapolation.CLAMP),
     }));
+
+    // Neon glow border animated styles
+    const redGlowStyle   = useAnimatedStyle(() => ({ opacity: redGlow.value }));
+    const greenGlowStyle = useAnimatedStyle(() => ({ opacity: greenGlow.value }));
+    const upGlowStyle    = useAnimatedStyle(() => ({ opacity: upGlow.value }));
 
     // Loading state
     if (phase === 'loading') {
@@ -382,6 +399,10 @@ export default function StudyScreen() {
 
                     <GestureDetector gesture={composedGesture}>
                         <Animated.View style={[styles.card, cardAnimatedStyle]}>
+                            {/* Neon glow borders */}
+                            <Animated.View style={[styles.neonBorder, styles.neonRed,   redGlowStyle]} />
+                            <Animated.View style={[styles.neonBorder, styles.neonGreen, greenGlowStyle]} />
+                            <Animated.View style={[styles.neonBorder, styles.neonGold,  upGlowStyle]} />
                             {/* Front */}
                             <Animated.View
                                 style={[
@@ -692,4 +713,36 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     reviewingAllText: { fontSize: typography.fontSize.xs, fontWeight: '600' },
+
+    // Neon glow border overlays
+    neonBorder: {
+        ...StyleSheet.absoluteFillObject,
+        borderRadius: borderRadius['2xl'],
+        borderWidth: 2.5,
+        zIndex: 5,
+    },
+    neonRed: {
+        borderColor: colors.error.main,
+        shadowColor: colors.error.main,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 1,
+        shadowRadius: 18,
+        elevation: 0,
+    },
+    neonGreen: {
+        borderColor: colors.success.main,
+        shadowColor: colors.success.main,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 1,
+        shadowRadius: 18,
+        elevation: 0,
+    },
+    neonGold: {
+        borderColor: colors.warning.main,
+        shadowColor: colors.warning.main,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 1,
+        shadowRadius: 18,
+        elevation: 0,
+    },
 });

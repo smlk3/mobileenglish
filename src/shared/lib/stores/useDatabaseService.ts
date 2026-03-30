@@ -123,6 +123,48 @@ export async function fetchCardsByDeck(deckId: string): Promise<Card[]> {
     return cardsCol.query(Q.where('deck_id', deckId)).fetch();
 }
 
+export async function fetchDeckById(deckId: string): Promise<Deck | null> {
+    try {
+        return await getDecksCollection().find(deckId);
+    } catch {
+        return null;
+    }
+}
+
+export async function updateCard(
+    card: Card,
+    updates: { front?: string; back?: string; exampleSentence?: string },
+): Promise<void> {
+    await card.updateContent(updates);
+}
+
+export async function deleteCard(card: Card): Promise<void> {
+    const db = getDatabase();
+    await db.write(async () => {
+        const deck = await getDecksCollection().find(card.deckId);
+        await db.batch(
+            card.prepareDestroyPermanently(),
+            deck.prepareUpdate((d) => {
+                d.cardCount = Math.max(0, d.cardCount - 1);
+            }),
+        );
+    });
+}
+
+export async function addCardToDeck(
+    deckId: string,
+    cardData: { front: string; back: string; exampleSentence?: string; cefrLevel: string; category?: string },
+): Promise<void> {
+    await addCardsToDecks(deckId, [cardData]);
+}
+
+export async function updateDeckMetadata(
+    deck: Deck,
+    updates: { name?: string; cefrLevel?: string; category?: string },
+): Promise<void> {
+    await deck.updateDeck(updates);
+}
+
 export async function updateCardSRS(card: Card, rating: Rating): Promise<void> {
     const result = SRSAlgorithm.calculate(card.srsState, rating);
     await card.updateSRS(result);
