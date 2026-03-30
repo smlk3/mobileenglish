@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(find /c/git/mobileenglish/app -name \"*.tsx\" -type f -exec basename {} ;)",
-      "Bash(ls -la /c/git/mobileenglish/*.txt)"
+      "Bash(ls -la /c/git/mobileenglish/*.txt)",
+      "Bash(git add \"app/\\(tabs\\)/chat.tsx\" \"app/\\(tabs\\)/settings.tsx\" app/_layout.tsx app/setting-modal.tsx src/entities/UserProfile/model.ts src/shared/api/llm/CloudLLMClient.ts src/shared/api/llm/HybridLLMManager.ts src/shared/api/llm/LocalSLMClient.ts)"
     ]
   }
 }
