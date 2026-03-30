@@ -3,7 +3,14 @@
     "allow": [
       "Bash(find /c/git/mobileenglish/app -name \"*.tsx\" -type f -exec basename {} ;)",
       "Bash(ls -la /c/git/mobileenglish/*.txt)",
-      "Bash(git add \"app/\\(tabs\\)/chat.tsx\" \"app/\\(tabs\\)/settings.tsx\" app/_layout.tsx app/setting-modal.tsx src/entities/UserProfile/model.ts src/shared/api/llm/CloudLLMClient.ts src/shared/api/llm/HybridLLMManager.ts src/shared/api/llm/LocalSLMClient.ts)"
+      "Bash(git add \"app/\\(tabs\\)/chat.tsx\" \"app/\\(tabs\\)/settings.tsx\" app/_layout.tsx app/setting-modal.tsx src/entities/UserProfile/model.ts src/shared/api/llm/CloudLLMClient.ts src/shared/api/llm/HybridLLMManager.ts src/shared/api/llm/LocalSLMClient.ts)",
+      "Bash(node -e \"const p=require\\(''./package.json''\\); console.log\\(JSON.stringify\\(p.scripts, null, 2\\)\\); console.log\\(''expo-dev-client:'', p.dependencies?.[''expo-dev-client''] || p.devDependencies?.[''expo-dev-client''] || ''YOK''\\)\")",
+      "Bash(npx expo start --clear)",
+      "Bash(netstat -ano)",
+      "Bash(taskkill /PID 23232 /F)",
+      "Bash(cmd /c \"taskkill /PID 23232 /F\")",
+      "Bash(cmd /c \"taskkill /PID 23232 /F 2>&1\")",
+      "Bash(cmd /c \"tasklist | findstr node\")"
     ]
   }
 }

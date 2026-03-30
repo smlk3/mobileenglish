@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "LinguaLearn",
+    "name": "lingua-learn",
     "slug": "lingua-learn",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -48,8 +48,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "2a0095b9-e051-4dc3-8886-7947dfc8ccec"
+        "projectId": "5f717f6a-538b-41eb-bc71-f8a621cb63d6"
       }
-    }
+    },
+    "owner": "mobile-app06830"
   }
 }
