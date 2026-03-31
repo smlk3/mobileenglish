@@ -165,7 +165,7 @@ export class SRSAlgorithm {
             case 'good': {
                 // Standard SM-2 calculation
                 const newEaseFactor = SRSAlgorithm.calculateNewEaseFactor(state.easeFactor, quality);
-                const newInterval = SRSAlgorithm.calculateNewInterval(state.interval, newEaseFactor, state.repetitions);
+                const newInterval = SRSAlgorithm.calculateNewInterval(state.interval, newEaseFactor);
                 return {
                     interval: newInterval,
                     easeFactor: newEaseFactor,
@@ -206,19 +206,29 @@ export class SRSAlgorithm {
     }
 
     /**
-     * SM-2 interval calculation
-     * First successful review: 1 day
-     * Second successful review: 6 days
-     * Subsequent: previous_interval * ease_factor
+     * SM-2 interval calculation - interval-based (not repetition-based)
+     * interval=0 or 1 → 6 days (standard second-step jump)
+     * interval>1     → interval × easeFactor (clamped to at least interval+1)
      */
     private static calculateNewInterval(
         currentInterval: number,
         easeFactor: number,
-        repetitions: number,
     ): number {
-        if (repetitions <= 1) return 1;
-        if (repetitions === 2) return 6;
-        return Math.round(currentInterval * easeFactor);
+        if (currentInterval <= 1) return 6;
+        return Math.max(currentInterval + 1, Math.round(currentInterval * easeFactor));
+    }
+
+    /**
+     * Preview the next review time for all 4 ratings without applying changes.
+     * Used to show e.g. "Again: <1m  Hard: 10m  Good: 1d  Easy: 4d" on buttons.
+     */
+    static previewAll(state: SRSState): Record<Rating, string> {
+        return {
+            again: SRSAlgorithm.getNextReviewText(SRSAlgorithm.calculate(state, 'again').nextReview),
+            hard:  SRSAlgorithm.getNextReviewText(SRSAlgorithm.calculate(state, 'hard').nextReview),
+            good:  SRSAlgorithm.getNextReviewText(SRSAlgorithm.calculate(state, 'good').nextReview),
+            easy:  SRSAlgorithm.getNextReviewText(SRSAlgorithm.calculate(state, 'easy').nextReview),
+        };
     }
 
     /**

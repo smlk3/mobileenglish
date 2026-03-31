@@ -26,11 +26,14 @@ import Animated, {
     withTiming,
 } from 'react-native-reanimated';
 import type Card from '../src/entities/Card/model';
-import { type Rating } from '../src/entities/SRS/SRSAlgorithm';
+import type { CardStatus } from '../src/entities/Card/model';
+import { SRSAlgorithm, type Rating } from '../src/entities/SRS/SRSAlgorithm';
 import {
     fetchCardsByDeck,
+    fetchCardsDueTomorrow,
     fetchDueCards,
     recordStudySession,
+    revertCardSRS,
     updateCardSRS,
 } from '../src/shared/lib/stores/useDatabaseService';
 import { useProfileStore } from '../src/shared/lib/stores/useProfileStore';
@@ -42,6 +45,12 @@ const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.3;
 
 type Phase = 'loading' | 'empty' | 'flashcard' | 'results';
+
+type UndoEntry = {
+    card: Card;
+    prevState: { nextReview: number; interval: number; easeFactor: number; repetitions: number; status: CardStatus };
+    xpAwarded: number;
+};
 
 export default function StudyScreen() {
     const router = useRouter();
@@ -56,8 +65,11 @@ export default function StudyScreen() {
     const [phase, setPhase] = useState<Phase>('loading');
     const [results, setResults] = useState<{ rating: Rating; cardId: string }[]>([]);
     const [startTime] = useState(Date.now());
-    const [isReviewingAll, setIsReviewingAll] = useState(false); // UX #5
-    const [sessionXP, setSessionXP] = useState(0); // UX #6
+    const [isReviewingAll, setIsReviewingAll] = useState(false);
+    const [sessionXP, setSessionXP] = useState(0);
+    const [undoEntry, setUndoEntry] = useState<UndoEntry | null>(null);
+    const [tomorrowCount, setTomorrowCount] = useState(0);
+    const [sessionDuration, setSessionDuration] = useState(0);
 
     // Card swipe animation values
     const translateX = useSharedValue(0);
@@ -100,23 +112,39 @@ export default function StudyScreen() {
     }, [params.deckId]);
 
     const currentCard = cards[currentIndex];
+    // Compute next-review previews for the current card (shown on buttons after flip)
+    const ratingPreviews = currentCard ? SRSAlgorithm.previewAll(currentCard.srsState) : null;
 
     const goToNextCard = useCallback(
         async (rating: Rating) => {
             const card = cards[currentIndex];
             if (card) {
-                // Update card SRS in DB
+                // Snapshot prev state for undo BEFORE applying the update
+                const prevState = {
+                    nextReview: card.nextReview,
+                    interval: card.interval,
+                    easeFactor: card.easeFactor,
+                    repetitions: card.repetitions,
+                    status: card.status,
+                };
+
                 try {
                     await updateCardSRS(card, rating);
                 } catch (e) {
                     console.warn('Failed to update SRS:', e);
                 }
-                // Award XP silently (no toast — too frequent in flashcard mode)
+
+                // Award XP and track amount for undo
                 const xpAmount = rating === 'again' ? XP.FLASHCARD_WRONG : XP.FLASHCARD_CORRECT;
                 const isFirst = results.length === 0 && currentIndex === 0;
-                awardXP(xpAmount, { isFirstSession: isFirst }).then((res) => {
-                    setSessionXP((prev) => prev + res.xpAwarded); // UX #6: track session XP
-                }).catch(() => {});
+                let xpAwarded = 0;
+                try {
+                    const res = await awardXP(xpAmount, { isFirstSession: isFirst });
+                    xpAwarded = res.xpAwarded;
+                    setSessionXP((prev) => prev + xpAwarded);
+                } catch {}
+
+                setUndoEntry({ card, prevState, xpAwarded });
                 setResults((prev) => [...prev, { rating, cardId: card.id }]);
             }
             setIsFlipped(false);
@@ -125,8 +153,9 @@ export default function StudyScreen() {
             if (currentIndex < cards.length - 1) {
                 setCurrentIndex((prev) => prev + 1);
             } else {
-                // Session complete — save to DB
+                // Session complete
                 const elapsed = Math.round((Date.now() - startTime) / 1000);
+                setSessionDuration(elapsed);
                 const allResults = [...results, { rating, cardId: card?.id || '' }];
                 const correctCount = allResults.filter((r) => r.rating !== 'again').length;
 
@@ -142,10 +171,16 @@ export default function StudyScreen() {
                     console.warn('Failed to save study session:', e);
                 }
 
+                try {
+                    const count = await fetchCardsDueTomorrow(params.deckId);
+                    setTomorrowCount(count);
+                } catch {}
+
+                setUndoEntry(null);
                 setPhase('results');
             }
         },
-        [currentIndex, cards, results, startTime, params.deckId, awardXP, setSessionXP],
+        [currentIndex, cards, results, startTime, params.deckId, awardXP],
     );
 
     const handleSwipeComplete = useCallback(
@@ -159,6 +194,21 @@ export default function StudyScreen() {
         },
         [goToNextCard],
     );
+
+    const handleUndo = useCallback(async () => {
+        if (!undoEntry || currentIndex === 0) return;
+        try {
+            await revertCardSRS(undoEntry.card, undoEntry.prevState);
+        } catch (e) {
+            console.warn('Failed to revert card SRS:', e);
+        }
+        setSessionXP((prev) => Math.max(0, prev - undoEntry.xpAwarded));
+        setResults((prev) => prev.slice(0, -1));
+        setCurrentIndex((prev) => prev - 1);
+        setIsFlipped(false);
+        flipRotation.value = withTiming(0, { duration: 150 });
+        setUndoEntry(null);
+    }, [undoEntry, currentIndex, flipRotation]);
 
     // Pan gesture for swiping
     const panGesture = Gesture.Pan()
@@ -286,7 +336,16 @@ export default function StudyScreen() {
 
     // Results screen
     if (phase === 'results') {
+        const againCount = results.filter((r) => r.rating === 'again').length;
+        const hardCount  = results.filter((r) => r.rating === 'hard').length;
+        const goodCount  = results.filter((r) => r.rating === 'good').length;
+        const easyCount  = results.filter((r) => r.rating === 'easy').length;
         const correctCount = results.filter((r) => r.rating !== 'again').length;
+        const accuracy = cards.length > 0 ? Math.round((correctCount / cards.length) * 100) : 0;
+        const durationText = sessionDuration < 60
+            ? `${sessionDuration}s`
+            : `${Math.floor(sessionDuration / 60)}m ${sessionDuration % 60}s`;
+
         return (
             <View style={[styles.container, { backgroundColor: tc.background }]}>
                 <View style={styles.resultsContainer}>
@@ -296,27 +355,51 @@ export default function StudyScreen() {
                         </View>
                         <Text style={[styles.resultsTitle, { color: tc.text }]}>Session Complete!</Text>
                         <Text style={[styles.resultsSubtitle, { color: tc.textSecondary }]}>
-                            You reviewed {cards.length} cards
+                            {cards.length} cards · {durationText}
                         </Text>
 
+                        {/* Accuracy + rating breakdown */}
                         <View style={[styles.resultsStats, { backgroundColor: tc.surface }]}>
                             <View style={styles.resultStat}>
-                                <Text style={[styles.resultStatValue, { color: colors.success.main }]}>{correctCount}</Text>
-                                <Text style={[styles.resultStatLabel, { color: tc.textMuted }]}>Correct</Text>
+                                <Text style={[styles.resultStatValue, { color: colors.primary[400] }]}>{accuracy}%</Text>
+                                <Text style={[styles.resultStatLabel, { color: tc.textMuted }]}>Accuracy</Text>
                             </View>
                             <View style={[styles.resultDivider, { backgroundColor: tc.border }]} />
                             <View style={styles.resultStat}>
-                                <Text style={[styles.resultStatValue, { color: colors.error.main }]}>{cards.length - correctCount}</Text>
+                                <Text style={[styles.resultStatValue, { color: colors.error.main }]}>{againCount}</Text>
                                 <Text style={[styles.resultStatLabel, { color: tc.textMuted }]}>Again</Text>
                             </View>
                             <View style={[styles.resultDivider, { backgroundColor: tc.border }]} />
                             <View style={styles.resultStat}>
-                                <Text style={[styles.resultStatValue, { color: colors.primary[400] }]}>{Math.round((correctCount / cards.length) * 100)}%</Text>
-                                <Text style={[styles.resultStatLabel, { color: tc.textMuted }]}>Accuracy</Text>
+                                <Text style={[styles.resultStatValue, { color: colors.warning.main }]}>{hardCount}</Text>
+                                <Text style={[styles.resultStatLabel, { color: tc.textMuted }]}>Hard</Text>
+                            </View>
+                            <View style={[styles.resultDivider, { backgroundColor: tc.border }]} />
+                            <View style={styles.resultStat}>
+                                <Text style={[styles.resultStatValue, { color: colors.success.main }]}>{goodCount}</Text>
+                                <Text style={[styles.resultStatLabel, { color: tc.textMuted }]}>Good</Text>
+                            </View>
+                            <View style={[styles.resultDivider, { backgroundColor: tc.border }]} />
+                            <View style={styles.resultStat}>
+                                <Text style={[styles.resultStatValue, { color: colors.primary[300] }]}>{easyCount}</Text>
+                                <Text style={[styles.resultStatLabel, { color: tc.textMuted }]}>Easy</Text>
                             </View>
                         </View>
 
-                        {/* UX #6: XP earned this session */}
+                        {/* Tomorrow forecast */}
+                        {tomorrowCount > 0 && (
+                            <Animated.View
+                                entering={FadeInDown.delay(200).duration(400)}
+                                style={[styles.tomorrowRow, { backgroundColor: tc.surface, borderColor: tc.border }]}
+                            >
+                                <Ionicons name="calendar-outline" size={16} color={tc.textSecondary} />
+                                <Text style={[styles.tomorrowText, { color: tc.textSecondary }]}>
+                                    {tomorrowCount} card{tomorrowCount !== 1 ? 's' : ''} due tomorrow
+                                </Text>
+                            </Animated.View>
+                        )}
+
+                        {/* XP earned */}
                         {sessionXP > 0 && (
                             <Animated.View
                                 entering={FadeInDown.delay(300).duration(400)}
@@ -366,9 +449,16 @@ export default function StudyScreen() {
                         />
                     ))}
                 </View>
-                <Text style={[styles.counter, { color: tc.textSecondary }]}>
-                    {currentIndex + 1}/{cards.length}
-                </Text>
+                <View style={styles.headerRight}>
+                    <Text style={[styles.counter, { color: tc.textSecondary }]}>
+                        {currentIndex + 1}/{cards.length}
+                    </Text>
+                    {undoEntry && currentIndex > 0 && (
+                        <TouchableOpacity onPress={handleUndo} style={styles.undoButton}>
+                            <Ionicons name="arrow-undo" size={20} color={colors.primary[400]} />
+                        </TouchableOpacity>
+                    )}
+                </View>
             </View>
             {/* UX #5: Banner when reviewing all cards (no due) */}
             {isReviewingAll && (
@@ -455,6 +545,9 @@ export default function StudyScreen() {
                 >
                     <Ionicons name="close" size={24} color={colors.error.main} />
                     <Text style={[styles.ratingText, { color: colors.error.main }]}>Again</Text>
+                    {isFlipped && ratingPreviews && (
+                        <Text style={[styles.previewText, { color: colors.error.main }]}>{ratingPreviews.again}</Text>
+                    )}
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={[styles.ratingButton, { backgroundColor: colors.warning.main + '20' }]}
@@ -462,6 +555,9 @@ export default function StudyScreen() {
                 >
                     <Ionicons name="remove" size={24} color={colors.warning.main} />
                     <Text style={[styles.ratingText, { color: colors.warning.main }]}>Hard</Text>
+                    {isFlipped && ratingPreviews && (
+                        <Text style={[styles.previewText, { color: colors.warning.main }]}>{ratingPreviews.hard}</Text>
+                    )}
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={[styles.ratingButton, { backgroundColor: colors.success.main + '20' }]}
@@ -469,6 +565,9 @@ export default function StudyScreen() {
                 >
                     <Ionicons name="checkmark" size={24} color={colors.success.main} />
                     <Text style={[styles.ratingText, { color: colors.success.main }]}>Good</Text>
+                    {isFlipped && ratingPreviews && (
+                        <Text style={[styles.previewText, { color: colors.success.main }]}>{ratingPreviews.good}</Text>
+                    )}
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={[styles.ratingButton, { backgroundColor: colors.primary[400] + '20' }]}
@@ -476,6 +575,9 @@ export default function StudyScreen() {
                 >
                     <Ionicons name="star" size={24} color={colors.primary[400]} />
                     <Text style={[styles.ratingText, { color: colors.primary[400] }]}>Easy</Text>
+                    {isFlipped && ratingPreviews && (
+                        <Text style={[styles.previewText, { color: colors.primary[400] }]}>{ratingPreviews.easy}</Text>
+                    )}
                 </TouchableOpacity>
             </Animated.View>
         </GestureHandlerRootView>
@@ -519,6 +621,14 @@ const styles = StyleSheet.create({
     counter: {
         fontSize: typography.fontSize.sm,
         fontWeight: '600',
+    },
+    headerRight: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: spacing.sm,
+    },
+    undoButton: {
+        padding: spacing.xs,
     },
     cardContainer: {
         flex: 1,
@@ -632,6 +742,12 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         marginTop: 4,
     },
+    previewText: {
+        fontSize: 10,
+        fontWeight: '500',
+        marginTop: 2,
+        opacity: 0.75,
+    },
     resultsContainer: {
         flex: 1,
         alignItems: 'center',
@@ -690,7 +806,20 @@ const styles = StyleSheet.create({
         fontSize: typography.fontSize.md,
         fontWeight: '700',
     },
-    // UX #6: XP earned row
+    tomorrowRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: spacing.sm,
+        paddingVertical: spacing.sm,
+        paddingHorizontal: spacing.lg,
+        borderRadius: borderRadius.full,
+        borderWidth: 1,
+        marginBottom: spacing.md,
+    },
+    tomorrowText: {
+        fontSize: typography.fontSize.sm,
+        fontWeight: '600',
+    },
     xpEarnedRow: {
         flexDirection: 'row',
         alignItems: 'center',

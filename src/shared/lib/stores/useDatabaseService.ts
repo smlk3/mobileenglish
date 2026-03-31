@@ -106,16 +106,23 @@ export async function addCardsToDecks(
     });
 }
 
-export async function fetchDueCards(deckId?: string): Promise<Card[]> {
+export async function fetchDueCards(deckId?: string, maxNewCards = 20): Promise<Card[]> {
     const cardsCol = getCardsCollection();
     const now = Date.now();
 
-    const conditions = [Q.where('next_review', Q.lte(now))];
-    if (deckId) {
-        conditions.push(Q.where('deck_id', deckId));
-    }
+    const deckConditions = deckId ? [Q.where('deck_id', deckId)] : [];
 
-    return cardsCol.query(...conditions).fetch();
+    // Due review/learning cards (non-new status, already in progress)
+    const reviewCards = await cardsCol
+        .query(...deckConditions, Q.where('next_review', Q.lte(now)), Q.where('status', Q.notEq('new')))
+        .fetch();
+
+    // New cards are always "due" (nextReview = creation time) — cap per session
+    const allNewCards = await cardsCol
+        .query(...deckConditions, Q.where('status', 'new'))
+        .fetch();
+
+    return [...reviewCards, ...allNewCards.slice(0, maxNewCards)];
 }
 
 export async function fetchCardsByDeck(deckId: string): Promise<Card[]> {
@@ -168,6 +175,26 @@ export async function updateDeckMetadata(
 export async function updateCardSRS(card: Card, rating: Rating): Promise<void> {
     const result = SRSAlgorithm.calculate(card.srsState, rating);
     await card.updateSRS(result);
+}
+
+export async function revertCardSRS(card: Card, prevState: {
+    nextReview: number;
+    interval: number;
+    easeFactor: number;
+    repetitions: number;
+    status: import('../../../entities/Card/model').CardStatus;
+}): Promise<void> {
+    await card.updateSRS(prevState);
+}
+
+export async function fetchCardsDueTomorrow(deckId?: string): Promise<number> {
+    const cardsCol = getCardsCollection();
+    const now = Date.now();
+    const in24h = now + 24 * 60 * 60 * 1000;
+    const conditions: any[] = [Q.where('next_review', Q.gt(now)), Q.where('next_review', Q.lte(in24h))];
+    if (deckId) conditions.push(Q.where('deck_id', deckId));
+    const cards = await cardsCol.query(...conditions).fetch();
+    return cards.length;
 }
 
 // ─── Study Session ────────────────────────────────────────
