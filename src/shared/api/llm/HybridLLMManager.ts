@@ -1,12 +1,11 @@
 /**
- * HybridLLMManager - Singleton orchestrator for On-Device SLM and Cloud LLM
+ * LLMManager - Cloud LLM orchestrator
  *
  * Cloud LLM (Strategist): Deep analysis, curriculum planning, RAG word selection
- * On-Device SLM (Tutor): Offline chat, quiz generation, grammar checking
+ * Cloud LLM (Tutor): Chat, quiz generation, grammar checking
  */
 
 import { CloudLLMClient, type CloudProvider } from './CloudLLMClient';
-import { LocalSLMClient } from './LocalSLMClient';
 
 export type { CloudProvider };
 
@@ -57,13 +56,10 @@ const LANGUAGE_NAMES: Record<string, string> = {
 class HybridLLMManager {
     private static instance: HybridLLMManager;
     private cloudClient: CloudLLMClient;
-    private localClient: LocalSLMClient;
-    private isLocalReady = false;
     private isCloudReady = false;
 
     private constructor() {
         this.cloudClient = new CloudLLMClient();
-        this.localClient = new LocalSLMClient();
     }
 
     static getInstance(): HybridLLMManager {
@@ -74,18 +70,6 @@ class HybridLLMManager {
     }
 
     // ─── Initialization ───────────────────────────────────────
-
-    async initLocalModel(modelPath?: string): Promise<boolean> {
-        try {
-            await this.localClient.initialize(modelPath);
-            this.isLocalReady = this.localClient.isReady && !this.localClient.isMockMode;
-            return true;
-        } catch (error) {
-            console.error('Failed to initialize local model:', error);
-            this.isLocalReady = false;
-            return false;
-        }
-    }
 
     /**
      * Configure cloud without validation — used for silent startup loading of saved keys.
@@ -114,32 +98,23 @@ class HybridLLMManager {
         } catch (err: any) {
             this.isCloudReady = false;
             const msg: string = err?.message || 'Connection failed';
-            // Surface a readable error, strip verbose HTTP body after first 200 chars
             return { success: false, error: msg.length > 200 ? msg.substring(0, 200) + '…' : msg };
         }
     }
 
     getStatus() {
         return {
-            localReady: this.isLocalReady,
             cloudReady: this.isCloudReady,
-            preferredModel: this.isLocalReady ? 'local' : this.isCloudReady ? 'cloud' : 'none',
         };
     }
 
-    // ─── On-Device SLM (The Tutor) ────────────────────────────
+    // ─── Chat ─────────────────────────────────────────────────
 
-    async chatLocal(messages: ChatMessage[], onToken?: (token: string) => void, forceCloud: boolean = false): Promise<string> {
-        if (forceCloud && this.isCloudReady) {
-            return this.cloudClient.chat(messages);
+    async chat(messages: ChatMessage[]): Promise<string> {
+        if (!this.isCloudReady) {
+            return 'AI model is not available. Please configure an API key in Settings.';
         }
-        if (!this.isLocalReady) {
-            if (this.isCloudReady) {
-                return this.cloudClient.chat(messages);
-            }
-            return 'AI model is not available. Please configure an API key or download a local model.';
-        }
-        return this.localClient.chat(messages, onToken);
+        return this.cloudClient.chat(messages);
     }
 
     async generateQuizContent(words: WordSelection[]): Promise<QuizContent[]> {
@@ -156,10 +131,7 @@ Return JSON array: [{ "question": "sentence with ___", "options": ["a","b","c","
         ];
 
         try {
-            const response = this.isLocalReady
-                ? await this.localClient.chat(messages)
-                : await this.cloudClient.chat(messages);
-
+            const response = await this.cloudClient.chat(messages, true);
             return this.parseJSON<QuizContent[]>(response) || this.generateFallbackQuiz(words);
         } catch {
             return this.generateFallbackQuiz(words);
@@ -178,10 +150,7 @@ Return JSON: { "isCorrect": bool, "correctedSentence": "...", "explanation": "br
         ];
 
         try {
-            const response = this.isLocalReady
-                ? await this.localClient.chat(messages)
-                : await this.cloudClient.chat(messages);
-
+            const response = await this.cloudClient.chat(messages, true);
             return this.parseJSON<GrammarResult>(response) || {
                 isCorrect: true,
                 correctedSentence: sentence,
@@ -236,7 +205,7 @@ Return JSON array: [{ "word": "...", "translation": "${langName} translation", "
         ];
 
         try {
-            const response = await this.cloudClient.chat(messages);
+            const response = await this.cloudClient.chat(messages, true);
             return this.parseJSON<WordSelection[]>(response) || [];
         } catch {
             return [];
@@ -267,7 +236,7 @@ Only include fields where you found specific information. Return {} if nothing s
         ];
 
         try {
-            const response = await this.cloudClient.chat(messages);
+            const response = await this.cloudClient.chat(messages, true);
             return this.parseJSON<Partial<ProfileAnalysis>>(response) || {};
         } catch {
             return {};
@@ -300,7 +269,6 @@ Only include fields where you found specific information. Return {} if nothing s
             const wrongOptions = allTranslations
                 .filter((_, i) => i !== index)
                 .slice(0, 3);
-            // Pad with generic options if the list is too short
             while (wrongOptions.length < 3) {
                 wrongOptions.push(`option ${wrongOptions.length + 1}`);
             }

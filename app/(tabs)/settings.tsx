@@ -13,7 +13,6 @@ import {
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import type UserSettingsModel from '../../src/entities/UserProfile/model';
 import HybridLLMManager from '../../src/shared/api/llm/HybridLLMManager';
-import { MODEL_CATALOG } from '../../src/shared/api/llm/ModelDownloadManager';
 import { getUserSettings } from '../../src/shared/lib/stores/useDatabaseService';
 import { useProfileStore } from '../../src/shared/lib/stores/useProfileStore';
 import { borderRadius, colors, spacing, typography } from '../../src/shared/lib/theme';
@@ -65,9 +64,7 @@ export default function SettingsScreen() {
 
     const profileTags = settings?.profileTags;
     const apiKeys = settings?.apiKeys;
-    const isLocalModelLoaded = useProfileStore((s) => s.isLocalModelLoaded);
-
-    const navigateToSettingModal = (type: string, title: string, currentValue: string) => {
+const navigateToSettingModal = (type: string, title: string, currentValue: string) => {
         router.push({
             pathname: '/setting-modal',
             params: { type, title, currentValue },
@@ -126,14 +123,6 @@ export default function SettingsScreen() {
                             : 'Mock Mode',
                     type: 'nav' as const,
                     onPress: () => navigateToSettingModal('ai_provider', 'AI Provider', apiKeys?.custom ? 'custom' : apiKeys?.gemini ? 'gemini' : 'openai'),
-                },
-                {
-                    icon: 'hardware-chip-outline' as const,
-                    iconColor: colors.primary[400],
-                    title: 'Local Model',
-                    subtitle: isLocalModelLoaded && useProfileStore.getState().activeLocalModelId !== 'loading' && useProfileStore.getState().activeLocalModelId ? MODEL_CATALOG.find(m => m.id === useProfileStore.getState().activeLocalModelId)?.name || 'Custom Model' : 'Mock Mode',
-                    type: 'nav' as const,
-                    onPress: () => router.push('/model-manager'),
                 },
             ],
         },

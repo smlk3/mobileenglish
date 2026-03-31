@@ -15,10 +15,8 @@ interface ProfileState {
     goals: string[];
 
     // AI status
-    isLocalModelLoaded: boolean;
     isCloudAvailable: boolean;
-    activeModel: 'local' | 'cloud' | 'none';
-    activeLocalModelId: string | null;
+    activeModel: 'cloud' | 'none';
 
     // Actions
     setProfile: (profile: {
@@ -28,10 +26,8 @@ interface ProfileState {
         nativeLanguage: string;
         goals: string[];
     }) => void;
-    setLocalModelLoaded: (loaded: boolean) => void;
     setCloudAvailable: (available: boolean) => void;
-    setActiveModel: (model: 'local' | 'cloud' | 'none') => void;
-    setActiveLocalModelId: (id: string | null) => void;
+    setActiveModel: (model: 'cloud' | 'none') => void;
 }
 
 export const useProfileStore = create<ProfileState>((set) => ({
@@ -46,16 +42,10 @@ export const useProfileStore = create<ProfileState>((set) => ({
     nativeLanguage: 'tr',
     goals: [],
 
-    isLocalModelLoaded: false,
     isCloudAvailable: false,
     activeModel: 'none',
-    activeLocalModelId: null,
 
     setProfile: (profile) => set(profile),
-    setLocalModelLoaded: (loaded) => set({ isLocalModelLoaded: loaded }),
     setCloudAvailable: (available) => set({ isCloudAvailable: available }),
     setActiveModel: (model) => set({ activeModel: model }),
-    setActiveLocalModelId: (id: string | null) => set(
-        (state) => ({ ...state, activeLocalModelId: id })
-    ),
 }));

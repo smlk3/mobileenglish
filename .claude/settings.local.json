@@ -10,7 +10,13 @@
       "Bash(taskkill /PID 23232 /F)",
       "Bash(cmd /c \"taskkill /PID 23232 /F\")",
       "Bash(cmd /c \"taskkill /PID 23232 /F 2>&1\")",
-      "Bash(cmd /c \"tasklist | findstr node\")"
+      "Bash(cmd /c \"tasklist | findstr node\")",
+      "Bash(for hash in e2a26d1 602ec99 3d6451e 7a4c622 c0ec361 4fc6f33 4ce1beb 5e68e06 f36e867 f8068ea d73b9ae 6634cdf 1c9f0e9 706706f 9365ca6)",
+      "Bash(do echo \"=== $hash ===\")",
+      "Bash(done)",
+      "Bash(git show 602ec99 --stat --format=\"\")",
+      "Bash(git show c0ec361 --stat --format=\"\")",
+      "Bash(git show 5e68e06 --stat --format=\"\")"
     ]
   }
 }

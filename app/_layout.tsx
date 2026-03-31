@@ -7,7 +7,6 @@ import 'react-native-reanimated';
 
 import { initializeDefaultSettings } from '../src/entities/database';
 import HybridLLMManager from '../src/shared/api/llm/HybridLLMManager';
-import ModelDownloadManager, { MODEL_CATALOG } from '../src/shared/api/llm/ModelDownloadManager';
 import { getUserSettings } from '../src/shared/lib/stores/useDatabaseService';
 import { useProfileStore } from '../src/shared/lib/stores/useProfileStore';
 
@@ -23,34 +22,8 @@ export default function RootLayout() {
       // Initialize database defaults
       await initializeDefaultSettings();
 
-      // Initialize local SLM
-      const llm = HybridLLMManager.getInstance();
-      const manager = ModelDownloadManager.getInstance();
-      const downloadedModels = await manager.getDownloadedModels();
-      
-      let localModelPath: string | undefined;
-      let activeLocalModelId: string | null = null;
-      if (downloadedModels.length > 0) {
-        // Auto-load the newest or previously selected downloaded model 
-        const latestModel = downloadedModels.sort((a,b) => b.downloadedAt - a.downloadedAt)[0];
-        activeLocalModelId = latestModel.modelId;
-        const catalogModel = MODEL_CATALOG.find(m => m.id === activeLocalModelId);
-        if (catalogModel) {
-            localModelPath = manager.getModelPath(catalogModel);
-        }
-      }
-
-      await llm.initLocalModel(localModelPath);
-
-      // isLocalReady is false when running in mock mode — reflect the real state
-      const isRealLocalModel = llm.getStatus().localReady;
-      useProfileStore.getState().setLocalModelLoaded(isRealLocalModel);
-      if (isRealLocalModel) {
-          useProfileStore.getState().setActiveLocalModelId(activeLocalModelId);
-          useProfileStore.getState().setActiveModel('local');
-      }
-
       // Load user settings and configure cloud if API key exists
+      const llm = HybridLLMManager.getInstance();
       const settings = await getUserSettings();
       if (settings) {
         const tags = settings.profileTags;
@@ -83,7 +56,7 @@ export default function RootLayout() {
           useProfileStore.getState().setActiveModel('cloud');
         }
 
-        if (!isRealLocalModel && !keys.openai && !keys.gemini && !keys.custom) {
+        if (!keys.openai && !keys.gemini && !keys.custom) {
           useProfileStore.getState().setActiveModel('none');
         }
       }
@@ -144,15 +117,7 @@ export default function RootLayout() {
             animation: 'slide_from_bottom',
           }}
         />
-        <Stack.Screen
-          name="model-manager"
-          options={{
-            headerShown: false,
-            presentation: 'modal',
-            animation: 'slide_from_bottom',
-          }}
-        />
-        <Stack.Screen
+<Stack.Screen
           name="deck-detail"
           options={{
             headerShown: false,

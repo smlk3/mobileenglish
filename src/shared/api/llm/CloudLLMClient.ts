@@ -67,15 +67,15 @@ export class CloudLLMClient {
         }
     }
 
-    async chat(messages: ChatMessage[]): Promise<string> {
+    async chat(messages: ChatMessage[], jsonMode = false): Promise<string> {
         if (!this.config) {
             throw new Error('Cloud LLM not configured. Call configure() first.');
         }
         if (this.config.provider === 'gemini') {
-            return this.chatGemini(messages);
+            return this.chatGemini(messages, false, jsonMode);
         }
         // openai and custom both use OpenAI-compatible API format
-        return this.chatOpenAI(messages);
+        return this.chatOpenAI(messages, false, jsonMode);
     }
 
     private fetchWithTimeout(url: string, options: RequestInit): Promise<Response> {
@@ -86,7 +86,7 @@ export class CloudLLMClient {
         );
     }
 
-    private async chatOpenAI(messages: ChatMessage[], minimal = false): Promise<string> {
+    private async chatOpenAI(messages: ChatMessage[], minimal = false, jsonMode = false): Promise<string> {
         const config = this.config!;
 
         const response = await this.fetchWithTimeout(`${config.baseUrl}/chat/completions`, {
@@ -100,7 +100,7 @@ export class CloudLLMClient {
                 messages: messages.map((m) => ({ role: m.role, content: m.content })),
                 temperature: 0.7,
                 max_tokens: minimal ? 5 : 2048,
-                ...(minimal ? {} : { response_format: { type: 'json_object' } }),
+                ...(jsonMode && !minimal ? { response_format: { type: 'json_object' } } : {}),
             }),
         });
 
@@ -113,7 +113,7 @@ export class CloudLLMClient {
         return data.choices[0]?.message?.content || '';
     }
 
-    private async chatGemini(messages: ChatMessage[], minimal = false): Promise<string> {
+    private async chatGemini(messages: ChatMessage[], minimal = false, jsonMode = false): Promise<string> {
         const config = this.config!;
 
         const contents = messages
@@ -138,7 +138,7 @@ export class CloudLLMClient {
                     generationConfig: {
                         temperature: 0.7,
                         maxOutputTokens: minimal ? 5 : 2048,
-                        ...(minimal ? {} : { responseMimeType: 'application/json' }),
+                        ...(jsonMode && !minimal ? { responseMimeType: 'application/json' } : {}),
                     },
                 }),
             },

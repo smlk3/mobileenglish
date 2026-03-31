@@ -228,7 +228,7 @@ export default function HomeScreen() {
           <OrbitalRing pct={xpProgress.pct} color={xpProgress.current.color} size={80} />
           {/* Centered owl on top of ring */}
           <View style={styles.mascotInner}>
-            <Text style={styles.mascotEmoji}>🦉</Text>
+            <Text style={styles.mascotEmoji}>🐴</Text>
           </View>
         </Animated.View>
       </Animated.View>

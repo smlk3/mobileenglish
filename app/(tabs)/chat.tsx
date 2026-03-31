@@ -1,9 +1,15 @@
+// TODO(next-build): expo-clipboard paketi eklenecek (native modül gerektirir, yeni EAS build alınmalı).
+// Kurulum: `npx expo install expo-clipboard`
+// Sonra Share.share() yerine Clipboard.setStringAsync(content) kullanılacak.
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useRef, useState } from 'react';
 import {
+    Alert,
+    Share,
     FlatList,
     KeyboardAvoidingView,
     Platform,
+    Pressable,
     StyleSheet,
     Text,
     TextInput,
@@ -21,14 +27,21 @@ import {
 import { useProfileStore } from '../../src/shared/lib/stores/useProfileStore';
 import { borderRadius, colors, spacing, typography } from '../../src/shared/lib/theme';
 
+import ChatHistoryDrawer from '../../components/ChatHistoryDrawer';
+import {
+    type ChatSessionMeta,
+    createSession,
+    listSessions,
+    updateSessionMeta,
+    deleteSession,
+} from '../../src/shared/lib/stores/useChatSessionStore';
+
 interface Message {
     id: string;
     role: 'user' | 'assistant';
     content: string;
     timestamp: Date;
 }
-
-const SESSION_ID = 'main_chat';
 
 const LANGUAGE_NAMES: Record<string, string> = {
     tr: 'Turkish',
@@ -39,16 +52,70 @@ const LANGUAGE_NAMES: Record<string, string> = {
     ar: 'Arabic',
 };
 
-function buildSystemPrompt(nativeLanguage: string): string {
+export type ChatMode = 'tutor' | 'balanced' | 'chat';
+
+const CHAT_MODE_LABELS: Record<ChatMode, { label: string; icon: string; description: string }> = {
+    tutor:    { label: 'Öğret', icon: '🎓', description: 'Tutor' },
+    balanced: { label: 'Dengeli',  icon: '⚖️',  description: 'Balanced' },
+    chat:     { label: 'Sohbet', icon: '💬', description: 'Chat' },
+};
+
+function buildSystemPrompt(nativeLanguage: string, mode: ChatMode = 'balanced'): string {
     const langName = LANGUAGE_NAMES[nativeLanguage] || nativeLanguage;
-    return `You are a friendly English learning assistant called LinguaLearn Owl 🦉.
-You help ${langName}-speaking users learn English. Your role:
-- Have natural conversations in English to help users practice
-- Teach vocabulary contextually
-- Gently correct grammar mistakes with encouraging feedback
-- Adjust complexity to the user's level
-- Use emojis occasionally to keep things fun
+
+    const modeInstructions: Record<ChatMode, string> = {
+        tutor: `TEACHING MODE (Tutor-first):
+- Actively teach vocabulary: after every user message introduce 1-2 relevant new words with a definition and example.
+- Always correct grammar mistakes explicitly and explain why.
+- Ask comprehension or practice questions to guide the user.
+- Keep replies educational and structured (numbered points are fine).
+- Still be warm and encouraging.`,
+
+        balanced: `BALANCED MODE (default):
+- Mix natural conversation with light teaching.
+- Correct only significant grammar mistakes, briefly and kindly.
+- Introduce new vocabulary only when it fits naturally in context.
+- Keep replies conversational (3-5 sentences).`,
+
+        chat: `CONVERSATION MODE (Chat-first):
+- Act like a friendly native speaker — just have a natural conversation.
+- Do NOT correct grammar unless the user asks.
+- Do NOT introduce vocabulary lessons unless directly asked.
+- Keep replies short, casual, and engaging (1-3 sentences).`,
+    };
+
+    return `You are a friendly English learning assistant called LinguaLearn Horse 🐴.
+You help ${langName}-speaking users learn English.
+
+FORMATTING RULES (strictly follow):
+- NEVER use markdown tables (no | characters, no --- separators)
+- NEVER use markdown headers (no ## or ###)
+- Do NOT use bold (**word**) or italic (*word*) syntax
+- Max 5 vocabulary items per message; if the user asks for more, give 5 and offer to continue
+
+${modeInstructions[mode]}
+
 Always be supportive and encouraging.`;
+}
+
+/** Remove markdown tables, headers, and bold/italic syntax from LLM output. */
+function stripMarkdown(text: string): string {
+    return text
+        // Remove table separator lines like |---|---|---|
+        .split('\n')
+        .filter((line) => !/^\s*(\|[-:\s|]+)+\s*$/.test(line))
+        .join('\n')
+        // Remove table row pipes: | col | col | => col  col
+        .replace(/\|/g, ' ')
+        // Remove markdown headers: ## Title => Title
+        .replace(/^#{1,6}\s+/gm, '')
+        // Remove bold/italic: **word** => word, *word* => word
+        .replace(/\*{1,2}([^*]+)\*{1,2}/g, '$1')
+        // Remove code-block fences
+        .replace(/```[\s\S]*?```/g, '')
+        // Collapse multiple blank lines
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
 }
 
 export default function ChatScreen() {
@@ -60,14 +127,34 @@ export default function ChatScreen() {
     const [isTyping, setIsTyping] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
     const [turboMode, setTurboMode] = useState(false);
+    const [chatMode, setChatMode] = useState<ChatMode>('balanced');
     const [streamingContent, setStreamingContent] = useState('');
+    const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
+    const [historyVisible, setHistoryVisible] = useState(false);
     const flatListRef = useRef<FlatList>(null);
 
-    // Load previous messages
+    // Bootstrap: load latest session or create one
     useEffect(() => {
+        const init = async () => {
+            const sessions = await listSessions();
+            if (sessions.length > 0) {
+                setActiveSessionId(sessions[0].id);
+            } else {
+                const s = await createSession();
+                setActiveSessionId(s.id);
+            }
+        };
+        init();
+    }, []);
+
+    // Load messages whenever the active session changes
+    useEffect(() => {
+        if (!activeSessionId) return;
+        setIsLoaded(false);
+        setMessages([]);
         const load = async () => {
             try {
-                const dbMessages = await fetchChatMessages(SESSION_ID);
+                const dbMessages = await fetchChatMessages(activeSessionId);
                 if (dbMessages.length > 0) {
                     setMessages(
                         dbMessages.map((m) => ({
@@ -77,46 +164,34 @@ export default function ChatScreen() {
                             timestamp: m.createdAt,
                         })),
                     );
-                    console.log(`[Chat] Loaded ${dbMessages.length} messages from history.`);
+                    console.log(`[Chat] Loaded ${dbMessages.length} messages for session ${activeSessionId}`);
                 } else {
-                    // Add welcome message
                     const welcomeMsg: Message = {
                         id: uuidv4(),
                         role: 'assistant',
                         content:
-                            "Hello! I'm your English learning assistant 🦉 I can help you practice vocabulary, check your grammar, or just have a conversation in English. What would you like to work on today?",
+                            "Hello! I'm your English learning assistant 🐴 I can help you practice vocabulary, check your grammar, or just have a conversation in English. What would you like to work on today?",
                         timestamp: new Date(),
                     };
                     setMessages([welcomeMsg]);
-                    await saveChatMessage('assistant', welcomeMsg.content, SESSION_ID);
+                    await saveChatMessage('assistant', welcomeMsg.content, activeSessionId);
                 }
             } catch {
-                // Fallback welcome message if DB not available
-                setMessages([
-                    {
-                        id: uuidv4(),
-                        role: 'assistant',
-                        content:
-                            "Hello! I'm your English learning assistant 🦉 I can help you practice vocabulary, check your grammar, or just have a conversation in English. What would you like to work on today?",
-                        timestamp: new Date(),
-                    },
-                ]);
+                setMessages([{
+                    id: uuidv4(),
+                    role: 'assistant',
+                    content:
+                        "Hello! I'm your English learning assistant 🐴 I can help you practice vocabulary, check your grammar, or just have a conversation in English. What would you like to work on today?",
+                    timestamp: new Date(),
+                }]);
             }
             setIsLoaded(true);
         };
         load();
-    }, []);
+    }, [activeSessionId]);
 
-    // Initialize LLM Manager
-    useEffect(() => {
-        const llm = HybridLLMManager.getInstance();
-        if (!llm.getStatus().localReady) {
-            llm.initLocalModel().catch(console.warn);
-        }
-    }, []);
-
-    const sendMessage = async () => {
-        if (!input.trim()) return;
+const sendMessage = async () => {
+        if (!input.trim() || !activeSessionId) return;
 
         const userMessage: Message = {
             id: uuidv4(),
@@ -130,9 +205,10 @@ export default function ChatScreen() {
         setInput('');
         setIsTyping(true);
 
-        // Persist user message
+        // Persist user message + update session metadata (triggers auto-title)
         try {
-            await saveChatMessage('user', userMessage.content, SESSION_ID);
+            await saveChatMessage('user', userMessage.content, activeSessionId);
+            await updateSessionMeta(activeSessionId, userMessage.content, 'user');
         } catch (e) {
             console.error('[Chat] Failed to save user message:', e);
         }
@@ -141,7 +217,7 @@ export default function ChatScreen() {
         try {
             const llm = HybridLLMManager.getInstance();
             const chatHistory = [
-                { role: 'system' as const, content: buildSystemPrompt(nativeLanguage) },
+                { role: 'system' as const, content: buildSystemPrompt(nativeLanguage, chatMode) },
                 ...messages.slice(-10).map((m) => ({
                     role: m.role as 'user' | 'assistant',
                     content: m.content,
@@ -149,13 +225,7 @@ export default function ChatScreen() {
                 { role: 'user' as const, content: userMessage.content },
             ];
 
-            let fullResponse = '';
-            const onToken = (token: string) => {
-                fullResponse += token;
-                setStreamingContent(fullResponse);
-            };
-
-            const response = await llm.chatLocal(chatHistory, onToken, turboMode);
+            const response = await llm.chat(chatHistory);
 
             const aiMessage: Message = {
                 id: uuidv4(),
@@ -168,9 +238,10 @@ export default function ChatScreen() {
             setStreamingContent('');
             console.log(`🤖 AI: ${aiMessage.content}\n-------------------\n`);
 
-            // Persist AI message
+            // Persist AI message + update last message preview
             try {
-                await saveChatMessage('assistant', aiMessage.content, SESSION_ID);
+                await saveChatMessage('assistant', aiMessage.content, activeSessionId);
+                await updateSessionMeta(activeSessionId, aiMessage.content, 'assistant');
             } catch (e) {
                 console.error('[Chat] Failed to save AI message:', e);
             }
@@ -178,7 +249,7 @@ export default function ChatScreen() {
             const errorMsg: Message = {
                 id: uuidv4(),
                 role: 'assistant',
-                content: "Sorry, I couldn't process that right now. Please try again! 🦉",
+                content: "Sorry, I couldn't process that right now. Please try again! 🐴",
                 timestamp: new Date(),
             };
             setMessages((prev) => [...prev, errorMsg]);
@@ -187,50 +258,82 @@ export default function ChatScreen() {
         setIsTyping(false);
     };
 
-    const handleClearChat = async () => {
-        try {
-            await clearChatMessages(SESSION_ID);
-            const welcomeMsg: Message = {
-                id: uuidv4(),
-                role: 'assistant',
-                content: "Hello! I'm your English learning assistant 🦉 I can help you practice vocabulary, check your grammar, or just have a conversation in English. What would you like to work on today?",
-                timestamp: new Date(),
-            };
-            setMessages([welcomeMsg]);
-            console.log("[Chat] History cleared.");
-            // Re-save welcome message after clearing
-            await saveChatMessage('assistant', welcomeMsg.content, SESSION_ID);
-        } catch (error) {
-            console.error("Failed to clear chat:", error);
-        }
+    /** Delete current session, switch to next available or create new */
+    const handleDeleteSession = async () => {
+        if (!activeSessionId) return;
+        Alert.alert(
+            'Sohbeti sil',
+            'Bu sohbet kalıcı olarak silinecek.',
+            [
+                { text: 'İptal', style: 'cancel' },
+                {
+                    text: 'Sil',
+                    style: 'destructive',
+                    onPress: async () => {
+                        try {
+                            await clearChatMessages(activeSessionId);
+                            await deleteSession(activeSessionId);
+                            const remaining = await listSessions();
+                            if (remaining.length > 0) {
+                                setActiveSessionId(remaining[0].id);
+                            } else {
+                                const s = await createSession();
+                                setActiveSessionId(s.id);
+                            }
+                        } catch (error) {
+                            console.error('Failed to delete chat:', error);
+                        }
+                    },
+                },
+            ],
+        );
+    };
+
+    const copyMessage = (content: string) => {
+        Alert.alert(
+            'Mesaj',
+            undefined,
+            [
+                {
+                    text: 'Metni paylaş / kopyala',
+                    onPress: () => Share.share({ message: content }),
+                },
+                { text: 'İptal', style: 'cancel' },
+            ],
+            { cancelable: true },
+        );
     };
 
     const renderMessage = ({ item }: { item: Message }) => {
         const isUser = item.role === 'user';
+        const displayText = isUser ? item.content : stripMarkdown(item.content);
         return (
-            <Animated.View
-                entering={FadeInUp.duration(300)}
-                style={[
-                    styles.messageBubble,
-                    isUser
-                        ? [styles.userBubble, { backgroundColor: colors.primary[500] }]
-                        : [styles.aiBubble, { backgroundColor: tc.surfaceElevated }],
-                ]}
-            >
-                {!isUser && (
-                    <View style={styles.aiAvatar}>
-                        <Text style={{ fontSize: 16 }}>🦉</Text>
-                    </View>
-                )}
-                <Text
+            <Animated.View entering={FadeInUp.duration(300)}>
+                <Pressable
+                    onLongPress={() => copyMessage(item.content)}
                     style={[
-                        styles.messageText,
-                        !isUser && styles.aiMessageText,
-                        { color: isUser ? '#fff' : tc.text },
+                        styles.messageBubble,
+                        isUser
+                            ? [styles.userBubble, { backgroundColor: colors.primary[500] }]
+                            : [styles.aiBubble, { backgroundColor: tc.surfaceElevated }],
                     ]}
                 >
-                    {item.content}
-                </Text>
+                    {!isUser && (
+                        <View style={styles.aiAvatar}>
+                            <Text style={{ fontSize: 16 }}>🐴</Text>
+                        </View>
+                    )}
+                    <Text
+                        selectable
+                        style={[
+                            styles.messageText,
+                            !isUser && styles.aiMessageText,
+                            { color: isUser ? '#fff' : tc.text },
+                        ]}
+                    >
+                        {displayText}
+                    </Text>
+                </Pressable>
             </Animated.View>
         );
     };
@@ -251,17 +354,40 @@ export default function ChatScreen() {
                     </View>
                 </View>
                 <View style={styles.headerActions}>
-                    <TouchableOpacity 
-                        onPress={() => setTurboMode(!turboMode)} 
+                    {/* Mode pill selector */}
+                    <View style={[styles.modePills, { backgroundColor: tc.surfaceElevated }]}>
+                        {(Object.keys(CHAT_MODE_LABELS) as ChatMode[]).map((m) => (
+                            <TouchableOpacity
+                                key={m}
+                                onPress={() => setChatMode(m)}
+                                style={[
+                                    styles.modePill,
+                                    chatMode === m && { backgroundColor: colors.primary[500] },
+                                ]}
+                            >
+                                <Text style={styles.modePillIcon}>{CHAT_MODE_LABELS[m].icon}</Text>
+                                <Text style={[
+                                    styles.modePillText,
+                                    { color: chatMode === m ? '#fff' : tc.textMuted },
+                                ]}>
+                                    {CHAT_MODE_LABELS[m].label}
+                                </Text>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
+                    <TouchableOpacity
+                        onPress={() => setTurboMode(!turboMode)}
                         style={[
-                            styles.turboBtn, 
+                            styles.turboBtn,
                             turboMode && { backgroundColor: colors.primary[500] + '20', borderColor: colors.primary[500] }
                         ]}
                     >
                         <Ionicons name="rocket" size={18} color={turboMode ? colors.primary[500] : tc.textMuted} />
-                        <Text style={[styles.turboText, { color: turboMode ? colors.primary[500] : tc.textMuted }]}>TURBO</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={handleClearChat} style={styles.clearButton}>
+                    <TouchableOpacity onPress={() => setHistoryVisible(true)} style={styles.clearButton}>
+                        <Ionicons name="chatbubbles-outline" size={22} color={tc.textMuted} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={handleDeleteSession} style={styles.clearButton}>
                         <Ionicons name="trash-outline" size={22} color={tc.textMuted} />
                     </TouchableOpacity>
                 </View>
@@ -286,10 +412,10 @@ export default function ChatScreen() {
                                 ]}
                             >
                                 <View style={styles.aiAvatar}>
-                                    <Text style={{ fontSize: 16 }}>🦉</Text>
+                                    <Text style={{ fontSize: 16 }}>🐴</Text>
                                 </View>
                                 <Text style={[styles.messageText, styles.aiMessageText, { color: tc.text }]}>
-                                    {streamingContent}
+                                    {stripMarkdown(streamingContent)}
                                 </Text>
                             </View>
                         ) : null}
@@ -299,7 +425,7 @@ export default function ChatScreen() {
                                 style={[styles.typingIndicator, { backgroundColor: tc.surfaceElevated }]}
                             >
                                 <View style={styles.aiAvatar}>
-                                    <Text style={{ fontSize: 16 }}>🦉</Text>
+                                    <Text style={{ fontSize: 16 }}>🐴</Text>
                                 </View>
                                 <Text style={[styles.typingText, { color: tc.textMuted }]}>
                                     Thinking...
@@ -334,12 +460,41 @@ export default function ChatScreen() {
                     />
                 </TouchableOpacity>
             </View>
+            <ChatHistoryDrawer
+                visible={historyVisible}
+                activeSessionId={activeSessionId ?? ''}
+                onSelectSession={(s) => setActiveSessionId(s.id)}
+                onNewSession={(s) => setActiveSessionId(s.id)}
+                onClose={() => setHistoryVisible(false)}
+            />
         </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
     container: { flex: 1 },
+    modePills: {
+        flexDirection: 'row',
+        borderRadius: borderRadius.xl,
+        padding: 2,
+        gap: 1,
+    },
+    modePill: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        borderRadius: borderRadius.xl,
+        gap: 3,
+    },
+    modePillIcon: {
+        fontSize: 11,
+    },
+    modePillText: {
+        fontSize: 11,
+        fontWeight: '600',
+    },
+
     header: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -397,7 +552,7 @@ const styles = StyleSheet.create({
         paddingBottom: spacing.lg,
     },
     messageBubble: {
-        maxWidth: '82%',
+        maxWidth: '93%',
         paddingHorizontal: spacing.base,
         paddingVertical: spacing.md,
         borderRadius: borderRadius.lg,
@@ -416,12 +571,14 @@ const styles = StyleSheet.create({
     aiAvatar: {
         width: 28,
         height: 28,
+        flexShrink: 0,
         borderRadius: 14,
         backgroundColor: 'rgba(99, 102, 241, 0.15)',
         alignItems: 'center',
         justifyContent: 'center',
         marginRight: spacing.sm,
         marginTop: 2,
+        alignSelf: 'flex-start',
     },
     messageText: {
         fontSize: typography.fontSize.base,
