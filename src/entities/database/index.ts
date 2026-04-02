@@ -1,5 +1,6 @@
 import { Database } from '@nozbe/watermelondb';
 import SQLiteAdapter from '@nozbe/watermelondb/adapters/sqlite';
+import { migrations } from './migrations';
 import { schema } from './schema';
 
 // Models
@@ -18,6 +19,7 @@ let _database: Database | null = null;
 function createDatabase(): Database {
     const adapter = new SQLiteAdapter({
         schema,
+        migrations,
         // JSI disabled for Expo Go compatibility.
         // Enable jsi: true only for development builds.
         jsi: false,

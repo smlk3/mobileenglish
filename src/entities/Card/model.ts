@@ -18,6 +18,7 @@ export default class Card extends Model {
     @field('pronunciation_url') pronunciationUrl!: string | null;
     @field('cefr_level') cefrLevel!: string;
     @field('category') category!: string | null;
+    @field('target_language') targetLanguage!: string;
 
     // SRS Fields
     @field('next_review') nextReview!: number;

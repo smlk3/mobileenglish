@@ -44,6 +44,8 @@ export interface ProfileAnalysis {
     goals: string[];
 }
 
+import { getLanguageName, getLevelLabel } from '../../lib/languageConfig';
+
 const LANGUAGE_NAMES: Record<string, string> = {
     tr: 'Turkish',
     en: 'English',
@@ -51,6 +53,7 @@ const LANGUAGE_NAMES: Record<string, string> = {
     fr: 'French',
     es: 'Spanish',
     ar: 'Arabic',
+    ja: 'Japanese',
 };
 
 class HybridLLMManager {
@@ -117,9 +120,10 @@ class HybridLLMManager {
         return this.cloudClient.chat(messages);
     }
 
-    async generateQuizContent(words: WordSelection[]): Promise<QuizContent[]> {
-        const prompt = `Generate fill-in-the-blank quiz questions for these English words.
-For each word, create a sentence with a blank where the word should go, and provide 4 options.
+    async generateQuizContent(words: WordSelection[], targetLanguage: string = 'en'): Promise<QuizContent[]> {
+        const targetLangName = getLanguageName(targetLanguage);
+        const prompt = `Generate fill-in-the-blank quiz questions for these ${targetLangName} words.
+For each word, create a sentence in ${targetLangName} with a blank where the word should go, and provide 4 options.
 
 Words: ${words.map((w) => `${w.word} (${w.translation})`).join(', ')}
 
@@ -138,14 +142,15 @@ Return JSON array: [{ "question": "sentence with ___", "options": ["a","b","c","
         }
     }
 
-    async checkGrammar(sentence: string, targetWord?: string): Promise<GrammarResult> {
-        const prompt = `Check this English sentence for grammar: "${sentence}"
+    async checkGrammar(sentence: string, targetWord?: string, targetLanguage: string = 'en'): Promise<GrammarResult> {
+        const targetLangName = getLanguageName(targetLanguage);
+        const prompt = `Check this ${targetLangName} sentence for grammar: "${sentence}"
 ${targetWord ? `The sentence should use the word "${targetWord}".` : ''}
 
 Return JSON: { "isCorrect": bool, "correctedSentence": "...", "explanation": "brief, encouraging feedback", "score": 0-100 }`;
 
         const messages: ChatMessage[] = [
-            { role: 'system', content: 'You are a friendly English tutor. Be encouraging and helpful. Return valid JSON.' },
+            { role: 'system', content: `You are a friendly ${targetLangName} tutor. Be encouraging and helpful. Return valid JSON.` },
             { role: 'user', content: prompt },
         ];
 
@@ -174,30 +179,33 @@ Return JSON: { "isCorrect": bool, "correctedSentence": "...", "explanation": "br
         existingWords: string[],
         count: number = 5,
         nativeLanguage: string = 'tr',
+        targetLanguage: string = 'en',
     ): Promise<WordSelection[]> {
         if (!this.isCloudReady) {
             return [];
         }
 
-        const langName = LANGUAGE_NAMES[nativeLanguage] || nativeLanguage;
+        const nativeLangName = getLanguageName(nativeLanguage);
+        const targetLangName = getLanguageName(targetLanguage);
+        const levelLabel = getLevelLabel(targetLanguage, parseInt(profile.level, 10) || 3);
 
-        const prompt = `You are selecting English vocabulary words for a language learner.
+        const prompt = `You are selecting ${targetLangName} vocabulary words for a ${nativeLangName}-speaking learner.
 
 User Profile:
 - Profession: ${profile.profession}
 - Interests: ${profile.interests.join(', ')}
-- Level: ${profile.level}
+- Level: ${levelLabel}
 - Goals: ${profile.goals.join(', ')}
 
 Already known words (exclude these): ${existingWords.slice(-50).join(', ')}
 
-Select ${count} new words that are:
+Select ${count} new ${targetLangName} words that are:
 1. Relevant to the user's profession and interests
-2. Appropriate for their CEFR level (${profile.level})
+2. Appropriate for their proficiency level (${levelLabel})
 3. Practical and commonly used in real life
 4. NOT already in their known words list
 
-Return JSON array: [{ "word": "...", "translation": "${langName} translation", "cefrLevel": "B1", "category": "medical/sports/daily", "exampleSentence": "...", "pronunciation": "" }]`;
+Return JSON array: [{ "word": "...", "translation": "${nativeLangName} translation", "cefrLevel": "${levelLabel}", "category": "medical/sports/daily", "exampleSentence": "example in ${targetLangName}", "pronunciation": "" }]`;
 
         const messages: ChatMessage[] = [
             { role: 'system', content: 'You are a vocabulary selection specialist. Return valid JSON only.' },

@@ -15,11 +15,15 @@ import {
 } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import HybridLLMManager, { type CloudProvider } from '../src/shared/api/llm/HybridLLMManager';
+import {
+    getLevelOptions,
+    SUPPORTED_NATIVE_LANGUAGES,
+    SUPPORTED_TARGET_LANGUAGES,
+} from '../src/shared/lib/languageConfig';
 import { getUserSettings } from '../src/shared/lib/stores/useDatabaseService';
 import { useProfileStore } from '../src/shared/lib/stores/useProfileStore';
 import { borderRadius, colors, spacing, typography } from '../src/shared/lib/theme';
 
-const CEFR_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 const DAILY_GOALS = [5, 10, 15, 20, 30, 50];
 
 const CLOUD_PROVIDERS: { key: CloudProvider; label: string; subtitle: string }[] = [
@@ -143,9 +147,13 @@ export default function SettingModalScreen() {
                     }
                     break;
                 }
+                case 'target_language': {
+                    await settings.updateSettings({ targetLanguage: selectedValue });
+                    useProfileStore.getState().setTargetLanguage(selectedValue);
+                    break;
+                }
                 case 'level': {
-                    const tags = settings.profileTags;
-                    await settings.updateProfileTags({ ...tags, level: selectedValue });
+                    await settings.updateProfileTags({ level: selectedValue });
                     useProfileStore.getState().setProfile({
                         ...useProfileStore.getState(),
                         level: selectedValue,
@@ -153,7 +161,13 @@ export default function SettingModalScreen() {
                     break;
                 }
                 case 'native_language': {
-                    await settings.updateSettings({ nativeLanguage: textValue.trim() || 'tr' });
+                    await settings.updateSettings({ nativeLanguage: selectedValue || 'tr' });
+                    const tags = settings.profileTags;
+                    await settings.updateProfileTags({ ...tags, nativeLanguage: selectedValue || 'tr' });
+                    useProfileStore.getState().setProfile({
+                        ...useProfileStore.getState(),
+                        nativeLanguage: selectedValue || 'tr',
+                    });
                     break;
                 }
                 case 'daily_goal': {
@@ -367,44 +381,83 @@ export default function SettingModalScreen() {
                     </Animated.View>
                 );
 
-            case 'level':
+            case 'target_language':
                 return (
                     <Animated.View entering={FadeInDown.duration(400)}>
                         <Text style={[styles.description, { color: tc.textSecondary }]}>
-                            Choose your current CEFR level. Words will be generated around this level.
+                            Choose the language you want to learn.
+                        </Text>
+                        {SUPPORTED_TARGET_LANGUAGES.map((lang) => (
+                            <TouchableOpacity
+                                key={lang.code}
+                                style={[
+                                    styles.optionCard,
+                                    {
+                                        backgroundColor: tc.surface,
+                                        borderColor:
+                                            selectedValue === lang.code ? colors.primary[500] : tc.border,
+                                        borderWidth: selectedValue === lang.code ? 2 : 1,
+                                    },
+                                ]}
+                                onPress={() => setSelectedValue(lang.code)}
+                            >
+                                <View>
+                                    <Text style={[styles.optionTitle, { color: tc.text }]}>
+                                        {lang.flag} {lang.name}
+                                    </Text>
+                                    <Text style={[styles.optionSubtitle, { color: tc.textSecondary }]}>
+                                        {lang.nativeName}
+                                    </Text>
+                                </View>
+                                {selectedValue === lang.code && (
+                                    <Ionicons name="checkmark-circle" size={24} color={colors.primary[500]} />
+                                )}
+                            </TouchableOpacity>
+                        ))}
+                    </Animated.View>
+                );
+
+            case 'level': {
+                const targetLang = useProfileStore.getState().targetLanguage || 'en';
+                const levelOpts = getLevelOptions(targetLang);
+                return (
+                    <Animated.View entering={FadeInDown.duration(400)}>
+                        <Text style={[styles.description, { color: tc.textSecondary }]}>
+                            Choose your current proficiency level. Words will be generated around this level.
                         </Text>
                         <View style={styles.gridWrap}>
-                            {CEFR_LEVELS.map((level) => (
+                            {levelOpts.map(({ level, label }) => (
                                 <TouchableOpacity
                                     key={level}
                                     style={[
                                         styles.gridItem,
                                         {
                                             backgroundColor:
-                                                selectedValue === level
+                                                selectedValue === String(level)
                                                     ? colors.primary[500]
                                                     : tc.surface,
                                             borderColor:
-                                                selectedValue === level
+                                                selectedValue === String(level)
                                                     ? colors.primary[500]
                                                     : tc.border,
                                         },
                                     ]}
-                                    onPress={() => setSelectedValue(level)}
+                                    onPress={() => setSelectedValue(String(level))}
                                 >
                                     <Text
                                         style={[
                                             styles.gridItemText,
-                                            { color: selectedValue === level ? '#fff' : tc.text },
+                                            { color: selectedValue === String(level) ? '#fff' : tc.text },
                                         ]}
                                     >
-                                        {level}
+                                        {label}
                                     </Text>
                                 </TouchableOpacity>
                             ))}
                         </View>
                     </Animated.View>
                 );
+            }
 
             case 'daily_goal':
                 return (
@@ -496,36 +549,30 @@ export default function SettingModalScreen() {
                         <Text style={[styles.description, { color: tc.textSecondary }]}>
                             Translations will be shown in your native language.
                         </Text>
-                        {[
-                            { key: 'tr', label: 'Turkish (Türkçe)' },
-                            { key: 'en', label: 'English' },
-                            { key: 'de', label: 'German (Deutsch)' },
-                            { key: 'fr', label: 'French (Français)' },
-                            { key: 'es', label: 'Spanish (Español)' },
-                            { key: 'ar', label: 'Arabic (العربية)' },
-                        ].map((lang) => (
+                        {SUPPORTED_NATIVE_LANGUAGES.map((lang) => (
                             <TouchableOpacity
-                                key={lang.key}
+                                key={lang.code}
                                 style={[
                                     styles.optionCard,
                                     {
                                         backgroundColor: tc.surface,
                                         borderColor:
-                                            textValue === lang.key ? colors.primary[500] : tc.border,
-                                        borderWidth: textValue === lang.key ? 2 : 1,
+                                            selectedValue === lang.code ? colors.primary[500] : tc.border,
+                                        borderWidth: selectedValue === lang.code ? 2 : 1,
                                     },
                                 ]}
-                                onPress={() => setTextValue(lang.key)}
+                                onPress={() => setSelectedValue(lang.code)}
                             >
-                                <Text style={[styles.optionTitle, { color: tc.text }]}>
-                                    {lang.label}
-                                </Text>
-                                {textValue === lang.key && (
-                                    <Ionicons
-                                        name="checkmark-circle"
-                                        size={24}
-                                        color={colors.primary[500]}
-                                    />
+                                <View>
+                                    <Text style={[styles.optionTitle, { color: tc.text }]}>
+                                        {lang.flag} {lang.name}
+                                    </Text>
+                                    <Text style={[styles.optionSubtitle, { color: tc.textSecondary }]}>
+                                        {lang.nativeName}
+                                    </Text>
+                                </View>
+                                {selectedValue === lang.code && (
+                                    <Ionicons name="checkmark-circle" size={24} color={colors.primary[500]} />
                                 )}
                             </TouchableOpacity>
                         ))}

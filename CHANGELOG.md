@@ -4,6 +4,82 @@ All notable changes to MobileEnglish are documented here.
 
 ---
 
+## [Unreleased] — 2026-04-02
+
+### feat: Multi-language support — learn any language, not just English
+
+> The app is no longer English-only. Users can now choose a target language
+> (EN, DE, FR, ES, AR, JA) and a native language. The proficiency level
+> display adapts per language (CEFR for European languages, JLPT for Japanese).
+
+#### Language Configuration
+- Add `src/shared/lib/languageConfig.ts`
+  — Central hub for all language/level metadata
+  — 6 target languages (EN, DE, FR, ES, AR, JA) and 6 native languages
+  — Per-language level system: CEFR (A1–C2) for European/Arabic, JLPT (N5–N1) for Japanese
+  — Internal unified level format: always 1–6 integers
+  — Helpers: `getLevelLabel()`, `getLevelOptions()`, `cefrToLevel()`, `levelToCefr()`
+
+#### Database Schema v2
+- Update `src/entities/database/schema.ts` — bump to version 2
+  — Add `target_language` column to `decks` and `cards` tables
+  — Standardize internal level format from "A1"–"C2" to "1"–"6"
+- Add `src/entities/database/migrations.ts` — WatermelonDB migration v1→v2
+- Update `src/entities/database/index.ts` — wire migration into SQLiteAdapter
+- Update `src/entities/Card/model.ts` — add `targetLanguage` field
+- Update `src/entities/Deck/model.ts` — add `targetLanguage` field
+
+#### Multi-language Word Lists
+- Add `assets/wordlists/` directory structure
+  — `index.json` manifest of available language pairs
+  — `en/tr.json` — migrated from old dictionary.json (68 words)
+  — `de/tr.json`, `fr/tr.json`, `es/tr.json`, `ar/tr.json`, `ja/tr.json` — placeholder files
+- Rewrite `src/shared/api/rag/VectorStore.ts`
+  — Language-pair-based loading instead of single hardcoded dictionary
+  — Singleton Map keyed by `"target-native"` string
+  — `DictionaryEntry.level` changed from `cefrLevel: string` to `level: number`
+  — `getVectorStore(targetLang, nativeLang)` now requires language params
+
+#### AI Prompt Localization
+- Update `src/shared/api/llm/HybridLLMManager.ts`
+  — `selectNewWords()`, `generateQuizContent()`, `checkGrammar()` accept `targetLanguage` param
+  — All prompts dynamically reference target and native language names
+  — Add Japanese to `LANGUAGE_NAMES` map
+
+#### State & Init
+- Update `src/shared/lib/stores/useProfileStore.ts`
+  — Add `targetLanguage` state and `setTargetLanguage()` action
+- Update `app/_layout.tsx` — load `targetLanguage` from DB into store on startup
+
+#### UI Updates
+- Update `app/create-deck.tsx`
+  — Dynamic level chips via `getLevelOptions(targetLanguage)` instead of hardcoded CEFR
+  — VectorStore calls pass current language pair
+- Update `app/deck-detail.tsx`
+  — Level badge uses `getLevelLabel()` with fallback for legacy CEFR strings
+  — Edit deck modal uses dynamic level options
+- Update `app/(tabs)/settings.tsx`
+  — New "Target Language" setting with flag + name display
+  — Level and native language subtitles now use dynamic labels
+- Update `app/setting-modal.tsx`
+  — New `target_language` selection screen with flags and native names
+  — Level selection uses per-language labels
+  — Native language picker uses `SUPPORTED_NATIVE_LANGUAGES`
+
+#### Tooling
+- Add `scripts/generate-wordlist.ts` — build-time AI wordlist generator
+  — CLI: `npx ts-node scripts/generate-wordlist.ts --target de --native tr --all-levels`
+  — Uses OpenAI API to generate 400 words/level in 50-word batches
+  — Merges with existing words, auto-updates index.json
+
+#### Fixes
+- Fix `src/processes/LearningSession.ts` — adapt to new VectorStore API
+  (use `cefrToLevel()` for level conversion, `entry.level` number mapping)
+- Update `src/shared/lib/stores/useDatabaseService.ts`
+  — `createDeck()` and `addCardsToDecks()` accept optional `targetLanguage`
+
+---
+
 ## [Unreleased] — 2026-03-31
 
 ### feat: Chat sessions, chat modes, and SLM removal

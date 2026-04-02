@@ -35,6 +35,9 @@ export default function RootLayout() {
           goals: tags.goals,
         });
 
+        // Target language from DB
+        useProfileStore.getState().setTargetLanguage(settings.targetLanguage || 'en');
+
         // Theme from DB
         if (settings.theme === 'light') {
           useProfileStore.getState().setThemeMode('light');

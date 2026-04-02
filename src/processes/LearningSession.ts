@@ -12,6 +12,7 @@
 import { SRSAlgorithm, type Rating, type SRSState } from '../entities/SRS/SRSAlgorithm';
 import { QuizEngine, type QuizQuestion } from '../features/quiz-engine/QuizEngine';
 import HybridLLMManager, { type WordSelection } from '../shared/api/llm/HybridLLMManager';
+import { cefrToLevel } from '../shared/lib/languageConfig';
 import { getVectorStore } from '../shared/api/rag/VectorStore';
 
 export type SessionPhase = 'selecting' | 'flashcard' | 'quiz' | 'speaking' | 'review' | 'complete';
@@ -71,7 +72,7 @@ export class LearningSession {
         // If Cloud didn't return enough, fill from local dictionary
         if (selectedWords.length < count) {
             const localWords = vectorStore.search({
-                level: profile.level,
+                level: cefrToLevel(profile.level),
                 interests: profile.interests,
                 excludeWords: [
                     ...existingWords,
@@ -85,7 +86,7 @@ export class LearningSession {
                 ...localWords.map((entry) => ({
                     word: entry.word,
                     translation: entry.translation,
-                    cefrLevel: entry.cefrLevel,
+                    cefrLevel: String(entry.level),
                     category: entry.category,
                     exampleSentence: entry.exampleSentence,
                 })),

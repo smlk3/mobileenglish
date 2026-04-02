@@ -12,6 +12,7 @@ interface ProfileState {
     interests: string[];
     level: string;
     nativeLanguage: string;
+    targetLanguage: string;
     goals: string[];
 
     // AI status
@@ -26,6 +27,7 @@ interface ProfileState {
         nativeLanguage: string;
         goals: string[];
     }) => void;
+    setTargetLanguage: (lang: string) => void;
     setCloudAvailable: (available: boolean) => void;
     setActiveModel: (model: 'cloud' | 'none') => void;
 }
@@ -40,12 +42,14 @@ export const useProfileStore = create<ProfileState>((set) => ({
     interests: [],
     level: 'A1',
     nativeLanguage: 'tr',
+    targetLanguage: 'en',
     goals: [],
 
     isCloudAvailable: false,
     activeModel: 'none',
 
     setProfile: (profile) => set(profile),
+    setTargetLanguage: (lang) => set({ targetLanguage: lang }),
     setCloudAvailable: (available) => set({ isCloudAvailable: available }),
     setActiveModel: (model) => set({ activeModel: model }),
 }));

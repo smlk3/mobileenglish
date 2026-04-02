@@ -15,6 +15,7 @@ export default class Deck extends Model {
     @field('category') category!: string | null;
     @field('card_count') cardCount!: number;
     @field('is_active') isActive!: boolean;
+    @field('target_language') targetLanguage!: string;
     @readonly @date('created_at') createdAt!: Date;
     @readonly @date('updated_at') updatedAt!: Date;
 

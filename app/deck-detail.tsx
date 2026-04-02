@@ -19,6 +19,7 @@ import Animated, { FadeInDown } from 'react-native-reanimated';
 import type Card from '../src/entities/Card/model';
 import type Deck from '../src/entities/Deck/model';
 import { getVectorStore } from '../src/shared/api/rag/VectorStore';
+import { getLevelLabel, getLevelOptions, LEVEL_COLORS } from '../src/shared/lib/languageConfig';
 import {
     addCardToDeck,
     deleteCard,
@@ -30,7 +31,6 @@ import {
 import { useProfileStore } from '../src/shared/lib/stores/useProfileStore';
 import { borderRadius, colors, shadows, spacing, typography } from '../src/shared/lib/theme';
 
-const CEFR_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 const CATEGORIES = ['General', 'Business', 'Medical', 'Technology', 'Academic', 'Daily Life', 'Travel', 'Sports'];
 
 const STATUS_FILTERS = [
@@ -51,14 +51,14 @@ const STATUS_COLORS: Record<string, string> = {
     graduated: '#10B981',
 };
 
-const CEFR_COLORS: Record<string, string> = {
-    A1: '#10B981',
-    A2: '#34D399',
-    B1: '#6366F1',
-    B2: '#818CF8',
-    C1: '#7C3AED',
-    C2: '#EF4444',
-};
+/** Map level string (from DB) to color. Supports both legacy "A1" and new "1" format. */
+function getLevelColor(level: string): string {
+    const num = parseInt(level, 10);
+    if (!isNaN(num) && LEVEL_COLORS[num]) return LEVEL_COLORS[num];
+    // Legacy CEFR fallback
+    const legacyMap: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5, C2: 6 };
+    return LEVEL_COLORS[legacyMap[level] ?? 1];
+}
 
 export default function DeckDetailScreen() {
     const router = useRouter();
@@ -212,11 +212,13 @@ export default function DeckDetailScreen() {
 
         setIsLookingUp(true);
         try {
-            const vectorStore = getVectorStore();
+            const targetLang = deck?.targetLanguage || 'en';
+            const nativeLang = useProfileStore.getState().nativeLanguage || 'tr';
+            const vectorStore = getVectorStore(targetLang, nativeLang);
             const found = vectorStore.findByWord(trimmed);
 
             if (found) {
-                await addNewCard(found.word, found.translation, found.exampleSentence, found.cefrLevel, found.category);
+                await addNewCard(found.word, found.translation, found.exampleSentence, String(found.level), found.category);
             } else {
                 setShowManualFields(true);
                 setManualTranslation('');
@@ -374,16 +376,16 @@ export default function DeckDetailScreen() {
                         <View
                             style={[
                                 styles.cefrPill,
-                                { backgroundColor: (CEFR_COLORS[deck?.cefrLevel || ''] || colors.primary[500]) + '25' },
+                                { backgroundColor: (getLevelColor(deck?.cefrLevel || '1')) + '25' },
                             ]}
                         >
                             <Text
                                 style={[
                                     styles.cefrPillText,
-                                    { color: CEFR_COLORS[deck?.cefrLevel || ''] || colors.primary[500] },
+                                    { color: getLevelColor(deck?.cefrLevel || '1') },
                                 ]}
                             >
-                                {deck?.cefrLevel}
+                                {getLevelLabel(deck?.targetLanguage || 'en', parseInt(deck?.cefrLevel || '1', 10) || 1)}
                             </Text>
                         </View>
                         {deck?.category && (
@@ -710,17 +712,17 @@ export default function DeckDetailScreen() {
                                                     styles.cefrBadge,
                                                     {
                                                         backgroundColor:
-                                                            (CEFR_COLORS[card.cefrLevel] || '#6366F1') + '22',
+                                                            (getLevelColor(card.cefrLevel)) + '22',
                                                     },
                                                 ]}
                                             >
                                                 <Text
                                                     style={[
                                                         styles.cefrBadgeText,
-                                                        { color: CEFR_COLORS[card.cefrLevel] || '#6366F1' },
+                                                        { color: getLevelColor(card.cefrLevel) },
                                                     ]}
                                                 >
-                                                    {card.cefrLevel}
+                                                    {getLevelLabel(card.targetLanguage || deck?.targetLanguage || 'en', parseInt(card.cefrLevel, 10) || 1)}
                                                 </Text>
                                             </View>
                                             <View
@@ -791,29 +793,29 @@ export default function DeckDetailScreen() {
                             placeholderTextColor={tc.textMuted}
                         />
 
-                        <Text style={[styles.modalLabel, { color: tc.textSecondary }]}>CEFR LEVEL</Text>
+                        <Text style={[styles.modalLabel, { color: tc.textSecondary }]}>LEVEL</Text>
                         <View style={styles.chipRow}>
-                            {CEFR_LEVELS.map((lvl) => (
+                            {getLevelOptions(deck?.targetLanguage || 'en').map(({ level, label }) => (
                                 <TouchableOpacity
-                                    key={lvl}
+                                    key={level}
                                     style={[
                                         styles.chip,
                                         {
                                             backgroundColor:
-                                                editDeckLevel === lvl ? colors.primary[500] : tc.background,
+                                                editDeckLevel === String(level) ? colors.primary[500] : tc.background,
                                             borderColor:
-                                                editDeckLevel === lvl ? colors.primary[500] : tc.border,
+                                                editDeckLevel === String(level) ? colors.primary[500] : tc.border,
                                         },
                                     ]}
-                                    onPress={() => setEditDeckLevel(lvl)}
+                                    onPress={() => setEditDeckLevel(String(level))}
                                 >
                                     <Text
                                         style={[
                                             styles.chipText,
-                                            { color: editDeckLevel === lvl ? '#fff' : tc.text },
+                                            { color: editDeckLevel === String(level) ? '#fff' : tc.text },
                                         ]}
                                     >
-                                        {lvl}
+                                        {label}
                                     </Text>
                                 </TouchableOpacity>
                             ))}

@@ -13,6 +13,7 @@ import {
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import type UserSettingsModel from '../../src/entities/UserProfile/model';
 import HybridLLMManager from '../../src/shared/api/llm/HybridLLMManager';
+import { getLanguageConfig, getLevelLabel, SUPPORTED_TARGET_LANGUAGES } from '../../src/shared/lib/languageConfig';
 import { getUserSettings } from '../../src/shared/lib/stores/useDatabaseService';
 import { useProfileStore } from '../../src/shared/lib/stores/useProfileStore';
 import { borderRadius, colors, spacing, typography } from '../../src/shared/lib/theme';
@@ -39,6 +40,7 @@ export default function SettingsScreen() {
                 nativeLanguage: tags.nativeLanguage,
                 goals: tags.goals,
             });
+            profile.setTargetLanguage(s.targetLanguage || 'en');
             // Configure LLM if api key exists
             const keys = s.apiKeys;
             if (keys.openai) {
@@ -130,18 +132,39 @@ const navigateToSettingModal = (type: string, title: string, currentValue: strin
             title: 'Learning',
             items: [
                 {
+                    icon: 'globe' as const,
+                    iconColor: '#10B981',
+                    title: 'Target Language',
+                    subtitle: (() => {
+                        const cfg = getLanguageConfig(settings?.targetLanguage || 'en');
+                        return `${cfg.flag} ${cfg.name}`;
+                    })(),
+                    type: 'nav' as const,
+                    onPress: () => navigateToSettingModal('target_language', 'Target Language', settings?.targetLanguage || 'en'),
+                },
+                {
                     icon: 'school' as const,
                     iconColor: colors.primary[400],
                     title: 'Target Level',
-                    subtitle: profileTags?.level ? `${profileTags.level} - ${getLevelName(profileTags.level)}` : 'A1 - Beginner',
+                    subtitle: (() => {
+                        const targetLang = settings?.targetLanguage || 'en';
+                        const level = profileTags?.level || '1';
+                        const levelNum = parseInt(level, 10) || 1;
+                        const label = getLevelLabel(targetLang, levelNum);
+                        return `${label} - ${getLevelName(levelNum)}`;
+                    })(),
                     type: 'nav' as const,
-                    onPress: () => navigateToSettingModal('level', 'Target Level', profileTags?.level || 'A1'),
+                    onPress: () => navigateToSettingModal('level', 'Target Level', profileTags?.level || '1'),
                 },
                 {
                     icon: 'language' as const,
                     iconColor: colors.accent[400],
                     title: 'Native Language',
-                    subtitle: profileTags?.nativeLanguage === 'tr' ? 'Turkish' : profileTags?.nativeLanguage || 'Turkish',
+                    subtitle: (() => {
+                        const code = profileTags?.nativeLanguage || 'tr';
+                        const found = SUPPORTED_TARGET_LANGUAGES.find((l) => l.code === code);
+                        return found ? `${found.flag} ${found.name}` : code;
+                    })(),
                     type: 'nav' as const,
                     onPress: () => navigateToSettingModal('native_language', 'Native Language', profileTags?.nativeLanguage || 'tr'),
                 },
@@ -286,16 +309,16 @@ const navigateToSettingModal = (type: string, title: string, currentValue: strin
     );
 }
 
-function getLevelName(level: string): string {
-    const names: Record<string, string> = {
-        A1: 'Beginner',
-        A2: 'Elementary',
-        B1: 'Intermediate',
-        B2: 'Upper Intermediate',
-        C1: 'Advanced',
-        C2: 'Mastery',
+function getLevelName(level: number): string {
+    const names: Record<number, string> = {
+        1: 'Beginner',
+        2: 'Elementary',
+        3: 'Intermediate',
+        4: 'Upper Intermediate',
+        5: 'Advanced',
+        6: 'Mastery',
     };
-    return names[level] || level;
+    return names[level] || `Level ${level}`;
 }
 
 const styles = StyleSheet.create({

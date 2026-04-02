@@ -1,24 +1,46 @@
 /**
  * VectorStore - Lightweight dictionary search engine
- * Uses structured JSON dictionary with CEFR levels and categories
+ * Uses structured JSON wordlists per language pair with level-based filtering
  * for RAG-based word selection.
  */
 
-import dictionaryData from './dictionary.json';
+// Static imports for all language pairs (bundled at build time)
+import enTr from '../../../../assets/wordlists/en/tr.json';
+import deTr from '../../../../assets/wordlists/de/tr.json';
+import frTr from '../../../../assets/wordlists/fr/tr.json';
+import esTr from '../../../../assets/wordlists/es/tr.json';
+import arTr from '../../../../assets/wordlists/ar/tr.json';
+import jaTr from '../../../../assets/wordlists/ja/tr.json';
 
 export interface DictionaryEntry {
     word: string;
     translation: string;
-    cefrLevel: string;
+    level: number;          // 1-6 internal level
     category: string;
     exampleSentence: string;
+    partOfSpeech?: string;
 }
+
+/** Map of "target-native" → wordlist data */
+const WORDLIST_MAP: Record<string, DictionaryEntry[]> = {
+    'en-tr': enTr as DictionaryEntry[],
+    'de-tr': deTr as DictionaryEntry[],
+    'fr-tr': frTr as DictionaryEntry[],
+    'es-tr': esTr as DictionaryEntry[],
+    'ar-tr': arTr as DictionaryEntry[],
+    'ja-tr': jaTr as DictionaryEntry[],
+};
 
 export class VectorStore {
     private dictionary: DictionaryEntry[];
+    readonly targetLang: string;
+    readonly nativeLang: string;
 
-    constructor() {
-        this.dictionary = dictionaryData as DictionaryEntry[];
+    constructor(targetLang: string = 'en', nativeLang: string = 'tr') {
+        this.targetLang = targetLang;
+        this.nativeLang = nativeLang;
+        const key = `${targetLang}-${nativeLang}`;
+        this.dictionary = WORDLIST_MAP[key] ?? [];
     }
 
     /** Get all entries */
@@ -26,9 +48,9 @@ export class VectorStore {
         return this.dictionary;
     }
 
-    /** Get entries by CEFR level */
-    getByLevel(level: string): DictionaryEntry[] {
-        return this.dictionary.filter((entry) => entry.cefrLevel === level);
+    /** Get entries by level (1-6) */
+    getByLevel(level: number): DictionaryEntry[] {
+        return this.dictionary.filter((entry) => entry.level === level);
     }
 
     /** Get entries by category */
@@ -39,11 +61,11 @@ export class VectorStore {
     }
 
     /**
-     * Search entries by user interests and level
-     * This is the main RAG query method
+     * Search entries by user interests and level.
+     * This is the main RAG query method.
      */
     search(params: {
-        level?: string;
+        level?: number;
         categories?: string[];
         interests?: string[];
         excludeWords?: string[];
@@ -63,20 +85,13 @@ export class VectorStore {
             (entry) => !excludeSet.has(entry.word.toLowerCase()),
         );
 
-        // Filter by level if specified
+        // Filter by level if specified (include current level ± 1)
         if (level) {
-            const levelOrder = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
-            const targetIndex = levelOrder.indexOf(level);
-            if (targetIndex >= 0) {
-                // Include current level and one level below/above
-                const validLevels = levelOrder.slice(
-                    Math.max(0, targetIndex - 1),
-                    targetIndex + 2,
-                );
-                results = results.filter((entry) =>
-                    validLevels.includes(entry.cefrLevel),
-                );
-            }
+            const minLevel = Math.max(1, level - 1);
+            const maxLevel = Math.min(6, level + 1);
+            results = results.filter(
+                (entry) => entry.level >= minLevel && entry.level <= maxLevel,
+            );
         }
 
         // Score entries based on relevance to interests/categories
@@ -97,7 +112,7 @@ export class VectorStore {
             }
 
             // Exact level match bonus
-            if (entry.cefrLevel === level) score += 1;
+            if (entry.level === level) score += 1;
 
             return { entry, score };
         });
@@ -114,7 +129,7 @@ export class VectorStore {
     /**
      * Get random words for a level (fallback when no interests)
      */
-    getRandomWords(level: string, count: number = 5, excludeWords: string[] = []): DictionaryEntry[] {
+    getRandomWords(level: number, count: number = 5, excludeWords: string[] = []): DictionaryEntry[] {
         const excludeSet = new Set(excludeWords.map((w) => w.toLowerCase()));
         const levelWords = this.getByLevel(level).filter(
             (entry) => !excludeSet.has(entry.word.toLowerCase()),
@@ -136,10 +151,10 @@ export class VectorStore {
         return Array.from(categories).sort();
     }
 
-    /** Get available CEFR levels */
-    getLevels(): string[] {
-        const levels = new Set(this.dictionary.map((e) => e.cefrLevel));
-        return Array.from(levels).sort();
+    /** Get available levels */
+    getLevels(): number[] {
+        const levels = new Set(this.dictionary.map((e) => e.level));
+        return Array.from(levels).sort((a, b) => a - b);
     }
 
     /**
@@ -154,21 +169,28 @@ export class VectorStore {
     }
 
     /** Get word count per level */
-    getStats(): Record<string, number> {
-        const stats: Record<string, number> = {};
+    getStats(): Record<number, number> {
+        const stats: Record<number, number> = {};
         for (const entry of this.dictionary) {
-            stats[entry.cefrLevel] = (stats[entry.cefrLevel] || 0) + 1;
+            stats[entry.level] = (stats[entry.level] || 0) + 1;
         }
         return stats;
     }
+
+    /** Whether this store has any words loaded */
+    get isEmpty(): boolean {
+        return this.dictionary.length === 0;
+    }
 }
 
-// Singleton instance
-let vectorStoreInstance: VectorStore | null = null;
+// ─── Singleton instances per language pair ───────────────────────────
 
-export function getVectorStore(): VectorStore {
-    if (!vectorStoreInstance) {
-        vectorStoreInstance = new VectorStore();
+const instances = new Map<string, VectorStore>();
+
+export function getVectorStore(targetLang: string = 'en', nativeLang: string = 'tr'): VectorStore {
+    const key = `${targetLang}-${nativeLang}`;
+    if (!instances.has(key)) {
+        instances.set(key, new VectorStore(targetLang, nativeLang));
     }
-    return vectorStoreInstance;
+    return instances.get(key)!;
 }

@@ -1,0 +1,546 @@
+[
+  {
+    "word": "hello",
+    "translation": "merhaba",
+    "level": 1,
+    "category": "greetings",
+    "exampleSentence": "Hello, how are you today?",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "goodbye",
+    "translation": "hoşça kal",
+    "level": 1,
+    "category": "greetings",
+    "exampleSentence": "Goodbye, see you tomorrow!",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "please",
+    "translation": "lütfen",
+    "level": 1,
+    "category": "daily",
+    "exampleSentence": "Please open the door.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "thank you",
+    "translation": "teşekkür ederim",
+    "level": 1,
+    "category": "daily",
+    "exampleSentence": "Thank you for your help.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "water",
+    "translation": "su",
+    "level": 1,
+    "category": "food",
+    "exampleSentence": "Can I have a glass of water?",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "food",
+    "translation": "yemek",
+    "level": 1,
+    "category": "food",
+    "exampleSentence": "The food at this restaurant is delicious.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "house",
+    "translation": "ev",
+    "level": 1,
+    "category": "daily",
+    "exampleSentence": "We live in a small house.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "family",
+    "translation": "aile",
+    "level": 1,
+    "category": "people",
+    "exampleSentence": "My family is very important to me.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "school",
+    "translation": "okul",
+    "level": 1,
+    "category": "education",
+    "exampleSentence": "I go to school every morning.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "work",
+    "translation": "iş, çalışmak",
+    "level": 1,
+    "category": "business",
+    "exampleSentence": "I work at a hospital.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "beautiful",
+    "translation": "güzel",
+    "level": 1,
+    "category": "adjectives",
+    "exampleSentence": "The sunset is beautiful tonight.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "happy",
+    "translation": "mutlu",
+    "level": 1,
+    "category": "emotions",
+    "exampleSentence": "She looks very happy today.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "understand",
+    "translation": "anlamak",
+    "level": 2,
+    "category": "daily",
+    "exampleSentence": "I don't understand this question.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "remember",
+    "translation": "hatırlamak",
+    "level": 2,
+    "category": "daily",
+    "exampleSentence": "I can't remember her name.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "important",
+    "translation": "önemli",
+    "level": 2,
+    "category": "adjectives",
+    "exampleSentence": "It is important to study every day.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "different",
+    "translation": "farklı",
+    "level": 2,
+    "category": "adjectives",
+    "exampleSentence": "These two words have different meanings.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "experience",
+    "translation": "deneyim",
+    "level": 2,
+    "category": "business",
+    "exampleSentence": "She has a lot of experience in teaching.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "environment",
+    "translation": "çevre",
+    "level": 2,
+    "category": "nature",
+    "exampleSentence": "We must protect the environment.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "opportunity",
+    "translation": "fırsat",
+    "level": 2,
+    "category": "business",
+    "exampleSentence": "This is a great opportunity for you.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "decision",
+    "translation": "karar",
+    "level": 2,
+    "category": "daily",
+    "exampleSentence": "Making a decision is not always easy.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "improve",
+    "translation": "geliştirmek",
+    "level": 3,
+    "category": "education",
+    "exampleSentence": "I want to improve my English skills.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "achieve",
+    "translation": "başarmak",
+    "level": 3,
+    "category": "business",
+    "exampleSentence": "She worked hard to achieve her goals.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "recommend",
+    "translation": "tavsiye etmek",
+    "level": 3,
+    "category": "daily",
+    "exampleSentence": "I recommend this book to everyone.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "communicate",
+    "translation": "iletişim kurmak",
+    "level": 3,
+    "category": "business",
+    "exampleSentence": "Good leaders communicate effectively.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "compare",
+    "translation": "karşılaştırmak",
+    "level": 3,
+    "category": "education",
+    "exampleSentence": "Let's compare the two options.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "advantage",
+    "translation": "avantaj",
+    "level": 3,
+    "category": "business",
+    "exampleSentence": "The main advantage is the lower cost.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "influence",
+    "translation": "etki, etkilemek",
+    "level": 3,
+    "category": "people",
+    "exampleSentence": "Music can influence your mood.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "responsibility",
+    "translation": "sorumluluk",
+    "level": 3,
+    "category": "business",
+    "exampleSentence": "It's your responsibility to finish the project.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "unfortunately",
+    "translation": "maalesef",
+    "level": 3,
+    "category": "daily",
+    "exampleSentence": "Unfortunately, the concert was cancelled.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "technology",
+    "translation": "teknoloji",
+    "level": 3,
+    "category": "technology",
+    "exampleSentence": "Technology has changed the way we live.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "maintain",
+    "translation": "sürdürmek",
+    "level": 3,
+    "category": "daily",
+    "exampleSentence": "It's important to maintain a healthy lifestyle.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "variety",
+    "translation": "çeşitlilik",
+    "level": 3,
+    "category": "daily",
+    "exampleSentence": "The store offers a wide variety of products.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "approximately",
+    "translation": "yaklaşık",
+    "level": 3,
+    "category": "math",
+    "exampleSentence": "There are approximately 200 students.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "consequence",
+    "translation": "sonuç",
+    "level": 3,
+    "category": "daily",
+    "exampleSentence": "Every action has a consequence.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "diagnose",
+    "translation": "teşhis koymak",
+    "level": 4,
+    "category": "medical",
+    "exampleSentence": "The doctor will diagnose the illness.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "prescription",
+    "translation": "reçete",
+    "level": 4,
+    "category": "medical",
+    "exampleSentence": "You need a prescription for this medicine.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "symptom",
+    "translation": "belirti",
+    "level": 4,
+    "category": "medical",
+    "exampleSentence": "Fever is a common symptom of infection.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "resilient",
+    "translation": "dayanıklı",
+    "level": 4,
+    "category": "personality",
+    "exampleSentence": "She is a resilient person who never gives up.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "inevitable",
+    "translation": "kaçınılmaz",
+    "level": 4,
+    "category": "adjectives",
+    "exampleSentence": "Change is inevitable in every industry.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "significant",
+    "translation": "önemli, kayda değer",
+    "level": 4,
+    "category": "adjectives",
+    "exampleSentence": "There was a significant increase in sales.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "persistent",
+    "translation": "ısrarcı, kalıcı",
+    "level": 4,
+    "category": "personality",
+    "exampleSentence": "His persistent efforts finally paid off.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "elaborate",
+    "translation": "ayrıntılı",
+    "level": 4,
+    "category": "adjectives",
+    "exampleSentence": "She gave an elaborate explanation of the theory.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "contradict",
+    "translation": "çelişmek",
+    "level": 4,
+    "category": "daily",
+    "exampleSentence": "The two reports contradict each other.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "negotiate",
+    "translation": "müzakere etmek",
+    "level": 4,
+    "category": "business",
+    "exampleSentence": "They need to negotiate a new contract.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "substantial",
+    "translation": "önemli miktarda",
+    "level": 4,
+    "category": "business",
+    "exampleSentence": "The company made a substantial profit.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "compatible",
+    "translation": "uyumlu",
+    "level": 4,
+    "category": "technology",
+    "exampleSentence": "These devices are compatible with each other.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "hypothesis",
+    "translation": "hipotez",
+    "level": 4,
+    "category": "education",
+    "exampleSentence": "We need to test this hypothesis.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "implement",
+    "translation": "uygulamak",
+    "level": 4,
+    "category": "business",
+    "exampleSentence": "We plan to implement the new system next month.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "ambiguous",
+    "translation": "belirsiz, muğlak",
+    "level": 5,
+    "category": "adjectives",
+    "exampleSentence": "The instructions were ambiguous and confusing.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "benevolent",
+    "translation": "hayırsever",
+    "level": 5,
+    "category": "personality",
+    "exampleSentence": "The benevolent donor funded the entire project.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "meticulous",
+    "translation": "titiz",
+    "level": 5,
+    "category": "personality",
+    "exampleSentence": "She is meticulous in her approach to research.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "unprecedented",
+    "translation": "emsalsiz",
+    "level": 5,
+    "category": "adjectives",
+    "exampleSentence": "The pandemic caused unprecedented challenges.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "eloquent",
+    "translation": "etkili konuşan",
+    "level": 5,
+    "category": "personality",
+    "exampleSentence": "He is an eloquent speaker who captivates audiences.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "paradigm",
+    "translation": "paradigma",
+    "level": 5,
+    "category": "education",
+    "exampleSentence": "This discovery shifted the scientific paradigm.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "pragmatic",
+    "translation": "pragmatik, pratik",
+    "level": 5,
+    "category": "personality",
+    "exampleSentence": "We need a pragmatic approach to this problem.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "scrutinize",
+    "translation": "dikkatle incelemek",
+    "level": 5,
+    "category": "business",
+    "exampleSentence": "The auditor will scrutinize the financial records.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "facilitate",
+    "translation": "kolaylaştırmak",
+    "level": 5,
+    "category": "business",
+    "exampleSentence": "The new software will facilitate communication.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "inherent",
+    "translation": "doğasında var olan",
+    "level": 5,
+    "category": "adjectives",
+    "exampleSentence": "Risk is inherent in any business venture.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "ephemeral",
+    "translation": "geçici, kısa ömürlü",
+    "level": 6,
+    "category": "adjectives",
+    "exampleSentence": "Social media stories are ephemeral by design.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "ubiquitous",
+    "translation": "her yerde bulunan",
+    "level": 6,
+    "category": "adjectives",
+    "exampleSentence": "Smartphones have become ubiquitous in modern life.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "clandestine",
+    "translation": "gizli",
+    "level": 6,
+    "category": "adjectives",
+    "exampleSentence": "They held a clandestine meeting at midnight.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "juxtapose",
+    "translation": "yan yana koymak",
+    "level": 6,
+    "category": "education",
+    "exampleSentence": "The artist likes to juxtapose light and darkness.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "recalcitrant",
+    "translation": "inatçı, söz dinlemez",
+    "level": 6,
+    "category": "personality",
+    "exampleSentence": "The recalcitrant student refused to follow rules.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "sycophant",
+    "translation": "dalkavuk",
+    "level": 6,
+    "category": "personality",
+    "exampleSentence": "He surrounded himself with sycophants.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "obfuscate",
+    "translation": "karmaşık hale getirmek",
+    "level": 6,
+    "category": "daily",
+    "exampleSentence": "Politicians often obfuscate the truth.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "surreptitious",
+    "translation": "gizli, sinsi",
+    "level": 6,
+    "category": "adjectives",
+    "exampleSentence": "She took a surreptitious glance at the document.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "ameliorate",
+    "translation": "iyileştirmek",
+    "level": 6,
+    "category": "medical",
+    "exampleSentence": "The treatment helped ameliorate his symptoms.",
+    "partOfSpeech": ""
+  },
+  {
+    "word": "perfunctory",
+    "translation": "göstermelik",
+    "level": 6,
+    "category": "adjectives",
+    "exampleSentence": "He gave a perfunctory nod before leaving.",
+    "partOfSpeech": ""
+  }
+]

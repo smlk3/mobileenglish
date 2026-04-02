@@ -30,6 +30,7 @@ export async function createDeck(params: {
     cefrLevel: string;
     category?: string;
     description?: string;
+    targetLanguage?: string;
 }): Promise<Deck> {
     const db = getDatabase();
     return db.write(async () => {
@@ -41,6 +42,7 @@ export async function createDeck(params: {
             deck.description = params.description || null;
             deck.cardCount = 0;
             deck.isActive = true;
+            deck.targetLanguage = params.targetLanguage || 'en';
         });
     });
 }
@@ -68,6 +70,7 @@ export async function addCardsToDecks(
         exampleSentence?: string;
         cefrLevel: string;
         category?: string;
+        targetLanguage?: string;
     }[],
 ): Promise<void> {
     const db = getDatabase();
@@ -87,6 +90,7 @@ export async function addCardsToDecks(
                 card.pronunciationUrl = null;
                 card.cefrLevel = cardData.cefrLevel;
                 card.category = cardData.category || null;
+                card.targetLanguage = cardData.targetLanguage || deck.targetLanguage || 'en';
                 card.nextReview = Date.now();
                 card.interval = defaultSRS.interval;
                 card.easeFactor = defaultSRS.easeFactor;

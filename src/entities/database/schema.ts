@@ -1,17 +1,18 @@
 import { appSchema, tableSchema } from '@nozbe/watermelondb';
 
 export const schema = appSchema({
-    version: 1,
+    version: 2,
     tables: [
         tableSchema({
             name: 'decks',
             columns: [
                 { name: 'name', type: 'string' },
                 { name: 'description', type: 'string', isOptional: true },
-                { name: 'cefr_level', type: 'string' }, // A1, A2, B1, B2, C1, C2
+                { name: 'cefr_level', type: 'string' }, // Internal level: '1'-'6'
                 { name: 'category', type: 'string', isOptional: true },
                 { name: 'card_count', type: 'number' },
                 { name: 'is_active', type: 'boolean' },
+                { name: 'target_language', type: 'string' }, // e.g. 'en', 'de', 'ja'
                 { name: 'created_at', type: 'number' },
                 { name: 'updated_at', type: 'number' },
             ],
@@ -24,8 +25,9 @@ export const schema = appSchema({
                 { name: 'back', type: 'string' },
                 { name: 'example_sentence', type: 'string', isOptional: true },
                 { name: 'pronunciation_url', type: 'string', isOptional: true },
-                { name: 'cefr_level', type: 'string' },
+                { name: 'cefr_level', type: 'string' }, // Internal level: '1'-'6'
                 { name: 'category', type: 'string', isOptional: true },
+                { name: 'target_language', type: 'string' }, // e.g. 'en', 'de', 'ja'
                 // SRS Fields (SM-2 Algorithm)
                 { name: 'next_review', type: 'number' }, // timestamp
                 { name: 'interval', type: 'number' },     // days

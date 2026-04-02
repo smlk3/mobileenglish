@@ -15,11 +15,11 @@ import {
 } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { getVectorStore } from '../src/shared/api/rag/VectorStore';
+import { getLevelOptions, cefrToLevel } from '../src/shared/lib/languageConfig';
 import { addCardsToDecks, createDeck } from '../src/shared/lib/stores/useDatabaseService';
 import { useProfileStore } from '../src/shared/lib/stores/useProfileStore';
 import { borderRadius, colors, shadows, spacing, typography } from '../src/shared/lib/theme';
 
-const CEFR_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 const CATEGORIES = ['General', 'Business', 'Medical', 'Technology', 'Academic', 'Daily Life', 'Travel', 'Sports'];
 
 interface GeneratedWord {
@@ -34,12 +34,16 @@ interface GeneratedWord {
 export default function CreateDeckScreen() {
     const router = useRouter();
     const themeMode = useProfileStore((s) => s.themeMode);
+    const targetLanguage = useProfileStore((s) => s.targetLanguage);
+    const nativeLanguage = useProfileStore((s) => s.nativeLanguage);
     const tc = themeMode === 'dark' ? colors.dark : colors.light;
     const profile = useProfileStore();
 
+    const levelOptions = getLevelOptions(targetLanguage);
+
     // Deck metadata
     const [name, setName] = useState('');
-    const [selectedLevel, setSelectedLevel] = useState('B1');
+    const [selectedLevel, setSelectedLevel] = useState(3); // Default: level 3 (B1 / N3)
     const [selectedCategory, setSelectedCategory] = useState('General');
     const [wordCount, setWordCount] = useState(10);
 
@@ -68,7 +72,7 @@ export default function CreateDeckScreen() {
     const generateWords = async () => {
         setIsGenerating(true);
         try {
-            const vectorStore = getVectorStore();
+            const vectorStore = getVectorStore(targetLanguage, nativeLanguage);
             const words = vectorStore.search({
                 level: selectedLevel,
                 interests: profile.interests,
@@ -79,7 +83,7 @@ export default function CreateDeckScreen() {
                 words.map((w) => ({
                     word: w.word,
                     translation: w.translation,
-                    cefrLevel: w.cefrLevel,
+                    cefrLevel: String(w.level),
                     category: w.category,
                     exampleSentence: w.exampleSentence,
                     source: 'ai',
@@ -105,7 +109,7 @@ export default function CreateDeckScreen() {
 
         setIsLookingUp(true);
         try {
-            const vectorStore = getVectorStore();
+            const vectorStore = getVectorStore(targetLanguage, nativeLanguage);
             const found = vectorStore.findByWord(trimmed);
 
             if (found) {
@@ -115,7 +119,7 @@ export default function CreateDeckScreen() {
                     {
                         word: found.word,
                         translation: found.translation,
-                        cefrLevel: found.cefrLevel,
+                        cefrLevel: String(found.level),
                         category: found.category,
                         exampleSentence: found.exampleSentence,
                         source: 'manual',
@@ -148,7 +152,7 @@ export default function CreateDeckScreen() {
             {
                 word: trimmed,
                 translation: manualTranslation.trim(),
-                cefrLevel: selectedLevel,
+                cefrLevel: String(selectedLevel),
                 category: selectedCategory,
                 exampleSentence: manualExample.trim(),
                 source: 'manual',
@@ -206,8 +210,9 @@ export default function CreateDeckScreen() {
         try {
             const deck = await createDeck({
                 name: name.trim(),
-                cefrLevel: selectedLevel,
+                cefrLevel: String(selectedLevel),
                 category: selectedCategory,
+                targetLanguage,
             });
 
             await addCardsToDecks(
@@ -271,11 +276,11 @@ export default function CreateDeckScreen() {
                     />
                 </Animated.View>
 
-                {/* CEFR Level */}
+                {/* Proficiency Level */}
                 <Animated.View entering={FadeInDown.duration(400).delay(50)}>
-                    <Text style={[styles.label, { color: tc.textSecondary }]}>CEFR LEVEL</Text>
+                    <Text style={[styles.label, { color: tc.textSecondary }]}>LEVEL</Text>
                     <View style={styles.chipRow}>
-                        {CEFR_LEVELS.map((level) => (
+                        {levelOptions.map(({ level, label }) => (
                             <TouchableOpacity
                                 key={level}
                                 style={[
@@ -293,7 +298,7 @@ export default function CreateDeckScreen() {
                                         { color: selectedLevel === level ? '#fff' : tc.text },
                                     ]}
                                 >
-                                    {level}
+                                    {label}
                                 </Text>
                             </TouchableOpacity>
                         ))}
