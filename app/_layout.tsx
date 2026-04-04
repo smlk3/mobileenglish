@@ -1,11 +1,15 @@
 import 'react-native-get-random-values';
 import '../src/shared/i18n'; // i18n must be initialized before any screen renders
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import * as SplashScreen from 'expo-splash-screen';
 import { Stack, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { Animated, Image, StyleSheet, Text, View } from 'react-native';
 import 'react-native-reanimated';
 import i18n from '../src/shared/i18n';
+
+SplashScreen.preventAutoHideAsync();
 
 import { initializeDefaultSettings } from '../src/entities/database';
 import HybridLLMManager from '../src/shared/api/llm/HybridLLMManager';
@@ -20,6 +24,8 @@ export default function RootLayout() {
   const themeMode = useProfileStore((s) => s.themeMode);
   const router = useRouter();
   const didInit = useRef(false);
+  const [isReady, setIsReady] = useState(false);
+  const fadeAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     if (didInit.current) return;
@@ -89,8 +95,20 @@ export default function RootLayout() {
       }
     };
 
-    init().catch(console.error);
-  }, []);
+    init()
+      .catch(console.error)
+      .finally(async () => {
+        await SplashScreen.hideAsync();
+        // Kısa bekleyip custom splash'i fade-out ile kaldır
+        setTimeout(() => {
+          Animated.timing(fadeAnim, {
+            toValue: 0,
+            duration: 400,
+            useNativeDriver: true,
+          }).start(() => setIsReady(true));
+        }, 800);
+      });
+  }, [fadeAnim]);
 
   const navigationTheme = themeMode === 'dark'
     ? {
@@ -115,6 +133,20 @@ export default function RootLayout() {
         border: '#E2E8F0',
       },
     };
+
+  if (!isReady) {
+    return (
+      <Animated.View style={[splashStyles.container, { opacity: fadeAnim }]}>
+        <Image
+          source={require('../assets/images/icon.png')}
+          style={splashStyles.icon}
+          resizeMode="contain"
+        />
+        <Text style={splashStyles.university}>Ankara Üniversitesi</Text>
+        <Text style={splashStyles.subtitle}>Mobil Dil Öğrenme Asistanı</Text>
+      </Animated.View>
+    );
+  }
 
   return (
     <ThemeProvider value={navigationTheme}>
@@ -164,3 +196,33 @@ export default function RootLayout() {
     </ThemeProvider>
   );
 }
+
+const splashStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#0F0F23',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 16,
+  },
+  icon: {
+    width: 120,
+    height: 120,
+    borderRadius: 24,
+  },
+  university: {
+    color: '#EAEAFF',
+    fontSize: 18,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+    marginTop: 8,
+  },
+  subtitle: {
+    color: '#9090C0',
+    fontSize: 13,
+    fontWeight: '500',
+    letterSpacing: 0.3,
+    textAlign: 'center',
+    paddingHorizontal: 32,
+  },
+});
