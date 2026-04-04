@@ -3,6 +3,7 @@
 // Sonra Share.share() yerine Clipboard.setStringAsync(content) kullanılacak.
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     Alert,
     Share,
@@ -54,10 +55,10 @@ const LANGUAGE_NAMES: Record<string, string> = {
 
 export type ChatMode = 'tutor' | 'balanced' | 'chat';
 
-const CHAT_MODE_LABELS: Record<ChatMode, { label: string; icon: string; description: string }> = {
-    tutor:    { label: 'Öğret', icon: '🎓', description: 'Tutor' },
-    balanced: { label: 'Dengeli',  icon: '⚖️',  description: 'Balanced' },
-    chat:     { label: 'Sohbet', icon: '💬', description: 'Chat' },
+const CHAT_MODE_LABELS: Record<ChatMode, { labelKey: string; icon: string }> = {
+    tutor:    { labelKey: 'chat.mode.tutor', icon: '🎓' },
+    balanced: { labelKey: 'chat.mode.balanced', icon: '⚖️' },
+    chat:     { labelKey: 'chat.mode.chat', icon: '💬' },
 };
 
 function buildSystemPrompt(nativeLanguage: string, mode: ChatMode = 'balanced'): string {
@@ -84,7 +85,7 @@ function buildSystemPrompt(nativeLanguage: string, mode: ChatMode = 'balanced'):
 - Keep replies short, casual, and engaging (1-3 sentences).`,
     };
 
-    return `You are a friendly English learning assistant called LinguaLearn Horse 🐴.
+    return `You are a friendly English learning assistant called AU MoDA 🐴.
 You help ${langName}-speaking users learn English.
 
 FORMATTING RULES (strictly follow):
@@ -119,6 +120,7 @@ function stripMarkdown(text: string): string {
 }
 
 export default function ChatScreen() {
+    const { t } = useTranslation();
     const themeMode = useProfileStore((s) => s.themeMode);
     const nativeLanguage = useProfileStore((s) => s.nativeLanguage);
     const tc = themeMode === 'dark' ? colors.dark : colors.light;
@@ -169,8 +171,7 @@ export default function ChatScreen() {
                     const welcomeMsg: Message = {
                         id: uuidv4(),
                         role: 'assistant',
-                        content:
-                            "Hello! I'm your English learning assistant 🐴 I can help you practice vocabulary, check your grammar, or just have a conversation in English. What would you like to work on today?",
+                        content: t('chat.welcome'),
                         timestamp: new Date(),
                     };
                     setMessages([welcomeMsg]);
@@ -249,7 +250,7 @@ const sendMessage = async () => {
             const errorMsg: Message = {
                 id: uuidv4(),
                 role: 'assistant',
-                content: "Sorry, I couldn't process that right now. Please try again! 🐴",
+                content: t('chat.error'),
                 timestamp: new Date(),
             };
             setMessages((prev) => [...prev, errorMsg]);
@@ -262,12 +263,12 @@ const sendMessage = async () => {
     const handleDeleteSession = async () => {
         if (!activeSessionId) return;
         Alert.alert(
-            'Sohbeti sil',
-            'Bu sohbet kalıcı olarak silinecek.',
+            t('chat.deleteSession.title'),
+            t('chat.deleteSession.message'),
             [
-                { text: 'İptal', style: 'cancel' },
+                { text: t('common.cancel'), style: 'cancel' },
                 {
-                    text: 'Sil',
+                    text: t('common.delete'),
                     style: 'destructive',
                     onPress: async () => {
                         try {
@@ -291,14 +292,14 @@ const sendMessage = async () => {
 
     const copyMessage = (content: string) => {
         Alert.alert(
-            'Mesaj',
+            t('chat.message'),
             undefined,
             [
                 {
-                    text: 'Metni paylaş / kopyala',
+                    text: t('chat.shareOrCopy'),
                     onPress: () => Share.share({ message: content }),
                 },
-                { text: 'İptal', style: 'cancel' },
+                { text: t('common.cancel'), style: 'cancel' },
             ],
             { cancelable: true },
         );
@@ -347,10 +348,10 @@ const sendMessage = async () => {
             {/* Header / Clear button */}
             <View style={[styles.header, { borderBottomColor: tc.border }]}>
                 <View style={styles.headerLeft}>
-                    <Text style={[styles.headerTitle, { color: tc.text }]}>Learning Assistant</Text>
+                    <Text style={[styles.headerTitle, { color: tc.text }]}>{t('chat.title')}</Text>
                     <View style={[styles.hwBadge, { backgroundColor: colors.success.main + '20' }]}>
                         <Ionicons name="flash" size={10} color={colors.success.main} />
-                        <Text style={[styles.hwBadgeText, { color: colors.success.main }]}>GPU Accelerated</Text>
+                        <Text style={[styles.hwBadgeText, { color: colors.success.main }]}>{t('chat.gpuAccelerated')}</Text>
                     </View>
                 </View>
                 <View style={styles.headerActions}>
@@ -370,7 +371,7 @@ const sendMessage = async () => {
                                     styles.modePillText,
                                     { color: chatMode === m ? '#fff' : tc.textMuted },
                                 ]}>
-                                    {CHAT_MODE_LABELS[m].label}
+                                    {t(CHAT_MODE_LABELS[m].labelKey)}
                                 </Text>
                             </TouchableOpacity>
                         ))}
@@ -428,7 +429,7 @@ const sendMessage = async () => {
                                     <Text style={{ fontSize: 16 }}>🐴</Text>
                                 </View>
                                 <Text style={[styles.typingText, { color: tc.textMuted }]}>
-                                    Thinking...
+                                    {t('chat.thinking')}
                                 </Text>
                             </Animated.View>
                         ) : null}
@@ -440,7 +441,7 @@ const sendMessage = async () => {
             <View style={[styles.inputContainer, { backgroundColor: tc.surface, borderTopColor: tc.border }]}>
                 <TextInput
                     style={[styles.input, { backgroundColor: tc.surfaceElevated, color: tc.text }]}
-                    placeholder="Type a message..."
+                    placeholder={t('chat.placeholder')}
                     placeholderTextColor={tc.textMuted}
                     value={input}
                     onChangeText={setInput}

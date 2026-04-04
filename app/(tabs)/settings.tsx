@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     Alert,
     ScrollView,
@@ -19,6 +20,7 @@ import { useProfileStore } from '../../src/shared/lib/stores/useProfileStore';
 import { borderRadius, colors, spacing, typography } from '../../src/shared/lib/theme';
 
 export default function SettingsScreen() {
+    const { t } = useTranslation();
     const router = useRouter();
     const themeMode = useProfileStore((s) => s.themeMode);
     const toggleTheme = useProfileStore((s) => s.toggleTheme);
@@ -82,12 +84,12 @@ const navigateToSettingModal = (type: string, title: string, currentValue: strin
 
     const sections = [
         {
-            title: 'Appearance',
+            title: t('settings.appearance'),
             items: [
                 {
                     icon: 'moon' as const,
                     iconColor: colors.primary[400],
-                    title: 'Dark Mode',
+                    title: t('settings.darkMode'),
                     subtitle: undefined as string | undefined,
                     type: 'switch' as const,
                     value: themeMode === 'dark',
@@ -96,90 +98,90 @@ const navigateToSettingModal = (type: string, title: string, currentValue: strin
             ],
         },
         {
-            title: 'AI Configuration',
+            title: t('settings.aiConfig'),
             items: [
                 {
                     icon: 'cloud' as const,
                     iconColor: colors.accent[400],
-                    title: 'Cloud API Key',
+                    title: t('settings.cloudApiKey'),
                     subtitle: apiKeys?.openai
                         ? `OpenAI: ••••${apiKeys.openai.slice(-4)}`
                         : apiKeys?.gemini
                           ? `Gemini: ••••${apiKeys.gemini.slice(-4)}`
                           : apiKeys?.custom
                             ? `Custom: ••••${apiKeys.custom.apiKey.slice(-4)}`
-                            : 'Not configured',
+                            : t('settings.notConfigured'),
                     type: 'nav' as const,
-                    onPress: () => navigateToSettingModal('api_key', 'Cloud API Key', ''),
+                    onPress: () => navigateToSettingModal('api_key', t('settings.cloudApiKey'), ''),
                 },
                 {
                     icon: 'swap-horizontal' as const,
                     iconColor: colors.warning.main,
-                    title: 'AI Provider',
+                    title: t('settings.aiProvider'),
                     subtitle: apiKeys?.custom
                         ? `Custom: ${apiKeys.custom.model}`
                         : apiKeys?.gemini
                           ? 'Google Gemini'
                           : apiKeys?.openai
                             ? 'OpenAI GPT-4o-mini'
-                            : 'Mock Mode',
+                            : t('settings.mockMode'),
                     type: 'nav' as const,
-                    onPress: () => navigateToSettingModal('ai_provider', 'AI Provider', apiKeys?.custom ? 'custom' : apiKeys?.gemini ? 'gemini' : 'openai'),
+                    onPress: () => navigateToSettingModal('ai_provider', t('settings.aiProvider'), apiKeys?.custom ? 'custom' : apiKeys?.gemini ? 'gemini' : 'openai'),
                 },
             ],
         },
         {
-            title: 'Learning',
+            title: t('settings.learning'),
             items: [
                 {
                     icon: 'globe' as const,
                     iconColor: '#10B981',
-                    title: 'Target Language',
+                    title: t('settings.targetLanguage'),
                     subtitle: (() => {
                         const cfg = getLanguageConfig(settings?.targetLanguage || 'en');
                         return `${cfg.flag} ${cfg.name}`;
                     })(),
                     type: 'nav' as const,
-                    onPress: () => navigateToSettingModal('target_language', 'Target Language', settings?.targetLanguage || 'en'),
+                    onPress: () => navigateToSettingModal('target_language', t('settings.targetLanguage'), settings?.targetLanguage || 'en'),
                 },
                 {
                     icon: 'school' as const,
                     iconColor: colors.primary[400],
-                    title: 'Target Level',
+                    title: t('settings.targetLevel'),
                     subtitle: (() => {
                         const targetLang = settings?.targetLanguage || 'en';
                         const level = profileTags?.level || '1';
                         const levelNum = parseInt(level, 10) || 1;
                         const label = getLevelLabel(targetLang, levelNum);
-                        return `${label} - ${getLevelName(levelNum)}`;
+                        return `${label} - ${getLevelName(levelNum, t)}`;
                     })(),
                     type: 'nav' as const,
-                    onPress: () => navigateToSettingModal('level', 'Target Level', profileTags?.level || '1'),
+                    onPress: () => navigateToSettingModal('level', t('settings.targetLevel'), profileTags?.level || '1'),
                 },
                 {
                     icon: 'language' as const,
                     iconColor: colors.accent[400],
-                    title: 'Native Language',
+                    title: t('settings.nativeLanguage'),
                     subtitle: (() => {
                         const code = profileTags?.nativeLanguage || 'tr';
                         const found = SUPPORTED_TARGET_LANGUAGES.find((l) => l.code === code);
                         return found ? `${found.flag} ${found.name}` : code;
                     })(),
                     type: 'nav' as const,
-                    onPress: () => navigateToSettingModal('native_language', 'Native Language', profileTags?.nativeLanguage || 'tr'),
+                    onPress: () => navigateToSettingModal('native_language', t('settings.nativeLanguage'), profileTags?.nativeLanguage || 'tr'),
                 },
                 {
                     icon: 'trophy' as const,
                     iconColor: colors.warning.main,
-                    title: 'Daily Goal',
-                    subtitle: `${settings?.dailyGoal || 10} words/day`,
+                    title: t('settings.dailyGoal'),
+                    subtitle: t('settings.wordsPerDay', { count: settings?.dailyGoal || 10 }),
                     type: 'nav' as const,
-                    onPress: () => navigateToSettingModal('daily_goal', 'Daily Goal', String(settings?.dailyGoal || 10)),
+                    onPress: () => navigateToSettingModal('daily_goal', t('settings.dailyGoal'), String(settings?.dailyGoal || 10)),
                 },
                 {
                     icon: 'notifications' as const,
                     iconColor: colors.error.main,
-                    title: 'Reminders',
+                    title: t('settings.reminders'),
                     subtitle: undefined as string | undefined,
                     type: 'switch' as const,
                     value: settings?.notificationsEnabled ?? true,
@@ -188,47 +190,47 @@ const navigateToSettingModal = (type: string, title: string, currentValue: strin
             ],
         },
         {
-            title: 'Profile Tags',
+            title: t('settings.profileTags'),
             items: [
                 {
                     icon: 'briefcase' as const,
                     iconColor: '#6366F1',
-                    title: 'Profession',
-                    subtitle: profileTags?.profession || 'Not set',
+                    title: t('settings.profession'),
+                    subtitle: profileTags?.profession || t('settings.notSet'),
                     type: 'nav' as const,
-                    onPress: () => navigateToSettingModal('profession', 'Profession', profileTags?.profession || ''),
+                    onPress: () => navigateToSettingModal('profession', t('settings.profession'), profileTags?.profession || ''),
                 },
                 {
                     icon: 'heart' as const,
                     iconColor: '#EF4444',
-                    title: 'Interests',
+                    title: t('settings.interests'),
                     subtitle: profileTags?.interests?.length
                         ? profileTags.interests.join(', ')
-                        : 'Add your interests for personalized words',
+                        : t('settings.interestsPlaceholder'),
                     type: 'nav' as const,
-                    onPress: () => navigateToSettingModal('interests', 'Interests', profileTags?.interests?.join(', ') || ''),
+                    onPress: () => navigateToSettingModal('interests', t('settings.interests'), profileTags?.interests?.join(', ') || ''),
                 },
             ],
         },
         {
-            title: 'Data',
+            title: t('settings.data'),
             items: [
                 {
                     icon: 'trash' as const,
                     iconColor: colors.error.main,
-                    title: 'Reset All Data',
-                    subtitle: 'Delete all decks, cards, and progress',
+                    title: t('settings.resetAllData'),
+                    subtitle: t('settings.resetAllDataDesc'),
                     type: 'nav' as const,
                     onPress: () => {
                         Alert.alert(
-                            'Reset All Data',
-                            'This will permanently delete all your decks, cards, study progress, and chat history. This cannot be undone.',
+                            t('settings.resetAllData'),
+                            t('settings.resetConfirm'),
                             [
-                                { text: 'Cancel', style: 'cancel' },
+                                { text: t('common.cancel'), style: 'cancel' },
                                 {
-                                    text: 'Reset',
+                                    text: t('common.reset'),
                                     style: 'destructive',
-                                    onPress: () => Alert.alert('Info', 'Please reinstall the app to reset data.'),
+                                    onPress: () => Alert.alert(t('common.info'), t('settings.resetInfo')),
                                 },
                             ],
                         );
@@ -237,12 +239,12 @@ const navigateToSettingModal = (type: string, title: string, currentValue: strin
             ],
         },
         {
-            title: 'About',
+            title: t('settings.about'),
             items: [
                 {
                     icon: 'information-circle' as const,
                     iconColor: tc.textMuted,
-                    title: 'Version',
+                    title: t('settings.version'),
                     subtitle: '1.0.0',
                     type: 'info' as const,
                 },
@@ -309,16 +311,16 @@ const navigateToSettingModal = (type: string, title: string, currentValue: strin
     );
 }
 
-function getLevelName(level: number): string {
-    const names: Record<number, string> = {
-        1: 'Beginner',
-        2: 'Elementary',
-        3: 'Intermediate',
-        4: 'Upper Intermediate',
-        5: 'Advanced',
-        6: 'Mastery',
+function getLevelName(level: number, t: (key: string) => string): string {
+    const keys: Record<number, string> = {
+        1: 'settings.level.beginner',
+        2: 'settings.level.elementary',
+        3: 'settings.level.intermediate',
+        4: 'settings.level.upperIntermediate',
+        5: 'settings.level.advanced',
+        6: 'settings.level.mastery',
     };
-    return names[level] || `Level ${level}`;
+    return keys[level] ? t(keys[level]) : `Level ${level}`;
 }
 
 const styles = StyleSheet.create({

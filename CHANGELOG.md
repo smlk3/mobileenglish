@@ -4,6 +4,56 @@ All notable changes to MobileEnglish are documented here.
 
 ---
 
+## [Unreleased] — 2026-04-04
+
+### feat: Full UI internationalization (i18n) — 6-language interface support
+
+> Tüm uygulama arayüzü artık 6 dilde gösteriliyor: EN, TR, DE, FR, ES, AR.
+> Dil, kullanıcının native language ayarına göre otomatik seçiliyor.
+> Ayarlar değiştiğinde tüm ekranlar anında güncellenyor.
+
+#### i18n Altyapısı
+- Add `src/shared/i18n/` — i18next + react-i18next kurulumu
+  — `src/shared/i18n/index.ts` — i18n instance (languageDetector, fallbackLng: 'en')
+  — `src/shared/i18n/locales/en.ts` — 300+ anahtar ile master çeviri dosyası
+  — `src/shared/i18n/locales/tr.ts`, `de.ts`, `fr.ts`, `es.ts`, `ar.ts` — 5 dil çevirisi
+- `setting-modal.tsx` — native_language kaydedilince `i18n.changeLanguage()` çağrılır,
+  arayüz dil değişimini anında yansıtır
+
+#### Onboarding Sihirbazı
+- Add `app/onboarding.tsx` — 3 adımlı ilk kurulum akışı
+  — Adım 1: Karşılama ekranı
+  — Adım 2: Native language + target language + seviye seçimi
+  — Adım 3: Meslek ve ilgi alanları
+  — Tamamlandığında `onboardingCompleted` DB'ye yazılır, bir daha gösterilmez
+- Update `app/_layout.tsx` — startup'ta `onboardingCompleted` kontrolü; tamamlanmamışsa
+  `/onboarding`'e yönlendir
+
+#### Çevrilen Ekranlar
+- `app/(tabs)/index.tsx` — Ana ekran (karşılama, hızlı eylemler, streak, günlük hedef)
+- `app/(tabs)/decks.tsx` — Deck listesi, quiz modu seçimi, deck seçenekleri, kart sayısı
+- `app/(tabs)/stats.tsx` — Tüm istatistik etiketleri, BarChart alt bileşeni dahil
+- `app/(tabs)/chat.tsx` — Chat başlığı, mod etiketleri, mesaj alanı, Alert'ler
+  — **Fix:** `CHAT_MODE_LABELS` Türkçe hardcode'dan i18n anahtarlarına geçirildi
+- `components/ChatHistoryDrawer.tsx` — Başlık, silme onayı, yeni sohbet butonu
+  — **Fix:** Alert butonları ve çekmece başlığı Türkçe hardcode'dan düzeltildi
+- `app/(tabs)/settings.tsx` — Tüm bölüm başlıkları ve satır etiketleri;
+  `getLevelName(level, t)` t parametresi kabul edecek şekilde güncellendi
+- `app/setting-modal.tsx` — Tüm açıklamalar, etiketler, placeholder'lar, Alert'ler
+- `app/create-deck.tsx` — Tüm etiketler; `CATEGORIES` → `CATEGORY_KEYS` pattern'ına
+  geçirildi (DB değerleri sabit, görünen etiketler çevrildi)
+- `app/deck-detail.tsx` — Tüm ekran: stat etiketleri, filtre chip'leri, sıralama,
+  arama, kelime ekleme formu, satır içi düzenleme, boş durum mesajları, modal'lar
+- `app/study.tsx` — Yükleme, boş durum, sonuç ekranı, kart değerlendirme butonları
+- `app/quiz-mc.tsx` — Yükleme, hata, soru etiketi, sonuç ekranı
+- `app/quiz-spell.tsx` — Tüm ekranlar: ipucu bölümü, geri bildirim, sonuç
+- `app/quiz-match.tsx` — Yükleme, hata, sonuç ekranı, istatistik etiketleri
+
+#### TypeScript
+- `npx tsc --noEmit` — 0 hata
+
+---
+
 ## [Unreleased] — 2026-04-02
 
 ### feat: Multi-language support — learn any language, not just English

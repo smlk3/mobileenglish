@@ -1,9 +1,11 @@
 import 'react-native-get-random-values';
+import '../src/shared/i18n'; // i18n must be initialized before any screen renders
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import 'react-native-reanimated';
+import i18n from '../src/shared/i18n';
 
 import { initializeDefaultSettings } from '../src/entities/database';
 import HybridLLMManager from '../src/shared/api/llm/HybridLLMManager';
@@ -16,8 +18,13 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const themeMode = useProfileStore((s) => s.themeMode);
+  const router = useRouter();
+  const didInit = useRef(false);
 
   useEffect(() => {
+    if (didInit.current) return;
+    didInit.current = true;
+
     const init = async () => {
       // Initialize database defaults
       await initializeDefaultSettings();
@@ -37,6 +44,15 @@ export default function RootLayout() {
 
         // Target language from DB
         useProfileStore.getState().setTargetLanguage(settings.targetLanguage || 'en');
+
+        // Sync UI language with saved native language
+        const nativeLang = tags.nativeLanguage || settings.nativeLanguage || 'en';
+        if (nativeLang && nativeLang !== i18n.language) {
+          i18n.changeLanguage(nativeLang);
+        }
+
+        // Onboarding status
+        useProfileStore.getState().setOnboardingCompleted(!!settings.onboardingCompleted);
 
         // Theme from DB
         if (settings.theme === 'light') {
@@ -61,6 +77,11 @@ export default function RootLayout() {
 
         if (!keys.openai && !keys.gemini && !keys.custom) {
           useProfileStore.getState().setActiveModel('none');
+        }
+
+        // Redirect to onboarding if not completed
+        if (!settings.onboardingCompleted) {
+          router.replace('/onboarding' as any);
         }
       }
     };
@@ -126,6 +147,10 @@ export default function RootLayout() {
             headerShown: false,
             animation: 'slide_from_right',
           }}
+        />
+        <Stack.Screen
+          name="onboarding"
+          options={{ headerShown: false, animation: 'fade' }}
         />
         <Stack.Screen
           name="modal"

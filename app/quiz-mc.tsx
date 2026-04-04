@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     ActivityIndicator,
     Dimensions,
@@ -69,6 +70,7 @@ function buildQuestions(cards: Card[]): Question[] {
 }
 
 export default function QuizMCScreen() {
+    const { t } = useTranslation();
     const router = useRouter();
     const params = useLocalSearchParams<{ deckId?: string; deckName?: string }>();
     const themeMode = useProfileStore((s) => s.themeMode);
@@ -312,7 +314,7 @@ export default function QuizMCScreen() {
             <View style={[styles.center, { backgroundColor: tc.background }]}>
                 <ActivityIndicator size="large" color={colors.primary[500]} />
                 <Text style={[styles.loadingText, { color: tc.textSecondary }]}>
-                    Preparing quiz...
+                    {t('quiz.loading')}
                 </Text>
             </View>
         );
@@ -323,15 +325,15 @@ export default function QuizMCScreen() {
         return (
             <View style={[styles.center, { backgroundColor: tc.background }]}>
                 <Text style={{ fontSize: 48, marginBottom: spacing.lg }}>⚠️</Text>
-                <Text style={[styles.errorTitle, { color: tc.text }]}>Not Enough Cards</Text>
+                <Text style={[styles.errorTitle, { color: tc.text }]}>{t('common.error')}</Text>
                 <Text style={[styles.errorSubtitle, { color: tc.textSecondary }]}>
-                    You need at least 4 cards in this deck to start a Multiple Choice quiz.
+                    {t('quiz.error')}
                 </Text>
                 <TouchableOpacity
                     style={[styles.doneBtn, { backgroundColor: colors.primary[500] }]}
                     onPress={() => router.back()}
                 >
-                    <Text style={styles.doneBtnText}>Go Back</Text>
+                    <Text style={styles.doneBtnText}>{t('common.back')}</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -368,7 +370,7 @@ export default function QuizMCScreen() {
                         entering={FadeInDown.delay(150).duration(500)}
                         style={[styles.resultsTitle, { color: tc.text }]}
                     >
-                        {isPerfect ? 'Perfect Score!' : isGood ? 'Great Job!' : 'Quiz Complete!'}
+                        {isPerfect ? t('quiz.results.title') + ' 🏆' : isGood ? t('quiz.results.title') + ' ⭐' : t('quiz.results.title')}
                     </Animated.Text>
                     <Animated.Text
                         entering={FadeInDown.delay(220).duration(500)}
@@ -392,17 +394,17 @@ export default function QuizMCScreen() {
                     >
                         <View style={styles.statItem}>
                             <Text style={[styles.statValue, { color: colors.primary[400] }]}>{score}</Text>
-                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>Score</Text>
+                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>{t('quiz.scoreLabel')}</Text>
                         </View>
                         <View style={[styles.statDivider, { backgroundColor: tc.border }]} />
                         <View style={styles.statItem}>
                             <Text style={[styles.statValue, { color: colors.success.main }]}>{correctCount}</Text>
-                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>Correct</Text>
+                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>{t('study.correct')}</Text>
                         </View>
                         <View style={[styles.statDivider, { backgroundColor: tc.border }]} />
                         <View style={styles.statItem}>
                             <Text style={[styles.statValue, { color: resultColor }]}>{accuracy}%</Text>
-                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>Accuracy</Text>
+                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>{t('quiz.accuracyLabel')}</Text>
                         </View>
                     </Animated.View>
 
@@ -418,7 +420,7 @@ export default function QuizMCScreen() {
                             }]}
                             onPress={() => router.back()}
                         >
-                            <Text style={styles.doneBtnText}>Done</Text>
+                            <Text style={styles.doneBtnText}>{t('common.done')}</Text>
                         </TouchableOpacity>
                     </Animated.View>
                 </Animated.View>
@@ -517,7 +519,7 @@ export default function QuizMCScreen() {
                         </Text>
                     </View>
                     <Text style={[styles.questionLabel, { color: tc.textMuted }]}>
-                        What does this mean?
+                        {t('quiz.whatMeans', { word: currentQuestion.card.front })}
                     </Text>
                     <Text style={[styles.questionWord, { color: tc.text }]}>
                         {currentQuestion.card.front}

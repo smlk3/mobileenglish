@@ -21,5 +21,16 @@ export const migrations = schemaMigrations({
                 }),
             ],
         },
+        {
+            toVersion: 3,
+            steps: [
+                addColumns({
+                    table: 'user_settings',
+                    columns: [
+                        { name: 'onboarding_completed', type: 'boolean' },
+                    ],
+                }),
+            ],
+        },
     ],
 });

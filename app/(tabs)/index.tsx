@@ -1,6 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { LinearGradient } from 'expo-linear-gradient';
 import {
   Dimensions,
   ScrollView,
@@ -25,7 +27,6 @@ import { borderRadius, colors, shadows, spacing, typography } from '../../src/sh
 import { getXPProgress } from '../../src/shared/lib/xpSystem';
 
 const { width } = Dimensions.get('window');
-const WEEK_DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 // ── Floating star particle ────────────────────────────────────
 function Star({ style, delay, size = 3, color = '#818CF8' }: {
@@ -109,9 +110,12 @@ function OrbitalRing({ pct, color, size = 72 }: { pct: number; color: string; si
 }
 
 export default function HomeScreen() {
+  const { t } = useTranslation();
   const router = useRouter();
   const themeMode = useProfileStore((s) => s.themeMode);
   const tc = themeMode === 'dark' ? colors.dark : colors.light;
+
+  const WEEK_DAYS = [t('weekday.sun'), t('weekday.mon'), t('weekday.tue'), t('weekday.wed'), t('weekday.thu'), t('weekday.fri'), t('weekday.sat')];
 
   const [stats, setStats] = useState<HomeStats>({
     streak: 0,
@@ -163,37 +167,45 @@ export default function HomeScreen() {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      {/* ── COSMIC HERO ─────────────────────────────────── */}
+      {/* ── AU MODA HERO ─────────────────────────────────── */}
       <Animated.View
         entering={FadeInDown.duration(600)}
         style={[
           styles.heroSection,
           {
-            backgroundColor: themeMode === 'dark' ? '#1A1A38' : tc.surfaceElevated,
-            borderColor: `${colors.primary[500]}35`,
-            shadowColor: colors.primary[500],
+            backgroundColor: themeMode === 'dark' ? '#4A0D12' : '#8A1B22',
+            borderColor: 'rgba(255,215,0,0.3)',
+            shadowColor: '#8A1B22',
             shadowOffset: { width: 0, height: 0 },
             shadowOpacity: 0.35,
             shadowRadius: 24,
             elevation: 12,
+            overflow: 'hidden',
           },
         ]}
       >
-        {/* Star particles */}
-        <Star style={{ top: 14, right: 88 }}   delay={0}   size={3} color={colors.primary[300]} />
-        <Star style={{ top: 34, right: 112 }}  delay={1}   size={2} color={colors.accent[300]} />
-        <Star style={{ top: 54, right: 82 }}   delay={2}   size={4} color={colors.warning.light} />
-        <Star style={{ top: 22, right: 140 }}  delay={0.5} size={2} color='#EAEAFF' />
-        <Star style={{ top: 64, right: 128 }}  delay={1.5} size={2} color={colors.primary[300]} />
-        <Star style={{ top: 8, right: 60 }}    delay={3}   size={2} color={colors.accent[400]} />
+        <LinearGradient
+          colors={themeMode === 'dark' ? ['#5E0E14', '#2C0609'] : ['#8A1B22', '#5A0D11']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={StyleSheet.absoluteFillObject}
+        />
+
+        {/* Star particles (Gold Theme) */}
+        <Star style={{ top: 14, right: 88 }}   delay={0}   size={3} color="rgba(255,215,0,0.8)" />
+        <Star style={{ top: 34, right: 112 }}  delay={1}   size={2} color="rgba(255,215,0,0.6)" />
+        <Star style={{ top: 54, right: 82 }}   delay={2}   size={4} color="rgba(255,215,0,0.9)" />
+        <Star style={{ top: 22, right: 140 }}  delay={0.5} size={2} color="#FFFFFF" />
+        <Star style={{ top: 64, right: 128 }}  delay={1.5} size={2} color="rgba(255,215,0,0.7)" />
+        <Star style={{ top: 8, right: 60 }}    delay={3}   size={2} color="rgba(255,215,0,0.5)" />
 
         <View style={styles.heroLeft}>
-          <Text style={[styles.greeting, { color: tc.textSecondary }]}>Welcome back!</Text>
-          <Text style={[styles.heroTitle, { color: tc.text }]}>Ready to learn?</Text>
+          <Text style={[styles.greeting, { color: 'rgba(255,255,255,0.75)' }]}>{t('home.welcome')}</Text>
+          <Text style={[styles.heroTitle, { color: '#ffffff' }]}>{t('home.readyToLearn')}</Text>
 
           <View style={styles.xpRow}>
             <Text style={{ fontSize: 16 }}>{xpProgress.current.emoji}</Text>
-            <Text style={[styles.xpLevelText, { color: xpProgress.current.color }]}>
+            <Text style={[styles.xpLevelText, { color: '#FFD700' }]}>
               Lv {xpProgress.current.level} · {xpProgress.current.title}
             </Text>
           </View>
@@ -206,8 +218,8 @@ export default function HomeScreen() {
                     styles.xpBarFill,
                     {
                       width: `${Math.round(xpProgress.pct * 100)}%`,
-                      backgroundColor: xpProgress.current.color,
-                      shadowColor: xpProgress.current.color,
+                      backgroundColor: '#FFD700',
+                      shadowColor: '#FFD700',
                       shadowOffset: { width: 0, height: 0 },
                       shadowOpacity: 0.8,
                       shadowRadius: 6,
@@ -225,7 +237,7 @@ export default function HomeScreen() {
         {/* Mascot + orbital ring */}
         <Animated.View style={[styles.mascotContainer, mascotStyle]}>
           {/* Orbital progress ring */}
-          <OrbitalRing pct={xpProgress.pct} color={xpProgress.current.color} size={80} />
+          <OrbitalRing pct={xpProgress.pct} color="#FFD700" size={80} />
           {/* Centered owl on top of ring */}
           <View style={styles.mascotInner}>
             <Text style={styles.mascotEmoji}>🐴</Text>
@@ -258,10 +270,10 @@ export default function HomeScreen() {
               <Text style={[styles.streakCount, {
                 color: stats.streak > 0 ? colors.warning.main : tc.text,
               }]}>
-                {stats.streak} {stats.streak === 1 ? 'day' : 'days'}
+                {t('home.streak.days', { count: stats.streak })}
               </Text>
               <Text style={[styles.streakLabel, { color: tc.textMuted }]}>
-                {stats.streak > 0 ? 'Current streak' : 'Start your streak!'}
+                {stats.streak > 0 ? t('home.streak.current') : t('home.streak.start')}
               </Text>
             </View>
           </View>
@@ -270,7 +282,7 @@ export default function HomeScreen() {
             onPress={() => router.push('/(tabs)/stats' as any)}
           >
             <Ionicons name="bar-chart" size={14} color={colors.primary[400]} />
-            <Text style={[styles.statsShortcutText, { color: colors.primary[400] }]}>Stats</Text>
+            <Text style={[styles.statsShortcutText, { color: colors.primary[400] }]}>{t('home.stats')}</Text>
           </TouchableOpacity>
         </View>
 
@@ -328,10 +340,10 @@ export default function HomeScreen() {
         <View style={styles.progressHeader}>
           <View>
             <Text style={[styles.sectionTitle, { color: tc.text }]}>
-              {goalMet ? '🎉 Daily Goal Reached!' : "Today's Goal"}
+              {goalMet ? `🎉 ${t('home.goalReached')}` : t('home.todaysGoal')}
             </Text>
             <Text style={[styles.progressSub, { color: tc.textMuted }]}>
-              {stats.todayStudied} of {stats.dailyGoal} cards studied
+              {t('home.cardsStudied', { done: stats.todayStudied, total: stats.dailyGoal })}
             </Text>
           </View>
           <Text style={[styles.progressPct, {
@@ -363,19 +375,19 @@ export default function HomeScreen() {
           <View style={styles.statItem}>
             <Ionicons name="book" size={18} color={colors.accent[400]} />
             <Text style={[styles.statValue, { color: tc.text }]}>{stats.wordsLearned}</Text>
-            <Text style={[styles.statLabel, { color: tc.textMuted }]}>Words</Text>
+            <Text style={[styles.statLabel, { color: tc.textMuted }]}>{t('common.words')}</Text>
           </View>
           <View style={[styles.statDivider, { backgroundColor: tc.border }]} />
           <View style={styles.statItem}>
             <Ionicons name="time" size={18} color={colors.primary[400]} />
             <Text style={[styles.statValue, { color: tc.text }]}>{stats.dueCards}</Text>
-            <Text style={[styles.statLabel, { color: tc.textMuted }]}>Due</Text>
+            <Text style={[styles.statLabel, { color: tc.textMuted }]}>{t('home.due')}</Text>
           </View>
           <View style={[styles.statDivider, { backgroundColor: tc.border }]} />
           <View style={styles.statItem}>
             <Ionicons name="flame" size={18} color={colors.warning.main} />
             <Text style={[styles.statValue, { color: tc.text }]}>{stats.streak}</Text>
-            <Text style={[styles.statLabel, { color: tc.textMuted }]}>Streak</Text>
+            <Text style={[styles.statLabel, { color: tc.textMuted }]}>{t('home.streak')}</Text>
           </View>
         </View>
       </Animated.View>
@@ -387,7 +399,7 @@ export default function HomeScreen() {
         marginTop: spacing.lg,
         marginBottom: spacing.xs,
       }]}>
-        Quick Actions
+        {t('home.quickActions')}
       </Text>
 
       <Animated.View entering={FadeInRight.duration(500).delay(200)}>
@@ -410,8 +422,8 @@ export default function HomeScreen() {
             <Ionicons name="flash" size={28} color="#fff" />
           </View>
           <View style={styles.actionContent}>
-            <Text style={styles.actionTitle}>Daily Review</Text>
-            <Text style={styles.actionSubtitle}>{stats.dueCards} cards waiting for review</Text>
+            <Text style={styles.actionTitle}>{t('home.dailyReview')}</Text>
+            <Text style={styles.actionSubtitle}>{t('home.cardsWaiting', { count: stats.dueCards })}</Text>
           </View>
           <Ionicons name="chevron-forward" size={24} color="rgba(255,255,255,0.6)" />
         </TouchableOpacity>
@@ -437,8 +449,8 @@ export default function HomeScreen() {
             <Ionicons name="sparkles" size={28} color="#fff" />
           </View>
           <View style={styles.actionContent}>
-            <Text style={styles.actionTitle}>Generate New Words</Text>
-            <Text style={styles.actionSubtitle}>AI-powered vocabulary for your interests</Text>
+            <Text style={styles.actionTitle}>{t('home.generateWords')}</Text>
+            <Text style={styles.actionSubtitle}>{t('home.generateWordsDesc')}</Text>
           </View>
           <Ionicons name="chevron-forward" size={24} color="rgba(255,255,255,0.6)" />
         </TouchableOpacity>
@@ -464,8 +476,8 @@ export default function HomeScreen() {
             <Ionicons name="chatbubble-ellipses" size={28} color="#fff" />
           </View>
           <View style={styles.actionContent}>
-            <Text style={styles.actionTitle}>Practice with AI</Text>
-            <Text style={styles.actionSubtitle}>Chat in English to improve fluency</Text>
+            <Text style={styles.actionTitle}>{t('home.practiceAI')}</Text>
+            <Text style={styles.actionSubtitle}>{t('home.practiceAIDesc')}</Text>
           </View>
           <Ionicons name="chevron-forward" size={24} color="rgba(255,255,255,0.6)" />
         </TouchableOpacity>

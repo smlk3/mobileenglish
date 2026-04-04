@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     ActivityIndicator,
     Dimensions,
@@ -44,6 +45,7 @@ const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.3;
 type Phase = 'loading' | 'empty' | 'flashcard' | 'results';
 
 export default function StudyScreen() {
+    const { t } = useTranslation();
     const router = useRouter();
     const params = useLocalSearchParams<{ deckId?: string; deckName?: string }>();
     const themeMode = useProfileStore((s) => s.themeMode);
@@ -260,7 +262,7 @@ export default function StudyScreen() {
         return (
             <View style={[styles.container, styles.centeredContent, { backgroundColor: tc.background }]}>
                 <ActivityIndicator size="large" color={colors.primary[500]} />
-                <Text style={[styles.loadingText, { color: tc.textSecondary }]}>Loading cards...</Text>
+                <Text style={[styles.loadingText, { color: tc.textSecondary }]}>{t('study.loading')}</Text>
             </View>
         );
     }
@@ -270,15 +272,15 @@ export default function StudyScreen() {
         return (
             <View style={[styles.container, styles.centeredContent, { backgroundColor: tc.background }]}>
                 <Text style={{ fontSize: 64, marginBottom: spacing.lg }}>🎉</Text>
-                <Text style={[styles.resultsTitle, { color: tc.text }]}>All Caught Up!</Text>
+                <Text style={[styles.resultsTitle, { color: tc.text }]}>{t('study.empty')}</Text>
                 <Text style={[styles.resultsSubtitle, { color: tc.textSecondary }]}>
-                    No cards to review right now. Create a new deck or check back later!
+                    {t('study.emptyDesc')}
                 </Text>
                 <TouchableOpacity
                     style={[styles.doneButton, { backgroundColor: colors.primary[500] }]}
                     onPress={() => router.back()}
                 >
-                    <Text style={styles.doneButtonText}>Go Back</Text>
+                    <Text style={styles.doneButtonText}>{t('common.back')}</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -294,25 +296,25 @@ export default function StudyScreen() {
                         <View style={styles.resultEmoji}>
                             <Text style={{ fontSize: 64 }}>🎉</Text>
                         </View>
-                        <Text style={[styles.resultsTitle, { color: tc.text }]}>Session Complete!</Text>
+                        <Text style={[styles.resultsTitle, { color: tc.text }]}>{t('study.results.title')}</Text>
                         <Text style={[styles.resultsSubtitle, { color: tc.textSecondary }]}>
-                            You reviewed {cards.length} cards
+                            {t('study.reviewed', { count: cards.length })}
                         </Text>
 
                         <View style={[styles.resultsStats, { backgroundColor: tc.surface }]}>
                             <View style={styles.resultStat}>
                                 <Text style={[styles.resultStatValue, { color: colors.success.main }]}>{correctCount}</Text>
-                                <Text style={[styles.resultStatLabel, { color: tc.textMuted }]}>Correct</Text>
+                                <Text style={[styles.resultStatLabel, { color: tc.textMuted }]}>{t('study.correct')}</Text>
                             </View>
                             <View style={[styles.resultDivider, { backgroundColor: tc.border }]} />
                             <View style={styles.resultStat}>
                                 <Text style={[styles.resultStatValue, { color: colors.error.main }]}>{cards.length - correctCount}</Text>
-                                <Text style={[styles.resultStatLabel, { color: tc.textMuted }]}>Again</Text>
+                                <Text style={[styles.resultStatLabel, { color: tc.textMuted }]}>{t('study.again')}</Text>
                             </View>
                             <View style={[styles.resultDivider, { backgroundColor: tc.border }]} />
                             <View style={styles.resultStat}>
                                 <Text style={[styles.resultStatValue, { color: colors.primary[400] }]}>{Math.round((correctCount / cards.length) * 100)}%</Text>
-                                <Text style={[styles.resultStatLabel, { color: tc.textMuted }]}>Accuracy</Text>
+                                <Text style={[styles.resultStatLabel, { color: tc.textMuted }]}>{t('study.results.accuracy')}</Text>
                             </View>
                         </View>
 
@@ -324,7 +326,7 @@ export default function StudyScreen() {
                             >
                                 <Text style={styles.xpEarnedEmoji}>⚡</Text>
                                 <Text style={[styles.xpEarnedText, { color: colors.primary[400] }]}>
-                                    +{sessionXP} XP earned this session
+                                    {t('study.xpEarned', { xp: sessionXP })}
                                 </Text>
                             </Animated.View>
                         )}
@@ -333,7 +335,7 @@ export default function StudyScreen() {
                             style={[styles.doneButton, { backgroundColor: colors.primary[500] }]}
                             onPress={() => router.back()}
                         >
-                            <Text style={styles.doneButtonText}>Done</Text>
+                            <Text style={styles.doneButtonText}>{t('common.done')}</Text>
                         </TouchableOpacity>
                     </Animated.View>
                 </View>
@@ -375,7 +377,7 @@ export default function StudyScreen() {
                 <View style={[styles.reviewingAllBanner, { backgroundColor: colors.warning.main + '18' }]}>
                     <Ionicons name="information-circle-outline" size={14} color={colors.warning.main} />
                     <Text style={[styles.reviewingAllText, { color: colors.warning.main }]}>
-                        No due cards — reviewing all
+                        {t('study.nodue')}
                     </Text>
                 </View>
             )}
@@ -386,15 +388,15 @@ export default function StudyScreen() {
                     {/* Swipe indicators */}
                     <Animated.View style={[styles.indicator, styles.indicatorLeft, leftIndicatorStyle]}>
                         <Ionicons name="close-circle" size={48} color={colors.error.main} />
-                        <Text style={[styles.indicatorText, { color: colors.error.main }]}>Again</Text>
+                        <Text style={[styles.indicatorText, { color: colors.error.main }]}>{t('study.again')}</Text>
                     </Animated.View>
                     <Animated.View style={[styles.indicator, styles.indicatorRight, rightIndicatorStyle]}>
                         <Ionicons name="checkmark-circle" size={48} color={colors.success.main} />
-                        <Text style={[styles.indicatorText, { color: colors.success.main }]}>Good</Text>
+                        <Text style={[styles.indicatorText, { color: colors.success.main }]}>{t('study.good')}</Text>
                     </Animated.View>
                     <Animated.View style={[styles.indicator, styles.indicatorUp, upIndicatorStyle]}>
                         <Ionicons name="star" size={48} color={colors.warning.main} />
-                        <Text style={[styles.indicatorText, { color: colors.warning.main }]}>Easy</Text>
+                        <Text style={[styles.indicatorText, { color: colors.warning.main }]}>{t('study.easy')}</Text>
                     </Animated.View>
 
                     <GestureDetector gesture={composedGesture}>
@@ -417,7 +419,7 @@ export default function StudyScreen() {
                                     </Text>
                                 </View>
                                 <Text style={[styles.cardWord, { color: tc.text }]}>{currentCard.front}</Text>
-                                <Text style={[styles.tapHint, { color: tc.textMuted }]}>Tap to flip</Text>
+                                <Text style={[styles.tapHint, { color: tc.textMuted }]}>{t('study.tapToFlip')}</Text>
                             </Animated.View>
 
                             {/* Back */}
@@ -434,13 +436,13 @@ export default function StudyScreen() {
                                 </Text>
                                 {currentCard.exampleSentence && (
                                     <View style={[styles.exampleContainer, { backgroundColor: tc.surfaceElevated }]}>
-                                        <Text style={[styles.exampleLabel, { color: tc.textMuted }]}>Example:</Text>
+                                        <Text style={[styles.exampleLabel, { color: tc.textMuted }]}>{t('study.example')}</Text>
                                         <Text style={[styles.exampleTextContent, { color: tc.text }]}>
                                             {currentCard.exampleSentence}
                                         </Text>
                                     </View>
                                 )}
-                                <Text style={[styles.tapHint, { color: tc.textMuted }]}>Swipe to rate</Text>
+                                <Text style={[styles.tapHint, { color: tc.textMuted }]}>{t('study.swipeToRate')}</Text>
                             </Animated.View>
                         </Animated.View>
                     </GestureDetector>
@@ -454,28 +456,28 @@ export default function StudyScreen() {
                     onPress={() => goToNextCard('again')}
                 >
                     <Ionicons name="close" size={24} color={colors.error.main} />
-                    <Text style={[styles.ratingText, { color: colors.error.main }]}>Again</Text>
+                    <Text style={[styles.ratingText, { color: colors.error.main }]}>{t('study.again')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={[styles.ratingButton, { backgroundColor: colors.warning.main + '20' }]}
                     onPress={() => goToNextCard('hard')}
                 >
                     <Ionicons name="remove" size={24} color={colors.warning.main} />
-                    <Text style={[styles.ratingText, { color: colors.warning.main }]}>Hard</Text>
+                    <Text style={[styles.ratingText, { color: colors.warning.main }]}>{t('study.hard')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={[styles.ratingButton, { backgroundColor: colors.success.main + '20' }]}
                     onPress={() => goToNextCard('good')}
                 >
                     <Ionicons name="checkmark" size={24} color={colors.success.main} />
-                    <Text style={[styles.ratingText, { color: colors.success.main }]}>Good</Text>
+                    <Text style={[styles.ratingText, { color: colors.success.main }]}>{t('study.good')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={[styles.ratingButton, { backgroundColor: colors.primary[400] + '20' }]}
                     onPress={() => goToNextCard('easy')}
                 >
                     <Ionicons name="star" size={24} color={colors.primary[400]} />
-                    <Text style={[styles.ratingText, { color: colors.primary[400] }]}>Easy</Text>
+                    <Text style={[styles.ratingText, { color: colors.primary[400] }]}>{t('study.easy')}</Text>
                 </TouchableOpacity>
             </Animated.View>
         </GestureHandlerRootView>

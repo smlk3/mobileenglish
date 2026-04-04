@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     ActivityIndicator,
     Keyboard,
@@ -71,6 +72,7 @@ type Phase = 'loading' | 'error' | 'question' | 'feedback' | 'results';
 type FeedbackType = 'correct' | 'almost' | 'wrong';
 
 export default function QuizSpellScreen() {
+    const { t } = useTranslation();
     const router = useRouter();
     const params = useLocalSearchParams<{ deckId?: string; deckName?: string }>();
     const themeMode = useProfileStore((s) => s.themeMode);
@@ -346,7 +348,7 @@ export default function QuizSpellScreen() {
         return (
             <View style={[styles.center, { backgroundColor: tc.background }]}>
                 <ActivityIndicator size="large" color={colors.primary[500]} />
-                <Text style={[styles.loadingText, { color: tc.textSecondary }]}>Preparing quiz...</Text>
+                <Text style={[styles.loadingText, { color: tc.textSecondary }]}>{t('quiz.loading')}</Text>
             </View>
         );
     }
@@ -356,15 +358,15 @@ export default function QuizSpellScreen() {
         return (
             <View style={[styles.center, { backgroundColor: tc.background }]}>
                 <Text style={{ fontSize: 48, marginBottom: spacing.lg }}>⚠️</Text>
-                <Text style={[styles.errorTitle, { color: tc.text }]}>No Cards Found</Text>
+                <Text style={[styles.errorTitle, { color: tc.text }]}>{t('quiz.noCards')}</Text>
                 <Text style={[styles.errorSubtitle, { color: tc.textSecondary }]}>
-                    Add some cards to this deck first.
+                    {t('quiz.noCardsDesc')}
                 </Text>
                 <TouchableOpacity
                     style={[styles.doneBtn, { backgroundColor: colors.primary[500] }]}
                     onPress={() => router.back()}
                 >
-                    <Text style={styles.doneBtnText}>Go Back</Text>
+                    <Text style={styles.doneBtnText}>{t('common.back')}</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -385,11 +387,11 @@ export default function QuizSpellScreen() {
                             style={[styles.perfectBadge, { backgroundColor: colors.warning.main + '25' }]}
                         >
                             <Text style={[styles.perfectText, { color: colors.warning.main }]}>
-                                ✨ Perfect — No Hints Used!
+                                {t('quizSpell.perfect')}
                             </Text>
                         </Animated.View>
                     )}
-                    <Text style={[styles.resultsTitle, { color: tc.text }]}>Spelling Complete!</Text>
+                    <Text style={[styles.resultsTitle, { color: tc.text }]}>{t('quizSpell.complete')}</Text>
                     <Text style={[styles.resultsSubtitle, { color: tc.textSecondary }]}>
                         {params.deckName || 'Deck'}
                     </Text>
@@ -397,22 +399,22 @@ export default function QuizSpellScreen() {
                     <View style={[styles.statsGrid, { backgroundColor: tc.surface }]}>
                         <View style={styles.statItem}>
                             <Text style={[styles.statValue, { color: colors.primary[400] }]}>{score}</Text>
-                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>Score</Text>
+                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>{t('quiz.scoreLabel')}</Text>
                         </View>
                         <View style={[styles.statDivider, { backgroundColor: tc.border }]} />
                         <View style={styles.statItem}>
                             <Text style={[styles.statValue, { color: colors.success.main }]}>{correctCount}</Text>
-                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>Correct</Text>
+                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>{t('study.correct')}</Text>
                         </View>
                         <View style={[styles.statDivider, { backgroundColor: tc.border }]} />
                         <View style={styles.statItem}>
                             <Text style={[styles.statValue, { color: colors.warning.main }]}>{almostCount}</Text>
-                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>Almost</Text>
+                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>{t('quiz.almost')}</Text>
                         </View>
                         <View style={[styles.statDivider, { backgroundColor: tc.border }]} />
                         <View style={styles.statItem}>
                             <Text style={[styles.statValue, { color: tc.text }]}>{accuracy}%</Text>
-                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>Accuracy</Text>
+                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>{t('quiz.accuracyLabel')}</Text>
                         </View>
                     </View>
 
@@ -420,7 +422,7 @@ export default function QuizSpellScreen() {
                         style={[styles.doneBtn, { backgroundColor: colors.primary[500] }]}
                         onPress={() => router.back()}
                     >
-                        <Text style={styles.doneBtnText}>Done</Text>
+                        <Text style={styles.doneBtnText}>{t('common.done')}</Text>
                     </TouchableOpacity>
                 </Animated.View>
             </View>
@@ -444,8 +446,8 @@ export default function QuizSpellScreen() {
 
     // Feedback overlay
     const feedbackConfig = {
-        correct: { color: colors.success.main, icon: 'checkmark-circle' as const, label: 'Correct! 🎉', bg: colors.success.main + '18' },
-        almost: { color: colors.warning.main, icon: 'alert-circle' as const, label: `Almost! "${word}"`, bg: colors.warning.main + '18' },
+        correct: { color: colors.success.main, icon: 'checkmark-circle' as const, label: `${t('study.correct')} 🎉`, bg: colors.success.main + '18' },
+        almost: { color: colors.warning.main, icon: 'alert-circle' as const, label: `${t('quiz.almost')} "${word}"`, bg: colors.warning.main + '18' },
         wrong: { color: colors.error.main, icon: 'close-circle' as const, label: `"${word}"`, bg: colors.error.main + '18' },
     };
     const fb = feedbackConfig[feedback];
@@ -517,7 +519,7 @@ export default function QuizSpellScreen() {
                             </Text>
                         </View>
                         <Text style={[styles.questionLabel, { color: tc.textMuted }]}>
-                            How do you spell this word?
+                            {t('quizSpell.howToSpell')}
                         </Text>
                         <Text style={[styles.meaningText, { color: tc.text }]}>
                             {currentCard.back}
@@ -591,7 +593,7 @@ export default function QuizSpellScreen() {
                                             : tc.border,
                                 },
                             ]}
-                            placeholder="Type the word..."
+                            placeholder={t('quizSpell.typeWord')}
                             placeholderTextColor={tc.textMuted}
                             value={input}
                             onChangeText={setInput}
@@ -618,7 +620,7 @@ export default function QuizSpellScreen() {
                                 activeOpacity={0.8}
                             >
                                 <Text style={[styles.submitBtnText, { color: input.trim().length > 0 ? '#fff' : tc.textMuted }]}>
-                                    Check Answer
+                                    {t('quizSpell.checkAnswer')}
                                 </Text>
                                 <Ionicons
                                     name="arrow-forward"
@@ -633,7 +635,7 @@ export default function QuizSpellScreen() {
                     {phase === 'question' && (
                         <Animated.View entering={FadeIn.delay(400)} style={styles.hintsRow}>
                             <Text style={[styles.hintsLabel, { color: tc.textMuted }]}>
-                                💡 Hints ({hintsLeft} left):
+                                {t('quizSpell.hintsLeft', { count: hintsLeft })}
                             </Text>
                             <TouchableOpacity
                                 style={[
@@ -648,7 +650,7 @@ export default function QuizSpellScreen() {
                                 disabled={hintsLeft === 0}
                             >
                                 <Text style={[styles.hintBtnText, { color: hintsLeft > 0 ? colors.primary[400] : tc.textMuted }]}>
-                                    1st Letter
+                                    {t('quizSpell.hint1st')}
                                 </Text>
                                 <Text style={[styles.hintCost, { color: tc.textMuted }]}>-3</Text>
                             </TouchableOpacity>
@@ -665,7 +667,7 @@ export default function QuizSpellScreen() {
                                 disabled={hintsLeft === 0}
                             >
                                 <Text style={[styles.hintBtnText, { color: hintsLeft > 0 ? colors.accent[400] : tc.textMuted }]}>
-                                    Length
+                                    {t('quizSpell.hintLength')}
                                 </Text>
                                 <Text style={[styles.hintCost, { color: tc.textMuted }]}>-2</Text>
                             </TouchableOpacity>
@@ -682,7 +684,7 @@ export default function QuizSpellScreen() {
                                 disabled={hintsLeft === 0}
                             >
                                 <Text style={[styles.hintBtnText, { color: hintsLeft > 0 ? colors.warning.main : tc.textMuted }]}>
-                                    A Letter
+                                    {t('quizSpell.hintALetter')}
                                 </Text>
                                 <Text style={[styles.hintCost, { color: tc.textMuted }]}>-5</Text>
                             </TouchableOpacity>

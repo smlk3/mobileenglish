@@ -31,6 +31,7 @@ export default class UserSettings extends Model {
     @field('native_language') nativeLanguage!: string;
     @field('daily_goal') dailyGoal!: number;
     @field('notifications_enabled') notificationsEnabled!: boolean;
+    @field('onboarding_completed') onboardingCompleted!: boolean;
     @readonly @date('created_at') createdAt!: Date;
     @readonly @date('updated_at') updatedAt!: Date;
 
@@ -88,6 +89,7 @@ export default class UserSettings extends Model {
         nativeLanguage?: string;
         dailyGoal?: number;
         notificationsEnabled?: boolean;
+        onboardingCompleted?: boolean;
     }) {
         await this.update((settings) => {
             if (updates.theme !== undefined) settings.theme = updates.theme;
@@ -95,6 +97,7 @@ export default class UserSettings extends Model {
             if (updates.nativeLanguage !== undefined) settings.nativeLanguage = updates.nativeLanguage;
             if (updates.dailyGoal !== undefined) settings.dailyGoal = updates.dailyGoal;
             if (updates.notificationsEnabled !== undefined) settings.notificationsEnabled = updates.notificationsEnabled;
+            if (updates.onboardingCompleted !== undefined) settings.onboardingCompleted = updates.onboardingCompleted;
         });
     }
 }

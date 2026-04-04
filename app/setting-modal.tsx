@@ -1,6 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import i18n from '../src/shared/i18n';
 import {
     ActivityIndicator,
     Alert,
@@ -44,6 +46,7 @@ export default function SettingModalScreen() {
     const themeMode = useProfileStore((s) => s.themeMode);
     const tc = themeMode === 'dark' ? colors.dark : colors.light;
 
+    const { t } = useTranslation();
     const [textValue, setTextValue] = useState(params.currentValue || '');
     const [selectedValue, setSelectedValue] = useState(params.currentValue || '');
 
@@ -65,7 +68,7 @@ export default function SettingModalScreen() {
         try {
             const settings = await getUserSettings();
             if (!settings) {
-                Alert.alert('Error', 'Settings not found. Please restart the app.');
+                Alert.alert(t('common.error'), t('settingModal.settingsNotFound'));
                 return;
             }
 
@@ -73,11 +76,11 @@ export default function SettingModalScreen() {
                 case 'api_key': {
                     const key = textValue.trim();
                     if (!key) {
-                        Alert.alert('Error', 'Please enter an API key.');
+                        Alert.alert(t('common.error'), t('settingModal.apiKey.enterKey'));
                         return;
                     }
                     if (selectedProvider === 'custom' && !customBaseUrl.trim()) {
-                        Alert.alert('Error', 'Please enter the Base URL for your custom endpoint.');
+                        Alert.alert(t('common.error'), t('settingModal.apiKey.enterBaseUrl'));
                         return;
                     }
 
@@ -94,8 +97,8 @@ export default function SettingModalScreen() {
 
                     if (!result.success) {
                         Alert.alert(
-                            'Connection Failed',
-                            result.error || 'Could not connect to the API. Please check your key and try again.',
+                            t('settingModal.apiKey.connectionFailed'),
+                            result.error || t('settingModal.apiKey.connectionFailedDesc'),
                         );
                         return;
                     }
@@ -140,8 +143,8 @@ export default function SettingModalScreen() {
                                   ? 'Gemini'
                                   : 'Custom Endpoint';
                         Alert.alert(
-                            'No key configured',
-                            `No ${name} API key found. Please add one in Cloud API Key settings.`,
+                            t('settingModal.apiKey.noKeyTitle'),
+                            t('settingModal.apiKey.noKeyDesc', { name }),
                         );
                         return;
                     }
@@ -168,6 +171,10 @@ export default function SettingModalScreen() {
                         ...useProfileStore.getState(),
                         nativeLanguage: selectedValue || 'tr',
                     });
+                    // Sync UI language
+                    if (selectedValue && selectedValue !== i18n.language) {
+                        i18n.changeLanguage(selectedValue);
+                    }
                     break;
                 }
                 case 'daily_goal': {
@@ -199,7 +206,7 @@ export default function SettingModalScreen() {
             router.back();
         } catch (error) {
             setIsSaving(false);
-            Alert.alert('Error', 'Failed to save. Please try again.');
+            Alert.alert(t('common.error'), t('settingModal.saveFailed'));
         }
     };
 
@@ -209,11 +216,11 @@ export default function SettingModalScreen() {
                 return (
                     <Animated.View entering={FadeInDown.duration(400)}>
                         <Text style={[styles.description, { color: tc.textSecondary }]}>
-                            Enter your API key to enable cloud AI features. The connection will be tested before saving.
+                            {t('settingModal.apiKey.description')}
                         </Text>
 
                         {/* Provider selector */}
-                        <Text style={[styles.label, { color: tc.textMuted }]}>PROVIDER</Text>
+                        <Text style={[styles.label, { color: tc.textMuted }]}>{t('settingModal.apiKey.provider')}</Text>
                         <View style={styles.providerRow}>
                             {CLOUD_PROVIDERS.map((p) => (
                                 <TouchableOpacity
@@ -265,7 +272,7 @@ export default function SettingModalScreen() {
                         </View>
 
                         <Text style={[styles.label, { color: tc.textMuted, marginTop: spacing.md }]}>
-                            API KEY
+                            {t('settingModal.apiKey.label')}
                         </Text>
                         <TextInput
                             style={[
@@ -277,7 +284,7 @@ export default function SettingModalScreen() {
                                     ? 'sk-...'
                                     : selectedProvider === 'gemini'
                                       ? 'AIzaSy...'
-                                      : 'Your API key'
+                                      : t('settingModal.apiKey.yourKey')
                             }
                             placeholderTextColor={tc.textMuted}
                             value={textValue}
@@ -291,7 +298,7 @@ export default function SettingModalScreen() {
                         {selectedProvider === 'custom' && (
                             <>
                                 <Text style={[styles.label, { color: tc.textMuted, marginTop: spacing.md }]}>
-                                    BASE URL
+                                    {t('settingModal.apiKey.baseUrl')}
                                 </Text>
                                 <TextInput
                                     style={[
@@ -311,11 +318,11 @@ export default function SettingModalScreen() {
                                     keyboardType="url"
                                 />
                                 <Text style={[styles.hint, { color: tc.textMuted }]}>
-                                    Any OpenAI-compatible endpoint: Groq, Deepseek, Together, OpenRouter, Ollama…
+                                    {t('settingModal.apiKey.baseUrlHint')}
                                 </Text>
 
                                 <Text style={[styles.label, { color: tc.textMuted, marginTop: spacing.md }]}>
-                                    MODEL NAME
+                                    {t('settingModal.apiKey.modelName')}
                                 </Text>
                                 <TextInput
                                     style={[
@@ -337,7 +344,7 @@ export default function SettingModalScreen() {
                         )}
 
                         <Text style={[styles.hint, { color: tc.textMuted, marginTop: spacing.sm }]}>
-                            A test request will be made to verify the key before saving.
+                            {t('settingModal.apiKey.hint')}
                         </Text>
                     </Animated.View>
                 );
@@ -385,7 +392,7 @@ export default function SettingModalScreen() {
                 return (
                     <Animated.View entering={FadeInDown.duration(400)}>
                         <Text style={[styles.description, { color: tc.textSecondary }]}>
-                            Choose the language you want to learn.
+                            {t('settingModal.targetLanguage.desc')}
                         </Text>
                         {SUPPORTED_TARGET_LANGUAGES.map((lang) => (
                             <TouchableOpacity
@@ -423,7 +430,7 @@ export default function SettingModalScreen() {
                 return (
                     <Animated.View entering={FadeInDown.duration(400)}>
                         <Text style={[styles.description, { color: tc.textSecondary }]}>
-                            Choose your current proficiency level. Words will be generated around this level.
+                            {t('settingModal.level.desc')}
                         </Text>
                         <View style={styles.gridWrap}>
                             {levelOpts.map(({ level, label }) => (
@@ -463,7 +470,7 @@ export default function SettingModalScreen() {
                 return (
                     <Animated.View entering={FadeInDown.duration(400)}>
                         <Text style={[styles.description, { color: tc.textSecondary }]}>
-                            How many words do you want to study per day?
+                            {t('settingModal.dailyGoal.desc')}
                         </Text>
                         <View style={styles.gridWrap}>
                             {DAILY_GOALS.map((goal) => (
@@ -505,15 +512,15 @@ export default function SettingModalScreen() {
                 return (
                     <Animated.View entering={FadeInDown.duration(400)}>
                         <Text style={[styles.description, { color: tc.textSecondary }]}>
-                            Your profession helps us generate relevant vocabulary (e.g. medical, engineering, legal terms).
+                            {t('settingModal.profession.desc')}
                         </Text>
-                        <Text style={[styles.label, { color: tc.textMuted }]}>PROFESSION</Text>
+                        <Text style={[styles.label, { color: tc.textMuted }]}>{t('settingModal.profession.label')}</Text>
                         <TextInput
                             style={[
                                 styles.input,
                                 { backgroundColor: tc.surface, color: tc.text, borderColor: tc.border },
                             ]}
-                            placeholder="e.g. Software Engineer, Nurse, Teacher"
+                            placeholder={t('settingModal.profession.placeholder')}
                             placeholderTextColor={tc.textMuted}
                             value={textValue}
                             onChangeText={setTextValue}
@@ -525,16 +532,16 @@ export default function SettingModalScreen() {
                 return (
                     <Animated.View entering={FadeInDown.duration(400)}>
                         <Text style={[styles.description, { color: tc.textSecondary }]}>
-                            Add your interests separated by commas. We'll use these to personalize your vocabulary.
+                            {t('settingModal.interests.desc')}
                         </Text>
-                        <Text style={[styles.label, { color: tc.textMuted }]}>INTERESTS</Text>
+                        <Text style={[styles.label, { color: tc.textMuted }]}>{t('settingModal.interests.label')}</Text>
                         <TextInput
                             style={[
                                 styles.input,
                                 styles.multilineInput,
                                 { backgroundColor: tc.surface, color: tc.text, borderColor: tc.border },
                             ]}
-                            placeholder="e.g. football, cooking, technology, travel"
+                            placeholder={t('settingModal.interests.placeholder')}
                             placeholderTextColor={tc.textMuted}
                             value={textValue}
                             onChangeText={setTextValue}
@@ -547,7 +554,7 @@ export default function SettingModalScreen() {
                 return (
                     <Animated.View entering={FadeInDown.duration(400)}>
                         <Text style={[styles.description, { color: tc.textSecondary }]}>
-                            Translations will be shown in your native language.
+                            {t('settingModal.nativeLanguage.desc')}
                         </Text>
                         {SUPPORTED_NATIVE_LANGUAGES.map((lang) => (
                             <TouchableOpacity
@@ -604,7 +611,7 @@ export default function SettingModalScreen() {
                     <Ionicons name="close" size={24} color={isSaving ? tc.textMuted : tc.text} />
                 </TouchableOpacity>
                 <Text style={[styles.headerTitle, { color: tc.text }]}>
-                    {params.title || 'Setting'}
+                    {params.title || t('settingModal.setting')}
                 </Text>
                 <TouchableOpacity
                     onPress={save}
@@ -619,7 +626,7 @@ export default function SettingModalScreen() {
                         <ActivityIndicator size="small" color="#fff" />
                     ) : (
                         <Text style={styles.saveButtonText}>
-                            {params.type === 'api_key' ? 'Test & Save' : 'Save'}
+                            {params.type === 'api_key' ? t('settingModal.testAndSave') : t('common.save')}
                         </Text>
                     )}
                 </TouchableOpacity>

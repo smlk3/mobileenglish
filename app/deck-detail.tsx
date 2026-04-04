@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     ActivityIndicator,
     Alert,
@@ -31,14 +32,23 @@ import {
 import { useProfileStore } from '../src/shared/lib/stores/useProfileStore';
 import { borderRadius, colors, shadows, spacing, typography } from '../src/shared/lib/theme';
 
-const CATEGORIES = ['General', 'Business', 'Medical', 'Technology', 'Academic', 'Daily Life', 'Travel', 'Sports'];
+const CATEGORY_KEYS = [
+    { key: 'createDeck.categories.general', value: 'General' },
+    { key: 'createDeck.categories.business', value: 'Business' },
+    { key: 'createDeck.categories.medical', value: 'Medical' },
+    { key: 'createDeck.categories.technology', value: 'Technology' },
+    { key: 'createDeck.categories.academic', value: 'Academic' },
+    { key: 'createDeck.categories.dailyLife', value: 'Daily Life' },
+    { key: 'createDeck.categories.travel', value: 'Travel' },
+    { key: 'createDeck.categories.sports', value: 'Sports' },
+];
 
 const STATUS_FILTERS = [
-    { key: 'all', label: 'All' },
-    { key: 'new', label: 'New' },
-    { key: 'learning', label: 'Learning' },
-    { key: 'review', label: 'Review' },
-    { key: 'graduated', label: 'Done' },
+    { key: 'all', labelKey: 'deckDetail.status.all' },
+    { key: 'new', labelKey: 'deckDetail.status.new' },
+    { key: 'learning', labelKey: 'deckDetail.status.learning' },
+    { key: 'review', labelKey: 'deckDetail.status.review' },
+    { key: 'graduated', labelKey: 'deckDetail.status.graduated' },
 ] as const;
 
 type StatusFilter = (typeof STATUS_FILTERS)[number]['key'];
@@ -61,6 +71,7 @@ function getLevelColor(level: string): string {
 }
 
 export default function DeckDetailScreen() {
+    const { t } = useTranslation();
     const router = useRouter();
     const { deckId } = useLocalSearchParams<{ deckId: string }>();
     const themeMode = useProfileStore((s) => s.themeMode);
@@ -154,7 +165,7 @@ export default function DeckDetailScreen() {
     const graduatedCount = cards.filter((c) => c.status === 'graduated').length;
     const progressPercent = cards.length > 0 ? Math.round((graduatedCount / cards.length) * 100) : 0;
 
-    const SORT_LABELS: Record<SortMode, string> = { date: 'Date', alpha: 'A–Z', status: 'Status' };
+    const SORT_LABELS: Record<SortMode, string> = { date: t('deckDetail.sort.date'), alpha: t('deckDetail.sort.alpha'), status: t('deckDetail.sort.status') };
     const SORT_CYCLE: SortMode[] = ['date', 'alpha', 'status'];
 
     // ─── Card Edit ──────────────────────────────────────────────────
@@ -167,7 +178,7 @@ export default function DeckDetailScreen() {
 
     const saveEditCard = async (card: Card) => {
         if (!editFront.trim() || !editBack.trim()) {
-            Alert.alert('Required', 'Word and translation cannot be empty.');
+            Alert.alert(t('deckDetail.required'), t('deckDetail.emptyCardFields'));
             return;
         }
         setIsSavingCard(true);
@@ -180,17 +191,17 @@ export default function DeckDetailScreen() {
             await load();
             setEditingCardId(null);
         } catch {
-            Alert.alert('Error', 'Failed to save changes.');
+            Alert.alert(t('common.error'), t('deckDetail.saveFailed'));
         } finally {
             setIsSavingCard(false);
         }
     };
 
     const handleDeleteCard = (card: Card) => {
-        Alert.alert('Delete Card', `Delete "${card.front}"? This cannot be undone.`, [
-            { text: 'Cancel', style: 'cancel' },
+        Alert.alert(t('deckDetail.deleteCard.title'), t('deckDetail.deleteCard.message', { word: card.front }), [
+            { text: t('common.cancel'), style: 'cancel' },
             {
-                text: 'Delete',
+                text: t('common.delete'),
                 style: 'destructive',
                 onPress: async () => {
                     await deleteCard(card);
@@ -206,7 +217,7 @@ export default function DeckDetailScreen() {
         if (!trimmed) return;
 
         if (cards.some((c) => c.front.toLowerCase() === trimmed.toLowerCase())) {
-            Alert.alert('Duplicate', `"${trimmed}" is already in this deck.`);
+            Alert.alert(t('createDeck.duplicate'), t('deckDetail.duplicate', { word: trimmed }));
             return;
         }
 
@@ -246,14 +257,14 @@ export default function DeckDetailScreen() {
             setShowManualFields(false);
             setShowAddWord(false);
         } catch {
-            Alert.alert('Error', 'Failed to add word.');
+            Alert.alert(t('common.error'), t('deckDetail.addFailed'));
         }
     };
 
     const addManualCard = async () => {
         const trimmed = manualWord.trim();
         if (!trimmed || !manualTranslation.trim()) {
-            Alert.alert('Required', 'Word and translation are required.');
+            Alert.alert(t('deckDetail.required'), t('deckDetail.addRequired'));
             return;
         }
         await addNewCard(
@@ -284,7 +295,7 @@ export default function DeckDetailScreen() {
 
     const saveEditDeck = async () => {
         if (!deck || !editDeckName.trim()) {
-            Alert.alert('Required', 'Deck name cannot be empty.');
+            Alert.alert(t('deckDetail.required'), t('deckDetail.deckNameRequired'));
             return;
         }
         setIsSavingDeck(true);
@@ -297,7 +308,7 @@ export default function DeckDetailScreen() {
             await load();
             setShowEditDeck(false);
         } catch {
-            Alert.alert('Error', 'Failed to update deck.');
+            Alert.alert(t('common.error'), t('deckDetail.updateFailed'));
         } finally {
             setIsSavingDeck(false);
         }
@@ -351,17 +362,17 @@ export default function DeckDetailScreen() {
                     <View style={styles.statsRow}>
                         <View style={styles.statItem}>
                             <Text style={[styles.statValue, { color: colors.primary[400] }]}>{cards.length}</Text>
-                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>Cards</Text>
+                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>{t('deckDetail.statsCards')}</Text>
                         </View>
                         <View style={[styles.statDivider, { backgroundColor: tc.border }]} />
                         <View style={styles.statItem}>
                             <Text style={[styles.statValue, { color: colors.warning.main }]}>{dueCount}</Text>
-                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>Due</Text>
+                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>{t('deckDetail.statsDue')}</Text>
                         </View>
                         <View style={[styles.statDivider, { backgroundColor: tc.border }]} />
                         <View style={styles.statItem}>
                             <Text style={[styles.statValue, { color: colors.success.main }]}>{progressPercent}%</Text>
-                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>Done</Text>
+                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>{t('deckDetail.statsDone')}</Text>
                         </View>
                     </View>
                     <View style={[styles.progressTrack, { backgroundColor: tc.border }]}>
@@ -404,7 +415,7 @@ export default function DeckDetailScreen() {
                         activeOpacity={0.8}
                     >
                         <Ionicons name="book-outline" size={18} color="#fff" />
-                        <Text style={styles.ctaBtnTextWhite}>Study</Text>
+                        <Text style={styles.ctaBtnTextWhite}>{t('deckDetail.studyBtn')}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={[
@@ -420,7 +431,7 @@ export default function DeckDetailScreen() {
                         activeOpacity={0.8}
                     >
                         <Ionicons name="trophy-outline" size={18} color={colors.primary[400]} />
-                        <Text style={[styles.ctaBtnText, { color: colors.primary[400] }]}>Test</Text>
+                        <Text style={[styles.ctaBtnText, { color: colors.primary[400] }]}>{t('deckDetail.testBtn')}</Text>
                     </TouchableOpacity>
                 </Animated.View>
 
@@ -433,7 +444,7 @@ export default function DeckDetailScreen() {
                             <Ionicons name="search-outline" size={16} color={tc.textMuted} />
                             <TextInput
                                 style={[styles.searchInput, { color: tc.text }]}
-                                placeholder="Search words..."
+                                placeholder={t('deckDetail.searchPlaceholder')}
                                 placeholderTextColor={tc.textMuted}
                                 value={searchQuery}
                                 onChangeText={setSearchQuery}
@@ -487,7 +498,7 @@ export default function DeckDetailScreen() {
                                             { color: statusFilter === f.key ? '#fff' : tc.textSecondary },
                                         ]}
                                     >
-                                        {f.label}
+                                        {t(f.labelKey)}
                                     </Text>
                                 </TouchableOpacity>
                             ))}
@@ -519,7 +530,7 @@ export default function DeckDetailScreen() {
                                 { color: showAddWord ? '#fff' : colors.primary[400] },
                             ]}
                         >
-                            {showAddWord ? 'Cancel' : 'Add Word'}
+                            {showAddWord ? t('common.cancel') : t('deckDetail.addWord')}
                         </Text>
                     </TouchableOpacity>
 
@@ -534,7 +545,7 @@ export default function DeckDetailScreen() {
                                         styles.addWordInput,
                                         { backgroundColor: tc.background, color: tc.text, borderColor: tc.border },
                                     ]}
-                                    placeholder="Type a word..."
+                                    placeholder={t('deckDetail.typeWord')}
                                     placeholderTextColor={tc.textMuted}
                                     value={manualWord}
                                     onChangeText={(t) => {
@@ -569,7 +580,7 @@ export default function DeckDetailScreen() {
                                             color={tc.textSecondary}
                                         />
                                         <Text style={[styles.manualNoteText, { color: tc.textSecondary }]}>
-                                            Not in dictionary — fill in manually:
+                                            {t('deckDetail.notInDict')}
                                         </Text>
                                     </View>
                                     <TextInput
@@ -581,7 +592,7 @@ export default function DeckDetailScreen() {
                                                 borderColor: tc.border,
                                             },
                                         ]}
-                                        placeholder="Translation (required)"
+                                        placeholder={t('deckDetail.translationRequired')}
                                         placeholderTextColor={tc.textMuted}
                                         value={manualTranslation}
                                         onChangeText={setManualTranslation}
@@ -595,7 +606,7 @@ export default function DeckDetailScreen() {
                                                 borderColor: tc.border,
                                             },
                                         ]}
-                                        placeholder="Example sentence (optional)"
+                                        placeholder={t('deckDetail.exampleOptional')}
                                         placeholderTextColor={tc.textMuted}
                                         value={manualExample}
                                         onChangeText={setManualExample}
@@ -606,7 +617,7 @@ export default function DeckDetailScreen() {
                                         activeOpacity={0.8}
                                     >
                                         <Ionicons name="checkmark" size={18} color="#fff" />
-                                        <Text style={styles.manualAddBtnText}>Add to Deck</Text>
+                                        <Text style={styles.manualAddBtnText}>{t('deckDetail.addToDeck')}</Text>
                                     </TouchableOpacity>
                                 </Animated.View>
                             )}
@@ -617,8 +628,8 @@ export default function DeckDetailScreen() {
                 {/* ── Card List Header ────────────────────────────── */}
                 <Text style={[styles.cardListLabel, { color: tc.textSecondary }]}>
                     {searchQuery || statusFilter !== 'all'
-                        ? `${displayCards.length} of ${cards.length} CARDS`
-                        : `${cards.length} CARDS`}
+                        ? t('deckDetail.cardsOf', { shown: displayCards.length, total: cards.length })
+                        : t('deckDetail.cardsTotal', { count: cards.length })}
                 </Text>
 
                 {/* ── Empty State ─────────────────────────────────── */}
@@ -629,8 +640,8 @@ export default function DeckDetailScreen() {
                         </Text>
                         <Text style={[styles.emptyText, { color: tc.textSecondary }]}>
                             {cards.length === 0
-                                ? 'No cards yet.\nTap "Add Word" to get started!'
-                                : 'No cards match your filter.'}
+                                ? t('deckDetail.noCardsMsg')
+                                : t('deckDetail.noCardsFilter')}
                         </Text>
                     </View>
                 )}
@@ -652,7 +663,7 @@ export default function DeckDetailScreen() {
                                     ]}
                                     value={editFront}
                                     onChangeText={setEditFront}
-                                    placeholder="Word"
+                                    placeholder={t('deckDetail.wordPlaceholder')}
                                     placeholderTextColor={tc.textMuted}
                                     autoFocus
                                 />
@@ -663,7 +674,7 @@ export default function DeckDetailScreen() {
                                     ]}
                                     value={editBack}
                                     onChangeText={setEditBack}
-                                    placeholder="Translation"
+                                    placeholder={t('deckDetail.translationPlaceholder')}
                                     placeholderTextColor={tc.textMuted}
                                 />
                                 <TextInput
@@ -673,7 +684,7 @@ export default function DeckDetailScreen() {
                                     ]}
                                     value={editExample}
                                     onChangeText={setEditExample}
-                                    placeholder="Example sentence (optional)"
+                                    placeholder={t('deckDetail.exampleOptional')}
                                     placeholderTextColor={tc.textMuted}
                                 />
                                 <View style={styles.editActions}>
@@ -685,7 +696,7 @@ export default function DeckDetailScreen() {
                                         {isSavingCard ? (
                                             <ActivityIndicator size="small" color="#fff" />
                                         ) : (
-                                            <Text style={styles.editActionBtnText}>Save</Text>
+                                            <Text style={styles.editActionBtnText}>{t('common.save')}</Text>
                                         )}
                                     </TouchableOpacity>
                                     <TouchableOpacity
@@ -693,7 +704,7 @@ export default function DeckDetailScreen() {
                                         onPress={() => setEditingCardId(null)}
                                     >
                                         <Text style={[styles.editActionBtnText, { color: tc.text }]}>
-                                            Cancel
+                                            {t('common.cancel')}
                                         </Text>
                                     </TouchableOpacity>
                                 </View>
@@ -779,9 +790,9 @@ export default function DeckDetailScreen() {
             >
                 <Pressable style={styles.modalOverlay} onPress={() => setShowEditDeck(false)}>
                     <Pressable style={[styles.modalBox, { backgroundColor: tc.surface }]} onPress={() => {}}>
-                        <Text style={[styles.modalTitle, { color: tc.text }]}>Edit Deck</Text>
+                        <Text style={[styles.modalTitle, { color: tc.text }]}>{t('deckDetail.editModal.title')}</Text>
 
-                        <Text style={[styles.modalLabel, { color: tc.textSecondary }]}>NAME</Text>
+                        <Text style={[styles.modalLabel, { color: tc.textSecondary }]}>{t('deckDetail.editModal.nameLabel')}</Text>
                         <TextInput
                             style={[
                                 styles.modalInput,
@@ -789,11 +800,11 @@ export default function DeckDetailScreen() {
                             ]}
                             value={editDeckName}
                             onChangeText={setEditDeckName}
-                            placeholder="Deck name"
+                            placeholder={t('deckDetail.editModal.namePlaceholder')}
                             placeholderTextColor={tc.textMuted}
                         />
 
-                        <Text style={[styles.modalLabel, { color: tc.textSecondary }]}>LEVEL</Text>
+                        <Text style={[styles.modalLabel, { color: tc.textSecondary }]}>{t('deckDetail.editModal.levelLabel')}</Text>
                         <View style={styles.chipRow}>
                             {getLevelOptions(deck?.targetLanguage || 'en').map(({ level, label }) => (
                                 <TouchableOpacity
@@ -821,30 +832,30 @@ export default function DeckDetailScreen() {
                             ))}
                         </View>
 
-                        <Text style={[styles.modalLabel, { color: tc.textSecondary }]}>CATEGORY</Text>
+                        <Text style={[styles.modalLabel, { color: tc.textSecondary }]}>{t('deckDetail.editModal.categoryLabel')}</Text>
                         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                             <View style={styles.chipRow}>
-                                {CATEGORIES.map((cat) => (
+                                {CATEGORY_KEYS.map((cat) => (
                                     <TouchableOpacity
-                                        key={cat}
+                                        key={cat.value}
                                         style={[
                                             styles.chip,
                                             {
                                                 backgroundColor:
-                                                    editDeckCategory === cat ? colors.accent[500] : tc.background,
+                                                    editDeckCategory === cat.value ? colors.accent[500] : tc.background,
                                                 borderColor:
-                                                    editDeckCategory === cat ? colors.accent[500] : tc.border,
+                                                    editDeckCategory === cat.value ? colors.accent[500] : tc.border,
                                             },
                                         ]}
-                                        onPress={() => setEditDeckCategory(cat)}
+                                        onPress={() => setEditDeckCategory(cat.value)}
                                     >
                                         <Text
                                             style={[
                                                 styles.chipText,
-                                                { color: editDeckCategory === cat ? '#fff' : tc.text },
+                                                { color: editDeckCategory === cat.value ? '#fff' : tc.text },
                                             ]}
                                         >
-                                            {cat}
+                                            {t(cat.key)}
                                         </Text>
                                     </TouchableOpacity>
                                 ))}
@@ -859,12 +870,12 @@ export default function DeckDetailScreen() {
                             {isSavingDeck ? (
                                 <ActivityIndicator size="small" color="#fff" />
                             ) : (
-                                <Text style={styles.modalSaveBtnText}>Save Changes</Text>
+                                <Text style={styles.modalSaveBtnText}>{t('deckDetail.editModal.saveChanges')}</Text>
                             )}
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.modalCancel} onPress={() => setShowEditDeck(false)}>
-                            <Text style={[styles.modalCancelText, { color: tc.textMuted }]}>Cancel</Text>
+                            <Text style={[styles.modalCancelText, { color: tc.textMuted }]}>{t('common.cancel')}</Text>
                         </TouchableOpacity>
                     </Pressable>
                 </Pressable>
@@ -879,7 +890,7 @@ export default function DeckDetailScreen() {
             >
                 <Pressable style={styles.modalOverlay} onPress={() => setShowQuizModal(false)}>
                     <Pressable style={[styles.modalBox, { backgroundColor: tc.surface }]} onPress={() => {}}>
-                        <Text style={[styles.modalTitle, { color: tc.text }]}>Test Yourself</Text>
+                        <Text style={[styles.modalTitle, { color: tc.text }]}>{t('decks.testYourself')}</Text>
                         <Text style={[styles.modalSubtitle, { color: tc.textSecondary }]}>{deck?.name}</Text>
 
                         <TouchableOpacity
@@ -899,9 +910,9 @@ export default function DeckDetailScreen() {
                                 <Ionicons name="list" size={22} color={colors.primary[400]} />
                             </View>
                             <View style={{ flex: 1 }}>
-                                <Text style={[styles.quizModeName, { color: tc.text }]}>Multiple Choice</Text>
+                                <Text style={[styles.quizModeName, { color: tc.text }]}>{t('decks.quiz.multipleChoice')}</Text>
                                 <Text style={[styles.quizModeDesc, { color: tc.textMuted }]}>
-                                    Pick the correct answer
+                                    {t('decks.quiz.multipleChoiceDesc')}
                                 </Text>
                             </View>
                             <Ionicons name="chevron-forward" size={18} color={tc.textMuted} />
@@ -924,9 +935,9 @@ export default function DeckDetailScreen() {
                                 <Ionicons name="git-compare-outline" size={22} color={colors.accent[400]} />
                             </View>
                             <View style={{ flex: 1 }}>
-                                <Text style={[styles.quizModeName, { color: tc.text }]}>Matching</Text>
+                                <Text style={[styles.quizModeName, { color: tc.text }]}>{t('decks.quiz.matching')}</Text>
                                 <Text style={[styles.quizModeDesc, { color: tc.textMuted }]}>
-                                    Match words to meanings
+                                    {t('decks.quiz.matchingDesc')}
                                 </Text>
                             </View>
                             <Ionicons name="chevron-forward" size={18} color={tc.textMuted} />
@@ -952,16 +963,16 @@ export default function DeckDetailScreen() {
                                 <Ionicons name="pencil-outline" size={22} color={colors.success.main} />
                             </View>
                             <View style={{ flex: 1 }}>
-                                <Text style={[styles.quizModeName, { color: tc.text }]}>Spelling</Text>
+                                <Text style={[styles.quizModeName, { color: tc.text }]}>{t('decks.quiz.spelling')}</Text>
                                 <Text style={[styles.quizModeDesc, { color: tc.textMuted }]}>
-                                    Type the word from memory
+                                    {t('decks.quiz.spellingDesc')}
                                 </Text>
                             </View>
                             <Ionicons name="chevron-forward" size={18} color={tc.textMuted} />
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.modalCancel} onPress={() => setShowQuizModal(false)}>
-                            <Text style={[styles.modalCancelText, { color: tc.textMuted }]}>Cancel</Text>
+                            <Text style={[styles.modalCancelText, { color: tc.textMuted }]}>{t('common.cancel')}</Text>
                         </TouchableOpacity>
                     </Pressable>
                 </Pressable>

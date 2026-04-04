@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown, FadeInUp, useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
 import {
@@ -26,16 +27,17 @@ function formatTime(seconds: number): string {
     return `${m}m`;
 }
 
-function getLevelLabel(words: number): { label: string; color: string } {
-    if (words < 100) return { label: 'Beginner', color: colors.success.main };
-    if (words < 500) return { label: 'Elementary', color: colors.accent[400] };
-    if (words < 1000) return { label: 'Intermediate', color: colors.primary[400] };
-    if (words < 2000) return { label: 'Upper-Int.', color: colors.warning.main };
-    return { label: 'Advanced', color: colors.error.main };
+function getLevelLabel(words: number): { key: string; color: string } {
+    if (words < 100) return { key: 'stats.level.beginner', color: colors.success.main };
+    if (words < 500) return { key: 'stats.level.elementary', color: colors.accent[400] };
+    if (words < 1000) return { key: 'stats.level.intermediate', color: colors.primary[400] };
+    if (words < 2000) return { key: 'stats.level.upperInt', color: colors.warning.main };
+    return { key: 'stats.level.advanced', color: colors.error.main };
 }
 
 // ── Bar chart component ────────────────────────────────────
 function BarChart({ days, dailyGoal }: { days: DayStats[]; dailyGoal: number }) {
+    const { t } = useTranslation();
     const themeMode = useProfileStore((s) => s.themeMode);
     const tc = themeMode === 'dark' ? colors.dark : colors.light;
     const maxVal = Math.max(...days.map((d) => d.count), dailyGoal, 1);
@@ -62,7 +64,7 @@ function BarChart({ days, dailyGoal }: { days: DayStats[]; dailyGoal: number }) 
                     },
                 ]}
             >
-                Goal
+                {t('stats.goal')}
             </Text>
 
             {/* Bars */}
@@ -180,6 +182,7 @@ function CircularProgress({ value, max, size = 80, color = colors.primary[500] }
 }
 
 export default function StatsScreen() {
+    const { t } = useTranslation();
     const themeMode = useProfileStore((s) => s.themeMode);
     const tc = themeMode === 'dark' ? colors.dark : colors.light;
 
@@ -227,7 +230,7 @@ export default function StatsScreen() {
                             Level {xpProgress.current.level} · {xpProgress.current.title}
                         </Text>
                         <Text style={[styles.xpTotalText, { color: tc.textMuted }]}>
-                            {totalXP.toLocaleString()} total XP
+                            {t('stats.totalXP', { xp: totalXP.toLocaleString() })}
                         </Text>
                     </View>
                 </View>
@@ -250,9 +253,9 @@ export default function StatsScreen() {
                     <Text style={[styles.overviewValue, { color: tc.text }]}>
                         {stats?.totalWordsLearned ?? 0}
                     </Text>
-                    <Text style={[styles.overviewLabel, { color: tc.textMuted }]}>Words Learned</Text>
+                    <Text style={[styles.overviewLabel, { color: tc.textMuted }]}>{t('stats.wordsLearned')}</Text>
                     <View style={[styles.levelBadge, { backgroundColor: levelInfo.color + '22' }]}>
-                        <Text style={[styles.levelText, { color: levelInfo.color }]}>{levelInfo.label}</Text>
+                        <Text style={[styles.levelText, { color: levelInfo.color }]}>{t(levelInfo.key)}</Text>
                     </View>
                 </View>
 
@@ -261,9 +264,9 @@ export default function StatsScreen() {
                     <Text style={[styles.overviewValue, { color: tc.text }]}>
                         {formatTime(stats?.totalStudySeconds ?? 0)}
                     </Text>
-                    <Text style={[styles.overviewLabel, { color: tc.textMuted }]}>Study Time</Text>
+                    <Text style={[styles.overviewLabel, { color: tc.textMuted }]}>{t('stats.studyTime')}</Text>
                     <Text style={[styles.overviewSub, { color: tc.textMuted }]}>
-                        {stats?.totalSessions ?? 0} sessions
+                        {t('stats.sessions', { count: stats?.totalSessions ?? 0 })}
                     </Text>
                 </View>
 
@@ -272,9 +275,9 @@ export default function StatsScreen() {
                     <Text style={[styles.overviewValue, { color: tc.text }]}>
                         {stats?.currentStreak ?? 0}
                     </Text>
-                    <Text style={[styles.overviewLabel, { color: tc.textMuted }]}>Current Streak</Text>
+                    <Text style={[styles.overviewLabel, { color: tc.textMuted }]}>{t('stats.currentStreak')}</Text>
                     <Text style={[styles.overviewSub, { color: tc.textMuted }]}>
-                        Best: {stats?.longestStreak ?? 0} days
+                        {t('stats.bestStreak', { count: stats?.longestStreak ?? 0 })}
                     </Text>
                 </View>
 
@@ -283,9 +286,9 @@ export default function StatsScreen() {
                     <Text style={[styles.overviewValue, { color: tc.text }]}>
                         {totalCards}
                     </Text>
-                    <Text style={[styles.overviewLabel, { color: tc.textMuted }]}>Total Cards</Text>
+                    <Text style={[styles.overviewLabel, { color: tc.textMuted }]}>{t('stats.totalCards')}</Text>
                     <Text style={[styles.overviewSub, { color: tc.textMuted }]}>
-                        {totalQuizCards} quiz
+                        {t('stats.quiz', { count: totalQuizCards })}
                     </Text>
                 </View>
             </Animated.View>
@@ -293,18 +296,18 @@ export default function StatsScreen() {
             {/* 7-day chart */}
             <Animated.View entering={FadeInDown.delay(100).duration(500)} style={[styles.card, { backgroundColor: tc.surface }]}>
                 <View style={styles.cardHeader}>
-                    <Text style={[styles.cardTitle, { color: tc.text }]}>Last 7 Days</Text>
+                    <Text style={[styles.cardTitle, { color: tc.text }]}>{t('stats.last7Days')}</Text>
                     <View style={styles.legendRow}>
                         <View style={[styles.legendDot, { backgroundColor: colors.success.main }]} />
-                        <Text style={[styles.legendText, { color: tc.textMuted }]}>Goal met</Text>
+                        <Text style={[styles.legendText, { color: tc.textMuted }]}>{t('stats.goalMet')}</Text>
                         <View style={[styles.legendDot, { backgroundColor: colors.primary[400] }]} />
-                        <Text style={[styles.legendText, { color: tc.textMuted }]}>Today</Text>
+                        <Text style={[styles.legendText, { color: tc.textMuted }]}>{t('stats.today')}</Text>
                     </View>
                 </View>
                 {stats && <BarChart days={stats.last7Days} dailyGoal={dailyGoal} />}
                 {!stats && (
                     <View style={styles.chartEmpty}>
-                        <Text style={{ color: tc.textMuted }}>Loading...</Text>
+                        <Text style={{ color: tc.textMuted }}>{t('common.loading')}</Text>
                     </View>
                 )}
             </Animated.View>
@@ -312,7 +315,7 @@ export default function StatsScreen() {
             {/* Session type breakdown */}
             {stats && totalCards > 0 && (
                 <Animated.View entering={FadeInDown.delay(200).duration(500)} style={[styles.card, { backgroundColor: tc.surface }]}>
-                    <Text style={[styles.cardTitle, { color: tc.text }]}>Study Mode Breakdown</Text>
+                    <Text style={[styles.cardTitle, { color: tc.text }]}>{t('stats.studyBreakdown')}</Text>
                     <View style={styles.breakdownRow}>
                         <View style={styles.breakdownItem}>
                             <CircularProgress
@@ -323,7 +326,7 @@ export default function StatsScreen() {
                             <Text style={[styles.breakdownLabel, { color: tc.text }]}>
                                 {stats.sessionBreakdown.flashcard}
                             </Text>
-                            <Text style={[styles.breakdownSub, { color: tc.textMuted }]}>Flashcard</Text>
+                            <Text style={[styles.breakdownSub, { color: tc.textMuted }]}>{t('stats.flashcard')}</Text>
                         </View>
                         <View style={[styles.breakdownDivider, { backgroundColor: tc.border }]} />
                         <View style={styles.breakdownItem}>
@@ -335,7 +338,7 @@ export default function StatsScreen() {
                             <Text style={[styles.breakdownLabel, { color: tc.text }]}>
                                 {stats.sessionBreakdown.quiz}
                             </Text>
-                            <Text style={[styles.breakdownSub, { color: tc.textMuted }]}>Quiz / Spell</Text>
+                            <Text style={[styles.breakdownSub, { color: tc.textMuted }]}>{t('stats.quizSpell')}</Text>
                         </View>
                     </View>
                 </Animated.View>
@@ -344,7 +347,7 @@ export default function StatsScreen() {
             {/* Deck accuracy breakdown */}
             {stats && stats.deckAccuracies.length > 0 && (
                 <Animated.View entering={FadeInDown.delay(300).duration(500)} style={[styles.card, { backgroundColor: tc.surface }]}>
-                    <Text style={[styles.cardTitle, { color: tc.text }]}>Deck Accuracy</Text>
+                    <Text style={[styles.cardTitle, { color: tc.text }]}>{t('stats.deckAccuracy')}</Text>
                     {stats.deckAccuracies.map((deck, i) => (
                         <Animated.View
                             key={deck.deckId}
@@ -382,7 +385,7 @@ export default function StatsScreen() {
                                 />
                             </View>
                             <Text style={[styles.deckMeta, { color: tc.textMuted }]}>
-                                {deck.cardsStudied} studied · {deck.cardCount} total cards
+                                {t('stats.studied', { studied: deck.cardsStudied, total: deck.cardCount })}
                             </Text>
                         </Animated.View>
                     ))}
@@ -391,9 +394,9 @@ export default function StatsScreen() {
 
             {/* Badges section */}
             <Animated.View entering={FadeInDown.delay(350).duration(500)} style={[styles.card, { backgroundColor: tc.surface }]}>
-                <Text style={[styles.cardTitle, { color: tc.text }]}>Badges</Text>
+                <Text style={[styles.cardTitle, { color: tc.text }]}>{t('stats.badges')}</Text>
                 <Text style={[styles.badgeSubtitle, { color: tc.textMuted }]}>
-                    {earnedBadges.length} / {BADGES.length} earned
+                    {t('stats.badgesEarned', { earned: earnedBadges.length, total: BADGES.length })}
                 </Text>
                 <View style={styles.badgesGrid}>
                     {BADGES.map((badge) => {
@@ -424,9 +427,9 @@ export default function StatsScreen() {
             {stats && stats.totalSessions === 0 && (
                 <Animated.View entering={FadeInDown.delay(150).duration(500)} style={[styles.emptyCard, { backgroundColor: tc.surface }]}>
                     <Text style={{ fontSize: 48, marginBottom: spacing.md }}>📊</Text>
-                    <Text style={[styles.emptyTitle, { color: tc.text }]}>No Data Yet</Text>
+                    <Text style={[styles.emptyTitle, { color: tc.text }]}>{t('stats.noData')}</Text>
                     <Text style={[styles.emptySub, { color: tc.textSecondary }]}>
-                        Start studying your decks to see your statistics here!
+                        {t('stats.noDataDesc')}
                     </Text>
                 </Animated.View>
             )}

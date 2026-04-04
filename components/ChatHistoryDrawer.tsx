@@ -9,6 +9,7 @@
 
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     Alert,
     FlatList,
@@ -47,6 +48,7 @@ export default function ChatHistoryDrawer({
     onNewSession,
     onClose,
 }: Props) {
+    const { t } = useTranslation();
     const themeMode = useProfileStore((s) => s.themeMode);
     const tc = themeMode === 'dark' ? colors.dark : colors.light;
 
@@ -77,12 +79,12 @@ export default function ChatHistoryDrawer({
 
     const handleLongPress = (session: ChatSessionMeta) => {
         Alert.alert(
-            'Sohbeti sil',
-            `"${session.title}" silinsin mi?`,
+            t('chatHistory.deleteTitle'),
+            t('chatHistory.deleteMessage'),
             [
-                { text: 'İptal', style: 'cancel' },
+                { text: t('common.cancel'), style: 'cancel' },
                 {
-                    text: 'Sil',
+                    text: t('common.delete'),
                     style: 'destructive',
                     onPress: async () => {
                         await clearChatMessages(session.id);
@@ -188,7 +190,7 @@ export default function ChatHistoryDrawer({
                 >
                     {/* Drawer header */}
                     <View style={[styles.drawerHeader, { borderBottomColor: tc.border }]}>
-                        <Text style={[styles.drawerTitle, { color: tc.text }]}>Sohbet Geçmişi</Text>
+                        <Text style={[styles.drawerTitle, { color: tc.text }]}>{t('chatHistory.title')}</Text>
                         <TouchableOpacity onPress={onClose} hitSlop={8}>
                             <Ionicons name="close" size={22} color={tc.textMuted} />
                         </TouchableOpacity>
@@ -200,7 +202,7 @@ export default function ChatHistoryDrawer({
                         keyExtractor={(item) => item.id}
                         renderItem={renderItem}
                         ListEmptyComponent={
-                            <Text style={[styles.emptyText, { color: tc.textMuted }]}>Henüz sohbet yok</Text>
+                            <Text style={[styles.emptyText, { color: tc.textMuted }]}>{t('chatHistory.newChat')}</Text>
                         }
                         style={styles.list}
                     />
@@ -211,7 +213,7 @@ export default function ChatHistoryDrawer({
                         style={[styles.newBtn, { borderTopColor: tc.border }]}
                     >
                         <Ionicons name="add-circle-outline" size={20} color={colors.primary[400]} />
-                        <Text style={[styles.newBtnText, { color: colors.primary[400] }]}>Yeni Sohbet</Text>
+                        <Text style={[styles.newBtnText, { color: colors.primary[400] }]}>{t('chatHistory.newChat')}</Text>
                     </TouchableOpacity>
                 </Animated.View>
             </Animated.View>

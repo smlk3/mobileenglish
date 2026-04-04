@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     ActivityIndicator,
     Alert,
@@ -20,7 +21,16 @@ import { addCardsToDecks, createDeck } from '../src/shared/lib/stores/useDatabas
 import { useProfileStore } from '../src/shared/lib/stores/useProfileStore';
 import { borderRadius, colors, shadows, spacing, typography } from '../src/shared/lib/theme';
 
-const CATEGORIES = ['General', 'Business', 'Medical', 'Technology', 'Academic', 'Daily Life', 'Travel', 'Sports'];
+const CATEGORY_KEYS = [
+    { key: 'createDeck.categories.general', value: 'General' },
+    { key: 'createDeck.categories.business', value: 'Business' },
+    { key: 'createDeck.categories.medical', value: 'Medical' },
+    { key: 'createDeck.categories.technology', value: 'Technology' },
+    { key: 'createDeck.categories.academic', value: 'Academic' },
+    { key: 'createDeck.categories.dailyLife', value: 'Daily Life' },
+    { key: 'createDeck.categories.travel', value: 'Travel' },
+    { key: 'createDeck.categories.sports', value: 'Sports' },
+];
 
 interface GeneratedWord {
     word: string;
@@ -32,6 +42,7 @@ interface GeneratedWord {
 }
 
 export default function CreateDeckScreen() {
+    const { t } = useTranslation();
     const router = useRouter();
     const themeMode = useProfileStore((s) => s.themeMode);
     const targetLanguage = useProfileStore((s) => s.targetLanguage);
@@ -90,7 +101,7 @@ export default function CreateDeckScreen() {
                 })),
             );
         } catch {
-            Alert.alert('Error', 'Failed to generate words. Please try again.');
+            Alert.alert(t('common.error'), t('createDeck.generateError'));
         } finally {
             setIsGenerating(false);
         }
@@ -103,7 +114,7 @@ export default function CreateDeckScreen() {
 
         // Duplicate check
         if (generatedWords.some((w) => w.word.toLowerCase() === trimmed.toLowerCase())) {
-            Alert.alert('Duplicate', `"${trimmed}" is already in the list.`);
+            Alert.alert(t('createDeck.duplicate'), t('createDeck.duplicateMsg', { word: trimmed }));
             return;
         }
 
@@ -143,7 +154,7 @@ export default function CreateDeckScreen() {
     const addManualWord = () => {
         const trimmed = manualWord.trim();
         if (!trimmed || !manualTranslation.trim()) {
-            Alert.alert('Required', 'Word and translation are required.');
+            Alert.alert(t('common.error'), t('createDeck.required'));
             return;
         }
 
@@ -180,7 +191,7 @@ export default function CreateDeckScreen() {
 
     const saveEdit = (index: number) => {
         if (!editWord.trim() || !editTranslation.trim()) {
-            Alert.alert('Required', 'Word and translation cannot be empty.');
+            Alert.alert(t('common.error'), t('createDeck.required'));
             return;
         }
         setGeneratedWords((prev) =>
@@ -198,11 +209,11 @@ export default function CreateDeckScreen() {
     // ─── Save Deck ─────────────────────────────────────────────────
     const saveDeck = async () => {
         if (!name.trim()) {
-            Alert.alert('Error', 'Please enter a deck name.');
+            Alert.alert(t('common.error'), t('createDeck.noName'));
             return;
         }
         if (generatedWords.length === 0) {
-            Alert.alert('Error', 'Add at least one word before saving.');
+            Alert.alert(t('common.error'), t('createDeck.noWords'));
             return;
         }
 
@@ -228,7 +239,7 @@ export default function CreateDeckScreen() {
 
             router.back();
         } catch {
-            Alert.alert('Error', 'Failed to save deck. Please try again.');
+            Alert.alert(t('common.error'), t('createDeck.saveFailed'));
         } finally {
             setIsSaving(false);
         }
@@ -245,7 +256,7 @@ export default function CreateDeckScreen() {
                 <TouchableOpacity onPress={() => router.back()} style={styles.headerButton}>
                     <Ionicons name="close" size={24} color={tc.text} />
                 </TouchableOpacity>
-                <Text style={[styles.headerTitle, { color: tc.text }]}>Create Deck</Text>
+                <Text style={[styles.headerTitle, { color: tc.text }]}>{t('createDeck.title')}</Text>
                 <TouchableOpacity
                     onPress={saveDeck}
                     style={[styles.headerButton, styles.saveButton, { backgroundColor: colors.primary[500] }]}
@@ -254,7 +265,7 @@ export default function CreateDeckScreen() {
                     {isSaving ? (
                         <ActivityIndicator size="small" color="#fff" />
                     ) : (
-                        <Text style={styles.saveButtonText}>Save</Text>
+                        <Text style={styles.saveButtonText}>{t('common.save')}</Text>
                     )}
                 </TouchableOpacity>
             </View>
@@ -266,10 +277,10 @@ export default function CreateDeckScreen() {
             >
                 {/* Deck Name */}
                 <Animated.View entering={FadeInDown.duration(400)}>
-                    <Text style={[styles.label, { color: tc.textSecondary }]}>DECK NAME</Text>
+                    <Text style={[styles.label, { color: tc.textSecondary }]}>{t('createDeck.deckName')}</Text>
                     <TextInput
                         style={[styles.input, { backgroundColor: tc.surface, color: tc.text, borderColor: tc.border }]}
-                        placeholder="e.g. Business English B2"
+                        placeholder={t('createDeck.deckNamePlaceholder')}
                         placeholderTextColor={tc.textMuted}
                         value={name}
                         onChangeText={setName}
@@ -278,7 +289,7 @@ export default function CreateDeckScreen() {
 
                 {/* Proficiency Level */}
                 <Animated.View entering={FadeInDown.duration(400).delay(50)}>
-                    <Text style={[styles.label, { color: tc.textSecondary }]}>LEVEL</Text>
+                    <Text style={[styles.label, { color: tc.textSecondary }]}>{t('createDeck.level')}</Text>
                     <View style={styles.chipRow}>
                         {levelOptions.map(({ level, label }) => (
                             <TouchableOpacity
@@ -307,28 +318,28 @@ export default function CreateDeckScreen() {
 
                 {/* Category */}
                 <Animated.View entering={FadeInDown.duration(400).delay(100)}>
-                    <Text style={[styles.label, { color: tc.textSecondary }]}>CATEGORY</Text>
+                    <Text style={[styles.label, { color: tc.textSecondary }]}>{t('createDeck.category')}</Text>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.chipScroll}>
                         <View style={styles.chipRow}>
-                            {CATEGORIES.map((cat) => (
+                            {CATEGORY_KEYS.map((cat) => (
                                 <TouchableOpacity
-                                    key={cat}
+                                    key={cat.value}
                                     style={[
                                         styles.chip,
                                         {
-                                            backgroundColor: selectedCategory === cat ? colors.accent[500] : tc.surface,
-                                            borderColor: selectedCategory === cat ? colors.accent[500] : tc.border,
+                                            backgroundColor: selectedCategory === cat.value ? colors.accent[500] : tc.surface,
+                                            borderColor: selectedCategory === cat.value ? colors.accent[500] : tc.border,
                                         },
                                     ]}
-                                    onPress={() => setSelectedCategory(cat)}
+                                    onPress={() => setSelectedCategory(cat.value)}
                                 >
                                     <Text
                                         style={[
                                             styles.chipText,
-                                            { color: selectedCategory === cat ? '#fff' : tc.text },
+                                            { color: selectedCategory === cat.value ? '#fff' : tc.text },
                                         ]}
                                     >
-                                        {cat}
+                                        {t(cat.key)}
                                     </Text>
                                 </TouchableOpacity>
                             ))}
@@ -344,7 +355,7 @@ export default function CreateDeckScreen() {
                     >
                         <Ionicons name="sparkles" size={14} color={activeTab === 'ai' ? '#fff' : tc.textSecondary} />
                         <Text style={[styles.tabText, { color: activeTab === 'ai' ? '#fff' : tc.textSecondary }]}>
-                            AI Generate
+                            {t('createDeck.aiGenerate')}
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -353,7 +364,7 @@ export default function CreateDeckScreen() {
                     >
                         <Ionicons name="pencil" size={14} color={activeTab === 'manual' ? '#fff' : tc.textSecondary} />
                         <Text style={[styles.tabText, { color: activeTab === 'manual' ? '#fff' : tc.textSecondary }]}>
-                            Manual Add
+                            {t('createDeck.manualAdd')}
                         </Text>
                     </TouchableOpacity>
                 </Animated.View>
@@ -362,7 +373,7 @@ export default function CreateDeckScreen() {
                 {activeTab === 'ai' && (
                     <Animated.View entering={FadeInDown.duration(300)}>
                         {/* Word Count */}
-                        <Text style={[styles.label, { color: tc.textSecondary }]}>WORD COUNT</Text>
+                        <Text style={[styles.label, { color: tc.textSecondary }]}>{t('createDeck.wordCount')}</Text>
                         <View style={styles.chipRow}>
                             {[5, 10, 15, 20].map((count) => (
                                 <TouchableOpacity
@@ -400,7 +411,7 @@ export default function CreateDeckScreen() {
                             ) : (
                                 <>
                                     <Ionicons name="sparkles" size={20} color="#fff" />
-                                    <Text style={styles.generateText}>Generate Words</Text>
+                                    <Text style={styles.generateText}>{t('createDeck.generateWords')}</Text>
                                 </>
                             )}
                         </TouchableOpacity>
@@ -410,7 +421,7 @@ export default function CreateDeckScreen() {
                 {/* ── Manual Add Tab ───────────────────────────── */}
                 {activeTab === 'manual' && (
                     <Animated.View entering={FadeInDown.duration(300)}>
-                        <Text style={[styles.label, { color: tc.textSecondary }]}>ADD A WORD</Text>
+                        <Text style={[styles.label, { color: tc.textSecondary }]}>{t('createDeck.addWord')}</Text>
 
                         {/* Word input row */}
                         <View style={styles.manualInputRow}>
@@ -419,7 +430,7 @@ export default function CreateDeckScreen() {
                                     styles.manualWordInput,
                                     { backgroundColor: tc.surface, color: tc.text, borderColor: tc.border },
                                 ]}
-                                placeholder="Type a word..."
+                                placeholder={t('createDeck.typeWord')}
                                 placeholderTextColor={tc.textMuted}
                                 value={manualWord}
                                 onChangeText={(t) => {
@@ -453,19 +464,19 @@ export default function CreateDeckScreen() {
                                 <View style={styles.manualFormHeader}>
                                     <Ionicons name="information-circle-outline" size={16} color={tc.textSecondary} />
                                     <Text style={[styles.manualFormNote, { color: tc.textSecondary }]}>
-                                        Word not found in dictionary. Fill in manually:
+                                        {t('createDeck.notFound')}
                                     </Text>
                                 </View>
                                 <TextInput
                                     style={[styles.input, { backgroundColor: tc.background, color: tc.text, borderColor: tc.border, marginTop: spacing.sm }]}
-                                    placeholder="Translation (required)"
+                                    placeholder={t('createDeck.translation')}
                                     placeholderTextColor={tc.textMuted}
                                     value={manualTranslation}
                                     onChangeText={setManualTranslation}
                                 />
                                 <TextInput
                                     style={[styles.input, { backgroundColor: tc.background, color: tc.text, borderColor: tc.border, marginTop: spacing.sm }]}
-                                    placeholder="Example sentence (optional)"
+                                    placeholder={t('createDeck.exampleSentence')}
                                     placeholderTextColor={tc.textMuted}
                                     value={manualExample}
                                     onChangeText={setManualExample}
@@ -476,7 +487,7 @@ export default function CreateDeckScreen() {
                                     activeOpacity={0.8}
                                 >
                                     <Ionicons name="checkmark" size={20} color="#fff" />
-                                    <Text style={styles.generateText}>Add to List</Text>
+                                    <Text style={styles.generateText}>{t('createDeck.addToList')}</Text>
                                 </TouchableOpacity>
                             </Animated.View>
                         )}
@@ -487,7 +498,7 @@ export default function CreateDeckScreen() {
                 {generatedWords.length > 0 && (
                     <Animated.View entering={FadeInDown.duration(400)}>
                         <Text style={[styles.label, { color: tc.textSecondary }]}>
-                            WORDS ({generatedWords.length})
+                            {t('createDeck.words', { count: generatedWords.length })}
                         </Text>
                         {generatedWords.map((word, index) => (
                             <Animated.View
@@ -502,21 +513,21 @@ export default function CreateDeckScreen() {
                                             style={[styles.editInput, { backgroundColor: tc.background, color: tc.text, borderColor: tc.border }]}
                                             value={editWord}
                                             onChangeText={setEditWord}
-                                            placeholder="Word"
+                                            placeholder={t('createDeck.word')}
                                             placeholderTextColor={tc.textMuted}
                                         />
                                         <TextInput
                                             style={[styles.editInput, { backgroundColor: tc.background, color: tc.text, borderColor: tc.border }]}
                                             value={editTranslation}
                                             onChangeText={setEditTranslation}
-                                            placeholder="Translation"
+                                            placeholder={t('createDeck.translationLabel')}
                                             placeholderTextColor={tc.textMuted}
                                         />
                                         <TextInput
                                             style={[styles.editInput, { backgroundColor: tc.background, color: tc.text, borderColor: tc.border }]}
                                             value={editExample}
                                             onChangeText={setEditExample}
-                                            placeholder="Example sentence"
+                                            placeholder={t('createDeck.exampleSentence')}
                                             placeholderTextColor={tc.textMuted}
                                         />
                                         <View style={styles.editActions}>
@@ -524,13 +535,13 @@ export default function CreateDeckScreen() {
                                                 style={[styles.editActionBtn, { backgroundColor: colors.primary[500] }]}
                                                 onPress={() => saveEdit(index)}
                                             >
-                                                <Text style={styles.editActionText}>Save</Text>
+                                                <Text style={styles.editActionText}>{t('common.save')}</Text>
                                             </TouchableOpacity>
                                             <TouchableOpacity
                                                 style={[styles.editActionBtn, { backgroundColor: tc.border }]}
                                                 onPress={cancelEdit}
                                             >
-                                                <Text style={[styles.editActionText, { color: tc.text }]}>Cancel</Text>
+                                                <Text style={[styles.editActionText, { color: tc.text }]}>{t('common.cancel')}</Text>
                                             </TouchableOpacity>
                                         </View>
                                     </View>

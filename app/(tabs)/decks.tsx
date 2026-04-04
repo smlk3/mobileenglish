@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Alert,
   Modal,
@@ -29,6 +30,7 @@ const CEFR_COLORS: Record<string, string> = {
 const DECK_COLORS = ['#6366F1', '#14B8A6', '#7C3AED', '#EF4444', '#F59E0B', '#EC4899', '#06B6D4'];
 
 export default function DecksScreen() {
+  const { t } = useTranslation();
   const router = useRouter();
   const themeMode = useProfileStore((s) => s.themeMode);
   const tc = themeMode === 'dark' ? colors.dark : colors.light;
@@ -54,12 +56,12 @@ export default function DecksScreen() {
   const handleDeleteDeck = (deck: Deck) => {
     setDeckOptionsFor(null);
     Alert.alert(
-      'Delete Deck',
-      `Delete "${deck.name}" and all its cards? This cannot be undone.`,
+      t('decks.delete.title'),
+      t('decks.delete.message', { name: deck.name }),
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: t('common.cancel'), style: 'cancel' },
         {
-          text: 'Delete',
+          text: t('common.delete'),
           style: 'destructive',
           onPress: async () => {
             await deleteDeck(deck);
@@ -92,21 +94,21 @@ export default function DecksScreen() {
           <Text style={[styles.summaryValue, { color: colors.primary[400] }]}>
             {decks.length}
           </Text>
-          <Text style={[styles.summaryLabel, { color: tc.textMuted }]}>Decks</Text>
+          <Text style={[styles.summaryLabel, { color: tc.textMuted }]}>{t('decks.summary.decks')}</Text>
         </View>
         <View style={[styles.divider, { backgroundColor: tc.border }]} />
         <View style={styles.summaryItem}>
           <Text style={[styles.summaryValue, { color: colors.accent[400] }]}>
             {totalCards}
           </Text>
-          <Text style={[styles.summaryLabel, { color: tc.textMuted }]}>Cards</Text>
+          <Text style={[styles.summaryLabel, { color: tc.textMuted }]}>{t('decks.summary.cards')}</Text>
         </View>
         <View style={[styles.divider, { backgroundColor: tc.border }]} />
         <View style={styles.summaryItem}>
           <Text style={[styles.summaryValue, { color: colors.warning.main }]}>
             {uniqueLevels}
           </Text>
-          <Text style={[styles.summaryLabel, { color: tc.textMuted }]}>Levels</Text>
+          <Text style={[styles.summaryLabel, { color: tc.textMuted }]}>{t('decks.summary.levels')}</Text>
         </View>
       </Animated.View>
 
@@ -117,9 +119,9 @@ export default function DecksScreen() {
           style={[styles.emptyState, { backgroundColor: tc.surface }]}
         >
           <Text style={{ fontSize: 48, marginBottom: spacing.md }}>📚</Text>
-          <Text style={[styles.emptyTitle, { color: tc.text }]}>No Decks Yet</Text>
+          <Text style={[styles.emptyTitle, { color: tc.text }]}>{t('decks.empty.title')}</Text>
           <Text style={[styles.emptySubtitle, { color: tc.textSecondary }]}>
-            Create your first deck to start learning new words!
+            {t('decks.empty.subtitle')}
           </Text>
         </Animated.View>
       )}
@@ -184,7 +186,7 @@ export default function DecksScreen() {
                 {/* Card count badge */}
                 <View style={[styles.cardCountBadge, { backgroundColor: deckColor + '20', borderColor: deckColor + '40' }]}>
                   <Text style={[styles.cardCount, { color: deckColor }]}>{deck.cardCount}</Text>
-                  <Text style={[styles.cardCountLabel, { color: deckColor + 'BB' }]}>cards</Text>
+                  <Text style={[styles.cardCountLabel, { color: deckColor + 'BB' }]}>{t('common.cards')}</Text>
                 </View>
                 <TouchableOpacity
                   style={styles.optionsBtn}
@@ -203,7 +205,7 @@ export default function DecksScreen() {
               activeOpacity={0.7}
             >
               <Ionicons name="trophy-outline" size={15} color={colors.primary[400]} />
-              <Text style={[styles.testBtnText, { color: colors.primary[400] }]}>Test Yourself</Text>
+              <Text style={[styles.testBtnText, { color: colors.primary[400] }]}>{t('decks.testYourself')}</Text>
             </TouchableOpacity>
           </Animated.View>
         );
@@ -216,7 +218,7 @@ export default function DecksScreen() {
       >
         <Pressable style={styles.modalOverlay} onPress={() => setQuizModalDeck(null)}>
           <Pressable style={[styles.modalBox, { backgroundColor: tc.surface }]} onPress={() => {}}>
-            <Text style={[styles.modalTitle, { color: tc.text }]}>Test Yourself</Text>
+            <Text style={[styles.modalTitle, { color: tc.text }]}>{t('decks.testYourself')}</Text>
             <Text style={[styles.modalSubtitle, { color: tc.textSecondary }]}>
               {quizModalDeck?.name}
             </Text>
@@ -229,8 +231,8 @@ export default function DecksScreen() {
                 <Ionicons name="list" size={22} color={colors.primary[400]} />
               </View>
               <View style={styles.modeTextArea}>
-                <Text style={[styles.modeName, { color: tc.text }]}>Multiple Choice</Text>
-                <Text style={[styles.modeDesc, { color: tc.textMuted }]}>Pick the correct answer from 4 choices</Text>
+                <Text style={[styles.modeName, { color: tc.text }]}>{t('decks.quiz.multipleChoice')}</Text>
+                <Text style={[styles.modeDesc, { color: tc.textMuted }]}>{t('decks.quiz.multipleChoiceDesc')}</Text>
               </View>
               <Ionicons name="chevron-forward" size={18} color={tc.textMuted} />
             </TouchableOpacity>
@@ -243,8 +245,8 @@ export default function DecksScreen() {
                 <Ionicons name="git-compare-outline" size={22} color={colors.accent[400]} />
               </View>
               <View style={styles.modeTextArea}>
-                <Text style={[styles.modeName, { color: tc.text }]}>Matching</Text>
-                <Text style={[styles.modeDesc, { color: tc.textMuted }]}>Match words with their meanings</Text>
+                <Text style={[styles.modeName, { color: tc.text }]}>{t('decks.quiz.matching')}</Text>
+                <Text style={[styles.modeDesc, { color: tc.textMuted }]}>{t('decks.quiz.matchingDesc')}</Text>
               </View>
               <Ionicons name="chevron-forward" size={18} color={tc.textMuted} />
             </TouchableOpacity>
@@ -257,13 +259,13 @@ export default function DecksScreen() {
                 <Ionicons name="pencil-outline" size={22} color={colors.success.main} />
               </View>
               <View style={styles.modeTextArea}>
-                <Text style={[styles.modeName, { color: tc.text }]}>Spelling</Text>
-                <Text style={[styles.modeDesc, { color: tc.textMuted }]}>Type the word, use hints if needed</Text>
+                <Text style={[styles.modeName, { color: tc.text }]}>{t('decks.quiz.spelling')}</Text>
+                <Text style={[styles.modeDesc, { color: tc.textMuted }]}>{t('decks.quiz.spellingDesc')}</Text>
               </View>
               <Ionicons name="chevron-forward" size={18} color={tc.textMuted} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setQuizModalDeck(null)} style={styles.modalCancel}>
-              <Text style={[styles.modalCancelText, { color: tc.textMuted }]}>Cancel</Text>
+              <Text style={[styles.modalCancelText, { color: tc.textMuted }]}>{t('common.cancel')}</Text>
             </TouchableOpacity>
           </Pressable>
         </Pressable>
@@ -280,7 +282,7 @@ export default function DecksScreen() {
           <Pressable style={[styles.modalBox, { backgroundColor: tc.surface }]} onPress={() => {}}>
             <Text style={[styles.modalTitle, { color: tc.text }]}>{deckOptionsFor?.name}</Text>
             <Text style={[styles.modalSubtitle, { color: tc.textSecondary }]}>
-              {deckOptionsFor?.cardCount} cards · {deckOptionsFor?.cefrLevel}
+              {deckOptionsFor?.cardCount} {t('common.cards')} · {deckOptionsFor?.cefrLevel}
             </Text>
             <TouchableOpacity
               style={[styles.modeBtn, { backgroundColor: tc.border + '40', borderColor: tc.border }]}
@@ -295,8 +297,8 @@ export default function DecksScreen() {
                 <Ionicons name="layers-outline" size={22} color={colors.accent[400]} />
               </View>
               <View style={styles.modeTextArea}>
-                <Text style={[styles.modeName, { color: tc.text }]}>View & Edit Cards</Text>
-                <Text style={[styles.modeDesc, { color: tc.textMuted }]}>Browse, edit or add words</Text>
+                <Text style={[styles.modeName, { color: tc.text }]}>{t('decks.options.viewEdit')}</Text>
+                <Text style={[styles.modeDesc, { color: tc.textMuted }]}>{t('decks.options.viewEditDesc')}</Text>
               </View>
               <Ionicons name="chevron-forward" size={18} color={tc.textMuted} />
             </TouchableOpacity>
@@ -313,8 +315,8 @@ export default function DecksScreen() {
                 <Ionicons name="book-outline" size={22} color={colors.primary[400]} />
               </View>
               <View style={styles.modeTextArea}>
-                <Text style={[styles.modeName, { color: tc.text }]}>Study</Text>
-                <Text style={[styles.modeDesc, { color: tc.textMuted }]}>Review cards with flashcards</Text>
+                <Text style={[styles.modeName, { color: tc.text }]}>{t('decks.options.study')}</Text>
+                <Text style={[styles.modeDesc, { color: tc.textMuted }]}>{t('decks.options.studyDesc')}</Text>
               </View>
               <Ionicons name="chevron-forward" size={18} color={tc.textMuted} />
             </TouchableOpacity>
@@ -327,12 +329,12 @@ export default function DecksScreen() {
                 <Ionicons name="trash-outline" size={22} color={colors.error.main} />
               </View>
               <View style={styles.modeTextArea}>
-                <Text style={[styles.modeName, { color: colors.error.main }]}>Delete Deck</Text>
-                <Text style={[styles.modeDesc, { color: tc.textMuted }]}>Remove deck and all its cards</Text>
+                <Text style={[styles.modeName, { color: colors.error.main }]}>{t('decks.options.delete')}</Text>
+                <Text style={[styles.modeDesc, { color: tc.textMuted }]}>{t('decks.options.deleteDesc')}</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setDeckOptionsFor(null)} style={styles.modalCancel}>
-              <Text style={[styles.modalCancelText, { color: tc.textMuted }]}>Cancel</Text>
+              <Text style={[styles.modalCancelText, { color: tc.textMuted }]}>{t('common.cancel')}</Text>
             </TouchableOpacity>
           </Pressable>
         </Pressable>
@@ -346,7 +348,7 @@ export default function DecksScreen() {
       >
         <Ionicons name="add-circle-outline" size={24} color={colors.primary[400]} />
         <Text style={[styles.addButtonText, { color: colors.primary[400] }]}>
-          Create New Deck
+          {t('decks.createNew')}
         </Text>
       </TouchableOpacity>
 

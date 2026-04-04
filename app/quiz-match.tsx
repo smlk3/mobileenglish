@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     ActivityIndicator,
     StyleSheet,
@@ -60,6 +61,7 @@ const BEST_TIME_KEY_PREFIX = 'match_best_';
 const TILE_COUNT = 6; // pairs = 6 cards = 12 tiles total
 
 export default function QuizMatchScreen() {
+    const { t } = useTranslation();
     const router = useRouter();
     const params = useLocalSearchParams<{ deckId?: string; deckName?: string }>();
     const themeMode = useProfileStore((s) => s.themeMode);
@@ -262,7 +264,7 @@ export default function QuizMatchScreen() {
             <View style={[styles.center, { backgroundColor: tc.background }]}>
                 <ActivityIndicator size="large" color={colors.primary[500]} />
                 <Text style={[styles.loadingText, { color: tc.textSecondary }]}>
-                    Loading cards...
+                    {t('study.loading')}
                 </Text>
             </View>
         );
@@ -273,15 +275,15 @@ export default function QuizMatchScreen() {
         return (
             <View style={[styles.center, { backgroundColor: tc.background }]}>
                 <Text style={{ fontSize: 48, marginBottom: spacing.lg }}>⚠️</Text>
-                <Text style={[styles.errorTitle, { color: tc.text }]}>Not Enough Cards</Text>
+                <Text style={[styles.errorTitle, { color: tc.text }]}>{t('common.error')}</Text>
                 <Text style={[styles.errorSubtitle, { color: tc.textSecondary }]}>
-                    You need at least 2 cards in this deck to play Matching.
+                    {t('quizMatch.notEnough')}
                 </Text>
                 <TouchableOpacity
                     style={[styles.doneBtn, { backgroundColor: colors.primary[500] }]}
                     onPress={() => router.back()}
                 >
-                    <Text style={styles.doneBtnText}>Go Back</Text>
+                    <Text style={styles.doneBtnText}>{t('common.back')}</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -302,11 +304,11 @@ export default function QuizMatchScreen() {
                             style={[styles.newBestBadge, { backgroundColor: colors.warning.main + '25' }]}
                         >
                             <Text style={[styles.newBestText, { color: colors.warning.main }]}>
-                                🔥 New Best Time!
+                                {t('quizMatch.newBest')}
                             </Text>
                         </Animated.View>
                     )}
-                    <Text style={[styles.resultsTitle, { color: tc.text }]}>All Matched!</Text>
+                    <Text style={[styles.resultsTitle, { color: tc.text }]}>{t('quizMatch.complete')}</Text>
                     <Text style={[styles.resultsSubtitle, { color: tc.textSecondary }]}>
                         {params.deckName || 'Deck'}
                     </Text>
@@ -316,27 +318,27 @@ export default function QuizMatchScreen() {
                             <Text style={[styles.statValue, { color: colors.primary[400] }]}>
                                 {formatTime(finalTime)}
                             </Text>
-                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>Time</Text>
+                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>{t('quizMatch.timeLabel')}</Text>
                         </View>
                         <View style={[styles.statDivider, { backgroundColor: tc.border }]} />
                         <View style={styles.statItem}>
                             <Text style={[styles.statValue, { color: colors.success.main }]}>
                                 {totalPairs}
                             </Text>
-                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>Pairs</Text>
+                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>{t('quizMatch.pairsLabel')}</Text>
                         </View>
                         <View style={[styles.statDivider, { backgroundColor: tc.border }]} />
                         <View style={styles.statItem}>
                             <Text style={[styles.statValue, { color: colors.warning.main }]}>
                                 {totalMoves}
                             </Text>
-                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>Moves</Text>
+                            <Text style={[styles.statLabel, { color: tc.textMuted }]}>{t('quizMatch.movesLabel')}</Text>
                         </View>
                     </View>
 
                     {bestTime !== null && !isNewBest && (
                         <Text style={[styles.bestTimeInfo, { color: tc.textMuted }]}>
-                            Best: {formatTime(bestTime)}
+                            {t('quizMatch.best', { time: formatTime(bestTime) })}
                         </Text>
                     )}
 
@@ -344,7 +346,7 @@ export default function QuizMatchScreen() {
                         style={[styles.doneBtn, { backgroundColor: colors.primary[500] }]}
                         onPress={() => router.back()}
                     >
-                        <Text style={styles.doneBtnText}>Done</Text>
+                        <Text style={styles.doneBtnText}>{t('common.done')}</Text>
                     </TouchableOpacity>
                 </Animated.View>
             </View>
@@ -367,7 +369,7 @@ export default function QuizMatchScreen() {
 
                 <View style={styles.headerCenter}>
                     <Text style={[styles.headerTitle, { color: tc.text }]}>
-                        {params.deckName || 'Matching'}
+                        {params.deckName || t('decks.quiz.matching')}
                     </Text>
                     <View style={[styles.progressTrack, { backgroundColor: tc.border }]}>
                         <View
@@ -381,7 +383,7 @@ export default function QuizMatchScreen() {
                         />
                     </View>
                     <Text style={[styles.progressText, { color: tc.textMuted }]}>
-                        {matchedCount} / {totalPairs} matched
+                        {t('quizMatch.matched', { matched: matchedCount, total: totalPairs })}
                     </Text>
                 </View>
 

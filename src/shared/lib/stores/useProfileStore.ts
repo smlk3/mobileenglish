@@ -15,6 +15,10 @@ interface ProfileState {
     targetLanguage: string;
     goals: string[];
 
+    // Onboarding
+    onboardingCompleted: boolean;
+    setOnboardingCompleted: (v: boolean) => void;
+
     // AI status
     isCloudAvailable: boolean;
     activeModel: 'cloud' | 'none';
@@ -44,6 +48,9 @@ export const useProfileStore = create<ProfileState>((set) => ({
     nativeLanguage: 'tr',
     targetLanguage: 'en',
     goals: [],
+
+    onboardingCompleted: false,
+    setOnboardingCompleted: (v) => set({ onboardingCompleted: v }),
 
     isCloudAvailable: false,
     activeModel: 'none',

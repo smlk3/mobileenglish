@@ -77,6 +77,7 @@ export async function initializeDefaultSettings(): Promise<UserSettings | null> 
                 settings.nativeLanguage = 'tr';
                 settings.dailyGoal = 10;
                 settings.notificationsEnabled = true;
+                settings.onboardingCompleted = false;
             });
         });
     } catch (error) {
