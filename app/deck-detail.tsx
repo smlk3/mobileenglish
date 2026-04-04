@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import {
     ActivityIndicator,
     Alert,
+    FlatList,
     KeyboardAvoidingView,
     Modal,
     Platform,
@@ -349,11 +350,145 @@ export default function DeckDetailScreen() {
                 </TouchableOpacity>
             </View>
 
-            <ScrollView
+            <FlatList
+                data={displayCards}
+                keyExtractor={(card) => card.id}
                 contentContainerStyle={styles.content}
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="handled"
-            >
+                removeClippedSubviews
+                initialNumToRender={15}
+                maxToRenderPerBatch={10}
+                windowSize={5}
+                renderItem={({ item: card }) => (
+                    <View
+                        style={[styles.cardItem, { backgroundColor: tc.surface }]}
+                    >
+                        {editingCardId === card.id ? (
+                            /* ── Inline Edit Form ── */
+                            <View style={styles.editForm}>
+                                <TextInput
+                                    style={[
+                                        styles.editInput,
+                                        { backgroundColor: tc.background, color: tc.text, borderColor: tc.border },
+                                    ]}
+                                    value={editFront}
+                                    onChangeText={setEditFront}
+                                    placeholder={t('deckDetail.wordPlaceholder')}
+                                    placeholderTextColor={tc.textMuted}
+                                    autoFocus
+                                />
+                                <TextInput
+                                    style={[
+                                        styles.editInput,
+                                        { backgroundColor: tc.background, color: tc.text, borderColor: tc.border },
+                                    ]}
+                                    value={editBack}
+                                    onChangeText={setEditBack}
+                                    placeholder={t('deckDetail.translationPlaceholder')}
+                                    placeholderTextColor={tc.textMuted}
+                                />
+                                <TextInput
+                                    style={[
+                                        styles.editInput,
+                                        { backgroundColor: tc.background, color: tc.text, borderColor: tc.border },
+                                    ]}
+                                    value={editExample}
+                                    onChangeText={setEditExample}
+                                    placeholder={t('deckDetail.exampleOptional')}
+                                    placeholderTextColor={tc.textMuted}
+                                />
+                                <View style={styles.editActions}>
+                                    <TouchableOpacity
+                                        style={[styles.editActionBtn, { backgroundColor: colors.primary[500] }]}
+                                        onPress={() => saveEditCard(card)}
+                                        disabled={isSavingCard}
+                                    >
+                                        {isSavingCard ? (
+                                            <ActivityIndicator size="small" color="#fff" />
+                                        ) : (
+                                            <Text style={styles.editActionBtnText}>{t('common.save')}</Text>
+                                        )}
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={[styles.editActionBtn, { backgroundColor: tc.border }]}
+                                        onPress={() => setEditingCardId(null)}
+                                    >
+                                        <Text style={[styles.editActionBtnText, { color: tc.text }]}>
+                                            {t('common.cancel')}
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        ) : (
+                            /* ── Normal Card View ── */
+                            <View style={styles.cardNormal}>
+                                <View style={styles.cardContent}>
+                                    <View style={styles.cardTopRow}>
+                                        <Text style={[styles.cardFront, { color: tc.text }]} numberOfLines={1}>
+                                            {card.front}
+                                        </Text>
+                                        <View style={styles.cardBadges}>
+                                            <View
+                                                style={[
+                                                    styles.cefrBadge,
+                                                    {
+                                                        backgroundColor:
+                                                            (getLevelColor(card.cefrLevel)) + '22',
+                                                    },
+                                                ]}
+                                            >
+                                                <Text
+                                                    style={[
+                                                        styles.cefrBadgeText,
+                                                        { color: getLevelColor(card.cefrLevel) },
+                                                    ]}
+                                                >
+                                                    {getLevelLabel(card.targetLanguage || deck?.targetLanguage || 'en', parseInt(card.cefrLevel, 10) || 1)}
+                                                </Text>
+                                            </View>
+                                            <View
+                                                style={[
+                                                    styles.statusDot,
+                                                    {
+                                                        backgroundColor:
+                                                            STATUS_COLORS[card.status] || '#6366F1',
+                                                    },
+                                                ]}
+                                            />
+                                        </View>
+                                    </View>
+                                    <Text style={[styles.cardBack, { color: colors.primary[400] }]}>
+                                        {card.back}
+                                    </Text>
+                                    {card.exampleSentence ? (
+                                        <Text
+                                            style={[styles.cardExample, { color: tc.textSecondary }]}
+                                            numberOfLines={2}
+                                        >
+                                            {card.exampleSentence}
+                                        </Text>
+                                    ) : null}
+                                </View>
+                                <View style={styles.cardActions}>
+                                    <TouchableOpacity
+                                        style={styles.cardActionBtn}
+                                        onPress={() => startEditCard(card)}
+                                    >
+                                        <Ionicons name="pencil-outline" size={18} color={tc.textSecondary} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={styles.cardActionBtn}
+                                        onPress={() => handleDeleteCard(card)}
+                                    >
+                                        <Ionicons name="trash-outline" size={18} color={colors.error.main} />
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        )}
+                    </View>
+                )}
+                ListHeaderComponent={<>
                 {/* ── Stats Card ─────────────────────────────────── */}
                 <Animated.View
                     entering={FadeInDown.duration(400)}
@@ -631,9 +766,8 @@ export default function DeckDetailScreen() {
                         ? t('deckDetail.cardsOf', { shown: displayCards.length, total: cards.length })
                         : t('deckDetail.cardsTotal', { count: cards.length })}
                 </Text>
-
-                {/* ── Empty State ─────────────────────────────────── */}
-                {displayCards.length === 0 && (
+                </>}
+                ListEmptyComponent={
                     <View style={[styles.emptyState, { backgroundColor: tc.surface }]}>
                         <Text style={{ fontSize: 40, marginBottom: spacing.sm }}>
                             {cards.length === 0 ? '📭' : '🔍'}
@@ -644,142 +778,9 @@ export default function DeckDetailScreen() {
                                 : t('deckDetail.noCardsFilter')}
                         </Text>
                     </View>
-                )}
-
-                {/* ── Cards ───────────────────────────────────────── */}
-                {displayCards.map((card, index) => (
-                    <Animated.View
-                        key={card.id}
-                        entering={FadeInDown.duration(300).delay(index * 25)}
-                        style={[styles.cardItem, { backgroundColor: tc.surface }]}
-                    >
-                        {editingCardId === card.id ? (
-                            /* ── Inline Edit Form ── */
-                            <View style={styles.editForm}>
-                                <TextInput
-                                    style={[
-                                        styles.editInput,
-                                        { backgroundColor: tc.background, color: tc.text, borderColor: tc.border },
-                                    ]}
-                                    value={editFront}
-                                    onChangeText={setEditFront}
-                                    placeholder={t('deckDetail.wordPlaceholder')}
-                                    placeholderTextColor={tc.textMuted}
-                                    autoFocus
-                                />
-                                <TextInput
-                                    style={[
-                                        styles.editInput,
-                                        { backgroundColor: tc.background, color: tc.text, borderColor: tc.border },
-                                    ]}
-                                    value={editBack}
-                                    onChangeText={setEditBack}
-                                    placeholder={t('deckDetail.translationPlaceholder')}
-                                    placeholderTextColor={tc.textMuted}
-                                />
-                                <TextInput
-                                    style={[
-                                        styles.editInput,
-                                        { backgroundColor: tc.background, color: tc.text, borderColor: tc.border },
-                                    ]}
-                                    value={editExample}
-                                    onChangeText={setEditExample}
-                                    placeholder={t('deckDetail.exampleOptional')}
-                                    placeholderTextColor={tc.textMuted}
-                                />
-                                <View style={styles.editActions}>
-                                    <TouchableOpacity
-                                        style={[styles.editActionBtn, { backgroundColor: colors.primary[500] }]}
-                                        onPress={() => saveEditCard(card)}
-                                        disabled={isSavingCard}
-                                    >
-                                        {isSavingCard ? (
-                                            <ActivityIndicator size="small" color="#fff" />
-                                        ) : (
-                                            <Text style={styles.editActionBtnText}>{t('common.save')}</Text>
-                                        )}
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={[styles.editActionBtn, { backgroundColor: tc.border }]}
-                                        onPress={() => setEditingCardId(null)}
-                                    >
-                                        <Text style={[styles.editActionBtnText, { color: tc.text }]}>
-                                            {t('common.cancel')}
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        ) : (
-                            /* ── Normal Card View ── */
-                            <View style={styles.cardNormal}>
-                                <View style={styles.cardContent}>
-                                    <View style={styles.cardTopRow}>
-                                        <Text style={[styles.cardFront, { color: tc.text }]} numberOfLines={1}>
-                                            {card.front}
-                                        </Text>
-                                        <View style={styles.cardBadges}>
-                                            <View
-                                                style={[
-                                                    styles.cefrBadge,
-                                                    {
-                                                        backgroundColor:
-                                                            (getLevelColor(card.cefrLevel)) + '22',
-                                                    },
-                                                ]}
-                                            >
-                                                <Text
-                                                    style={[
-                                                        styles.cefrBadgeText,
-                                                        { color: getLevelColor(card.cefrLevel) },
-                                                    ]}
-                                                >
-                                                    {getLevelLabel(card.targetLanguage || deck?.targetLanguage || 'en', parseInt(card.cefrLevel, 10) || 1)}
-                                                </Text>
-                                            </View>
-                                            <View
-                                                style={[
-                                                    styles.statusDot,
-                                                    {
-                                                        backgroundColor:
-                                                            STATUS_COLORS[card.status] || '#6366F1',
-                                                    },
-                                                ]}
-                                            />
-                                        </View>
-                                    </View>
-                                    <Text style={[styles.cardBack, { color: colors.primary[400] }]}>
-                                        {card.back}
-                                    </Text>
-                                    {card.exampleSentence ? (
-                                        <Text
-                                            style={[styles.cardExample, { color: tc.textSecondary }]}
-                                            numberOfLines={2}
-                                        >
-                                            {card.exampleSentence}
-                                        </Text>
-                                    ) : null}
-                                </View>
-                                <View style={styles.cardActions}>
-                                    <TouchableOpacity
-                                        style={styles.cardActionBtn}
-                                        onPress={() => startEditCard(card)}
-                                    >
-                                        <Ionicons name="pencil-outline" size={18} color={tc.textSecondary} />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={styles.cardActionBtn}
-                                        onPress={() => handleDeleteCard(card)}
-                                    >
-                                        <Ionicons name="trash-outline" size={18} color={colors.error.main} />
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        )}
-                    </Animated.View>
-                ))}
-
-                <View style={{ height: 60 }} />
-            </ScrollView>
+                }
+                ListFooterComponent={<View style={{ height: 60 }} />}
+            />
 
             {/* ── Edit Deck Modal ───────────────────────────────── */}
             <Modal

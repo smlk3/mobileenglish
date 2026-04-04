@@ -4,6 +4,51 @@ All notable changes to MobileEnglish are documented here.
 
 ---
 
+## [Unreleased] — 2026-04-04 (4)
+
+### fix: Uygulama açılışta yükleme ekranında kalıyor — sonsuz döngü
+
+> `router.replace('/onboarding')` çağrısı `<Stack>` mount edilmeden önce yapılıyordu;
+> bu sessiz bir hata fırlatarak layout'u sıfırlıyor ve sonsuz splash döngüsüne yol açıyordu.
+
+#### Root Cause
+- `init()` içinde `router.replace('/onboarding')` çağrılıyordu; ancak bu noktada
+  `isReady === false` olduğu için `<Stack>` henüz render edilmemişti
+- Mount edilmemiş navigator üzerinde `replace` çağrısı layout'u unmount/remount
+  ettirerek tüm state'i sıfırlıyor, `init()` yeniden başlıyordu → sonsuz döngü
+
+#### Fix
+- Update `app/_layout.tsx`
+  — `router.replace('/onboarding')` çağrısı `init()` içinden kaldırıldı
+  — `onboardingCompleted` Zustand store'dan okunuyor
+  — Yeni `useEffect([isReady, onboardingCompleted])`: yalnızca `isReady === true`
+    olduğunda (yani `<Stack>` mount edildikten sonra) onboarding kontrolü yapılır
+  — `setTimeout(..., 0)` ile bir tick beklenerek `<Stack>`'in tam yerleşmesi garantilendi
+  — `Promise.race([init(), timeout(8000)])` eklendi: `init()` takılırsa 8 saniye
+    sonra splash yine de kapanır
+
+### perf: Deste detay ekranı — büyük deste yavaşlığı
+
+> 782 kartlık başlangıç destesine tıklandığında uygulama donuyordu.
+> İki ayrı sorun birlikte yavaşlığa yol açıyordu.
+
+#### Starter Deck Limiti
+- Update `src/shared/lib/stores/useDatabaseService.ts`
+  — `createStarterDeck()` artık tüm kelime listesini değil en fazla 200 kelimeyi alıyor
+  — `limit: vectorStore.getAll().length` → `limit: 200`
+
+#### FlatList Virtualization
+- Update `app/deck-detail.tsx`
+  — Kart listesi `ScrollView` + `.map()` yerine `FlatList` ile render ediliyor
+  — `initialNumToRender: 15`, `maxToRenderPerBatch: 10`, `windowSize: 5`,
+    `removeClippedSubviews` ile sadece ekranda görünen kartlar işleniyor
+  — `FadeInDown.delay(index * 25)` staggered animasyonu kaldırıldı
+    (782 kart için ~20 saniyelik animasyon kuyruğu oluşturuyordu)
+  — Header içeriği `ListHeaderComponent`, boş durum `ListEmptyComponent`,
+    alt boşluk `ListFooterComponent`'e taşındı
+
+---
+
 ## [Unreleased] — 2026-04-04 (3)
 
 ### fix: DST-safe longest streak calculation & stale `t` closure in chat

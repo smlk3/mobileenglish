@@ -23,7 +23,8 @@
       "Bash(npx expo install expo-localization)",
       "Bash(npm install i18next react-i18next)",
       "Bash(grep -v \"^$\")",
-      "Bash(find /c/git/mobileenglish/assets/wordlists -name \"*.json\" -type f -exec wc -l {} +)"
+      "Bash(find /c/git/mobileenglish/assets/wordlists -name \"*.json\" -type f -exec wc -l {} +)",
+      "Bash(node -e \"const d = require\\('./assets/wordlists/en/tr.json'\\); const cats = {}; d.forEach\\(w => cats[w.category] = \\(cats[w.category]||0\\)+1\\); console.log\\(JSON.stringify\\(cats, null, 2\\)\\); console.log\\('Total:', d.length\\)\")"
     ]
   }
 }

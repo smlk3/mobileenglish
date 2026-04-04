@@ -22,17 +22,24 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const themeMode = useProfileStore((s) => s.themeMode);
+  const onboardingCompleted = useProfileStore((s) => s.onboardingCompleted);
   const router = useRouter();
   const didInit = useRef(false);
   const [isReady, setIsReady] = useState(false);
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
+    if (!isReady) return;
+    if (!onboardingCompleted) {
+      setTimeout(() => router.replace('/onboarding' as any), 0);
+    }
+  }, [isReady, onboardingCompleted]);
+
+  useEffect(() => {
     if (didInit.current) return;
     didInit.current = true;
 
     const init = async () => {
-      // Initialize database defaults
       await initializeDefaultSettings();
 
       // Load user settings and configure cloud if API key exists
@@ -88,18 +95,14 @@ export default function RootLayout() {
           useProfileStore.getState().setActiveModel('none');
         }
 
-        // Redirect to onboarding if not completed
-        if (!settings.onboardingCompleted) {
-          router.replace('/onboarding' as any);
-        }
       }
     };
 
-    init()
+    const timeout = new Promise<void>((resolve) => setTimeout(resolve, 8000));
+    Promise.race([init(), timeout])
       .catch(console.error)
       .finally(async () => {
         await SplashScreen.hideAsync();
-        // Kısa bekleyip custom splash'i fade-out ile kaldır
         setTimeout(() => {
           Animated.timing(fadeAnim, {
             toValue: 0,

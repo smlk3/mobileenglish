@@ -20,8 +20,6 @@ function createDatabase(): Database {
     const adapter = new SQLiteAdapter({
         schema,
         migrations,
-        // JSI disabled for Expo Go compatibility.
-        // Enable jsi: true only for development builds.
         jsi: false,
         onSetUpError: (error) => {
             console.error('Database setup error:', error);

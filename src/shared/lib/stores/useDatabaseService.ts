@@ -84,11 +84,10 @@ export async function createStarterDeck(params: {
         ...(params.profession ? [params.profession] : []),
     ];
 
-    // Tüm seviye kelimelerini getir
     const allWords = vectorStore.search({
         level: params.level,
         interests: allInterests,
-        limit: vectorStore.getAll().length,
+        limit: 200,
     });
     if (allWords.length === 0) return;
 
