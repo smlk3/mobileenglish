@@ -355,6 +355,7 @@ const en = {
     'onboarding.profile.interestsLabel': 'Your interests',
     'onboarding.profile.interestsPlaceholder': 'e.g. football, cooking, technology',
     'onboarding.profile.complete': 'Start Learning',
+    'onboarding.starterDeckName': 'My Personal Starter List',
 };
 
 export default en;

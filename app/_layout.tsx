@@ -54,6 +54,9 @@ export default function RootLayout() {
         // Onboarding status
         useProfileStore.getState().setOnboardingCompleted(!!settings.onboardingCompleted);
 
+        // Daily goal
+        useProfileStore.getState().setDailyGoal(settings.dailyGoal || 20);
+
         // Theme from DB
         if (settings.theme === 'light') {
           useProfileStore.getState().setThemeMode('light');

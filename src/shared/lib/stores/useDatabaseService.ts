@@ -17,6 +17,7 @@ import {
     getStudySessionsCollection,
     getUserSettingsCollection,
 } from '../../../entities/database';
+import { getVectorStore } from '../../api/rag/VectorStore';
 
 // ─── Deck Operations ─────────────────────────────────────
 
@@ -61,6 +62,61 @@ export async function deleteDeck(deck: Deck): Promise<void> {
 }
 
 // ─── Card Operations ──────────────────────────────────────
+
+export async function fetchAllCardFronts(): Promise<string[]> {
+    const cards = await getCardsCollection().query().fetch();
+    return cards.map((c) => c.front);
+}
+
+export async function createStarterDeck(params: {
+    targetLanguage: string;
+    nativeLanguage: string;
+    level: number;
+    interests: string[];
+    profession: string;
+    deckName: string;
+}): Promise<void> {
+    const vectorStore = getVectorStore(params.targetLanguage, params.nativeLanguage);
+    if (vectorStore.isEmpty) return;
+
+    const allInterests = [
+        ...params.interests,
+        ...(params.profession ? [params.profession] : []),
+    ];
+
+    // Tüm seviye kelimelerini getir
+    const allWords = vectorStore.search({
+        level: params.level,
+        interests: allInterests,
+        limit: vectorStore.getAll().length,
+    });
+    if (allWords.length === 0) return;
+
+    // Fisher-Yates karıştır — genel ve ilgi alanı kelimeleri her günden itibaren karışık gelsin
+    for (let i = allWords.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [allWords[i], allWords[j]] = [allWords[j], allWords[i]];
+    }
+
+    const deck = await createDeck({
+        name: params.deckName,
+        cefrLevel: String(params.level),
+        category: 'General',
+        targetLanguage: params.targetLanguage,
+    });
+
+    await addCardsToDecks(
+        deck.id,
+        allWords.map((w) => ({
+            front: w.word,
+            back: w.translation,
+            exampleSentence: w.exampleSentence,
+            cefrLevel: String(w.level),
+            category: w.category,
+            targetLanguage: params.targetLanguage,
+        })),
+    );
+}
 
 export async function addCardsToDecks(
     deckId: string,
@@ -110,20 +166,27 @@ export async function addCardsToDecks(
     });
 }
 
-export async function fetchDueCards(deckId?: string): Promise<Card[]> {
+export async function fetchDueCards(deckId?: string, limit?: number): Promise<Card[]> {
     const cardsCol = getCardsCollection();
     const now = Date.now();
 
-    const conditions = [Q.where('next_review', Q.lte(now))];
-    if (deckId) {
-        conditions.push(Q.where('deck_id', deckId));
+    if (deckId && limit !== undefined) {
+        return cardsCol.query(Q.where('next_review', Q.lte(now)), Q.where('deck_id', deckId), Q.take(limit)).fetch();
     }
-
-    return cardsCol.query(...conditions).fetch();
+    if (deckId) {
+        return cardsCol.query(Q.where('next_review', Q.lte(now)), Q.where('deck_id', deckId)).fetch();
+    }
+    if (limit !== undefined) {
+        return cardsCol.query(Q.where('next_review', Q.lte(now)), Q.take(limit)).fetch();
+    }
+    return cardsCol.query(Q.where('next_review', Q.lte(now))).fetch();
 }
 
-export async function fetchCardsByDeck(deckId: string): Promise<Card[]> {
+export async function fetchCardsByDeck(deckId: string, limit?: number): Promise<Card[]> {
     const cardsCol = getCardsCollection();
+    if (limit !== undefined) {
+        return cardsCol.query(Q.where('deck_id', deckId), Q.take(limit)).fetch();
+    }
     return cardsCol.query(Q.where('deck_id', deckId)).fetch();
 }
 
@@ -209,13 +272,13 @@ export interface HomeStats {
 
 export async function getHomeStats(): Promise<HomeStats> {
     try {
-        // Total words learned (cards that are not 'new' status)
-        const allCards = await getCardsCollection().query().fetch();
-        const wordsLearned = allCards.filter((c) => c.status !== 'new').length;
-
-        // Due cards
         const now = Date.now();
-        const dueCards = allCards.filter((c) => c.nextReview <= now).length;
+
+        // Total words learned & due cards — counted in DB, no full table load
+        const [wordsLearned, dueCards] = await Promise.all([
+            getCardsCollection().query(Q.where('status', Q.notEq('new'))).fetchCount(),
+            getCardsCollection().query(Q.where('next_review', Q.lte(now))).fetchCount(),
+        ]);
 
         // Today's sessions
         const todayStart = new Date();
@@ -225,9 +288,14 @@ export async function getHomeStats(): Promise<HomeStats> {
             .fetch();
         const todayStudied = sessions.reduce((sum, s) => sum + s.cardsStudied, 0);
 
-        // Streak calculation (consecutive days with at least 1 session)
+        // Streak calculation — limit to last 366 days to avoid loading entire history
+        const streakWindowStart = new Date();
+        streakWindowStart.setDate(streakWindowStart.getDate() - 366);
         const allSessions = await getStudySessionsCollection()
-            .query(Q.sortBy('completed_at', Q.desc))
+            .query(
+                Q.where('completed_at', Q.gte(streakWindowStart.getTime())),
+                Q.sortBy('completed_at', Q.desc),
+            )
             .fetch();
         const streak = calculateStreak(allSessions);
 
@@ -370,13 +438,19 @@ const DAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 export async function getDetailedStats(): Promise<DetailedStats> {
     try {
-        // All cards
-        const allCards = await getCardsCollection().query().fetch();
-        const totalWordsLearned = allCards.filter((c) => c.status !== 'new').length;
+        // Words learned counted in DB — no full card table load
+        const totalWordsLearned = await getCardsCollection()
+            .query(Q.where('status', Q.notEq('new')))
+            .fetchCount();
 
-        // All sessions
+        // Sessions limited to last 366 days for streaks/history
+        const streakWindowStart = new Date();
+        streakWindowStart.setDate(streakWindowStart.getDate() - 366);
         const allSessions = await getStudySessionsCollection()
-            .query(Q.sortBy('completed_at', Q.desc))
+            .query(
+                Q.where('completed_at', Q.gte(streakWindowStart.getTime())),
+                Q.sortBy('completed_at', Q.desc),
+            )
             .fetch();
 
         const totalStudySeconds = allSessions.reduce((sum, s) => sum + s.durationSeconds, 0);
@@ -387,20 +461,23 @@ export async function getDetailedStats(): Promise<DetailedStats> {
         let longestStreak = 0;
         if (allSessions.length > 0) {
             // Find longest streak by walking through all unique days
+            // Use local date components — DST-safe (no millisecond arithmetic)
             const uniqueDays = Array.from(
                 new Set(
                     allSessions.map((s) => {
                         const d = new Date(s.completedAt);
-                        d.setHours(0, 0, 0, 0);
-                        return d.getTime();
+                        return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
                     }),
                 ),
-            ).sort((a, b) => a - b);
+            ).sort();
 
             let run = 1;
-            const ONE_DAY = 86400000;
             for (let i = 1; i < uniqueDays.length; i++) {
-                if (uniqueDays[i] - uniqueDays[i - 1] === ONE_DAY) {
+                const [py, pm, pd] = uniqueDays[i - 1].split('-').map(Number);
+                const [cy, cm, cd] = uniqueDays[i].split('-').map(Number);
+                const prev = new Date(py, pm, pd);
+                prev.setDate(prev.getDate() + 1);
+                if (prev.getFullYear() === cy && prev.getMonth() === cm && prev.getDate() === cd) {
                     run++;
                     longestStreak = Math.max(longestStreak, run);
                 } else {

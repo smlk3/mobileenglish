@@ -41,6 +41,8 @@ import { XP } from '../src/shared/lib/xpSystem';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.3;
+// Max cards loaded in a single session — prevents memory spikes with large decks
+const SESSION_CARD_LIMIT = 20;
 
 type Phase = 'loading' | 'empty' | 'flashcard' | 'results';
 
@@ -50,6 +52,7 @@ export default function StudyScreen() {
     const params = useLocalSearchParams<{ deckId?: string; deckName?: string }>();
     const themeMode = useProfileStore((s) => s.themeMode);
     const tc = themeMode === 'dark' ? colors.dark : colors.light;
+    const dailyGoal = useProfileStore((s) => s.dailyGoal);
     const awardXP = useXPStore((s) => s.awardXP);
 
     const [cards, setCards] = useState<Card[]>([]);
@@ -79,13 +82,13 @@ export default function StudyScreen() {
             try {
                 let loadedCards: Card[];
                 if (params.deckId) {
-                    loadedCards = await fetchDueCards(params.deckId);
+                    loadedCards = await fetchDueCards(params.deckId, dailyGoal);
                     if (loadedCards.length === 0) {
-                        loadedCards = await fetchCardsByDeck(params.deckId);
+                        loadedCards = await fetchCardsByDeck(params.deckId, SESSION_CARD_LIMIT);
                         setIsReviewingAll(true); // UX #5: no due cards, reviewing all
                     }
                 } else {
-                    loadedCards = await fetchDueCards();
+                    loadedCards = await fetchDueCards(undefined, dailyGoal);
                 }
 
                 if (loadedCards.length === 0) {

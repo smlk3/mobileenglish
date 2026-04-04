@@ -4,6 +4,93 @@ All notable changes to MobileEnglish are documented here.
 
 ---
 
+## [Unreleased] — 2026-04-04 (3)
+
+### fix: DST-safe longest streak calculation & stale `t` closure in chat
+
+#### DST Fix — `getDetailedStats()` longest streak
+- Update `src/shared/lib/stores/useDatabaseService.ts`
+  — Ardışık gün kontrolü `uniqueDays[i] - uniqueDays[i-1] === 86400000` karşılaştırmasından
+    takvim aritmetiğine (`setDate(prev + 1)`) geçirildi
+  — Önceki yöntemde DST geçiş gecelerinde (23/25 saatlik günler) fark tam 86400000 tutmadığı
+    için konsekütif günler kırık streak sayılıyordu
+  — Yeni yöntem: `getFullYear/getMonth/getDate` ile yerel tarih bileşenleri string'e
+    dönüştürülür, JS'in DST-aware `setDate()` ile bir gün ileri alınır, bileşenler karşılaştırılır
+
+#### ESLint / Stale Closure Fix — `chat.tsx` welcome message
+- Update `app/(tabs)/chat.tsx`
+  — Mesaj yükleme `useEffect` bağımlılık dizisine `t` eklendi: `[activeSessionId]` → `[activeSessionId, t]`
+  — Önceki durumda dil değiştiğinde `t` yeni referans alıyor ancak effect yeniden çalışmıyordu;
+    yeni oturumların welcome mesajı eski dilde kalıyordu
+  — Artık dil değişiminde effect yeniden çalışır: DB'de kayıtlı mesaj varsa mevcut içerik
+    korunur, boş oturumda welcome mesajı yeni dilde oluşturulur
+
+---
+
+## [Unreleased] — 2026-04-04 (2)
+
+### perf: Large wordlist compatibility — DB indexing & query optimization
+
+> Devasa kelime listeleriyle uyumlu çalışması için veritabanı sorgu katmanı optimize edildi.
+> İstatistik ekranları artık tüm tabloyu belleğe çekmiyor; çalışma seansı limiti günlük hedefe bağlandı.
+
+#### Database Schema v4
+- Update `src/entities/database/schema.ts` — bump to version 4
+  — `cards.next_review`: `isIndexed: true` eklendi (vadesi gelen kart sorguları full table scan'dan kurtuldu)
+  — `study_sessions.completed_at`: `isIndexed: true` eklendi (streak/istatistik sorguları hızlandı)
+- Update `src/entities/database/migrations.ts` — v3→v4 migration
+  — `unsafeExecuteSql` ile mevcut kullanıcılar için iki `CREATE INDEX` SQL'i çalıştırılır
+
+#### Query Optimization
+- Update `src/shared/lib/stores/useDatabaseService.ts`
+  — `getHomeStats()`: tüm kartları belleğe çeken `query().fetch()` kaldırıldı, `fetchCount()` ile DB aggregation'a geçildi (~10x hızlanma)
+  — `getDetailedStats()`: aynı optimizasyon `totalWordsLearned` için uygulandı
+  — Her iki fonksiyonda streak sorgusu son 366 günle sınırlandı (sonsuz geçmiş yüklemesi engellendi)
+  — `fetchDueCards()`: opsiyonel `limit` parametresi eklendi
+  — `fetchCardsByDeck()`: opsiyonel `limit` parametresi eklendi
+- Update `app/study.tsx`
+  — `SESSION_CARD_LIMIT = 20` sabiti eklendi; "vadesi yok" fallback'i bu limitle sınırlandı
+  — `fetchDueCards` çağrıları `dailyGoal` değerini limit olarak geçiyor
+
+#### Daily Goal Integration
+- Update `src/shared/lib/stores/useProfileStore.ts` — `dailyGoal` state ve `setDailyGoal()` action eklendi
+- Update `app/_layout.tsx` — uygulama açılışında `dailyGoal` DB'den store'a sync ediliyor
+
+---
+
+### feat: Onboarding — kişiselleştirilmiş başlangıç destesi otomatik oluşturma
+
+> Onboarding tamamlandığında kullanıcının seviyesi, ilgi alanları ve mesleğine göre
+> kelime listesinden kişiselleştirilmiş bir başlangıç destesi otomatik oluşturuluyor.
+
+#### Starter Deck Generation
+- Update `src/shared/lib/stores/useDatabaseService.ts`
+  — `createStarterDeck()` eklendi: seviye ± 1 aralığındaki tüm kelimeler ilgi alanı
+    skoruna göre sıralanır, ardından Fisher-Yates ile karıştırılarak DB'ye kaydedilir
+  — Karıştırma sayesinde genel ve ilgi alanı kelimeleri ilk günden itibaren karışık gelir
+- Update `app/onboarding.tsx`
+  — `handleComplete()` içinde `createStarterDeck()` çağrısı eklendi
+  — `parsedInterests` tek seferde hesaplanıp hem store'a hem `createStarterDeck`'e geçiliyor
+- Update `src/shared/i18n/locales/` — 6 dilde `onboarding.starterDeckName` anahtarı eklendi
+
+---
+
+### feat: Wordlist-deck entegrasyonu iyileştirmeleri
+
+> Deste oluştururken kelime listesinin doğru ve verimli kullanılması için üç düzeltme.
+
+#### Create Deck — VectorStore Fixes
+- Update `app/create-deck.tsx`
+  — AI Generate sekmesi artık `categories: [selectedCategory]` geçiriyor;
+    seçilen kategori kelime filtrelemesini gerçekten etkiliyor (önceden etkisizdi)
+  — "General" seçilince kategori filtresi devre dışı kalır, ilgi alanları öne çıkar
+  — `fetchAllCardFronts()` ile DB'deki mevcut kartlar çekilip `excludeWords` olarak geçiriliyor;
+    daha önce öğrenilmiş kelimeler yeni destede tekrar önerilmiyor
+- Update `src/shared/lib/stores/useDatabaseService.ts`
+  — `fetchAllCardFronts()` eklendi: tüm kart ön yüzlerini string[] olarak döner
+
+---
+
 ## [Unreleased] — 2026-04-04
 
 ### feat: Full UI internationalization (i18n) — 6-language interface support

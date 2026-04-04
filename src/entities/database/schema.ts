@@ -1,7 +1,7 @@
 import { appSchema, tableSchema } from '@nozbe/watermelondb';
 
 export const schema = appSchema({
-    version: 3,
+    version: 4,
     tables: [
         tableSchema({
             name: 'decks',
@@ -29,7 +29,7 @@ export const schema = appSchema({
                 { name: 'category', type: 'string', isOptional: true },
                 { name: 'target_language', type: 'string' }, // e.g. 'en', 'de', 'ja'
                 // SRS Fields (SM-2 Algorithm)
-                { name: 'next_review', type: 'number' }, // timestamp
+                { name: 'next_review', type: 'number', isIndexed: true }, // timestamp
                 { name: 'interval', type: 'number' },     // days
                 { name: 'ease_factor', type: 'number' },   // default 2.5
                 { name: 'repetitions', type: 'number' },   // review count
@@ -71,7 +71,7 @@ export const schema = appSchema({
                 { name: 'cards_correct', type: 'number' },
                 { name: 'duration_seconds', type: 'number' },
                 { name: 'session_type', type: 'string' }, // flashcard, quiz, speaking
-                { name: 'completed_at', type: 'number' },
+                { name: 'completed_at', type: 'number', isIndexed: true },
                 { name: 'created_at', type: 'number' },
             ],
         }),

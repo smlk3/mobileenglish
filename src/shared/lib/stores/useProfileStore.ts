@@ -19,6 +19,10 @@ interface ProfileState {
     onboardingCompleted: boolean;
     setOnboardingCompleted: (v: boolean) => void;
 
+    // Daily goal
+    dailyGoal: number;
+    setDailyGoal: (n: number) => void;
+
     // AI status
     isCloudAvailable: boolean;
     activeModel: 'cloud' | 'none';
@@ -51,6 +55,9 @@ export const useProfileStore = create<ProfileState>((set) => ({
 
     onboardingCompleted: false,
     setOnboardingCompleted: (v) => set({ onboardingCompleted: v }),
+
+    dailyGoal: 20,
+    setDailyGoal: (n) => set({ dailyGoal: n }),
 
     isCloudAvailable: false,
     activeModel: 'none',

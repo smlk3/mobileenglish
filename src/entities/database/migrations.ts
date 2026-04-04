@@ -1,4 +1,4 @@
-import { addColumns, createTable, schemaMigrations } from '@nozbe/watermelondb/Schema/migrations';
+import { addColumns, createTable, schemaMigrations, unsafeExecuteSql } from '@nozbe/watermelondb/Schema/migrations';
 
 export const migrations = schemaMigrations({
     migrations: [
@@ -30,6 +30,13 @@ export const migrations = schemaMigrations({
                         { name: 'onboarding_completed', type: 'boolean' },
                     ],
                 }),
+            ],
+        },
+        {
+            toVersion: 4,
+            steps: [
+                unsafeExecuteSql('CREATE INDEX IF NOT EXISTS idx_cards_next_review ON cards (next_review);'),
+                unsafeExecuteSql('CREATE INDEX IF NOT EXISTS idx_study_sessions_completed_at ON study_sessions (completed_at);'),
             ],
         },
     ],

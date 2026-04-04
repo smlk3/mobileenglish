@@ -176,6 +176,7 @@ const es = {
     'onboarding.profile.professionLabel': 'Tu profesión',
     'onboarding.profile.interestsLabel': 'Tus intereses',
     'onboarding.profile.complete': 'Empezar a aprender',
+    'onboarding.starterDeckName': 'Mi lista de inicio personal',
 };
 
 export default es;

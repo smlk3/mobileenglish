@@ -59,29 +59,50 @@ interface WordEntry {
 // ─── OpenAI API Call ─────────────────────────────────────────────────
 
 async function callOpenAI(prompt: string, systemPrompt: string): Promise<string> {
-    const apiKey = process.env.OPENAI_API_KEY;
-    if (!apiKey) throw new Error('OPENAI_API_KEY environment variable not set');
+    const apiKey = process.env.OPENAI_API_KEY || process.env.AZURE_API_KEY;
+    let baseUrl = process.env.OPENAI_BASE_URL || process.env.AZURE_BASE_URL || 'https://api.openai.com/v1/chat/completions';
+    
+    if (baseUrl.endsWith('/responses')) {
+        baseUrl = baseUrl.replace(/\/responses$/, '/chat/completions');
+    }
+    
+    if (!apiKey) throw new Error('API key not set. Define OPENAI_API_KEY or AZURE_API_KEY environment variable. If using Azure, also define AZURE_BASE_URL.');
 
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const isAzure = baseUrl.includes('azure.com');
+    const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+    };
+
+    if (isAzure) {
+        headers['api-key'] = apiKey;
+    } else {
+        headers['Authorization'] = `Bearer ${apiKey}`;
+    }
+
+    const payload: any = {
+        model: process.env.MODEL_NAME || 'gpt-4o-mini',
+        messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: prompt },
+        ],
+        temperature: 0.7,
+    };
+    
+    if (isAzure) {
+        payload.max_completion_tokens = 4096;
+    } else {
+        payload.max_tokens = 4096;
+    }
+
+    const response = await fetch(baseUrl, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-            model: 'gpt-4o-mini',
-            messages: [
-                { role: 'system', content: systemPrompt },
-                { role: 'user', content: prompt },
-            ],
-            temperature: 0.7,
-            max_tokens: 4096,
-        }),
+        headers,
+        body: JSON.stringify(payload),
     });
 
     if (!response.ok) {
         const err = await response.text();
-        throw new Error(`OpenAI API error: ${response.status} ${err}`);
+        throw new Error(`API error: ${response.status} ${err}`);
     }
 
     const data = await response.json();
@@ -200,7 +221,7 @@ async function generateLevel(
 // ─── File I/O ────────────────────────────────────────────────────────
 
 function loadExisting(targetLang: string, nativeLang: string): WordEntry[] {
-    const filePath = path.join(__dirname, '..', 'assets', 'wordlists', targetLang, `${nativeLang}.json`);
+    const filePath = path.join(process.cwd(), 'assets', 'wordlists', targetLang, `${nativeLang}.json`);
     if (fs.existsSync(filePath)) {
         const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
         return Array.isArray(data) ? data : [];
@@ -209,7 +230,7 @@ function loadExisting(targetLang: string, nativeLang: string): WordEntry[] {
 }
 
 function saveWordlist(targetLang: string, nativeLang: string, words: WordEntry[]): void {
-    const dir = path.join(__dirname, '..', 'assets', 'wordlists', targetLang);
+    const dir = path.join(process.cwd(), 'assets', 'wordlists', targetLang);
     fs.mkdirSync(dir, { recursive: true });
     const filePath = path.join(dir, `${nativeLang}.json`);
     // Sort by level then alphabetically
@@ -219,11 +240,15 @@ function saveWordlist(targetLang: string, nativeLang: string, words: WordEntry[]
 }
 
 function updateIndex(): void {
-    const wordlistsDir = path.join(__dirname, '..', 'assets', 'wordlists');
+    const wordlistsDir = path.join(process.cwd(), 'assets', 'wordlists');
     const index: { version: number; pairs: { target: string; native: string; wordCount: number; levels: number[] }[] } = {
         version: 1,
         pairs: [],
     };
+
+    if (!fs.existsSync(wordlistsDir)) {
+        fs.mkdirSync(wordlistsDir, { recursive: true });
+    }
 
     const targets = fs.readdirSync(wordlistsDir).filter((f) => {
         const stat = fs.statSync(path.join(wordlistsDir, f));

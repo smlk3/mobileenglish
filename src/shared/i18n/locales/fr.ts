@@ -182,6 +182,7 @@ const fr = {
     'onboarding.profile.professionLabel': 'Votre profession',
     'onboarding.profile.interestsLabel': 'Vos intérêts',
     'onboarding.profile.complete': 'Commencer à apprendre',
+    'onboarding.starterDeckName': 'Ma liste de départ personnelle',
 };
 
 export default fr;

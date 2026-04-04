@@ -188,7 +188,7 @@ export default function ChatScreen() {
             setIsLoaded(true);
         };
         load();
-    }, [activeSessionId]);
+    }, [activeSessionId, t]);
 
 const sendMessage = async () => {
         if (!input.trim() || !activeSessionId) return;

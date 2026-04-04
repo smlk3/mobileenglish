@@ -19,7 +19,7 @@ import {
     SUPPORTED_NATIVE_LANGUAGES,
     SUPPORTED_TARGET_LANGUAGES,
 } from '../src/shared/lib/languageConfig';
-import { getUserSettings } from '../src/shared/lib/stores/useDatabaseService';
+import { createStarterDeck, getUserSettings } from '../src/shared/lib/stores/useDatabaseService';
 import { useProfileStore } from '../src/shared/lib/stores/useProfileStore';
 import { borderRadius, colors, spacing, typography } from '../src/shared/lib/theme';
 
@@ -71,16 +71,27 @@ export default function OnboardingScreen() {
             });
 
             // Update store
+            const parsedInterests = interests.split(',').map((i) => i.trim()).filter(Boolean);
             const store = useProfileStore.getState();
             store.setProfile({
                 profession: profession.trim(),
-                interests: interests.split(',').map((i) => i.trim()).filter(Boolean),
+                interests: parsedInterests,
                 level: String(level),
                 nativeLanguage: nativeLang || 'tr',
                 goals: [],
             });
             store.setTargetLanguage(targetLang || 'en');
             store.setOnboardingCompleted(true);
+
+            // Create personalized starter deck from wordlist
+            await createStarterDeck({
+                targetLanguage: targetLang || 'en',
+                nativeLanguage: nativeLang || 'tr',
+                level,
+                interests: parsedInterests,
+                profession: profession.trim(),
+                deckName: t('onboarding.starterDeckName'),
+            });
 
             router.replace('/(tabs)');
         } catch (error) {

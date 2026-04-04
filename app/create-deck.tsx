@@ -17,7 +17,7 @@ import {
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { getVectorStore } from '../src/shared/api/rag/VectorStore';
 import { getLevelOptions, cefrToLevel } from '../src/shared/lib/languageConfig';
-import { addCardsToDecks, createDeck } from '../src/shared/lib/stores/useDatabaseService';
+import { addCardsToDecks, createDeck, fetchAllCardFronts } from '../src/shared/lib/stores/useDatabaseService';
 import { useProfileStore } from '../src/shared/lib/stores/useProfileStore';
 import { borderRadius, colors, shadows, spacing, typography } from '../src/shared/lib/theme';
 
@@ -84,9 +84,12 @@ export default function CreateDeckScreen() {
         setIsGenerating(true);
         try {
             const vectorStore = getVectorStore(targetLanguage, nativeLanguage);
+            const existingWords = await fetchAllCardFronts();
             const words = vectorStore.search({
                 level: selectedLevel,
+                categories: selectedCategory !== 'General' ? [selectedCategory] : [],
                 interests: profile.interests,
+                excludeWords: existingWords,
                 limit: wordCount,
             });
 

@@ -171,6 +171,7 @@ const ar = {
     'onboarding.profile.professionLabel': 'مهنتك',
     'onboarding.profile.interestsLabel': 'اهتماماتك',
     'onboarding.profile.complete': 'ابدأ التعلم',
+    'onboarding.starterDeckName': 'قائمتي الشخصية للمبتدئين',
 };
 
 export default ar;

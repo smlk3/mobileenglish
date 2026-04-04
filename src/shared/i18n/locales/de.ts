@@ -261,6 +261,7 @@ const de = {
     'onboarding.profile.interestsLabel': 'Deine Interessen',
     'onboarding.profile.interestsPlaceholder': 'z.B. Fußball, Kochen, Technologie',
     'onboarding.profile.complete': 'Lernen starten',
+    'onboarding.starterDeckName': 'Meine persönliche Startliste',
 };
 
 export default de;

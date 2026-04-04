@@ -22,7 +22,8 @@
       "Bash(test -f c:/git/mobileenglish/CHANGELOG.md)",
       "Bash(npx expo install expo-localization)",
       "Bash(npm install i18next react-i18next)",
-      "Bash(grep -v \"^$\")"
+      "Bash(grep -v \"^$\")",
+      "Bash(find /c/git/mobileenglish/assets/wordlists -name \"*.json\" -type f -exec wc -l {} +)"
     ]
   }
 }

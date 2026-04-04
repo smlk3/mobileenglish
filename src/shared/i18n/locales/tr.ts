@@ -292,6 +292,7 @@ const tr = {
     'onboarding.profile.interestsLabel': 'İlgi alanların',
     'onboarding.profile.interestsPlaceholder': 'ör. futbol, yemek, teknoloji',
     'onboarding.profile.complete': 'Öğrenmeye Başla',
+    'onboarding.starterDeckName': 'Kişisel Başlangıç Listem',
 };
 
 export default tr;
