@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import i18n from '../src/shared/i18n';
 import {
@@ -31,7 +31,7 @@ const DAILY_GOALS = [5, 10, 15, 20, 30, 50];
 const CLOUD_PROVIDERS: { key: CloudProvider; label: string; subtitle: string }[] = [
     { key: 'openai', label: 'OpenAI', subtitle: 'GPT-4o-mini (default)' },
     { key: 'gemini', label: 'Google Gemini', subtitle: 'Gemini 2.0 Flash' },
-    { key: 'custom', label: 'Custom Endpoint', subtitle: 'Groq, Deepseek, OpenRouter, Ollama…' },
+    { key: 'custom', label: 'Custom / Microsoft AI', subtitle: 'Microsoft Foundation, Groq, Deepseek…' },
 ];
 
 function detectProvider(key: string): CloudProvider {
@@ -63,6 +63,40 @@ export default function SettingModalScreen() {
             setSelectedProvider(detectProvider(key));
         }
     };
+
+    // Auto-fill existing keys when opening the API key or provider page
+    useEffect(() => {
+        getUserSettings().then((settings) => {
+            if (!settings) return;
+            const keys = settings.apiKeys;
+            
+            if (params.type === 'api_key') {
+                // For API Key modal, default to the explicitly active provider, or fallback
+                const fallbackActive = keys.custom?.apiKey ? 'custom' : keys.gemini ? 'gemini' : 'openai';
+                const currentActive = keys.activeProvider || fallbackActive;
+                
+                if (currentActive === 'custom' && keys.custom?.apiKey) {
+                    setSelectedProvider('custom');
+                    setTextValue(keys.custom.apiKey);
+                    setCustomBaseUrl(keys.custom.baseUrl || '');
+                    setCustomModel(keys.custom.model || '');
+                } else if (currentActive === 'gemini' && keys.gemini) {
+                    setSelectedProvider('gemini');
+                    setTextValue(keys.gemini);
+                } else if (keys.openai) {
+                    setSelectedProvider('openai');
+                    setTextValue(keys.openai);
+                }
+            } else if (params.type === 'ai_provider') {
+                 // For AI Provider modal, pre-select the active provider
+                 const fallbackActive = keys.custom?.apiKey ? 'custom' : keys.gemini ? 'gemini' : keys.openai ? 'openai' : '';
+                 const currentActive = keys.activeProvider || fallbackActive;
+                 if (currentActive && !selectedValue) {
+                     setSelectedValue(currentActive);
+                 }
+            }
+        });
+    }, [params.type, selectedValue]);
 
     const save = async () => {
         try {
@@ -107,6 +141,7 @@ export default function SettingModalScreen() {
                     if (selectedProvider === 'custom') {
                         await settings.updateApiKeys({
                             ...currentKeys,
+                            activeProvider: 'custom',
                             custom: {
                                 apiKey: key,
                                 baseUrl: customBaseUrl.trim(),
@@ -114,9 +149,9 @@ export default function SettingModalScreen() {
                             },
                         });
                     } else if (selectedProvider === 'openai') {
-                        await settings.updateApiKeys({ ...currentKeys, openai: key });
+                        await settings.updateApiKeys({ ...currentKeys, activeProvider: 'openai', openai: key });
                     } else {
-                        await settings.updateApiKeys({ ...currentKeys, gemini: key });
+                        await settings.updateApiKeys({ ...currentKeys, activeProvider: 'gemini', gemini: key });
                     }
                     useProfileStore.getState().setCloudAvailable(true);
                     useProfileStore.getState().setActiveModel('cloud');
@@ -126,8 +161,10 @@ export default function SettingModalScreen() {
                     const keys = settings.apiKeys;
                     if (selectedValue === 'openai' && keys.openai) {
                         HybridLLMManager.getInstance().configureCloud(keys.openai, 'openai');
+                        await settings.updateApiKeys({ activeProvider: 'openai' });
                     } else if (selectedValue === 'gemini' && keys.gemini) {
                         HybridLLMManager.getInstance().configureCloud(keys.gemini, 'gemini');
+                        await settings.updateApiKeys({ activeProvider: 'gemini' });
                     } else if (selectedValue === 'custom' && keys.custom) {
                         HybridLLMManager.getInstance().configureCloud(
                             keys.custom.apiKey,
@@ -135,6 +172,7 @@ export default function SettingModalScreen() {
                             keys.custom.baseUrl,
                             keys.custom.model,
                         );
+                        await settings.updateApiKeys({ activeProvider: 'custom' });
                     } else {
                         const name =
                             selectedValue === 'openai'
@@ -309,7 +347,7 @@ export default function SettingModalScreen() {
                                             borderColor: tc.border,
                                         },
                                     ]}
-                                    placeholder="https://api.groq.com/openai/v1"
+                                    placeholder="Örn: https://models.inference.ai.azure.com"
                                     placeholderTextColor={tc.textMuted}
                                     value={customBaseUrl}
                                     onChangeText={setCustomBaseUrl}

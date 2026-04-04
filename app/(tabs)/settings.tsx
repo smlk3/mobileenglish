@@ -43,18 +43,18 @@ export default function SettingsScreen() {
                 goals: tags.goals,
             });
             profile.setTargetLanguage(s.targetLanguage || 'en');
-            // Configure LLM if api key exists
+            // Configure LLM based on active provider or fallback to available keys
             const keys = s.apiKeys;
-            if (keys.openai) {
-                HybridLLMManager.getInstance().configureCloud(keys.openai, 'openai');
+            const active = keys.activeProvider || (keys.custom ? 'custom' : keys.gemini ? 'gemini' : keys.openai ? 'openai' : undefined);
+            
+            if (active === 'custom' && keys.custom) {
+                HybridLLMManager.getInstance().configureCloud(keys.custom.apiKey, 'custom', keys.custom.baseUrl, keys.custom.model);
                 useProfileStore.getState().setCloudAvailable(true);
-            } else if (keys.gemini) {
+            } else if (active === 'gemini' && keys.gemini) {
                 HybridLLMManager.getInstance().configureCloud(keys.gemini, 'gemini');
                 useProfileStore.getState().setCloudAvailable(true);
-            } else if (keys.custom) {
-                HybridLLMManager.getInstance().configureCloud(
-                    keys.custom.apiKey, 'custom', keys.custom.baseUrl, keys.custom.model,
-                );
+            } else if (active === 'openai' && keys.openai) {
+                HybridLLMManager.getInstance().configureCloud(keys.openai, 'openai');
                 useProfileStore.getState().setCloudAvailable(true);
             }
         }
@@ -118,15 +118,15 @@ const navigateToSettingModal = (type: string, title: string, currentValue: strin
                     icon: 'swap-horizontal' as const,
                     iconColor: colors.warning.main,
                     title: t('settings.aiProvider'),
-                    subtitle: apiKeys?.custom
+                    subtitle: apiKeys?.activeProvider === 'custom' && apiKeys.custom
                         ? `Custom: ${apiKeys.custom.model}`
-                        : apiKeys?.gemini
+                        : apiKeys?.activeProvider === 'gemini' && apiKeys.gemini
                           ? 'Google Gemini'
-                          : apiKeys?.openai
+                          : apiKeys?.activeProvider === 'openai' && apiKeys.openai
                             ? 'OpenAI GPT-4o-mini'
                             : t('settings.mockMode'),
                     type: 'nav' as const,
-                    onPress: () => navigateToSettingModal('ai_provider', t('settings.aiProvider'), apiKeys?.custom ? 'custom' : apiKeys?.gemini ? 'gemini' : 'openai'),
+                    onPress: () => navigateToSettingModal('ai_provider', t('settings.aiProvider'), apiKeys?.activeProvider || (apiKeys?.custom ? 'custom' : apiKeys?.gemini ? 'gemini' : 'openai')),
                 },
             ],
         },

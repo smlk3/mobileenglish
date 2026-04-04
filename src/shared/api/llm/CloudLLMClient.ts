@@ -11,6 +11,7 @@ interface CloudConfig {
     provider: CloudProvider;
     model: string;
     baseUrl: string;
+    isAzure?: boolean;
 }
 
 const PROVIDER_CONFIGS = {
@@ -37,6 +38,7 @@ export class CloudLLMClient {
                 provider,
                 model: customModel || 'gpt-4o-mini',
                 baseUrl: customBaseUrl.replace(/\/$/, ''),
+                isAzure: customBaseUrl.includes('azure.com'),
             };
         } else {
             const providerConfig = PROVIDER_CONFIGS[provider];
@@ -89,17 +91,36 @@ export class CloudLLMClient {
     private async chatOpenAI(messages: ChatMessage[], minimal = false, jsonMode = false): Promise<string> {
         const config = this.config!;
 
-        const response = await this.fetchWithTimeout(`${config.baseUrl}/chat/completions`, {
+        // Handle specific Azure AI Studio formatting
+        let url = `${config.baseUrl}/chat/completions`;
+        
+        // If user accidentally included "/responses" or "/chat/completions" in baseUrl, clean it
+        if (config.baseUrl.endsWith('/responses')) {
+            url = config.baseUrl.replace(/\/responses$/, '/chat/completions');
+        } else if (config.baseUrl.endsWith('/chat/completions')) {
+            url = config.baseUrl;
+        }
+
+        const headers: Record<string, string> = {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${config.apiKey}`,
+        };
+
+        // Azure AI endpoints often expect api-key header exclusively
+        if (config.isAzure) {
+            headers['api-key'] = config.apiKey;
+        }
+
+        const response = await this.fetchWithTimeout(url, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${config.apiKey}`,
-            },
+            headers,
             body: JSON.stringify({
                 model: config.model,
                 messages: messages.map((m) => ({ role: m.role, content: m.content })),
                 temperature: 0.7,
-                max_tokens: minimal ? 5 : 2048,
+                ...(config.isAzure 
+                    ? { max_completion_tokens: minimal ? 5 : 2048 } 
+                    : { max_tokens: minimal ? 5 : 2048 }),
                 ...(jsonMode && !minimal ? { response_format: { type: 'json_object' } } : {}),
             }),
         });

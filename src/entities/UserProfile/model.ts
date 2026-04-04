@@ -16,6 +16,7 @@ export interface CustomEndpoint {
 }
 
 export interface ApiKeys {
+    activeProvider?: 'openai' | 'gemini' | 'custom';
     openai?: string;
     gemini?: string;
     custom?: CustomEndpoint;
