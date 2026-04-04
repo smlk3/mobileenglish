@@ -350,33 +350,36 @@ const sendMessage = async () => {
                     <Text style={[styles.headerTitle, { color: tc.text }]}>{t('chat.title')}</Text>
                 </View>
                 <View style={styles.headerActions}>
-                    {/* Mode pill selector */}
-                    <View style={[styles.modePills, { backgroundColor: tc.surfaceElevated }]}>
-                        {(Object.keys(CHAT_MODE_LABELS) as ChatMode[]).map((m) => (
-                            <TouchableOpacity
-                                key={m}
-                                onPress={() => setChatMode(m)}
-                                style={[
-                                    styles.modePill,
-                                    chatMode === m && { backgroundColor: colors.primary[500] },
-                                ]}
-                            >
-                                <Text style={styles.modePillIcon}>{CHAT_MODE_LABELS[m].icon}</Text>
-                                <Text style={[
-                                    styles.modePillText,
-                                    { color: chatMode === m ? '#fff' : tc.textMuted },
-                                ]}>
-                                    {t(CHAT_MODE_LABELS[m].labelKey)}
-                                </Text>
-                            </TouchableOpacity>
-                        ))}
-                    </View>
                     <TouchableOpacity onPress={() => setHistoryVisible(true)} style={styles.clearButton}>
                         <Ionicons name="chatbubbles-outline" size={22} color={tc.textMuted} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={handleDeleteSession} style={styles.clearButton}>
                         <Ionicons name="trash-outline" size={22} color={tc.textMuted} />
                     </TouchableOpacity>
+                </View>
+            </View>
+
+            {/* Sub-header for Mode Pills to prevent horizontal overflow on narrow screens */}
+            <View style={[styles.subHeader, { borderBottomColor: tc.border }]}>
+                <View style={[styles.modePills, { backgroundColor: tc.surfaceElevated }]}>
+                    {(Object.keys(CHAT_MODE_LABELS) as ChatMode[]).map((m) => (
+                        <TouchableOpacity
+                            key={m}
+                            onPress={() => setChatMode(m)}
+                            style={[
+                                styles.modePill,
+                                chatMode === m && { backgroundColor: colors.primary[500] },
+                            ]}
+                        >
+                            <Text style={styles.modePillIcon}>{CHAT_MODE_LABELS[m].icon}</Text>
+                            <Text style={[
+                                styles.modePillText,
+                                { color: chatMode === m ? '#fff' : tc.textMuted },
+                            ]}>
+                                {t(CHAT_MODE_LABELS[m].labelKey)}
+                            </Text>
+                        </TouchableOpacity>
+                    ))}
                 </View>
             </View>
 
@@ -480,6 +483,13 @@ const styles = StyleSheet.create({
     modePillText: {
         fontSize: 11,
         fontWeight: '600',
+    },
+    subHeader: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        paddingVertical: spacing.xs,
+        paddingHorizontal: spacing.md,
+        borderBottomWidth: StyleSheet.hairlineWidth,
     },
 
     header: {
