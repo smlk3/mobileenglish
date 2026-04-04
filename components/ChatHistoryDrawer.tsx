@@ -32,6 +32,7 @@ import {
 import { clearChatMessages } from '../src/shared/lib/stores/useDatabaseService';
 import { borderRadius, colors, spacing, typography } from '../src/shared/lib/theme';
 import { useProfileStore } from '../src/shared/lib/stores/useProfileStore';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface Props {
     visible: boolean;
@@ -49,6 +50,7 @@ export default function ChatHistoryDrawer({
     onClose,
 }: Props) {
     const { t } = useTranslation();
+    const insets = useSafeAreaInsets();
     const themeMode = useProfileStore((s) => s.themeMode);
     const tc = themeMode === 'dark' ? colors.dark : colors.light;
 
@@ -210,7 +212,7 @@ export default function ChatHistoryDrawer({
                     {/* New chat button */}
                     <TouchableOpacity
                         onPress={handleNew}
-                        style={[styles.newBtn, { borderTopColor: tc.border }]}
+                        style={[styles.newBtn, { borderTopColor: tc.border, paddingBottom: Math.max(insets.bottom, spacing.base) }]}
                     >
                         <Ionicons name="add-circle-outline" size={20} color={colors.primary[400]} />
                         <Text style={[styles.newBtnText, { color: colors.primary[400] }]}>{t('chatHistory.newChat')}</Text>
