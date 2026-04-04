@@ -128,7 +128,6 @@ export default function ChatScreen() {
     const [input, setInput] = useState('');
     const [isTyping, setIsTyping] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
-    const [turboMode, setTurboMode] = useState(false);
     const [chatMode, setChatMode] = useState<ChatMode>('balanced');
     const [streamingContent, setStreamingContent] = useState('');
     const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
@@ -349,10 +348,6 @@ const sendMessage = async () => {
             <View style={[styles.header, { borderBottomColor: tc.border }]}>
                 <View style={styles.headerLeft}>
                     <Text style={[styles.headerTitle, { color: tc.text }]}>{t('chat.title')}</Text>
-                    <View style={[styles.hwBadge, { backgroundColor: colors.success.main + '20' }]}>
-                        <Ionicons name="flash" size={10} color={colors.success.main} />
-                        <Text style={[styles.hwBadgeText, { color: colors.success.main }]}>{t('chat.gpuAccelerated')}</Text>
-                    </View>
                 </View>
                 <View style={styles.headerActions}>
                     {/* Mode pill selector */}
@@ -376,15 +371,6 @@ const sendMessage = async () => {
                             </TouchableOpacity>
                         ))}
                     </View>
-                    <TouchableOpacity
-                        onPress={() => setTurboMode(!turboMode)}
-                        style={[
-                            styles.turboBtn,
-                            turboMode && { backgroundColor: colors.primary[500] + '20', borderColor: colors.primary[500] }
-                        ]}
-                    >
-                        <Ionicons name="rocket" size={18} color={turboMode ? colors.primary[500] : tc.textMuted} />
-                    </TouchableOpacity>
                     <TouchableOpacity onPress={() => setHistoryVisible(true)} style={styles.clearButton}>
                         <Ionicons name="chatbubbles-outline" size={22} color={tc.textMuted} />
                     </TouchableOpacity>
@@ -511,38 +497,10 @@ const styles = StyleSheet.create({
         fontSize: typography.fontSize.md,
         fontWeight: '700',
     },
-    hwBadge: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        alignSelf: 'flex-start',
-        paddingHorizontal: 6,
-        paddingVertical: 2,
-        borderRadius: 4,
-        marginTop: 2,
-        gap: 2,
-    },
-    hwBadgeText: {
-        fontSize: 10,
-        fontWeight: '700',
-    },
     headerActions: {
         flexDirection: 'row',
         alignItems: 'center',
         gap: spacing.sm,
-    },
-    turboBtn: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingHorizontal: spacing.sm,
-        paddingVertical: 4,
-        borderRadius: borderRadius.md,
-        borderWidth: 1,
-        borderColor: 'transparent',
-        gap: 4,
-    },
-    turboText: {
-        fontSize: 10,
-        fontWeight: '800',
     },
     clearButton: {
         padding: spacing.xs,

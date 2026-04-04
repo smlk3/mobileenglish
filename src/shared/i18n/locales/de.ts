@@ -146,7 +146,6 @@ const de = {
     'stats.goal': 'Ziel',
 
     'chat.title': 'Lernassistent',
-    'chat.gpuAccelerated': 'GPU-beschleunigt',
     'chat.mode.tutor': 'Tutor',
     'chat.mode.balanced': 'Ausgewogen',
     'chat.mode.chat': 'Chat',

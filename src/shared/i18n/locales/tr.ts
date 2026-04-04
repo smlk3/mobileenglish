@@ -169,7 +169,6 @@ const tr = {
 
     // ── Chat Screen ─────────────────────────────────
     'chat.title': 'Öğrenme Asistanı',
-    'chat.gpuAccelerated': 'GPU Hızlandırmalı',
     'chat.mode.tutor': 'Öğret',
     'chat.mode.balanced': 'Dengeli',
     'chat.mode.chat': 'Sohbet',

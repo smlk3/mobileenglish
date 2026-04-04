@@ -169,7 +169,6 @@ const en = {
 
     // ── Chat Screen ─────────────────────────────────
     'chat.title': 'Learning Assistant',
-    'chat.gpuAccelerated': 'GPU Accelerated',
     'chat.mode.tutor': 'Tutor',
     'chat.mode.balanced': 'Balanced',
     'chat.mode.chat': 'Chat',
