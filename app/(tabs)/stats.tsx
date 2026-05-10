@@ -3,6 +3,7 @@ import { useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Animated, { FadeInDown, FadeInUp, useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
 import {
     type DeckAccuracy,
@@ -183,6 +184,7 @@ function CircularProgress({ value, max, size = 80, color = colors.primary[500] }
 
 export default function StatsScreen() {
     const { t } = useTranslation();
+    const { top } = useSafeAreaInsets();
     const themeMode = useProfileStore((s) => s.themeMode);
     const tc = themeMode === 'dark' ? colors.dark : colors.light;
 
@@ -218,7 +220,7 @@ export default function StatsScreen() {
     return (
         <ScrollView
             style={[styles.container, { backgroundColor: tc.background }]}
-            contentContainerStyle={styles.content}
+            contentContainerStyle={[styles.content, { paddingTop: top + spacing.base }]}
             showsVerticalScrollIndicator={false}
         >
             {/* XP / Level card */}
@@ -254,7 +256,7 @@ export default function StatsScreen() {
                         {stats?.totalWordsLearned ?? 0}
                     </Text>
                     <Text style={[styles.overviewLabel, { color: tc.textMuted }]}>{t('stats.wordsLearned')}</Text>
-                    <View style={[styles.levelBadge, { backgroundColor: levelInfo.color + '22' }]}>
+                    <View style={[styles.levelBadge, { backgroundColor: levelInfo.color + '30' }]}>
                         <Text style={[styles.levelText, { color: levelInfo.color }]}>{t(levelInfo.key)}</Text>
                     </View>
                 </View>
@@ -441,7 +443,7 @@ export default function StatsScreen() {
 
 const styles = StyleSheet.create({
     container: { flex: 1 },
-    content: { padding: spacing.base, paddingBottom: spacing['3xl'] },
+    content: { paddingHorizontal: spacing.base, paddingBottom: spacing['3xl'] },
 
     overviewGrid: {
         flexDirection: 'row',
@@ -560,7 +562,6 @@ const styles = StyleSheet.create({
         padding: spacing.lg,
         marginBottom: spacing.md,
         borderWidth: 1,
-        ...shadows.sm,
     },
     xpCardHeader: { flexDirection: 'row', alignItems: 'center', gap: spacing.md, marginBottom: spacing.md },
     xpCardInfo: { flex: 1 },

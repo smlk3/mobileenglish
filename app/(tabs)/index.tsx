@@ -1,8 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LinearGradient } from 'expo-linear-gradient';
 import {
   Dimensions,
   ScrollView,
@@ -25,6 +25,7 @@ import { useProfileStore } from '../../src/shared/lib/stores/useProfileStore';
 import { useXPStore } from '../../src/shared/lib/stores/useXPStore';
 import { borderRadius, colors, shadows, spacing, typography } from '../../src/shared/lib/theme';
 import { getXPProgress } from '../../src/shared/lib/xpSystem';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const { width } = Dimensions.get('window');
 
@@ -112,6 +113,7 @@ function OrbitalRing({ pct, color, size = 72 }: { pct: number; color: string; si
 export default function HomeScreen() {
   const { t } = useTranslation();
   const router = useRouter();
+  const { top } = useSafeAreaInsets();
   const themeMode = useProfileStore((s) => s.themeMode);
   const tc = themeMode === 'dark' ? colors.dark : colors.light;
 
@@ -164,7 +166,7 @@ export default function HomeScreen() {
   return (
     <ScrollView
       style={[styles.container, { backgroundColor: tc.background }]}
-      contentContainerStyle={styles.content}
+      contentContainerStyle={[styles.content, { paddingTop: top + spacing.base }]}
       showsVerticalScrollIndicator={false}
     >
       {/* ── AU MODA HERO ─────────────────────────────────── */}
@@ -236,9 +238,7 @@ export default function HomeScreen() {
 
         {/* Mascot + orbital ring */}
         <Animated.View style={[styles.mascotContainer, mascotStyle]}>
-          {/* Orbital progress ring */}
           <OrbitalRing pct={xpProgress.pct} color="#FFD700" size={80} />
-          {/* Centered owl on top of ring */}
           <View style={styles.mascotInner}>
             <Text style={styles.mascotEmoji}>🐴</Text>
           </View>
@@ -392,95 +392,76 @@ export default function HomeScreen() {
         </View>
       </Animated.View>
 
-      {/* ── QUICK ACTIONS ──────────────────────────────── */}
+      {/* ── QUICK ACTIONS GRID ──────────────────────────── */}
       <Text style={[styles.sectionTitle, {
         color: tc.text,
         marginLeft: spacing.base,
         marginTop: spacing.lg,
-        marginBottom: spacing.xs,
+        marginBottom: spacing.sm,
       }]}>
         {t('home.quickActions')}
       </Text>
 
-      <Animated.View entering={FadeInRight.duration(500).delay(200)}>
+      <Animated.View entering={FadeInDown.duration(500).delay(200)} style={styles.qaGrid}>
+        {/* Ana aksiyon — büyük */}
         <TouchableOpacity
-          style={[
-            styles.actionCard,
-            {
-              backgroundColor: colors.primary[600],
-              shadowColor: colors.primary[500],
-              shadowOffset: { width: 0, height: 6 },
-              shadowOpacity: 0.45,
-              shadowRadius: 16,
-              elevation: 10,
-            },
-          ]}
+          style={[styles.qaMain, {
+            backgroundColor: colors.primary[600],
+            shadowColor: colors.primary[500],
+            shadowOffset: { width: 0, height: 8 },
+            shadowOpacity: 0.45,
+            shadowRadius: 20,
+            elevation: 12,
+          }]}
           onPress={() => router.push('/study')}
           activeOpacity={0.85}
         >
-          <View style={styles.actionIconContainer}>
-            <Ionicons name="flash" size={28} color="#fff" />
+          <Ionicons name="flash" size={30} color="#fff" />
+          <Text style={styles.qaMainTitle}>{t('home.dailyReview')}</Text>
+          <Text style={styles.qaMainSub}>{t('home.cardsWaiting', { count: stats.dueCards })}</Text>
+          <View style={styles.qaMainBadge}>
+            <Text style={styles.qaMainBadgeText}>{stats.dueCards} kart</Text>
           </View>
-          <View style={styles.actionContent}>
-            <Text style={styles.actionTitle}>{t('home.dailyReview')}</Text>
-            <Text style={styles.actionSubtitle}>{t('home.cardsWaiting', { count: stats.dueCards })}</Text>
-          </View>
-          <Ionicons name="chevron-forward" size={24} color="rgba(255,255,255,0.6)" />
         </TouchableOpacity>
-      </Animated.View>
 
-      <Animated.View entering={FadeInRight.duration(500).delay(300)}>
-        <TouchableOpacity
-          style={[
-            styles.actionCard,
-            {
-              backgroundColor: colors.accent[600],
+        {/* İkincil aksiyonlar — küçük */}
+        <View style={styles.qaSide}>
+          <TouchableOpacity
+            style={[styles.qaSmall, {
+              backgroundColor: tc.surface,
+              borderColor: colors.accent[500] + '45',
               shadowColor: colors.accent[400],
-              shadowOffset: { width: 0, height: 6 },
-              shadowOpacity: 0.4,
-              shadowRadius: 16,
-              elevation: 10,
-            },
-          ]}
-          onPress={() => router.push('/create-deck' as any)}
-          activeOpacity={0.85}
-        >
-          <View style={styles.actionIconContainer}>
-            <Ionicons name="sparkles" size={28} color="#fff" />
-          </View>
-          <View style={styles.actionContent}>
-            <Text style={styles.actionTitle}>{t('home.generateWords')}</Text>
-            <Text style={styles.actionSubtitle}>{t('home.generateWordsDesc')}</Text>
-          </View>
-          <Ionicons name="chevron-forward" size={24} color="rgba(255,255,255,0.6)" />
-        </TouchableOpacity>
-      </Animated.View>
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.2,
+              shadowRadius: 10,
+              elevation: 5,
+            }]}
+            onPress={() => router.push('/create-deck' as any)}
+            activeOpacity={0.8}
+          >
+            <Ionicons name="sparkles" size={22} color={colors.accent[400]} />
+            <Text style={[styles.qaSmallLabel, { color: tc.text }]}>{t('home.generateWords')}</Text>
+            <Text style={[styles.qaSmallSub, { color: tc.textMuted }]}>AI deste</Text>
+          </TouchableOpacity>
 
-      <Animated.View entering={FadeInRight.duration(500).delay(400)}>
-        <TouchableOpacity
-          style={[
-            styles.actionCard,
-            {
-              backgroundColor: '#7C3AED',
+          <TouchableOpacity
+            style={[styles.qaSmall, {
+              backgroundColor: tc.surface,
+              borderColor: '#7C3AED45',
               shadowColor: '#7C3AED',
-              shadowOffset: { width: 0, height: 6 },
-              shadowOpacity: 0.45,
-              shadowRadius: 16,
-              elevation: 10,
-            },
-          ]}
-          onPress={() => router.push('/chat' as any)}
-          activeOpacity={0.85}
-        >
-          <View style={styles.actionIconContainer}>
-            <Ionicons name="chatbubble-ellipses" size={28} color="#fff" />
-          </View>
-          <View style={styles.actionContent}>
-            <Text style={styles.actionTitle}>{t('home.practiceAI')}</Text>
-            <Text style={styles.actionSubtitle}>{t('home.practiceAIDesc')}</Text>
-          </View>
-          <Ionicons name="chevron-forward" size={24} color="rgba(255,255,255,0.6)" />
-        </TouchableOpacity>
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.2,
+              shadowRadius: 10,
+              elevation: 5,
+            }]}
+            onPress={() => router.push('/chat' as any)}
+            activeOpacity={0.8}
+          >
+            <Ionicons name="chatbubble-ellipses" size={22} color="#A78BFA" />
+            <Text style={[styles.qaSmallLabel, { color: tc.text }]}>{t('home.practiceAI')}</Text>
+            <Text style={[styles.qaSmallSub, { color: tc.textMuted }]}>Konuşma</Text>
+          </TouchableOpacity>
+        </View>
       </Animated.View>
 
       <View style={{ height: 24 }} />
@@ -490,7 +471,7 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content:   { paddingTop: spacing.base, paddingBottom: spacing['3xl'] },
+  content:   { paddingBottom: spacing['3xl'] },
 
   heroSection: {
     flexDirection: 'row',
@@ -595,23 +576,37 @@ const styles = StyleSheet.create({
   statLabel:   { fontSize: typography.fontSize.xs },
 
   sectionTitle: { fontSize: typography.fontSize.md, fontWeight: '700' },
-  actionCard: {
+
+  // ── Quick actions grid
+  qaGrid: {
     flexDirection: 'row',
-    alignItems: 'center',
+    gap: spacing.sm,
     marginHorizontal: spacing.base,
-    marginTop: spacing.md,
+  },
+  qaMain: {
+    flex: 1.4,
     padding: spacing.lg,
-    borderRadius: borderRadius.lg,
+    borderRadius: borderRadius.xl,
+    minHeight: 150,
+    justifyContent: 'flex-end',
   },
-  actionIconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+  qaMainTitle:     { fontSize: typography.fontSize.base, fontWeight: '800', color: '#fff', marginTop: spacing.sm },
+  qaMainSub:       { fontSize: typography.fontSize.xs, color: 'rgba(255,255,255,0.65)', marginBottom: spacing.sm },
+  qaMainBadge: {
     backgroundColor: 'rgba(255,255,255,0.2)',
-    alignItems: 'center',
-    justifyContent: 'center',
+    borderRadius: borderRadius.full,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 3,
+    alignSelf: 'flex-start',
   },
-  actionContent:  { flex: 1, marginLeft: spacing.base },
-  actionTitle:    { color: '#fff', fontSize: typography.fontSize.md, fontWeight: '700', marginBottom: 2 },
-  actionSubtitle: { color: 'rgba(255,255,255,0.75)', fontSize: typography.fontSize.sm },
+  qaMainBadgeText: { fontSize: 10, fontWeight: '800', color: '#fff' },
+  qaSide:          { flex: 1, gap: spacing.sm },
+  qaSmall: {
+    flex: 1,
+    padding: spacing.md,
+    borderRadius: borderRadius.lg,
+    borderWidth: 1,
+  },
+  qaSmallLabel:    { fontSize: 12, fontWeight: '700', marginTop: spacing.xs },
+  qaSmallSub:      { fontSize: 10, marginTop: 1 },
 });
