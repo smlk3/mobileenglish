@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     ActivityIndicator,
@@ -63,6 +63,7 @@ export default function StudyScreen() {
     const [startTime] = useState(Date.now());
     const [isReviewingAll, setIsReviewingAll] = useState(false); // UX #5
     const [sessionXP, setSessionXP] = useState(0); // UX #6
+    const processingRef = useRef(false);
 
     // Card swipe animation values
     const translateX = useSharedValue(0);
@@ -108,6 +109,9 @@ export default function StudyScreen() {
 
     const goToNextCard = useCallback(
         async (rating: Rating) => {
+            if (processingRef.current) return;
+            processingRef.current = true;
+
             const card = cards[currentIndex];
             if (card) {
                 // Update card SRS in DB
@@ -125,10 +129,12 @@ export default function StudyScreen() {
                 setResults((prev) => [...prev, { rating, cardId: card.id }]);
             }
             setIsFlipped(false);
-            flipRotation.value = withTiming(0, { duration: 200 });
+            // Instant reset — animated reset would show new card's back face for 200ms
+            flipRotation.value = 0;
 
             if (currentIndex < cards.length - 1) {
                 setCurrentIndex((prev) => prev + 1);
+                processingRef.current = false;
             } else {
                 // Session complete — save to DB
                 const elapsed = Math.round((Date.now() - startTime) / 1000);
@@ -192,6 +198,9 @@ export default function StudyScreen() {
                         translateX.value = 0;
                         translateY.value = 0;
                         rotation.value = 0;
+                        redGlow.value = 0;
+                        greenGlow.value = 0;
+                        upGlow.value = 0;
                     },
                 );
             } else if (e.translationY < -100) {
@@ -200,6 +209,9 @@ export default function StudyScreen() {
                     translateX.value = 0;
                     translateY.value = 0;
                     rotation.value = 0;
+                    redGlow.value = 0;
+                    greenGlow.value = 0;
+                    upGlow.value = 0;
                 });
             } else {
                 translateX.value = withSpring(0, { damping: 15 });
@@ -211,14 +223,15 @@ export default function StudyScreen() {
             }
         });
 
-    // Tap gesture to flip card
+    // Tap gesture to flip card — derive state from shared value, not JS closure
     const tapGesture = Gesture.Tap().onEnd(() => {
-        const targetValue = flipRotation.value === 0 ? 180 : 0;
+        const willBeFlipped = flipRotation.value < 90;
+        const targetValue = willBeFlipped ? 180 : 0;
         flipRotation.value = withSpring(targetValue, {
             damping: 12,
             stiffness: 100,
         });
-        runOnJS(setIsFlipped)(!isFlipped);
+        runOnJS(setIsFlipped)(willBeFlipped);
     });
 
     const composedGesture = Gesture.Race(panGesture, tapGesture);
@@ -354,22 +367,36 @@ export default function StudyScreen() {
                     <Ionicons name="close" size={28} color={tc.text} />
                 </TouchableOpacity>
                 <View style={styles.progressDots}>
-                    {cards.map((_, i) => (
-                        <View
-                            key={i}
-                            style={[
-                                styles.dot,
-                                {
-                                    backgroundColor:
-                                        i < currentIndex
-                                            ? colors.primary[500]
-                                            : i === currentIndex
-                                                ? colors.primary[300]
-                                                : tc.border,
-                                },
-                            ]}
-                        />
-                    ))}
+                    {cards.length <= 10 ? (
+                        cards.map((_, i) => (
+                            <View
+                                key={i}
+                                style={[
+                                    styles.dot,
+                                    {
+                                        backgroundColor:
+                                            i < currentIndex
+                                                ? colors.primary[500]
+                                                : i === currentIndex
+                                                    ? colors.primary[300]
+                                                    : tc.border,
+                                    },
+                                ]}
+                            />
+                        ))
+                    ) : (
+                        <View style={[styles.progressBarTrack, { backgroundColor: tc.border }]}>
+                            <View
+                                style={[
+                                    styles.progressBarFill,
+                                    {
+                                        backgroundColor: colors.primary[500],
+                                        width: `${((currentIndex + 1) / cards.length) * 100}%`,
+                                    },
+                                ]}
+                            />
+                        </View>
+                    )}
                 </View>
                 <Text style={[styles.counter, { color: tc.textSecondary }]}>
                     {currentIndex + 1}/{cards.length}
@@ -520,6 +547,16 @@ const styles = StyleSheet.create({
         width: 8,
         height: 8,
         borderRadius: 4,
+    },
+    progressBarTrack: {
+        flex: 1,
+        height: 4,
+        borderRadius: 2,
+        overflow: 'hidden',
+    },
+    progressBarFill: {
+        height: '100%',
+        borderRadius: 2,
     },
     counter: {
         fontSize: typography.fontSize.sm,

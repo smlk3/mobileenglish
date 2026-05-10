@@ -677,7 +677,6 @@ const styles = StyleSheet.create({
         borderRadius: borderRadius.lg,
         borderWidth: 1.5,
         gap: spacing.md,
-        ...shadows.sm,
     },
     choiceIndex: {
         width: 32,
