@@ -544,7 +544,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         minHeight: 64,
-        ...shadows.sm,
     },
     tileText: {
         fontSize: typography.fontSize.sm,

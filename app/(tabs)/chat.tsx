@@ -27,7 +27,7 @@ import {
 } from '../../src/shared/lib/stores/useDatabaseService';
 import { useProfileStore } from '../../src/shared/lib/stores/useProfileStore';
 import { borderRadius, colors, spacing, typography } from '../../src/shared/lib/theme';
-
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ChatHistoryDrawer from '../../components/ChatHistoryDrawer';
 import {
     type ChatSessionMeta,
@@ -124,6 +124,7 @@ export default function ChatScreen() {
     const themeMode = useProfileStore((s) => s.themeMode);
     const nativeLanguage = useProfileStore((s) => s.nativeLanguage);
     const tc = themeMode === 'dark' ? colors.dark : colors.light;
+    const { top } = useSafeAreaInsets();
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [isTyping, setIsTyping] = useState(false);
@@ -340,7 +341,7 @@ const sendMessage = async () => {
 
     return (
         <KeyboardAvoidingView
-            style={[styles.container, { backgroundColor: tc.background }]}
+            style={[styles.container, { backgroundColor: tc.background, paddingTop: top }]}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             keyboardVerticalOffset={90}
         >
