@@ -17,6 +17,7 @@ import type Deck from '../../src/entities/Deck/model';
 import { deleteDeck, fetchDecks } from '../../src/shared/lib/stores/useDatabaseService';
 import { useProfileStore } from '../../src/shared/lib/stores/useProfileStore';
 import { borderRadius, colors, shadows, spacing, typography } from '../../src/shared/lib/theme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const CEFR_COLORS: Record<string, string> = {
   A1: '#10B981',
@@ -34,6 +35,7 @@ export default function DecksScreen() {
   const router = useRouter();
   const themeMode = useProfileStore((s) => s.themeMode);
   const tc = themeMode === 'dark' ? colors.dark : colors.light;
+  const { top } = useSafeAreaInsets();
 
   const [decks, setDecks] = useState<Deck[]>([]);
   const [quizModalDeck, setQuizModalDeck] = useState<Deck | null>(null);
@@ -82,7 +84,7 @@ export default function DecksScreen() {
   return (
     <ScrollView
       style={[styles.container, { backgroundColor: tc.background }]}
-      contentContainerStyle={styles.content}
+      contentContainerStyle={[styles.content, { paddingTop: top + spacing.base }]}
       showsVerticalScrollIndicator={false}
     >
       {/* Stats summary */}

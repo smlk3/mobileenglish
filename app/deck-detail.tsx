@@ -560,6 +560,8 @@ export default function DeckDetailScreen() {
                                 backgroundColor: colors.primary[500] + '18',
                                 borderWidth: 1.5,
                                 borderColor: colors.primary[500],
+                                elevation: 0,
+                                shadowOpacity: 0,
                             },
                         ]}
                         onPress={() => setShowQuizModal(true)}

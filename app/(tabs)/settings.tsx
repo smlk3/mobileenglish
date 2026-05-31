@@ -18,6 +18,7 @@ import { getLanguageConfig, getLevelLabel, SUPPORTED_TARGET_LANGUAGES } from '..
 import { getUserSettings } from '../../src/shared/lib/stores/useDatabaseService';
 import { useProfileStore } from '../../src/shared/lib/stores/useProfileStore';
 import { borderRadius, colors, spacing, typography } from '../../src/shared/lib/theme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function SettingsScreen() {
     const { t } = useTranslation();
@@ -25,6 +26,7 @@ export default function SettingsScreen() {
     const themeMode = useProfileStore((s) => s.themeMode);
     const toggleTheme = useProfileStore((s) => s.toggleTheme);
     const tc = themeMode === 'dark' ? colors.dark : colors.light;
+    const { top } = useSafeAreaInsets();
 
     const [settings, setSettings] = useState<UserSettingsModel | null>(null);
 
@@ -255,7 +257,7 @@ const navigateToSettingModal = (type: string, title: string, currentValue: strin
     return (
         <ScrollView
             style={[styles.container, { backgroundColor: tc.background }]}
-            contentContainerStyle={styles.content}
+            contentContainerStyle={[styles.content, { paddingTop: top + spacing.base }]}
             showsVerticalScrollIndicator={false}
         >
             {sections.map((section, sIndex) => (
