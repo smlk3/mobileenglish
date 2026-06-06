@@ -39,6 +39,10 @@ const fr = {
     'home.cardsStudied': '{{done}} sur {{total}} cartes étudiées',
     'home.due': 'À revoir',
     'home.streak': 'Série',
+    'home.editGoal': "Modifier l'objectif",
+    'home.aiDeckSub': 'Deck IA',
+    'home.practiceAISub': 'Conversation',
+    'home.dueCardsBadge': '{{count}} cartes',
 
     'weekday.sun': 'Dim',
     'weekday.mon': 'Lun',

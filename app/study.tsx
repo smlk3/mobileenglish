@@ -73,9 +73,10 @@ export default function StudyScreen() {
     const flipRotation = useSharedValue(0);
 
     // Neon glow overlay opacities
-    const redGlow   = useSharedValue(0);
-    const greenGlow = useSharedValue(0);
-    const upGlow    = useSharedValue(0);
+    const redGlow    = useSharedValue(0);
+    const greenGlow  = useSharedValue(0);
+    const upGlow     = useSharedValue(0);
+    const downGlow   = useSharedValue(0);
 
     // Load cards
     useEffect(() => {
@@ -160,11 +161,12 @@ export default function StudyScreen() {
     );
 
     const handleSwipeComplete = useCallback(
-        (direction: 'left' | 'right' | 'up') => {
+        (direction: 'left' | 'right' | 'up' | 'down') => {
             const ratingMap: Record<string, Rating> = {
-                left: 'again',
+                left:  'again',
                 right: 'good',
-                up: 'easy',
+                up:    'easy',
+                down:  'hard',
             };
             goToNextCard(ratingMap[direction]);
         },
@@ -182,10 +184,11 @@ export default function StudyScreen() {
                 [-15, 0, 15],
                 Extrapolation.CLAMP,
             );
-            // Neon glow: red = left, green = right, gold = up
-            redGlow.value   = interpolate(e.translationX, [0, -SWIPE_THRESHOLD], [0, 1], Extrapolation.CLAMP);
-            greenGlow.value = interpolate(e.translationX, [0, SWIPE_THRESHOLD],  [0, 1], Extrapolation.CLAMP);
-            upGlow.value    = interpolate(e.translationY, [0, -100],             [0, 1], Extrapolation.CLAMP);
+            // Neon glow: red = left, green = right, gold = up, orange = down
+            redGlow.value    = interpolate(e.translationX, [0, -SWIPE_THRESHOLD], [0, 1], Extrapolation.CLAMP);
+            greenGlow.value  = interpolate(e.translationX, [0, SWIPE_THRESHOLD],  [0, 1], Extrapolation.CLAMP);
+            upGlow.value     = interpolate(e.translationY, [0, -100],             [0, 1], Extrapolation.CLAMP);
+            downGlow.value   = interpolate(e.translationY, [0,  100],             [0, 1], Extrapolation.CLAMP);
         })
         .onEnd((e) => {
             if (Math.abs(e.translationX) > SWIPE_THRESHOLD) {
@@ -201,6 +204,7 @@ export default function StudyScreen() {
                         redGlow.value = 0;
                         greenGlow.value = 0;
                         upGlow.value = 0;
+                        downGlow.value = 0;
                     },
                 );
             } else if (e.translationY < -100) {
@@ -212,6 +216,18 @@ export default function StudyScreen() {
                     redGlow.value = 0;
                     greenGlow.value = 0;
                     upGlow.value = 0;
+                    downGlow.value = 0;
+                });
+            } else if (e.translationY > 100) {
+                translateY.value = withTiming(SCREEN_HEIGHT, { duration: 300 }, () => {
+                    runOnJS(handleSwipeComplete)('down');
+                    translateX.value = 0;
+                    translateY.value = 0;
+                    rotation.value = 0;
+                    redGlow.value = 0;
+                    greenGlow.value = 0;
+                    upGlow.value = 0;
+                    downGlow.value = 0;
                 });
             } else {
                 translateX.value = withSpring(0, { damping: 15 });
@@ -220,6 +236,7 @@ export default function StudyScreen() {
                 redGlow.value    = withSpring(0);
                 greenGlow.value  = withSpring(0);
                 upGlow.value     = withSpring(0);
+                downGlow.value   = withSpring(0);
             }
         });
 
@@ -268,10 +285,15 @@ export default function StudyScreen() {
         opacity: interpolate(translateY.value, [-100, 0], [1, 0], Extrapolation.CLAMP),
     }));
 
+    const downIndicatorStyle = useAnimatedStyle(() => ({
+        opacity: interpolate(translateY.value, [0, 100], [0, 1], Extrapolation.CLAMP),
+    }));
+
     // Neon glow border animated styles
     const redGlowStyle   = useAnimatedStyle(() => ({ opacity: redGlow.value }));
     const greenGlowStyle = useAnimatedStyle(() => ({ opacity: greenGlow.value }));
     const upGlowStyle    = useAnimatedStyle(() => ({ opacity: upGlow.value }));
+    const downGlowStyle  = useAnimatedStyle(() => ({ opacity: downGlow.value }));
 
     // Loading state
     if (phase === 'loading') {
@@ -428,6 +450,10 @@ export default function StudyScreen() {
                         <Ionicons name="star" size={48} color={colors.warning.main} />
                         <Text style={[styles.indicatorText, { color: colors.warning.main }]}>{t('study.easy')}</Text>
                     </Animated.View>
+                    <Animated.View style={[styles.indicator, styles.indicatorDown, downIndicatorStyle]}>
+                        <Ionicons name="remove-circle" size={48} color={colors.secondary[400]} />
+                        <Text style={[styles.indicatorText, { color: colors.secondary[400] }]}>{t('study.hard')}</Text>
+                    </Animated.View>
 
                     <GestureDetector gesture={composedGesture}>
                         <Animated.View style={[styles.card, cardAnimatedStyle]}>
@@ -435,6 +461,7 @@ export default function StudyScreen() {
                             <Animated.View style={[styles.neonBorder, styles.neonRed,   redGlowStyle]} />
                             <Animated.View style={[styles.neonBorder, styles.neonGreen, greenGlowStyle]} />
                             <Animated.View style={[styles.neonBorder, styles.neonGold,  upGlowStyle]} />
+                            <Animated.View style={[styles.neonBorder, styles.neonBlue,  downGlowStyle]} />
                             {/* Front */}
                             <Animated.View
                                 style={[
@@ -648,6 +675,10 @@ const styles = StyleSheet.create({
         top: spacing['2xl'],
         alignSelf: 'center',
     },
+    indicatorDown: {
+        bottom: spacing['2xl'],
+        alignSelf: 'center',
+    },
     indicatorText: {
         fontSize: typography.fontSize.md,
         fontWeight: '700',
@@ -782,6 +813,14 @@ const styles = StyleSheet.create({
     neonGold: {
         borderColor: colors.warning.main,
         shadowColor: colors.warning.main,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 1,
+        shadowRadius: 18,
+        elevation: 0,
+    },
+    neonBlue: {
+        borderColor: colors.secondary[400],
+        shadowColor: colors.secondary[400],
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 1,
         shadowRadius: 18,

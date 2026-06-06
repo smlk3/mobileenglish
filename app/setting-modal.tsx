@@ -218,6 +218,7 @@ export default function SettingModalScreen() {
                 case 'daily_goal': {
                     const goal = parseInt(selectedValue, 10) || 10;
                     await settings.updateSettings({ dailyGoal: goal });
+                    useProfileStore.getState().setDailyGoal(goal);
                     break;
                 }
                 case 'profession': {
