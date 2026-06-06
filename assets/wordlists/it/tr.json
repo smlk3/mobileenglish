@@ -1,0 +1,2102 @@
+[
+  {
+    "word": "alto",
+    "translation": "uzun boylu, yüksek",
+    "level": 1,
+    "exampleSentence": "Mio fratello è molto alto.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "andare",
+    "translation": "gitmek",
+    "level": 1,
+    "exampleSentence": "Domani vado a scuola.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "avere",
+    "translation": "sahip olmak",
+    "level": 1,
+    "exampleSentence": "Ho un cane e un gatto.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "bello",
+    "translation": "güzel",
+    "level": 1,
+    "exampleSentence": "Che bella giornata!",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "bere",
+    "translation": "içmek",
+    "level": 1,
+    "exampleSentence": "Bevo un caffè ogni mattina.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "bianco",
+    "translation": "beyaz",
+    "level": 1,
+    "exampleSentence": "Il latte è bianco.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "buono",
+    "translation": "iyi, lezzetli",
+    "level": 1,
+    "exampleSentence": "Questa pizza è molto buona.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "ciao",
+    "translation": "merhaba, hoşça kal",
+    "level": 1,
+    "exampleSentence": "Ciao, come stai?",
+    "partOfSpeech": "interjection"
+  },
+  {
+    "word": "due",
+    "translation": "iki",
+    "level": 1,
+    "exampleSentence": "Ho due sorelle.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "essere",
+    "translation": "olmak",
+    "level": 1,
+    "exampleSentence": "Io sono italiano.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "fare",
+    "translation": "yapmak",
+    "level": 1,
+    "exampleSentence": "Che cosa fai oggi?",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "grande",
+    "translation": "büyük",
+    "level": 1,
+    "exampleSentence": "Roma è una città grande.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "grazie",
+    "translation": "teşekkürler",
+    "level": 1,
+    "exampleSentence": "Grazie mille per il tuo aiuto.",
+    "partOfSpeech": "interjection"
+  },
+  {
+    "word": "il cane",
+    "translation": "köpek",
+    "level": 1,
+    "exampleSentence": "Il cane gioca nel giardino.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il cibo",
+    "translation": "yemek, gıda",
+    "level": 1,
+    "exampleSentence": "Il cibo italiano è famoso nel mondo.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il giorno",
+    "translation": "gün",
+    "level": 1,
+    "exampleSentence": "Oggi è un bel giorno.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il latte",
+    "translation": "süt",
+    "level": 1,
+    "exampleSentence": "Bevo il latte a colazione.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il libro",
+    "translation": "kitap",
+    "level": 1,
+    "exampleSentence": "Questo libro è interessante.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il padre",
+    "translation": "baba",
+    "level": 1,
+    "exampleSentence": "Mio padre lavora in ufficio.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il pane",
+    "translation": "ekmek",
+    "level": 1,
+    "exampleSentence": "Compro il pane ogni mattina.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il tempo",
+    "translation": "zaman, hava",
+    "level": 1,
+    "exampleSentence": "Non ho tempo adesso.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il vino",
+    "translation": "şarap",
+    "level": 1,
+    "exampleSentence": "Beviamo un bicchiere di vino.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "io",
+    "translation": "ben",
+    "level": 1,
+    "exampleSentence": "Io mangio una mela.",
+    "partOfSpeech": "pronoun"
+  },
+  {
+    "word": "l'acqua",
+    "translation": "su",
+    "level": 1,
+    "exampleSentence": "Vorrei un bicchiere d'acqua, per favore.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'amico",
+    "translation": "arkadaş",
+    "level": 1,
+    "exampleSentence": "Marco è il mio migliore amico.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'anno",
+    "translation": "yıl",
+    "level": 1,
+    "exampleSentence": "Ho dieci anni.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la casa",
+    "translation": "ev",
+    "level": 1,
+    "exampleSentence": "La mia casa è grande.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la famiglia",
+    "translation": "aile",
+    "level": 1,
+    "exampleSentence": "La mia famiglia è numerosa.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la madre",
+    "translation": "anne",
+    "level": 1,
+    "exampleSentence": "Mia madre cucina molto bene.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la mano",
+    "translation": "el",
+    "level": 1,
+    "exampleSentence": "Lavati le mani prima di mangiare.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la mela",
+    "translation": "elma",
+    "level": 1,
+    "exampleSentence": "Mangio una mela ogni giorno.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la pasta",
+    "translation": "makarna",
+    "level": 1,
+    "exampleSentence": "La pasta al pomodoro è deliziosa.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la scuola",
+    "translation": "okul",
+    "level": 1,
+    "exampleSentence": "I bambini vanno a scuola.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la sorella",
+    "translation": "kız kardeş",
+    "level": 1,
+    "exampleSentence": "Mia sorella studia all'università.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la vita",
+    "translation": "hayat",
+    "level": 1,
+    "exampleSentence": "La vita è bella.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "leggere",
+    "translation": "okumak",
+    "level": 1,
+    "exampleSentence": "Mi piace leggere i libri.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "mangiare",
+    "translation": "yemek yemek",
+    "level": 1,
+    "exampleSentence": "Mangio la pasta a pranzo.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "nero",
+    "translation": "siyah",
+    "level": 1,
+    "exampleSentence": "Ho un gatto nero.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "no",
+    "translation": "hayır",
+    "level": 1,
+    "exampleSentence": "No, non voglio il caffè.",
+    "partOfSpeech": "interjection"
+  },
+  {
+    "word": "parlare",
+    "translation": "konuşmak",
+    "level": 1,
+    "exampleSentence": "Parlo italiano e turco.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "piccolo",
+    "translation": "küçük",
+    "level": 1,
+    "exampleSentence": "Ho un piccolo appartamento.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "rosso",
+    "translation": "kırmızı",
+    "level": 1,
+    "exampleSentence": "Mi piace il vino rosso.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "stare",
+    "translation": "durmak, bulunmak",
+    "level": 1,
+    "exampleSentence": "Come stai oggi?",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "sì",
+    "translation": "evet",
+    "level": 1,
+    "exampleSentence": "Sì, mi piace molto.",
+    "partOfSpeech": "interjection"
+  },
+  {
+    "word": "tu",
+    "translation": "sen",
+    "level": 1,
+    "exampleSentence": "Tu sei molto gentile.",
+    "partOfSpeech": "pronoun"
+  },
+  {
+    "word": "uno",
+    "translation": "bir",
+    "level": 1,
+    "exampleSentence": "Ho un fratello.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "vedere",
+    "translation": "görmek",
+    "level": 1,
+    "exampleSentence": "Vedo la televisione la sera.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "venire",
+    "translation": "gelmek",
+    "level": 1,
+    "exampleSentence": "Vieni alla festa stasera?",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "verde",
+    "translation": "yeşil",
+    "level": 1,
+    "exampleSentence": "L'erba è verde.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "volere",
+    "translation": "istemek",
+    "level": 1,
+    "exampleSentence": "Voglio un gelato.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "aprire",
+    "translation": "açmak",
+    "level": 2,
+    "exampleSentence": "Il negozio apre alle nove.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "caro",
+    "translation": "pahalı, sevgili",
+    "level": 2,
+    "exampleSentence": "Questo ristorante è troppo caro.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "cercare",
+    "translation": "aramak",
+    "level": 2,
+    "exampleSentence": "Cerco un albergo economico.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "chiudere",
+    "translation": "kapatmak",
+    "level": 2,
+    "exampleSentence": "Per favore, chiudi la finestra.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "comprare",
+    "translation": "satın almak",
+    "level": 2,
+    "exampleSentence": "Devo comprare il pane e il latte.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "destra",
+    "translation": "sağ",
+    "level": 2,
+    "exampleSentence": "Gira a destra al semaforo.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "domani",
+    "translation": "yarın",
+    "level": 2,
+    "exampleSentence": "Domani vado al mercato.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "dormire",
+    "translation": "uyumak",
+    "level": 2,
+    "exampleSentence": "Di solito dormo otto ore.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "freddo",
+    "translation": "soğuk",
+    "level": 2,
+    "exampleSentence": "Oggi fa molto freddo fuori.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "ieri",
+    "translation": "dün",
+    "level": 2,
+    "exampleSentence": "Ieri sono andato al cinema.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "il bagno",
+    "translation": "banyo, tuvalet",
+    "level": 2,
+    "exampleSentence": "Dov'è il bagno, per favore?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il biglietto",
+    "translation": "bilet",
+    "level": 2,
+    "exampleSentence": "Ho comprato un biglietto del treno.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il cameriere",
+    "translation": "garson",
+    "level": 2,
+    "exampleSentence": "Il cameriere ci ha portato il menu.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il conto",
+    "translation": "hesap",
+    "level": 2,
+    "exampleSentence": "Cameriere, il conto per favore.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il dolce",
+    "translation": "tatlı",
+    "level": 2,
+    "exampleSentence": "Vorrei un dolce dopo cena.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il dottore",
+    "translation": "doktor",
+    "level": 2,
+    "exampleSentence": "Devo andare dal dottore domani.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il giornale",
+    "translation": "gazete",
+    "level": 2,
+    "exampleSentence": "Leggo il giornale ogni mattina.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il lavoro",
+    "translation": "iş",
+    "level": 2,
+    "exampleSentence": "Il mio lavoro è interessante.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il mercato",
+    "translation": "pazar, çarşı",
+    "level": 2,
+    "exampleSentence": "Compro la frutta al mercato.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il negozio",
+    "translation": "dükkan, mağaza",
+    "level": 2,
+    "exampleSentence": "Il negozio è chiuso la domenica.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il prezzo",
+    "translation": "fiyat",
+    "level": 2,
+    "exampleSentence": "Qual è il prezzo di questa borsa?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il ristorante",
+    "translation": "restoran",
+    "level": 2,
+    "exampleSentence": "Ceniamo in un ristorante italiano.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il supermercato",
+    "translation": "süpermarket",
+    "level": 2,
+    "exampleSentence": "Il supermercato è aperto fino alle nove.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il telefono",
+    "translation": "telefon",
+    "level": 2,
+    "exampleSentence": "Ho dimenticato il telefono a casa.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il treno",
+    "translation": "tren",
+    "level": 2,
+    "exampleSentence": "Prendiamo il treno per Firenze.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il vestito",
+    "translation": "elbise",
+    "level": 2,
+    "exampleSentence": "Ho comprato un vestito nuovo per la festa.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il viaggio",
+    "translation": "yolculuk, seyahat",
+    "level": 2,
+    "exampleSentence": "Buon viaggio e buone vacanze!",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'aeroporto",
+    "translation": "havalimanı",
+    "level": 2,
+    "exampleSentence": "L'aeroporto è lontano dal centro.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'autobus",
+    "translation": "otobüs",
+    "level": 2,
+    "exampleSentence": "Prendo l'autobus per andare al lavoro.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'indirizzo",
+    "translation": "adres",
+    "level": 2,
+    "exampleSentence": "Qual è il tuo indirizzo?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'ufficio",
+    "translation": "ofis, büro",
+    "level": 2,
+    "exampleSentence": "Lavoro in un ufficio in centro.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la camera",
+    "translation": "oda",
+    "level": 2,
+    "exampleSentence": "Vorrei prenotare una camera doppia.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la farmacia",
+    "translation": "eczane",
+    "level": 2,
+    "exampleSentence": "La farmacia è vicino alla stazione.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la fermata",
+    "translation": "durak",
+    "level": 2,
+    "exampleSentence": "Scendo alla prossima fermata.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la spesa",
+    "translation": "alışveriş",
+    "level": 2,
+    "exampleSentence": "Faccio la spesa al supermercato.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la stazione",
+    "translation": "istasyon",
+    "level": 2,
+    "exampleSentence": "Ci vediamo alla stazione centrale.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la strada",
+    "translation": "yol, sokak",
+    "level": 2,
+    "exampleSentence": "Attraversa la strada con attenzione.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la vacanza",
+    "translation": "tatil",
+    "level": 2,
+    "exampleSentence": "Andiamo in vacanza al mare.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la valigia",
+    "translation": "bavul",
+    "level": 2,
+    "exampleSentence": "Devo ancora fare la valigia.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "lontano",
+    "translation": "uzak",
+    "level": 2,
+    "exampleSentence": "La stazione è lontana da qui?",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "pagare",
+    "translation": "ödemek",
+    "level": 2,
+    "exampleSentence": "Posso pagare con la carta?",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "partire",
+    "translation": "hareket etmek, yola çıkmak",
+    "level": 2,
+    "exampleSentence": "Il treno parte alle otto.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "perché",
+    "translation": "neden, çünkü",
+    "level": 2,
+    "exampleSentence": "Perché non vieni con noi?",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "prendere",
+    "translation": "almak",
+    "level": 2,
+    "exampleSentence": "Prendo un caffè al bar.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "pronto",
+    "translation": "hazır, alo",
+    "level": 2,
+    "exampleSentence": "Pronto, chi parla?",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "sinistra",
+    "translation": "sol",
+    "level": 2,
+    "exampleSentence": "Il museo è sulla sinistra.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "tardi",
+    "translation": "geç",
+    "level": 2,
+    "exampleSentence": "Mi dispiace, sono arrivato tardi.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "trovare",
+    "translation": "bulmak",
+    "level": 2,
+    "exampleSentence": "Non riesco a trovare le chiavi.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "viaggiare",
+    "translation": "seyahat etmek",
+    "level": 2,
+    "exampleSentence": "Mi piace viaggiare in Europa.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "vicino",
+    "translation": "yakın",
+    "level": 2,
+    "exampleSentence": "L'albergo è vicino al centro.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "arrabbiarsi",
+    "translation": "sinirlenmek",
+    "level": 3,
+    "exampleSentence": "Mi arrabbio quando arrivi in ritardo.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "cambiare",
+    "translation": "değiştirmek",
+    "level": 3,
+    "exampleSentence": "Vorrei cambiare lavoro l'anno prossimo.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "convincere",
+    "translation": "ikna etmek",
+    "level": 3,
+    "exampleSentence": "Sono riuscito a convincerlo a venire.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "credere",
+    "translation": "inanmak, sanmak",
+    "level": 3,
+    "exampleSentence": "Credo che tu abbia ragione.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "decidere",
+    "translation": "karar vermek",
+    "level": 3,
+    "exampleSentence": "Devo decidere quale corso seguire.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "divertente",
+    "translation": "eğlenceli",
+    "level": 3,
+    "exampleSentence": "Il film di ieri sera era molto divertente.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "evitare",
+    "translation": "kaçınmak, önlemek",
+    "level": 3,
+    "exampleSentence": "Cerco di evitare i cibi troppo grassi.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "felice",
+    "translation": "mutlu",
+    "level": 3,
+    "exampleSentence": "Sono felice di rivederti.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "guarire",
+    "translation": "iyileşmek",
+    "level": 3,
+    "exampleSentence": "Spero di guarire presto dall'influenza.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "il candidato",
+    "translation": "aday",
+    "level": 3,
+    "exampleSentence": "Il candidato ha risposto bene alle domande.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il cliente",
+    "translation": "müşteri",
+    "level": 3,
+    "exampleSentence": "Il cliente ha sempre ragione.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il collega",
+    "translation": "iş arkadaşı, meslektaş",
+    "level": 3,
+    "exampleSentence": "Vado a pranzo con i miei colleghi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il colloquio",
+    "translation": "mülakat, görüşme",
+    "level": 3,
+    "exampleSentence": "Domani ho un colloquio di lavoro.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il consiglio",
+    "translation": "tavsiye, öğüt",
+    "level": 3,
+    "exampleSentence": "Ti do un consiglio: riposati di più.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il dipendente",
+    "translation": "çalışan, personel",
+    "level": 3,
+    "exampleSentence": "L'azienda ha cento dipendenti.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il guadagno",
+    "translation": "kazanç",
+    "level": 3,
+    "exampleSentence": "Il guadagno mensile non basta.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il problema",
+    "translation": "sorun, problem",
+    "level": 3,
+    "exampleSentence": "Abbiamo un problema serio da risolvere.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il rapporto",
+    "translation": "ilişki, rapor",
+    "level": 3,
+    "exampleSentence": "Ho un buon rapporto con i colleghi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il sentimento",
+    "translation": "his, duygu",
+    "level": 3,
+    "exampleSentence": "Non riesco a nascondere i miei sentimenti.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il successo",
+    "translation": "başarı",
+    "level": 3,
+    "exampleSentence": "Il suo nuovo libro ha avuto un grande successo.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "importante",
+    "translation": "önemli",
+    "level": 3,
+    "exampleSentence": "È importante studiare ogni giorno.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "l'ambiente",
+    "translation": "çevre, ortam",
+    "level": 3,
+    "exampleSentence": "Dobbiamo proteggere l'ambiente.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'emozione",
+    "translation": "duygu, heyecan",
+    "level": 3,
+    "exampleSentence": "Ho provato una forte emozione.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'esperienza",
+    "translation": "deneyim, tecrübe",
+    "level": 3,
+    "exampleSentence": "Ho una buona esperienza nel settore.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'idea",
+    "translation": "fikir",
+    "level": 3,
+    "exampleSentence": "Hai un'ottima idea!",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'intervista",
+    "translation": "röportaj, mülakat",
+    "level": 3,
+    "exampleSentence": "Il giornalista ha fatto un'intervista al sindaco.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'umore",
+    "translation": "ruh hali, keyif",
+    "level": 3,
+    "exampleSentence": "Oggi sono di buon umore.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la disoccupazione",
+    "translation": "işsizlik",
+    "level": 3,
+    "exampleSentence": "La disoccupazione giovanile è un problema serio.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la malattia",
+    "translation": "hastalık",
+    "level": 3,
+    "exampleSentence": "Ha sofferto di una grave malattia.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la opinione",
+    "translation": "görüş, fikir",
+    "level": 3,
+    "exampleSentence": "Secondo la mia opinione, hai ragione.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la riunione",
+    "translation": "toplantı",
+    "level": 3,
+    "exampleSentence": "La riunione comincia alle dieci.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la salute",
+    "translation": "sağlık",
+    "level": 3,
+    "exampleSentence": "La salute è più importante del denaro.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "lamentarsi",
+    "translation": "şikayet etmek",
+    "level": 3,
+    "exampleSentence": "Si lamenta sempre del suo lavoro.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "lo stipendio",
+    "translation": "maaş",
+    "level": 3,
+    "exampleSentence": "Ricevo lo stipendio a fine mese.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "migliorare",
+    "translation": "iyileştirmek, gelişmek",
+    "level": 3,
+    "exampleSentence": "Voglio migliorare il mio italiano.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "nervoso",
+    "translation": "gergin, sinirli",
+    "level": 3,
+    "exampleSentence": "Prima dell'esame mi sento sempre nervoso.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "ottenere",
+    "translation": "elde etmek",
+    "level": 3,
+    "exampleSentence": "Ha ottenuto un buon risultato all'esame.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "pensare",
+    "translation": "düşünmek",
+    "level": 3,
+    "exampleSentence": "Penso spesso al mio futuro.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "preoccupato",
+    "translation": "endişeli",
+    "level": 3,
+    "exampleSentence": "Sono preoccupato per l'esame di domani.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "proporre",
+    "translation": "önermek, teklif etmek",
+    "level": 3,
+    "exampleSentence": "Vorrei proporre una nuova soluzione.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ricordare",
+    "translation": "hatırlamak",
+    "level": 3,
+    "exampleSentence": "Non ricordo il suo nome.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "riposare",
+    "translation": "dinlenmek",
+    "level": 3,
+    "exampleSentence": "Dopo il lavoro mi piace riposare.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "risolvere",
+    "translation": "çözmek",
+    "level": 3,
+    "exampleSentence": "Dobbiamo risolvere questo problema insieme.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "sembrare",
+    "translation": "görünmek, gibi gelmek",
+    "level": 3,
+    "exampleSentence": "Mi sembra una buona idea.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "spiegare",
+    "translation": "açıklamak",
+    "level": 3,
+    "exampleSentence": "Puoi spiegarmi di nuovo questa regola?",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "stressato",
+    "translation": "stresli",
+    "level": 3,
+    "exampleSentence": "Ultimamente mi sento molto stressato.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "suggerire",
+    "translation": "önermek",
+    "level": 3,
+    "exampleSentence": "Ti suggerisco di leggere questo articolo.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "tranquillo",
+    "translation": "sakin",
+    "level": 3,
+    "exampleSentence": "Stai tranquillo, andrà tutto bene.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "triste",
+    "translation": "üzgün",
+    "level": 3,
+    "exampleSentence": "Mi sento triste quando piove.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "utile",
+    "translation": "yararlı",
+    "level": 3,
+    "exampleSentence": "Questo consiglio è molto utile.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "costare un occhio della testa",
+    "translation": "çok pahalıya patlamak",
+    "level": 4,
+    "exampleSentence": "Quella macchina nuova costa un occhio della testa.",
+    "partOfSpeech": "phrase"
+  },
+  {
+    "word": "diffondere",
+    "translation": "yaymak, dağıtmak",
+    "level": 4,
+    "exampleSentence": "I social media diffondono notizie in pochi secondi.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "efficace",
+    "translation": "etkili",
+    "level": 4,
+    "exampleSentence": "Hanno adottato una strategia molto efficace.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "globale",
+    "translation": "küresel",
+    "level": 4,
+    "exampleSentence": "La pandemia ha avuto un effetto globale.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "il bilancio",
+    "translation": "bütçe, bilanço",
+    "level": 4,
+    "exampleSentence": "Il bilancio annuale sarà presentato al consiglio.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il consumatore",
+    "translation": "tüketici",
+    "level": 4,
+    "exampleSentence": "I consumatori sono sempre più attenti alla qualità.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il contratto",
+    "translation": "sözleşme",
+    "level": 4,
+    "exampleSentence": "Abbiamo firmato il contratto dopo lunghe trattative.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il dato",
+    "translation": "veri",
+    "level": 4,
+    "exampleSentence": "I dati raccolti confermano la nostra ipotesi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il dibattito",
+    "translation": "tartışma, müzakere",
+    "level": 4,
+    "exampleSentence": "Il dibattito politico si è acceso in televisione.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il fatturato",
+    "translation": "ciro",
+    "level": 4,
+    "exampleSentence": "Il fatturato dell'azienda è cresciuto del dieci per cento.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il fenomeno",
+    "translation": "olgu, fenomen",
+    "level": 4,
+    "exampleSentence": "Gli scienziati studiano questo fenomeno da anni.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il finanziamento",
+    "translation": "finansman",
+    "level": 4,
+    "exampleSentence": "Il progetto ha ottenuto un finanziamento pubblico.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il governo",
+    "translation": "hükümet",
+    "level": 4,
+    "exampleSentence": "Il governo ha approvato la nuova legge.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il provvedimento",
+    "translation": "önlem, tedbir",
+    "level": 4,
+    "exampleSentence": "Il comune ha adottato nuovi provvedimenti contro l'inquinamento.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il rendimento",
+    "translation": "verim, getiri",
+    "level": 4,
+    "exampleSentence": "Il rendimento dell'investimento è stato soddisfacente.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il risultato",
+    "translation": "sonuç",
+    "level": 4,
+    "exampleSentence": "I risultati dello studio saranno pubblicati a breve.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il sondaggio",
+    "translation": "anket, kamuoyu yoklaması",
+    "level": 4,
+    "exampleSentence": "Secondo l'ultimo sondaggio, il partito è in calo.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il vantaggio",
+    "translation": "avantaj",
+    "level": 4,
+    "exampleSentence": "Questa soluzione offre numerosi vantaggi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "incrementare",
+    "translation": "artırmak",
+    "level": 4,
+    "exampleSentence": "L'azienda vuole incrementare la produzione.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "influenzare",
+    "translation": "etkilemek",
+    "level": 4,
+    "exampleSentence": "I media possono influenzare l'opinione pubblica.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "innovativo",
+    "translation": "yenilikçi",
+    "level": 4,
+    "exampleSentence": "Hanno lanciato un prodotto davvero innovativo.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "l'azienda",
+    "translation": "şirket, işletme",
+    "level": 4,
+    "exampleSentence": "L'azienda ha aumentato il fatturato del venti per cento.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'esperimento",
+    "translation": "deney",
+    "level": 4,
+    "exampleSentence": "L'esperimento ha confermato l'ipotesi iniziale.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'impatto",
+    "translation": "etki",
+    "level": 4,
+    "exampleSentence": "La tecnologia ha un forte impatto sulla società.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'indagine",
+    "translation": "araştırma, soruşturma",
+    "level": 4,
+    "exampleSentence": "L'indagine ha rivelato dati sorprendenti.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'investimento",
+    "translation": "yatırım",
+    "level": 4,
+    "exampleSentence": "Hanno fatto un grosso investimento nel settore energetico.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'obiettivo",
+    "translation": "hedef, amaç",
+    "level": 4,
+    "exampleSentence": "Abbiamo raggiunto l'obiettivo prefissato.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la concorrenza",
+    "translation": "rekabet",
+    "level": 4,
+    "exampleSentence": "La concorrenza sul mercato è sempre più agguerrita.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la crescita",
+    "translation": "büyüme",
+    "level": 4,
+    "exampleSentence": "La crescita economica del Paese è rallentata.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la crisi",
+    "translation": "kriz",
+    "level": 4,
+    "exampleSentence": "La crisi finanziaria ha colpito molte famiglie.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la legge",
+    "translation": "yasa, kanun",
+    "level": 4,
+    "exampleSentence": "La nuova legge entrerà in vigore il mese prossimo.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la normativa",
+    "translation": "mevzuat, düzenleme",
+    "level": 4,
+    "exampleSentence": "La normativa europea tutela i dati personali.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la notizia",
+    "translation": "haber",
+    "level": 4,
+    "exampleSentence": "La notizia ha fatto il giro del mondo.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la previsione",
+    "translation": "tahmin, öngörü",
+    "level": 4,
+    "exampleSentence": "Le previsioni economiche per il prossimo anno sono incerte.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la pubblicità",
+    "translation": "reklam",
+    "level": 4,
+    "exampleSentence": "La pubblicità influenza le scelte dei consumatori.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la ricerca",
+    "translation": "araştırma",
+    "level": 4,
+    "exampleSentence": "La ricerca scientifica richiede pazienza e fondi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la sfida",
+    "translation": "meydan okuma, zorluk",
+    "level": 4,
+    "exampleSentence": "Il cambiamento climatico è la sfida del nostro secolo.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la società",
+    "translation": "toplum",
+    "level": 4,
+    "exampleSentence": "La società moderna è sempre più digitalizzata.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la strategia",
+    "translation": "strateji",
+    "level": 4,
+    "exampleSentence": "Hanno elaborato una nuova strategia di marketing.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la tecnologia",
+    "translation": "teknoloji",
+    "level": 4,
+    "exampleSentence": "La tecnologia avanza a un ritmo impressionante.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la tendenza",
+    "translation": "eğilim, trend",
+    "level": 4,
+    "exampleSentence": "C'è una tendenza al rialzo dei prezzi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "lo scopo",
+    "translation": "amaç",
+    "level": 4,
+    "exampleSentence": "Lo scopo della riunione era chiarire la strategia.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "lo sviluppo",
+    "translation": "gelişme, kalkınma",
+    "level": 4,
+    "exampleSentence": "Lo sviluppo sostenibile è una priorità globale.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "realizzare",
+    "translation": "gerçekleştirmek",
+    "level": 4,
+    "exampleSentence": "È riuscito a realizzare il suo sogno.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "redditizio",
+    "translation": "kârlı, kazançlı",
+    "level": 4,
+    "exampleSentence": "L'attività si è rivelata molto redditizia.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "rompere il ghiaccio",
+    "translation": "buzları eritmek",
+    "level": 4,
+    "exampleSentence": "Una battuta divertente ha aiutato a rompere il ghiaccio.",
+    "partOfSpeech": "phrase"
+  },
+  {
+    "word": "sostenere",
+    "translation": "desteklemek, savunmak",
+    "level": 4,
+    "exampleSentence": "Molti esperti sostengono questa teoria.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "superare",
+    "translation": "aşmak, geçmek",
+    "level": 4,
+    "exampleSentence": "Insieme possiamo superare ogni difficoltà.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "trarre",
+    "translation": "çıkarmak, elde etmek",
+    "level": 4,
+    "exampleSentence": "Possiamo trarre utili conclusioni da questi dati.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "valutare",
+    "translation": "değerlendirmek",
+    "level": 4,
+    "exampleSentence": "Dobbiamo valutare attentamente tutte le opzioni.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "abbreviare",
+    "translation": "kısaltmak",
+    "level": 5,
+    "exampleSentence": "Per ragioni di tempo, dovremo abbreviare la presentazione.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "avvalersi",
+    "translation": "yararlanmak, başvurmak",
+    "level": 5,
+    "exampleSentence": "L'imputato ha deciso di avvalersi della facoltà di non rispondere.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ciononostante",
+    "translation": "buna rağmen",
+    "level": 5,
+    "exampleSentence": "Era stanco; ciononostante, ha continuato a lavorare.",
+    "partOfSpeech": "conjunction"
+  },
+  {
+    "word": "coerente",
+    "translation": "tutarlı",
+    "level": 5,
+    "exampleSentence": "Il suo ragionamento è chiaro e coerente.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "conseguire",
+    "translation": "elde etmek, ulaşmak",
+    "level": 5,
+    "exampleSentence": "Ha conseguito la laurea con il massimo dei voti.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "contraddire",
+    "translation": "çelişmek, yalanlamak",
+    "level": 5,
+    "exampleSentence": "I nuovi dati sembrano contraddire la teoria precedente.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "delineare",
+    "translation": "ana hatlarıyla belirtmek",
+    "level": 5,
+    "exampleSentence": "L'autore delinea con precisione il profilo del protagonista.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "discernere",
+    "translation": "ayırt etmek",
+    "level": 5,
+    "exampleSentence": "Non è facile discernere il vero dal falso in questa vicenda.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "dunque",
+    "translation": "öyleyse, dolayısıyla",
+    "level": 5,
+    "exampleSentence": "I dati sono incompleti; non possiamo, dunque, trarre conclusioni.",
+    "partOfSpeech": "conjunction"
+  },
+  {
+    "word": "esaurire",
+    "translation": "tüketmek, bitirmek",
+    "level": 5,
+    "exampleSentence": "Il relatore ha esaurito l'argomento in poco tempo.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "esaustivo",
+    "translation": "kapsamlı, ayrıntılı",
+    "level": 5,
+    "exampleSentence": "Ha fornito una spiegazione esaustiva dell'argomento.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "fondamentale",
+    "translation": "temel, esaslı",
+    "level": 5,
+    "exampleSentence": "La fiducia è un elemento fondamentale di ogni relazione.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "il concetto",
+    "translation": "kavram",
+    "level": 5,
+    "exampleSentence": "Il concetto di giustizia varia da cultura a cultura.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il contesto",
+    "translation": "bağlam",
+    "level": 5,
+    "exampleSentence": "Bisogna interpretare la frase nel suo contesto.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il nesso",
+    "translation": "bağlantı, ilişki",
+    "level": 5,
+    "exampleSentence": "Esiste un chiaro nesso causale tra i due fenomeni.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il paradigma",
+    "translation": "paradigma",
+    "level": 5,
+    "exampleSentence": "La scoperta ha introdotto un nuovo paradigma scientifico.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il presupposto",
+    "translation": "varsayım, ön koşul",
+    "level": 5,
+    "exampleSentence": "Il presupposto di partenza si è rivelato errato.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il quadro",
+    "translation": "tablo, genel görünüm",
+    "level": 5,
+    "exampleSentence": "L'analisi offre un quadro completo della situazione.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il sostegno",
+    "translation": "destek",
+    "level": 5,
+    "exampleSentence": "La tesi gode del sostegno di numerosi accademici.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "implicare",
+    "translation": "ima etmek, gerektirmek",
+    "level": 5,
+    "exampleSentence": "Questa scelta implica notevoli responsabilità.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "indubbiamente",
+    "translation": "kuşkusuz",
+    "level": 5,
+    "exampleSentence": "Si tratta, indubbiamente, di un'opera di grande valore.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "l'affermazione",
+    "translation": "iddia, ifade",
+    "level": 5,
+    "exampleSentence": "Tale affermazione non trova alcun riscontro nei fatti.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'ambiguità",
+    "translation": "belirsizlik, çift anlamlılık",
+    "level": 5,
+    "exampleSentence": "L'ambiguità del testo si presta a diverse interpretazioni.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'approfondimento",
+    "translation": "derinlemesine inceleme",
+    "level": 5,
+    "exampleSentence": "Il saggio merita un ulteriore approfondimento.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'equilibrio",
+    "translation": "denge",
+    "level": 5,
+    "exampleSentence": "È difficile trovare un equilibrio tra lavoro e vita privata.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'evidenza",
+    "translation": "kanıt, açıklık",
+    "level": 5,
+    "exampleSentence": "L'evidenza scientifica conferma questa ipotesi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'inoltre",
+    "translation": "ayrıca",
+    "level": 5,
+    "exampleSentence": "Il progetto è costoso; inoltre, richiede molto tempo.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "l'inquadramento",
+    "translation": "çerçeveleme, konumlandırma",
+    "level": 5,
+    "exampleSentence": "L'inquadramento teorico del saggio è molto solido.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'ipotesi",
+    "translation": "hipotez, varsayım",
+    "level": 5,
+    "exampleSentence": "Gli studiosi hanno formulato una nuova ipotesi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la chiave di volta",
+    "translation": "kilit nokta, esas unsur",
+    "level": 5,
+    "exampleSentence": "La fiducia reciproca è la chiave di volta dell'accordo.",
+    "partOfSpeech": "phrase"
+  },
+  {
+    "word": "la complessità",
+    "translation": "karmaşıklık",
+    "level": 5,
+    "exampleSentence": "La complessità del problema richiede un'analisi approfondita.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la conseguenza",
+    "translation": "sonuç, netice",
+    "level": 5,
+    "exampleSentence": "Le conseguenze di tale decisione saranno durature.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la deduzione",
+    "translation": "çıkarım",
+    "level": 5,
+    "exampleSentence": "La sua deduzione si è rivelata corretta.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la finalità",
+    "translation": "amaç, gaye",
+    "level": 5,
+    "exampleSentence": "La finalità della riforma è ridurre le disuguaglianze.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la metodologia",
+    "translation": "metodoloji, yöntembilim",
+    "level": 5,
+    "exampleSentence": "La metodologia adottata garantisce risultati affidabili.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la pertinenza",
+    "translation": "ilgililik, uygunluk",
+    "level": 5,
+    "exampleSentence": "Hanno messo in dubbio la pertinenza dell'esempio.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la premessa",
+    "translation": "öncül, giriş",
+    "level": 5,
+    "exampleSentence": "La premessa del suo discorso era piuttosto provocatoria.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la prospettiva",
+    "translation": "bakış açısı, perspektif",
+    "level": 5,
+    "exampleSentence": "Analizziamo la questione da una prospettiva diversa.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la sfumatura",
+    "translation": "nüans, ince fark",
+    "level": 5,
+    "exampleSentence": "Il traduttore ha colto ogni sfumatura del testo.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la valenza",
+    "translation": "değer, önem",
+    "level": 5,
+    "exampleSentence": "L'esperimento ha una notevole valenza scientifica.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "peraltro",
+    "translation": "üstelik, kaldı ki",
+    "level": 5,
+    "exampleSentence": "La proposta, peraltro interessante, presenta alcuni rischi.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "plausibile",
+    "translation": "makul, inandırıcı",
+    "level": 5,
+    "exampleSentence": "La tua interpretazione è del tutto plausibile.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "prescindere",
+    "translation": "göz ardı etmek, bir yana bırakmak",
+    "level": 5,
+    "exampleSentence": "A prescindere dalle critiche, il progetto procede.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "presumibilmente",
+    "translation": "muhtemelen",
+    "level": 5,
+    "exampleSentence": "I lavori termineranno, presumibilmente, entro l'anno.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "ribadire",
+    "translation": "yinelemek, tekrar vurgulamak",
+    "level": 5,
+    "exampleSentence": "Tengo a ribadire la mia posizione sull'argomento.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "rilevante",
+    "translation": "önemli, kayda değer",
+    "level": 5,
+    "exampleSentence": "I dati raccolti sono statisticamente rilevanti.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "scaturire",
+    "translation": "kaynaklanmak, doğmak",
+    "level": 5,
+    "exampleSentence": "Da quel dibattito sono scaturite idee innovative.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "sottolineare",
+    "translation": "vurgulamak",
+    "level": 5,
+    "exampleSentence": "Vorrei sottolineare l'importanza di questo punto.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "tuttavia",
+    "translation": "yine de, ancak",
+    "level": 5,
+    "exampleSentence": "Il piano è ambizioso; tuttavia, resta realizzabile.",
+    "partOfSpeech": "conjunction"
+  },
+  {
+    "word": "verosimile",
+    "translation": "olası, akla yatkın",
+    "level": 5,
+    "exampleSentence": "La spiegazione fornita appare del tutto verosimile.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "aulico",
+    "translation": "saraya yakışır, görkemli (dil)",
+    "level": 6,
+    "exampleSentence": "Lo scrittore adotta uno stile aulico e ricercato.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "caduco",
+    "translation": "geçici, fani",
+    "level": 6,
+    "exampleSentence": "Il poeta medita sulla natura caduca della bellezza.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "corroborare",
+    "translation": "desteklemek, sağlamlaştırmak",
+    "level": 6,
+    "exampleSentence": "Nuove prove vennero a corroborare la sua tesi.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "dirimere",
+    "translation": "çözüme bağlamak, sonuçlandırmak",
+    "level": 6,
+    "exampleSentence": "Spetta alla corte dirimere la controversia.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "effimero",
+    "translation": "geçici, kısa ömürlü",
+    "level": 6,
+    "exampleSentence": "Il successo mediatico si rivelò del tutto effimero.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "esimere",
+    "translation": "muaf tutmak, bağışık kılmak",
+    "level": 6,
+    "exampleSentence": "Nulla può esimerci dal nostro dovere morale.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "evanescente",
+    "translation": "uçucu, kaybolup giden",
+    "level": 6,
+    "exampleSentence": "Un profumo evanescente aleggiava nella stanza.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "fugace",
+    "translation": "gelip geçici, anlık",
+    "level": 6,
+    "exampleSentence": "Si scambiarono uno sguardo fugace e si separarono.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "il coacervo",
+    "translation": "yığın, karmaşa",
+    "level": 6,
+    "exampleSentence": "Il testo è un coacervo di citazioni e riferimenti dotti.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il marasma",
+    "translation": "kargaşa, kaos",
+    "level": 6,
+    "exampleSentence": "Il Paese sprofondò in un marasma economico e sociale.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "il prodromo",
+    "translation": "öncü belirti, ön işaret",
+    "level": 6,
+    "exampleSentence": "Quei disordini furono il prodromo della rivoluzione.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ineluttabile",
+    "translation": "kaçınılmaz",
+    "level": 6,
+    "exampleSentence": "Il declino dell'impero appariva ormai ineluttabile.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "inenarrabile",
+    "translation": "anlatılamaz, tarifsiz",
+    "level": 6,
+    "exampleSentence": "Provò una gioia inenarrabile nel rivederla.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "l'abnegazione",
+    "translation": "özveri, fedakârlık",
+    "level": 6,
+    "exampleSentence": "Ha dedicato la vita ai malati con straordinaria abnegazione.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'acume",
+    "translation": "keskin zekâ, anlayış",
+    "level": 6,
+    "exampleSentence": "Il critico analizzò l'opera con raro acume.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'efferatezza",
+    "translation": "vahşet, gaddarlık",
+    "level": 6,
+    "exampleSentence": "Il delitto colpì l'opinione pubblica per la sua efferatezza.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'esegesi",
+    "translation": "metin yorumu, açımlama",
+    "level": 6,
+    "exampleSentence": "L'esegesi del testo richiede una solida preparazione filologica.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'indolenza",
+    "translation": "tembellik, kayıtsızlık",
+    "level": 6,
+    "exampleSentence": "La sua indolenza gli impedì di cogliere l'occasione.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "l'oblio",
+    "translation": "unutuluş",
+    "level": 6,
+    "exampleSentence": "Molti grandi artisti caddero ingiustamente nell'oblio.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la caparbietà",
+    "translation": "inatçılık, dik kafalılık",
+    "level": 6,
+    "exampleSentence": "Portò avanti il progetto con ostinata caparbietà.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la concitazione",
+    "translation": "telaş, heyecanlı kargaşa",
+    "level": 6,
+    "exampleSentence": "Parlava con tale concitazione da risultare incomprensibile.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la disamina",
+    "translation": "kapsamlı eleştirel inceleme",
+    "level": 6,
+    "exampleSentence": "Il saggio offre una minuziosa disamina del fenomeno storico.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la magniloquenza",
+    "translation": "tumturaklı söz, abartılı belagat",
+    "level": 6,
+    "exampleSentence": "Il suo discorso peccava di eccessiva magniloquenza.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la parsimonia",
+    "translation": "tutumluluk, idare",
+    "level": 6,
+    "exampleSentence": "Gestiva le proprie risorse con grande parsimonia.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la quiescenza",
+    "translation": "durağanlık, sükûnet",
+    "level": 6,
+    "exampleSentence": "Il vulcano è entrato in una lunga fase di quiescenza.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la reticenza",
+    "translation": "ağzını sıkı tutma, çekingenlik",
+    "level": 6,
+    "exampleSentence": "La sua reticenza alimentò i sospetti degli inquirenti.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la sagacia",
+    "translation": "kurnazlık, basiret",
+    "level": 6,
+    "exampleSentence": "Affrontò la trattativa con notevole sagacia.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la sussistenza",
+    "translation": "geçim, varlık",
+    "level": 6,
+    "exampleSentence": "Le famiglie più povere lottano per la propria sussistenza.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la veemenza",
+    "translation": "şiddet, hararet",
+    "level": 6,
+    "exampleSentence": "Difese le proprie idee con grande veemenza.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "la vetustà",
+    "translation": "eskilik, kadimlik",
+    "level": 6,
+    "exampleSentence": "L'edificio colpiva per la sua imponente vetustà.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "lambire",
+    "translation": "hafifçe değmek, yalamak",
+    "level": 6,
+    "exampleSentence": "Le onde lambivano dolcemente la riva.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "lo sprezzo",
+    "translation": "küçümseme, hor görme",
+    "level": 6,
+    "exampleSentence": "Affrontò il pericolo con sprezzo del rischio.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "lungimirante",
+    "translation": "ileri görüşlü",
+    "level": 6,
+    "exampleSentence": "Si rivelò un leader lungimirante e avveduto.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "meticoloso",
+    "translation": "titiz, ince eleyen",
+    "level": 6,
+    "exampleSentence": "Condusse un'indagine meticolosa su ogni dettaglio.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "noncurante",
+    "translation": "umursamaz, aldırışsız",
+    "level": 6,
+    "exampleSentence": "Proseguì noncurante delle critiche che lo circondavano.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "obsoleto",
+    "translation": "modası geçmiş, eskimiş",
+    "level": 6,
+    "exampleSentence": "Quel sistema giuridico è ormai del tutto obsoleto.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "ottemperare",
+    "translation": "uymak, yerine getirmek",
+    "level": 6,
+    "exampleSentence": "L'azienda è tenuta a ottemperare alle nuove disposizioni.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "perentorio",
+    "translation": "kesin, tartışmasız",
+    "level": 6,
+    "exampleSentence": "Rispose con un tono perentorio che non ammetteva repliche.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "perspicace",
+    "translation": "anlayışlı, keskin zekâlı",
+    "level": 6,
+    "exampleSentence": "Un osservatore perspicace avrebbe colto l'inganno.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "propugnare",
+    "translation": "savunmak, ileri sürmek",
+    "level": 6,
+    "exampleSentence": "Il filosofo propugnava un ritorno ai valori classici.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ravvisare",
+    "translation": "fark etmek, görmek",
+    "level": 6,
+    "exampleSentence": "Il giudice non ha ravvisato gli estremi del reato.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "recondito",
+    "translation": "gizli, derinlerde olan",
+    "level": 6,
+    "exampleSentence": "L'opera cela un significato recondito e simbolico.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "sopperire",
+    "translation": "telafi etmek, karşılamak",
+    "level": 6,
+    "exampleSentence": "Dovettero sopperire alla carenza di fondi con ingegno.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "soppesare",
+    "translation": "tartmak, iyice değerlendirmek",
+    "level": 6,
+    "exampleSentence": "Prima di decidere, soppesò attentamente ogni opzione.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "stringato",
+    "translation": "özlü, kısa ve öz",
+    "level": 6,
+    "exampleSentence": "Preferisco una relazione stringata e priva di ridondanze.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "tangibile",
+    "translation": "elle tutulur, somut",
+    "level": 6,
+    "exampleSentence": "Gli sforzi hanno prodotto risultati tangibili.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "tergiversare",
+    "translation": "kaçamak yapmak, oyalamak",
+    "level": 6,
+    "exampleSentence": "Smetti di tergiversare e dimmi la verità.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ubertoso",
+    "translation": "bereketli, verimli",
+    "level": 6,
+    "exampleSentence": "Coltivavano un terreno ubertoso ai piedi della collina.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "vacuo",
+    "translation": "boş, anlamsız",
+    "level": 6,
+    "exampleSentence": "Pronunciò un discorso vacuo e privo di sostanza.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "velleitario",
+    "translation": "boş hayalci, gerçekçi olmayan",
+    "level": 6,
+    "exampleSentence": "Il suo progetto si rivelò ambizioso ma velleitario.",
+    "partOfSpeech": "adjective"
+  }
+]

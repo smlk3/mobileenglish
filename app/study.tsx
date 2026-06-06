@@ -38,6 +38,7 @@ import { useProfileStore } from '../src/shared/lib/stores/useProfileStore';
 import { useXPStore } from '../src/shared/lib/stores/useXPStore';
 import { borderRadius, colors, shadows, spacing, typography } from '../src/shared/lib/theme';
 import { XP } from '../src/shared/lib/xpSystem';
+import { SpeakButton } from '../src/shared/ui/SpeakButton';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.3;
@@ -503,6 +504,19 @@ export default function StudyScreen() {
                             </Animated.View>
                         </Animated.View>
                     </GestureDetector>
+
+                    {/* Pronunciation button — overlay outside the GestureDetector so
+                        it never triggers the flip/swipe gestures. Reads the target-
+                        language content of whichever face is showing. */}
+                    <View pointerEvents="box-none" style={styles.speakOverlay}>
+                        <View pointerEvents="box-none" style={styles.speakOverlayCard}>
+                            <SpeakButton
+                                text={isFlipped ? (currentCard.exampleSentence || currentCard.front) : currentCard.front}
+                                lang={currentCard.targetLanguage}
+                                style={styles.speakButton}
+                            />
+                        </View>
+                    </View>
                 </View>
             )}
 
@@ -598,6 +612,20 @@ const styles = StyleSheet.create({
     card: {
         width: SCREEN_WIDTH - spacing.xl * 2,
         height: SCREEN_HEIGHT * 0.45,
+    },
+    speakOverlay: {
+        ...StyleSheet.absoluteFillObject,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    speakOverlayCard: {
+        width: SCREEN_WIDTH - spacing.xl * 2,
+        height: SCREEN_HEIGHT * 0.45,
+    },
+    speakButton: {
+        position: 'absolute',
+        top: spacing.lg,
+        left: spacing.lg,
     },
     cardFace: {
         ...StyleSheet.absoluteFillObject,

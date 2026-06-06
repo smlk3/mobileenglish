@@ -111,7 +111,6 @@ export async function createStarterDeck(params: {
             back: w.translation,
             exampleSentence: w.exampleSentence,
             cefrLevel: String(w.level),
-            category: w.category,
             targetLanguage: params.targetLanguage,
         })),
     );

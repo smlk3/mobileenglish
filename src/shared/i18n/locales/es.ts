@@ -139,7 +139,6 @@ const es = {
     'createDeck.title': 'Crear mazo',
     'createDeck.deckName': 'NOMBRE DEL MAZO',
     'createDeck.level': 'NIVEL',
-    'createDeck.category': 'CATEGORÍA',
     'createDeck.categories.general': 'General',
     'createDeck.categories.business': 'Negocios',
     'createDeck.categories.medical': 'Médico',

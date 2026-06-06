@@ -34,16 +34,49 @@ const LEVEL_DESCRIPTIONS: Record<number, string> = {
     6: 'Mastery (C2/N1+). Rare but useful words, domain-specific terminology, archaic expressions used in literature, highly formal language.',
 };
 
-const CATEGORIES = [
-    'greetings', 'daily', 'food', 'family', 'education', 'business',
-    'technology', 'health', 'travel', 'nature', 'emotions', 'sports',
-    'culture', 'science', 'politics', 'adjectives', 'verbs', 'adverbs',
-];
-
 const LANGUAGE_NAMES: Record<string, string> = {
-    en: 'English', de: 'German', fr: 'French', es: 'Spanish',
-    ar: 'Arabic', ja: 'Japanese', tr: 'Turkish',
+    en: 'English', de: 'German', fr: 'French', es: 'Spanish', it: 'Italian',
+    ru: 'Russian', uk: 'Ukrainian', pl: 'Polish', bg: 'Bulgarian',
+    sr: 'Serbian', hy: 'Armenian', ar: 'Arabic', ja: 'Japanese',
+    zh: 'Chinese', tr: 'Turkish',
 };
+
+// ─── Proficiency Frameworks ──────────────────────────────────────────
+// Each target language is calibrated to its own most widely used standard.
+
+interface Framework {
+    name: string;        // e.g. 'CEFR'
+    labels: string[];    // 6 labels; index 0 = internal level 1
+    references: string;  // official lists to calibrate against
+}
+
+const CEFR: Framework = {
+    name: 'CEFR',
+    labels: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'],
+    references: 'the CEFR Companion Volume and official exam word lists (Goethe, DELF/DALF, DELE, CILS, TELC, TORFL, TÖMER/Yunus Emre)',
+};
+
+const JLPT: Framework = {
+    name: 'JLPT',
+    labels: ['N5', 'N4', 'N3', 'N2', 'N1', 'N1+'],
+    references: 'the official JLPT vocabulary and kanji lists',
+};
+
+const HSK: Framework = {
+    name: 'HSK',
+    labels: ['HSK1', 'HSK2', 'HSK3', 'HSK4', 'HSK5', 'HSK6'],
+    references: 'the official HSK word lists',
+};
+
+// Target language → framework. Anything not listed defaults to CEFR.
+const FRAMEWORK_BY_LANG: Record<string, Framework> = {
+    ja: JLPT,
+    zh: HSK,
+};
+
+function getFramework(targetLang: string): Framework {
+    return FRAMEWORK_BY_LANG[targetLang] ?? CEFR;
+}
 
 // ─── Types ───────────────────────────────────────────────────────────
 
@@ -51,7 +84,6 @@ interface WordEntry {
     word: string;
     translation: string;
     level: number;
-    category: string;
     exampleSentence: string;
     partOfSpeech: string;
 }
@@ -120,27 +152,31 @@ async function generateBatch(
 ): Promise<WordEntry[]> {
     const targetName = LANGUAGE_NAMES[targetLang] || targetLang;
     const nativeName = LANGUAGE_NAMES[nativeLang] || nativeLang;
+    const fw = getFramework(targetLang);
+    const levelLabel = fw.labels[level - 1] ?? `L${level}`;
+    const needsTransliteration = targetLang === 'ja' || targetLang === 'zh';
 
-    const systemPrompt = `You are a vocabulary expert for ${targetName} language learning. Generate precisely formatted JSON arrays of vocabulary words. Each word must be unique, practical, and appropriate for the specified level. Always provide accurate ${nativeName} translations.`;
+    const systemPrompt = `You are a vocabulary curriculum expert and lexicographer for ${targetName}. You build vocabulary lists STRICTLY calibrated to ${fw.name}, the most widely used proficiency framework for ${targetName}, using ${fw.references}. You output only precisely formatted JSON, and always give accurate ${nativeName} translations.`;
 
     const existingList = existingWords.size > 0
-        ? `\n\nDo NOT include these words (already exist): ${Array.from(existingWords).slice(-200).join(', ')}`
+        ? `\n\nEXCLUSION LIST — do NOT include any of these (already generated): ${Array.from(existingWords).slice(-200).join(', ')}`
         : '';
 
-    const prompt = `Generate exactly ${count} ${targetName} vocabulary words for a ${nativeName}-speaking learner.
+    const prompt = `Generate exactly ${count} ${targetName} vocabulary words for a ${nativeName}-speaking learner at ${fw.name} level ${levelLabel} (internal level ${level} of 6).
 
-Level: ${LEVEL_DESCRIPTIONS[level]}
+CALIBRATION — ${fw.name} ${levelLabel}: ${LEVEL_DESCRIPTIONS[level]}
+Every word must genuinely belong to ${fw.name} ${levelLabel} for ${targetName}. Calibrate strictly by ${fw.references} and corpus frequency — no harder or easier words.
 
-Requirements:
-- Words must be ${targetName} words with ${nativeName} translations
-- Mix of categories: ${CATEGORIES.join(', ')}
-- Include a natural example sentence in ${targetName}
-- Include part of speech (noun, verb, adjective, adverb, preposition, conjunction, interjection, phrase)
-- Each word must be unique and level-appropriate
-- For Japanese: include kanji/hiragana as the word, romaji in parentheses in translation${existingList}
+RULES:
+- ASYMMETRIC LANGUAGE: "word" and "exampleSentence" are ALWAYS in ${targetName}; "translation" is ALWAYS in ${nativeName}. Never swap or mix.
+- Write "word" in ${targetName}'s native script.${needsTransliteration ? ` For ${targetName}, also add romaji/pinyin in parentheses inside "translation".` : ''}
+- Cover a broad mix of everyday topics (greetings, daily life, food, family, work, travel, health, nature, emotions), with a healthy share of verbs and adjectives.
+- The example sentence must be natural, grammatical, and must NOT exceed ${levelLabel} grammar complexity.
+- partOfSpeech (lowercase): noun, verb, adjective, adverb, pronoun, preposition, conjunction, interjection, phrase.
+- Each word must be unique.${existingList}
 
 Return ONLY a JSON array (no markdown, no explanation):
-[{"word":"...","translation":"...","level":${level},"category":"...","exampleSentence":"...","partOfSpeech":"noun"}]`;
+[{"word":"...","translation":"...","level":${level},"exampleSentence":"...","partOfSpeech":"noun"}]`;
 
     const response = await callOpenAI(prompt, systemPrompt);
 
@@ -156,7 +192,6 @@ Return ONLY a JSON array (no markdown, no explanation):
                 word: w.word.trim(),
                 translation: w.translation.trim(),
                 level,
-                category: CATEGORIES.includes(w.category?.toLowerCase()) ? w.category.toLowerCase() : 'daily',
                 exampleSentence: w.exampleSentence?.trim() || '',
                 partOfSpeech: w.partOfSpeech?.trim() || '',
             }));

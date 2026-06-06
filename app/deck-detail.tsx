@@ -22,6 +22,7 @@ import type Card from '../src/entities/Card/model';
 import type Deck from '../src/entities/Deck/model';
 import { getVectorStore } from '../src/shared/api/rag/VectorStore';
 import { getLevelLabel, getLevelOptions, LEVEL_COLORS } from '../src/shared/lib/languageConfig';
+import { SpeakButton } from '../src/shared/ui/SpeakButton';
 import {
     addCardToDeck,
     deleteCard,
@@ -230,7 +231,7 @@ export default function DeckDetailScreen() {
             const found = vectorStore.findByWord(trimmed);
 
             if (found) {
-                await addNewCard(found.word, found.translation, found.exampleSentence, String(found.level), found.category);
+                await addNewCard(found.word, found.translation, found.exampleSentence, String(found.level), deck?.category || 'General');
             } else {
                 setShowManualFields(true);
                 setManualTranslation('');
@@ -471,6 +472,10 @@ export default function DeckDetailScreen() {
                                     ) : null}
                                 </View>
                                 <View style={styles.cardActions}>
+                                    <SpeakButton
+                                        text={card.front}
+                                        lang={card.targetLanguage || deck?.targetLanguage || 'en'}
+                                    />
                                     <TouchableOpacity
                                         style={styles.cardActionBtn}
                                         onPress={() => startEditCard(card)}

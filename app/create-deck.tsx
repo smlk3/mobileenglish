@@ -16,27 +16,16 @@ import {
 } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { getVectorStore } from '../src/shared/api/rag/VectorStore';
-import { getLevelOptions, cefrToLevel } from '../src/shared/lib/languageConfig';
+import { getLevelOptions } from '../src/shared/lib/languageConfig';
+import { SpeakButton } from '../src/shared/ui/SpeakButton';
 import { addCardsToDecks, createDeck, fetchAllCardFronts } from '../src/shared/lib/stores/useDatabaseService';
 import { useProfileStore } from '../src/shared/lib/stores/useProfileStore';
 import { borderRadius, colors, shadows, spacing, typography } from '../src/shared/lib/theme';
-
-const CATEGORY_KEYS = [
-    { key: 'createDeck.categories.general', value: 'General' },
-    { key: 'createDeck.categories.business', value: 'Business' },
-    { key: 'createDeck.categories.medical', value: 'Medical' },
-    { key: 'createDeck.categories.technology', value: 'Technology' },
-    { key: 'createDeck.categories.academic', value: 'Academic' },
-    { key: 'createDeck.categories.dailyLife', value: 'Daily Life' },
-    { key: 'createDeck.categories.travel', value: 'Travel' },
-    { key: 'createDeck.categories.sports', value: 'Sports' },
-];
 
 interface GeneratedWord {
     word: string;
     translation: string;
     cefrLevel: string;
-    category: string;
     exampleSentence: string;
     source: 'ai' | 'manual';
 }
@@ -55,7 +44,6 @@ export default function CreateDeckScreen() {
     // Deck metadata
     const [name, setName] = useState('');
     const [selectedLevel, setSelectedLevel] = useState(3); // Default: level 3 (B1 / N3)
-    const [selectedCategory, setSelectedCategory] = useState('General');
     const [wordCount, setWordCount] = useState(10);
 
     // Word list (shared between both tabs)
@@ -87,7 +75,6 @@ export default function CreateDeckScreen() {
             const existingWords = await fetchAllCardFronts();
             const words = vectorStore.search({
                 level: selectedLevel,
-                categories: selectedCategory !== 'General' ? [selectedCategory] : [],
                 interests: profile.interests,
                 excludeWords: existingWords,
                 limit: wordCount,
@@ -98,7 +85,6 @@ export default function CreateDeckScreen() {
                     word: w.word,
                     translation: w.translation,
                     cefrLevel: String(w.level),
-                    category: w.category,
                     exampleSentence: w.exampleSentence,
                     source: 'ai',
                 })),
@@ -134,7 +120,6 @@ export default function CreateDeckScreen() {
                         word: found.word,
                         translation: found.translation,
                         cefrLevel: String(found.level),
-                        category: found.category,
                         exampleSentence: found.exampleSentence,
                         source: 'manual',
                     },
@@ -167,7 +152,6 @@ export default function CreateDeckScreen() {
                 word: trimmed,
                 translation: manualTranslation.trim(),
                 cefrLevel: String(selectedLevel),
-                category: selectedCategory,
                 exampleSentence: manualExample.trim(),
                 source: 'manual',
             },
@@ -225,7 +209,6 @@ export default function CreateDeckScreen() {
             const deck = await createDeck({
                 name: name.trim(),
                 cefrLevel: String(selectedLevel),
-                category: selectedCategory,
                 targetLanguage,
             });
 
@@ -236,7 +219,6 @@ export default function CreateDeckScreen() {
                     back: w.translation,
                     exampleSentence: w.exampleSentence,
                     cefrLevel: w.cefrLevel,
-                    category: w.category,
                 })),
             );
 
@@ -317,37 +299,6 @@ export default function CreateDeckScreen() {
                             </TouchableOpacity>
                         ))}
                     </View>
-                </Animated.View>
-
-                {/* Category */}
-                <Animated.View entering={FadeInDown.duration(400).delay(100)}>
-                    <Text style={[styles.label, { color: tc.textSecondary }]}>{t('createDeck.category')}</Text>
-                    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.chipScroll}>
-                        <View style={styles.chipRow}>
-                            {CATEGORY_KEYS.map((cat) => (
-                                <TouchableOpacity
-                                    key={cat.value}
-                                    style={[
-                                        styles.chip,
-                                        {
-                                            backgroundColor: selectedCategory === cat.value ? colors.accent[500] : tc.surface,
-                                            borderColor: selectedCategory === cat.value ? colors.accent[500] : tc.border,
-                                        },
-                                    ]}
-                                    onPress={() => setSelectedCategory(cat.value)}
-                                >
-                                    <Text
-                                        style={[
-                                            styles.chipText,
-                                            { color: selectedCategory === cat.value ? '#fff' : tc.text },
-                                        ]}
-                                    >
-                                        {t(cat.key)}
-                                    </Text>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
-                    </ScrollView>
                 </Animated.View>
 
                 {/* ── Tab Switcher ─────────────────────────────── */}
@@ -579,6 +530,7 @@ export default function CreateDeckScreen() {
                                             ) : null}
                                         </View>
                                         <View style={styles.cardActions}>
+                                            <SpeakButton text={word.word} lang={targetLanguage} />
                                             <TouchableOpacity
                                                 onPress={() => startEdit(index)}
                                                 style={styles.cardActionBtn}

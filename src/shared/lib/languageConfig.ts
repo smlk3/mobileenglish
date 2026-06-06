@@ -52,6 +52,14 @@ export const SUPPORTED_TARGET_LANGUAGES: LanguageConfig[] = [
         levelLabels: { 1: 'A1', 2: 'A2', 3: 'B1', 4: 'B2', 5: 'C1', 6: 'C2' },
     },
     {
+        code: 'it',
+        name: 'Italian',
+        nativeName: 'Italiano',
+        flag: '🇮🇹',
+        levelSystem: 'cefr',
+        levelLabels: { 1: 'A1', 2: 'A2', 3: 'B1', 4: 'B2', 5: 'C1', 6: 'C2' },
+    },
+    {
         code: 'es',
         name: 'Spanish',
         nativeName: 'Español',
@@ -60,32 +68,71 @@ export const SUPPORTED_TARGET_LANGUAGES: LanguageConfig[] = [
         levelLabels: { 1: 'A1', 2: 'A2', 3: 'B1', 4: 'B2', 5: 'C1', 6: 'C2' },
     },
     {
-        code: 'ar',
-        name: 'Arabic',
-        nativeName: 'العربية',
-        flag: '🇸🇦',
+        code: 'ru',
+        name: 'Russian',
+        nativeName: 'Русский',
+        flag: '🇷🇺',
         levelSystem: 'cefr',
         levelLabels: { 1: 'A1', 2: 'A2', 3: 'B1', 4: 'B2', 5: 'C1', 6: 'C2' },
     },
     {
-        code: 'ja',
-        name: 'Japanese',
-        nativeName: '日本語',
-        flag: '🇯🇵',
-        levelSystem: 'jlpt',
-        levelLabels: { 1: 'N5', 2: 'N4', 3: 'N3', 4: 'N2', 5: 'N1', 6: 'N1+' },
+        code: 'uk',
+        name: 'Ukrainian',
+        nativeName: 'Українська',
+        flag: '🇺🇦',
+        levelSystem: 'cefr',
+        levelLabels: { 1: 'A1', 2: 'A2', 3: 'B1', 4: 'B2', 5: 'C1', 6: 'C2' },
+    },
+    {
+        code: 'pl',
+        name: 'Polish',
+        nativeName: 'Polski',
+        flag: '🇵🇱',
+        levelSystem: 'cefr',
+        levelLabels: { 1: 'A1', 2: 'A2', 3: 'B1', 4: 'B2', 5: 'C1', 6: 'C2' },
+    },
+    {
+        code: 'bg',
+        name: 'Bulgarian',
+        nativeName: 'Български',
+        flag: '🇧🇬',
+        levelSystem: 'cefr',
+        levelLabels: { 1: 'A1', 2: 'A2', 3: 'B1', 4: 'B2', 5: 'C1', 6: 'C2' },
+    },
+    {
+        code: 'sr',
+        name: 'Serbian',
+        nativeName: 'Српски',
+        flag: '🇷🇸',
+        levelSystem: 'cefr',
+        levelLabels: { 1: 'A1', 2: 'A2', 3: 'B1', 4: 'B2', 5: 'C1', 6: 'C2' },
+    },
+    {
+        code: 'hy',
+        name: 'Armenian',
+        nativeName: 'Հայերեն',
+        flag: '🇦🇲',
+        levelSystem: 'cefr',
+        levelLabels: { 1: 'A1', 2: 'A2', 3: 'B1', 4: 'B2', 5: 'C1', 6: 'C2' },
+    },
+    {
+        code: 'tr',
+        name: 'Turkish',
+        nativeName: 'Türkçe',
+        flag: '🇹🇷',
+        levelSystem: 'cefr',
+        levelLabels: { 1: 'A1', 2: 'A2', 3: 'B1', 4: 'B2', 5: 'C1', 6: 'C2' },
     },
 ];
 
 // ─── Supported Native Languages ─────────────────────────────────────
 
+// Bridge-language strategy: only Turkish and English are native languages.
+// Turkish speakers learn the 11 target languages; everyone else learns Turkish
+// through English (assumed lingua franca). Wordlists exist only for these natives.
 export const SUPPORTED_NATIVE_LANGUAGES = [
     { code: 'tr', name: 'Turkish', nativeName: 'Türkçe', flag: '🇹🇷' },
     { code: 'en', name: 'English', nativeName: 'English', flag: '🇬🇧' },
-    { code: 'de', name: 'German', nativeName: 'Deutsch', flag: '🇩🇪' },
-    { code: 'fr', name: 'French', nativeName: 'Français', flag: '🇫🇷' },
-    { code: 'es', name: 'Spanish', nativeName: 'Español', flag: '🇪🇸' },
-    { code: 'ar', name: 'Arabic', nativeName: 'العربية', flag: '🇸🇦' },
 ] as const;
 
 // ─── Lookup Maps ────────────────────────────────────────────────────
@@ -118,6 +165,24 @@ export function getLanguageName(code: string): string {
     if (target) return target.name;
     const native = SUPPORTED_NATIVE_LANGUAGES.find((l) => l.code === code);
     return native?.name ?? code;
+}
+
+// ─── Text-to-Speech (BCP-47) ────────────────────────────────────────
+
+/**
+ * Maps an internal 2-letter code to a BCP-47 locale for expo-speech.
+ * Covers current and planned language pairs (bridge-language strategy).
+ */
+const BCP47_MAP: Record<string, string> = {
+    en: 'en-US', tr: 'tr-TR', de: 'de-DE', fr: 'fr-FR', es: 'es-ES',
+    it: 'it-IT', ar: 'ar-SA', ja: 'ja-JP', ru: 'ru-RU', pl: 'pl-PL',
+    uk: 'uk-UA', bg: 'bg-BG', sr: 'sr-RS', hy: 'hy-AM',
+};
+
+/** Convert an internal language code to a BCP-47 locale (e.g. 'de' → 'de-DE'). */
+export function toBcp47(code: string): string {
+    if (code.includes('-')) return code; // already BCP-47
+    return BCP47_MAP[code.toLowerCase()] ?? code;
 }
 
 // ─── Legacy CEFR ↔ Level Conversion ─────────────────────────────────
