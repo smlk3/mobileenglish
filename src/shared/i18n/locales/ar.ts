@@ -39,6 +39,10 @@ const ar = {
     'home.cardsStudied': '{{done}} من {{total}} بطاقة تمت دراستها',
     'home.due': 'مستحق',
     'home.streak': 'سلسلة',
+    'home.editGoal': 'تعديل الهدف',
+    'home.aiDeckSub': 'مجموعة الذكاء الاصطناعي',
+    'home.practiceAISub': 'محادثة',
+    'home.dueCardsBadge': '{{count}} بطاقات',
 
     'weekday.sun': 'أحد',
     'weekday.mon': 'اثنين',

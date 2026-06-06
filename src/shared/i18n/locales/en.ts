@@ -42,6 +42,10 @@ const en = {
     'home.cardsStudied': '{{done}} of {{total}} cards studied',
     'home.due': 'Due',
     'home.streak': 'Streak',
+    'home.editGoal': 'Edit Goal',
+    'home.aiDeckSub': 'AI deck',
+    'home.practiceAISub': 'Conversation',
+    'home.dueCardsBadge': '{{count}} cards',
 
     // ── Week Days ───────────────────────────────────
     'weekday.sun': 'Sun',

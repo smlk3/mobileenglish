@@ -39,6 +39,10 @@ const es = {
     'home.cardsStudied': '{{done}} de {{total}} tarjetas estudiadas',
     'home.due': 'Pendiente',
     'home.streak': 'Racha',
+    'home.editGoal': 'Editar objetivo',
+    'home.aiDeckSub': 'Mazo IA',
+    'home.practiceAISub': 'Conversación',
+    'home.dueCardsBadge': '{{count}} tarjetas',
 
     'weekday.sun': 'Dom',
     'weekday.mon': 'Lun',

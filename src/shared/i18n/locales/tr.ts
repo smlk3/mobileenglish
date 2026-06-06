@@ -42,6 +42,10 @@ const tr = {
     'home.cardsStudied': '{{done}} / {{total}} kart çalışıldı',
     'home.due': 'Bekleyen',
     'home.streak': 'Seri',
+    'home.editGoal': 'Hedefi Düzenle',
+    'home.aiDeckSub': 'AI deste',
+    'home.practiceAISub': 'Konuşma',
+    'home.dueCardsBadge': '{{count}} kart',
 
     // ── Week Days ───────────────────────────────────
     'weekday.sun': 'Paz',

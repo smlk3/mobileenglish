@@ -39,6 +39,10 @@ const de = {
     'home.cardsStudied': '{{done}} von {{total}} Karten gelernt',
     'home.due': 'Fällig',
     'home.streak': 'Serie',
+    'home.editGoal': 'Ziel bearbeiten',
+    'home.aiDeckSub': 'KI-Stapel',
+    'home.practiceAISub': 'Gespräch',
+    'home.dueCardsBadge': '{{count}} Karten',
 
     'weekday.sun': 'So',
     'weekday.mon': 'Mo',

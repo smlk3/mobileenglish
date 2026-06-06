@@ -20,14 +20,15 @@ import Animated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
-import { type HomeStats, getDetailedStats, getHomeStats } from '../../src/shared/lib/stores/useDatabaseService';
+import { type HomeStats, getDetailedStats, getHomeStats, getUserSettings } from '../../src/shared/lib/stores/useDatabaseService';
 import { useProfileStore } from '../../src/shared/lib/stores/useProfileStore';
 import { useXPStore } from '../../src/shared/lib/stores/useXPStore';
-import { borderRadius, colors, shadows, spacing, typography } from '../../src/shared/lib/theme';
+import { borderRadius, colors, gradients, shadows, spacing, typography } from '../../src/shared/lib/theme';
 import { getXPProgress } from '../../src/shared/lib/xpSystem';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const { width } = Dimensions.get('window');
+const DAILY_GOALS = [5, 10, 15, 20, 30, 50];
 
 // ── Floating star particle ────────────────────────────────────
 function Star({ style, delay, size = 3, color = '#818CF8' }: {
@@ -127,6 +128,7 @@ export default function HomeScreen() {
     dueCards: 0,
   });
   const [studiedDays, setStudiedDays] = useState<Set<string>>(new Set());
+  const [editingGoal, setEditingGoal] = useState(false);
 
   const totalXP    = useXPStore((s) => s.totalXP);
   const xpProgress = getXPProgress(totalXP);
@@ -141,6 +143,20 @@ export default function HomeScreen() {
   }, []);
 
   useFocusEffect(useCallback(() => { loadStats(); }, [loadStats]));
+
+  const handleGoalChange = useCallback(async (goal: number) => {
+    setEditingGoal(false);
+    try {
+      const settings = await getUserSettings();
+      if (settings) {
+        await settings.updateSettings({ dailyGoal: goal });
+        useProfileStore.getState().setDailyGoal(goal);
+        loadStats();
+      }
+    } catch {
+      // silently ignore — UI already reverted
+    }
+  }, [loadStats]);
 
   // Mascot breathing
   const mascotScale = useSharedValue(1);
@@ -175,11 +191,11 @@ export default function HomeScreen() {
         style={[
           styles.heroSection,
           {
-            backgroundColor: themeMode === 'dark' ? '#4A0D12' : '#8A1B22',
-            borderColor: 'rgba(255,215,0,0.3)',
-            shadowColor: '#8A1B22',
+            backgroundColor: themeMode === 'dark' ? colors.primary[900] : colors.primary[800],
+            borderColor: 'rgba(139,92,246,0.35)',
+            shadowColor: colors.primary[600],
             shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.35,
+            shadowOpacity: 0.45,
             shadowRadius: 24,
             elevation: 12,
             overflow: 'hidden',
@@ -187,19 +203,19 @@ export default function HomeScreen() {
         ]}
       >
         <LinearGradient
-          colors={themeMode === 'dark' ? ['#5E0E14', '#2C0609'] : ['#8A1B22', '#5A0D11']}
+          colors={themeMode === 'dark' ? ['#1A0840', '#0D0A2E', '#08090F'] : ['#2D1270', '#1A1060', '#0D0A2E']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={StyleSheet.absoluteFillObject}
         />
 
-        {/* Star particles (Gold Theme) */}
-        <Star style={{ top: 14, right: 88 }}   delay={0}   size={3} color="rgba(255,215,0,0.8)" />
-        <Star style={{ top: 34, right: 112 }}  delay={1}   size={2} color="rgba(255,215,0,0.6)" />
-        <Star style={{ top: 54, right: 82 }}   delay={2}   size={4} color="rgba(255,215,0,0.9)" />
+        {/* Star particles (Aurora Theme) */}
+        <Star style={{ top: 14, right: 88 }}   delay={0}   size={3} color="rgba(139,92,246,0.9)" />
+        <Star style={{ top: 34, right: 112 }}  delay={1}   size={2} color="rgba(6,182,212,0.7)" />
+        <Star style={{ top: 54, right: 82 }}   delay={2}   size={4} color="rgba(167,139,250,0.8)" />
         <Star style={{ top: 22, right: 140 }}  delay={0.5} size={2} color="#FFFFFF" />
-        <Star style={{ top: 64, right: 128 }}  delay={1.5} size={2} color="rgba(255,215,0,0.7)" />
-        <Star style={{ top: 8, right: 60 }}    delay={3}   size={2} color="rgba(255,215,0,0.5)" />
+        <Star style={{ top: 64, right: 128 }}  delay={1.5} size={2} color="rgba(34,211,238,0.7)" />
+        <Star style={{ top: 8, right: 60 }}    delay={3}   size={2} color="rgba(139,92,246,0.5)" />
 
         <View style={styles.heroLeft}>
           <Text style={[styles.greeting, { color: 'rgba(255,255,255,0.75)' }]}>{t('home.welcome')}</Text>
@@ -338,10 +354,26 @@ export default function HomeScreen() {
         ]}
       >
         <View style={styles.progressHeader}>
-          <View>
-            <Text style={[styles.sectionTitle, { color: tc.text }]}>
-              {goalMet ? `🎉 ${t('home.goalReached')}` : t('home.todaysGoal')}
-            </Text>
+          <View style={{ flex: 1 }}>
+            <View style={styles.goalTitleRow}>
+              <Text style={[styles.sectionTitle, { color: tc.text }]}>
+                {goalMet ? `🎉 ${t('home.goalReached')}` : t('home.todaysGoal')}
+              </Text>
+              <TouchableOpacity
+                style={[
+                  styles.editGoalBtn,
+                  { backgroundColor: editingGoal ? colors.primary[500] + '30' : colors.primary[500] + '18' },
+                ]}
+                onPress={() => setEditingGoal((v) => !v)}
+                activeOpacity={0.7}
+              >
+                <Ionicons
+                  name={editingGoal ? 'close' : 'pencil'}
+                  size={11}
+                  color={colors.primary[400]}
+                />
+              </TouchableOpacity>
+            </View>
             <Text style={[styles.progressSub, { color: tc.textMuted }]}>
               {t('home.cardsStudied', { done: stats.todayStudied, total: stats.dailyGoal })}
             </Text>
@@ -370,6 +402,29 @@ export default function HomeScreen() {
             ]}
           />
         </View>
+
+        {editingGoal && (
+          <Animated.View entering={FadeInDown.duration(180)} style={styles.goalPickerRow}>
+            {DAILY_GOALS.map((goal) => (
+              <TouchableOpacity
+                key={goal}
+                style={[
+                  styles.goalChip,
+                  {
+                    backgroundColor: stats.dailyGoal === goal ? colors.primary[500] : tc.surfaceElevated,
+                    borderColor: stats.dailyGoal === goal ? colors.primary[500] : tc.border,
+                  },
+                ]}
+                onPress={() => handleGoalChange(goal)}
+                activeOpacity={0.75}
+              >
+                <Text style={[styles.goalChipText, { color: stats.dailyGoal === goal ? '#fff' : tc.text }]}>
+                  {goal}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </Animated.View>
+        )}
 
         <View style={styles.statsRow}>
           <View style={styles.statItem}>
@@ -420,7 +475,7 @@ export default function HomeScreen() {
           <Text style={styles.qaMainTitle}>{t('home.dailyReview')}</Text>
           <Text style={styles.qaMainSub}>{t('home.cardsWaiting', { count: stats.dueCards })}</Text>
           <View style={styles.qaMainBadge}>
-            <Text style={styles.qaMainBadgeText}>{stats.dueCards} kart</Text>
+            <Text style={styles.qaMainBadgeText}>{t('home.dueCardsBadge', { count: stats.dueCards })}</Text>
           </View>
         </TouchableOpacity>
 
@@ -441,7 +496,7 @@ export default function HomeScreen() {
           >
             <Ionicons name="sparkles" size={22} color={colors.accent[400]} />
             <Text style={[styles.qaSmallLabel, { color: tc.text }]}>{t('home.generateWords')}</Text>
-            <Text style={[styles.qaSmallSub, { color: tc.textMuted }]}>AI deste</Text>
+            <Text style={[styles.qaSmallSub, { color: tc.textMuted }]}>{t('home.aiDeckSub')}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -459,7 +514,7 @@ export default function HomeScreen() {
           >
             <Ionicons name="chatbubble-ellipses" size={22} color="#A78BFA" />
             <Text style={[styles.qaSmallLabel, { color: tc.text }]}>{t('home.practiceAI')}</Text>
-            <Text style={[styles.qaSmallSub, { color: tc.textMuted }]}>Konuşma</Text>
+            <Text style={[styles.qaSmallSub, { color: tc.textMuted }]}>{t('home.practiceAISub')}</Text>
           </TouchableOpacity>
         </View>
       </Animated.View>
@@ -492,7 +547,7 @@ const styles = StyleSheet.create({
   xpBarWrap:     { gap: 2 },
   xpBarBg:       { height: 6, borderRadius: 3, overflow: 'hidden', width: 140 },
   xpBarFill:     { height: '100%', borderRadius: 3 },
-  xpNextText:    { fontSize: 9 },
+  xpNextText:    { fontSize: typography.fontSize.xs },
 
   mascotContainer: {
     marginLeft: spacing.base,
@@ -576,6 +631,30 @@ const styles = StyleSheet.create({
   statLabel:   { fontSize: typography.fontSize.xs },
 
   sectionTitle: { fontSize: typography.fontSize.md, fontWeight: '700' },
+
+  goalTitleRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs },
+  editGoalBtn: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  goalPickerRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.xs,
+    paddingTop: spacing.sm,
+    paddingBottom: spacing.xs,
+  },
+  goalChip: {
+    paddingHorizontal: spacing.md,
+    paddingVertical: 5,
+    borderRadius: borderRadius.full,
+    borderWidth: 1,
+    alignItems: 'center',
+  },
+  goalChipText: { fontSize: typography.fontSize.sm, fontWeight: '700' },
 
   // ── Quick actions grid
   qaGrid: {
