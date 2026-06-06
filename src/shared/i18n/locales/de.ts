@@ -172,7 +172,6 @@ const de = {
     'createDeck.deckName': 'DECK-NAME',
     'createDeck.deckNamePlaceholder': 'z.B. Business Englisch B2',
     'createDeck.level': 'STUFE',
-    'createDeck.category': 'KATEGORIE',
     'createDeck.categories.general': 'Allgemein',
     'createDeck.categories.business': 'Business',
     'createDeck.categories.medical': 'Medizin',

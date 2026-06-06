@@ -145,7 +145,6 @@ const fr = {
     'createDeck.title': 'Créer un paquet',
     'createDeck.deckName': 'NOM DU PAQUET',
     'createDeck.level': 'NIVEAU',
-    'createDeck.category': 'CATÉGORIE',
     'createDeck.categories.general': 'Général',
     'createDeck.categories.business': 'Affaires',
     'createDeck.categories.medical': 'Médical',

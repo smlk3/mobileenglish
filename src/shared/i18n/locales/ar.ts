@@ -134,7 +134,6 @@ const ar = {
     'createDeck.title': 'إنشاء مجموعة',
     'createDeck.deckName': 'اسم المجموعة',
     'createDeck.level': 'المستوى',
-    'createDeck.category': 'الفئة',
     'createDeck.categories.general': 'عام',
     'createDeck.categories.business': 'أعمال',
     'createDeck.categories.medical': 'طبي',

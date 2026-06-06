@@ -4,19 +4,26 @@
  * for RAG-based word selection.
  */
 
-// Static imports for all language pairs (bundled at build time)
+// Static imports for all language pairs (bundled at build time).
+// Bridge-language strategy: Turkish speakers learn 11 target languages;
+// English speakers (assumed lingua franca) learn Turkish.
 import enTr from '../../../../assets/wordlists/en/tr.json';
 import deTr from '../../../../assets/wordlists/de/tr.json';
 import frTr from '../../../../assets/wordlists/fr/tr.json';
+import itTr from '../../../../assets/wordlists/it/tr.json';
 import esTr from '../../../../assets/wordlists/es/tr.json';
-import arTr from '../../../../assets/wordlists/ar/tr.json';
-import jaTr from '../../../../assets/wordlists/ja/tr.json';
+import ruTr from '../../../../assets/wordlists/ru/tr.json';
+import ukTr from '../../../../assets/wordlists/uk/tr.json';
+import plTr from '../../../../assets/wordlists/pl/tr.json';
+import bgTr from '../../../../assets/wordlists/bg/tr.json';
+import srTr from '../../../../assets/wordlists/sr/tr.json';
+import hyTr from '../../../../assets/wordlists/hy/tr.json';
+import trEn from '../../../../assets/wordlists/tr/en.json';
 
 export interface DictionaryEntry {
     word: string;
     translation: string;
     level: number;          // 1-6 internal level
-    category: string;
     exampleSentence: string;
     partOfSpeech?: string;
 }
@@ -26,9 +33,15 @@ const WORDLIST_MAP: Record<string, DictionaryEntry[]> = {
     'en-tr': enTr as DictionaryEntry[],
     'de-tr': deTr as DictionaryEntry[],
     'fr-tr': frTr as DictionaryEntry[],
+    'it-tr': itTr as DictionaryEntry[],
     'es-tr': esTr as DictionaryEntry[],
-    'ar-tr': arTr as DictionaryEntry[],
-    'ja-tr': jaTr as DictionaryEntry[],
+    'ru-tr': ruTr as DictionaryEntry[],
+    'uk-tr': ukTr as DictionaryEntry[],
+    'pl-tr': plTr as DictionaryEntry[],
+    'bg-tr': bgTr as DictionaryEntry[],
+    'sr-tr': srTr as DictionaryEntry[],
+    'hy-tr': hyTr as DictionaryEntry[],
+    'tr-en': trEn as DictionaryEntry[],
 };
 
 export class VectorStore {
@@ -53,27 +66,18 @@ export class VectorStore {
         return this.dictionary.filter((entry) => entry.level === level);
     }
 
-    /** Get entries by category */
-    getByCategory(category: string): DictionaryEntry[] {
-        return this.dictionary.filter(
-            (entry) => entry.category.toLowerCase() === category.toLowerCase(),
-        );
-    }
-
     /**
      * Search entries by user interests and level.
-     * This is the main RAG query method.
+     * This is the main wordlist query method.
      */
     search(params: {
         level?: number;
-        categories?: string[];
         interests?: string[];
         excludeWords?: string[];
         limit?: number;
     }): DictionaryEntry[] {
         const {
             level,
-            categories = [],
             interests = [],
             excludeWords = [],
             limit = 10,
@@ -94,19 +98,13 @@ export class VectorStore {
             );
         }
 
-        // Score entries based on relevance to interests/categories
+        // Score entries based on relevance to interests
         const scored = results.map((entry) => {
             let score = 0;
 
-            // Category match
-            if (categories.some((c) => c.toLowerCase() === entry.category.toLowerCase())) {
-                score += 3;
-            }
-
-            // Interest match (fuzzy matching against category and example)
+            // Interest match (fuzzy matching against example and word)
             for (const interest of interests) {
                 const lower = interest.toLowerCase();
-                if (entry.category.toLowerCase().includes(lower)) score += 2;
                 if (entry.exampleSentence.toLowerCase().includes(lower)) score += 1;
                 if (entry.word.toLowerCase().includes(lower)) score += 1;
             }
@@ -143,12 +141,6 @@ export class VectorStore {
         }
 
         return shuffled.slice(0, count);
-    }
-
-    /** Get available categories */
-    getCategories(): string[] {
-        const categories = new Set(this.dictionary.map((e) => e.category));
-        return Array.from(categories).sort();
     }
 
     /** Get available levels */

@@ -1,0 +1,2102 @@
+[
+  {
+    "word": "այո",
+    "translation": "evet",
+    "level": 1,
+    "exampleSentence": "Այո, ես ուզում եմ։",
+    "partOfSpeech": "interjection"
+  },
+  {
+    "word": "այսօր",
+    "translation": "bugün",
+    "level": 1,
+    "exampleSentence": "Այսօր ես տանն եմ։",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "բարև",
+    "translation": "merhaba",
+    "level": 1,
+    "exampleSentence": "Բարև, ինչպե՞ս ես։",
+    "partOfSpeech": "interjection"
+  },
+  {
+    "word": "գալ",
+    "translation": "gelmek",
+    "level": 1,
+    "exampleSentence": "Նա այսօր է գալիս։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "գիշեր",
+    "translation": "gece",
+    "level": 1,
+    "exampleSentence": "Գիշերը մութ է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "գիրք",
+    "translation": "kitap",
+    "level": 1,
+    "exampleSentence": "Այս գիրքը հետաքրքիր է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "գնալ",
+    "translation": "gitmek",
+    "level": 1,
+    "exampleSentence": "Ես տուն եմ գնում։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "դու",
+    "translation": "sen",
+    "level": 1,
+    "exampleSentence": "Դու լավ ընկեր ես։",
+    "partOfSpeech": "pronoun"
+  },
+  {
+    "word": "դպրոց",
+    "translation": "okul",
+    "level": 1,
+    "exampleSentence": "Ես դպրոց եմ գնում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "եղբայր",
+    "translation": "erkek kardeş",
+    "level": 1,
+    "exampleSentence": "Եղբայրս փոքր է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ես",
+    "translation": "ben",
+    "level": 1,
+    "exampleSentence": "Ես ուսանող եմ։",
+    "partOfSpeech": "pronoun"
+  },
+  {
+    "word": "երկու",
+    "translation": "iki",
+    "level": 1,
+    "exampleSentence": "Ես երկու ընկեր ունեմ։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ընկեր",
+    "translation": "arkadaş",
+    "level": 1,
+    "exampleSentence": "Նա իմ ընկերն է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ընտանիք",
+    "translation": "aile",
+    "level": 1,
+    "exampleSentence": "Իմ ընտանիքը մեծ է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "թեյ",
+    "translation": "çay",
+    "level": 1,
+    "exampleSentence": "Մայրս թեյ է պատրաստում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "իմանալ",
+    "translation": "bilmek",
+    "level": 1,
+    "exampleSentence": "Ես գիտեմ պատասխանը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "լավ",
+    "translation": "iyi",
+    "level": 1,
+    "exampleSentence": "Սա լավ գիրք է։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "լինել",
+    "translation": "olmak",
+    "level": 1,
+    "exampleSentence": "Ես ուրախ եմ լինում։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "խմել",
+    "translation": "içmek",
+    "level": 1,
+    "exampleSentence": "Ես ջուր եմ խմում։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "խնձոր",
+    "translation": "elma",
+    "level": 1,
+    "exampleSentence": "Ես խնձոր եմ ուտում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "կաթ",
+    "translation": "süt",
+    "level": 1,
+    "exampleSentence": "Երեխան կաթ է խմում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "կատու",
+    "translation": "kedi",
+    "level": 1,
+    "exampleSentence": "Կատուն քնում է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "կարմիր",
+    "translation": "kırmızı",
+    "level": 1,
+    "exampleSentence": "Խնձորը կարմիր է։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "հայր",
+    "translation": "baba",
+    "level": 1,
+    "exampleSentence": "Հայրս աշխատում է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "հաց",
+    "translation": "ekmek",
+    "level": 1,
+    "exampleSentence": "Հացը թարմ է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ձեռք",
+    "translation": "el",
+    "level": 1,
+    "exampleSentence": "Ձեռքերս մաքուր են։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "մայր",
+    "translation": "anne",
+    "level": 1,
+    "exampleSentence": "Իմ մայրը բարի է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "մարդ",
+    "translation": "insan",
+    "level": 1,
+    "exampleSentence": "Այս մարդը բարի է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "մեծ",
+    "translation": "büyük",
+    "level": 1,
+    "exampleSentence": "Տունը մեծ է։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "մեկ",
+    "translation": "bir",
+    "level": 1,
+    "exampleSentence": "Ինձ մեկ խնձոր տուր։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "մենք",
+    "translation": "biz",
+    "level": 1,
+    "exampleSentence": "Մենք տանն ենք։",
+    "partOfSpeech": "pronoun"
+  },
+  {
+    "word": "նա",
+    "translation": "o",
+    "level": 1,
+    "exampleSentence": "Նա իմ քույրն է։",
+    "partOfSpeech": "pronoun"
+  },
+  {
+    "word": "շնորհակալություն",
+    "translation": "teşekkür",
+    "level": 1,
+    "exampleSentence": "Շնորհակալություն օգնության համար։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "շուն",
+    "translation": "köpek",
+    "level": 1,
+    "exampleSentence": "Շունը մեծ է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ոչ",
+    "translation": "hayır",
+    "level": 1,
+    "exampleSentence": "Ոչ, շնորհակալ եմ։",
+    "partOfSpeech": "interjection"
+  },
+  {
+    "word": "ուզել",
+    "translation": "istemek",
+    "level": 1,
+    "exampleSentence": "Ես ջուր եմ ուզում։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ունենալ",
+    "translation": "sahip olmak",
+    "level": 1,
+    "exampleSentence": "Ես շուն ունեմ։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ուտել",
+    "translation": "yemek",
+    "level": 1,
+    "exampleSentence": "Մենք հաց ենք ուտում։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ջուր",
+    "translation": "su",
+    "level": 1,
+    "exampleSentence": "Ես ջուր եմ խմում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "սիրել",
+    "translation": "sevmek",
+    "level": 1,
+    "exampleSentence": "Ես սիրում եմ քեզ։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "սուրճ",
+    "translation": "kahve",
+    "level": 1,
+    "exampleSentence": "Առավոտյան սուրճ եմ խմում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "սպիտակ",
+    "translation": "beyaz",
+    "level": 1,
+    "exampleSentence": "Կաթը սպիտակ է։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "վատ",
+    "translation": "kötü",
+    "level": 1,
+    "exampleSentence": "Եղանակը վատ է։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "տեսնել",
+    "translation": "görmek",
+    "level": 1,
+    "exampleSentence": "Ես տեսնում եմ տունը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "տուն",
+    "translation": "ev",
+    "level": 1,
+    "exampleSentence": "Մեր տունը մեծ է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ցտեսություն",
+    "translation": "hoşça kal",
+    "level": 1,
+    "exampleSentence": "Ցտեսություն, կտեսնվենք վաղը։",
+    "partOfSpeech": "interjection"
+  },
+  {
+    "word": "փոքր",
+    "translation": "küçük",
+    "level": 1,
+    "exampleSentence": "Կատուն փոքր է։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "քույր",
+    "translation": "kız kardeş",
+    "level": 1,
+    "exampleSentence": "Քույրս դպրոց է գնում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "օր",
+    "translation": "gün",
+    "level": 1,
+    "exampleSentence": "Այսօր լավ օր է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "և",
+    "translation": "ve",
+    "level": 1,
+    "exampleSentence": "Ես հաց և ջուր ունեմ։",
+    "partOfSpeech": "conjunction"
+  },
+  {
+    "word": "ամիս",
+    "translation": "ay",
+    "level": 2,
+    "exampleSentence": "Հաջորդ ամիս արձակուրդ ունեմ։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "անձրև",
+    "translation": "yağmur",
+    "level": 2,
+    "exampleSentence": "Անձրևն ուժեղ է գալիս։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "աշխատել",
+    "translation": "çalışmak",
+    "level": 2,
+    "exampleSentence": "Հայրս հիվանդանոցում է աշխատում։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "աջ",
+    "translation": "sağ",
+    "level": 2,
+    "exampleSentence": "Խանութն աջ կողմում է։",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "առավոտ",
+    "translation": "sabah",
+    "level": 2,
+    "exampleSentence": "Առավոտյան վաղ եմ արթնանում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ավտոբուս",
+    "translation": "otobüs",
+    "level": 2,
+    "exampleSentence": "Ավտոբուսն ուշանում է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "բաց",
+    "translation": "açık",
+    "level": 2,
+    "exampleSentence": "Խանութը դեռ բաց է։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "բացատրել",
+    "translation": "açıklamak",
+    "level": 2,
+    "exampleSentence": "Ուսուցիչը կանոնը բացատրեց։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "բացել",
+    "translation": "açmak",
+    "level": 2,
+    "exampleSentence": "Խանութը ժամը իննին է բացվում։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "գին",
+    "translation": "fiyat",
+    "level": 2,
+    "exampleSentence": "Այս վերնաշապիկի գինը բարձր է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "գնացք",
+    "translation": "tren",
+    "level": 2,
+    "exampleSentence": "Գնացքը ժամը ութին է մեկնում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "գնել",
+    "translation": "satın almak",
+    "level": 2,
+    "exampleSentence": "Ես նոր կոշիկ եմ գնում։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "գրել",
+    "translation": "yazmak",
+    "level": 2,
+    "exampleSentence": "Ես նամակ եմ գրում։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "եղանակ",
+    "translation": "hava durumu",
+    "level": 2,
+    "exampleSentence": "Այսօր եղանակն արևոտ է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "երեկո",
+    "translation": "akşam",
+    "level": 2,
+    "exampleSentence": "Երեկոյան զբոսնում ենք այգում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "զբաղված",
+    "translation": "meşgul",
+    "level": 2,
+    "exampleSentence": "Ես այսօր շատ զբաղված եմ։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "էժան",
+    "translation": "ucuz",
+    "level": 2,
+    "exampleSentence": "Այս կոշիկներն էժան են։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "թանկ",
+    "translation": "pahalı",
+    "level": 2,
+    "exampleSentence": "Այս հեռախոսը շատ թանկ է։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "ժամ",
+    "translation": "saat",
+    "level": 2,
+    "exampleSentence": "Հանդիպումը մեկ ժամ տևեց։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ինքնաթիռ",
+    "translation": "uçak",
+    "level": 2,
+    "exampleSentence": "Ինքնաթիռը երկու ժամ ուշացավ։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "խանութ",
+    "translation": "mağaza",
+    "level": 2,
+    "exampleSentence": "Ես խանութից հաց եմ գնում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "խոսել",
+    "translation": "konuşmak",
+    "level": 2,
+    "exampleSentence": "Մենք հեռախոսով խոսեցինք։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "կարդալ",
+    "translation": "okumak",
+    "level": 2,
+    "exampleSentence": "Ես ամեն օր թերթ եմ կարդում։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "հասկանալ",
+    "translation": "anlamak",
+    "level": 2,
+    "exampleSentence": "Ես լավ չհասկացա հարցը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "հեռու",
+    "translation": "uzak",
+    "level": 2,
+    "exampleSentence": "Դպրոցը հեռու է կենտրոնից։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "հին",
+    "translation": "eski",
+    "level": 2,
+    "exampleSentence": "Այս տունը շատ հին է։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "հյուրանոց",
+    "translation": "otel",
+    "level": 2,
+    "exampleSentence": "Հյուրանոցը կենտրոնում է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ձախ",
+    "translation": "sol",
+    "level": 2,
+    "exampleSentence": "Թեքվիր ձախ՝ անկյունում։",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "ձյուն",
+    "translation": "kar",
+    "level": 2,
+    "exampleSentence": "Ձմռանը շատ ձյուն է գալիս։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ճամփորդություն",
+    "translation": "seyahat",
+    "level": 2,
+    "exampleSentence": "Մեր ճամփորդությունը երկար էր։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ճանապարհ",
+    "translation": "yol",
+    "level": 2,
+    "exampleSentence": "Այս ճանապարհը երկար է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ճաշ",
+    "translation": "yemek",
+    "level": 2,
+    "exampleSentence": "Ճաշը շատ համեղ էր։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "մոտ",
+    "translation": "yakın",
+    "level": 2,
+    "exampleSentence": "Կայանը մոտ է մեր տանը։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "նոր",
+    "translation": "yeni",
+    "level": 2,
+    "exampleSentence": "Ես նոր մեքենա գնեցի։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "շաբաթ",
+    "translation": "hafta",
+    "level": 2,
+    "exampleSentence": "Այս շաբաթ շատ եմ զբաղված։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "շուկա",
+    "translation": "pazar",
+    "level": 2,
+    "exampleSentence": "Շուկայում մրգերը էժան են։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ուղիղ",
+    "translation": "düz",
+    "level": 2,
+    "exampleSentence": "Գնա ուղիղ և կհասնես։",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "պատվիրել",
+    "translation": "sipariş etmek",
+    "level": 2,
+    "exampleSentence": "Ես սուրճ պատվիրեցի։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ռեստորան",
+    "translation": "restoran",
+    "level": 2,
+    "exampleSentence": "Մենք ռեստորանում ընթրեցինք։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "սենյակ",
+    "translation": "oda",
+    "level": 2,
+    "exampleSentence": "Իմ սենյակը մաքուր է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "սովորել",
+    "translation": "öğrenmek",
+    "level": 2,
+    "exampleSentence": "Ես հայերեն եմ սովորում։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "սպասել",
+    "translation": "beklemek",
+    "level": 2,
+    "exampleSentence": "Ես քեզ դրսում եմ սպասում։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "վճարել",
+    "translation": "ödemek",
+    "level": 2,
+    "exampleSentence": "Ես կանխիկ եմ վճարում։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "տարի",
+    "translation": "yıl",
+    "level": 2,
+    "exampleSentence": "Անցյալ տարի Երևան գնացի։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "տոմս",
+    "translation": "bilet",
+    "level": 2,
+    "exampleSentence": "Ես երկու տոմս եմ գնել։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "րոպե",
+    "translation": "dakika",
+    "level": 2,
+    "exampleSentence": "Մի քանի րոպեից կգամ։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "փակել",
+    "translation": "kapatmak",
+    "level": 2,
+    "exampleSentence": "Դուռը փակիր, խնդրեմ։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "փող",
+    "translation": "para",
+    "level": 2,
+    "exampleSentence": "Ինձ քիչ փող է պետք։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "օգնել",
+    "translation": "yardım etmek",
+    "level": 2,
+    "exampleSentence": "Կարո՞ղ ես ինձ օգնել։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "օդանավակայան",
+    "translation": "havalimanı",
+    "level": 2,
+    "exampleSentence": "Մենք օդանավակայանում ենք սպասում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "անհրաժեշտ",
+    "translation": "gerekli",
+    "level": 3,
+    "exampleSentence": "Անհրաժեշտ է ավելի շատ սովորել։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "աշխատանք",
+    "translation": "iş",
+    "level": 3,
+    "exampleSentence": "Ես նոր աշխատանք եմ փնտրում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "աշխատավարձ",
+    "translation": "maaş",
+    "level": 3,
+    "exampleSentence": "Աշխատավարձը ամսվա վերջին են տալիս։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "առաջարկել",
+    "translation": "önermek",
+    "level": 3,
+    "exampleSentence": "Նա ինձ նոր աշխատանք առաջարկեց։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "առողջ",
+    "translation": "sağlıklı",
+    "level": 3,
+    "exampleSentence": "Կարևոր է առողջ սնունդ ուտել։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "առողջություն",
+    "translation": "sağlık",
+    "level": 3,
+    "exampleSentence": "Առողջությունն ամենակարևորն է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "արդյունք",
+    "translation": "sonuç",
+    "level": 3,
+    "exampleSentence": "Քննության արդյունքը լավ էր։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "բայց",
+    "translation": "ama",
+    "level": 3,
+    "exampleSentence": "Ուզում էի գալ, բայց ժամանակ չունեի։",
+    "partOfSpeech": "conjunction"
+  },
+  {
+    "word": "բարելավել",
+    "translation": "geliştirmek",
+    "level": 3,
+    "exampleSentence": "Ես ուզում եմ բարելավել իմ հայերենը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "բացատրություն",
+    "translation": "açıklama",
+    "level": 3,
+    "exampleSentence": "Քո բացատրությունը պարզ էր։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "բողոքել",
+    "translation": "şikayet etmek",
+    "level": 3,
+    "exampleSentence": "Հաճախորդը ծառայությունից բողոքեց։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "դեղ",
+    "translation": "ilaç",
+    "level": 3,
+    "exampleSentence": "Բժիշկը նոր դեղ նշանակեց։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "դժվար",
+    "translation": "zor",
+    "level": 3,
+    "exampleSentence": "Քննությունը շատ դժվար էր։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "զարգանալ",
+    "translation": "gelişmek",
+    "level": 3,
+    "exampleSentence": "Տեխնոլոգիան արագ է զարգանում։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "զգացմունք",
+    "translation": "duygu",
+    "level": 3,
+    "exampleSentence": "Նա իր զգացմունքները թաքցնում է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ընկերություն",
+    "translation": "şirket",
+    "level": 3,
+    "exampleSentence": "Նա մեծ ընկերությունում է աշխատում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "իրավիճակ",
+    "translation": "durum",
+    "level": 3,
+    "exampleSentence": "Իրավիճակը բարդ էր, բայց հաղթահարեցինք։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "լուծում",
+    "translation": "çözüm",
+    "level": 3,
+    "exampleSentence": "Մենք պարզ լուծում գտանք։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "խնդիր",
+    "translation": "sorun",
+    "level": 3,
+    "exampleSentence": "Այս խնդիրը պետք է լուծել։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "կազմակերպել",
+    "translation": "düzenlemek",
+    "level": 3,
+    "exampleSentence": "Մենք համաժողով կազմակերպեցինք։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "կարծիք",
+    "translation": "fikir",
+    "level": 3,
+    "exampleSentence": "Ո՞րն է քո կարծիքն այս հարցում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "կարևոր",
+    "translation": "önemli",
+    "level": 3,
+    "exampleSentence": "Սա շատ կարևոր որոշում է։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "համաձայնել",
+    "translation": "kabul etmek",
+    "level": 3,
+    "exampleSentence": "Ես համաձայն եմ քո առաջարկի հետ։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "համեմատել",
+    "translation": "karşılaştırmak",
+    "level": 3,
+    "exampleSentence": "Մենք երկու տարբերակ համեմատեցինք։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "հատկապես",
+    "translation": "özellikle",
+    "level": 3,
+    "exampleSentence": "Ինձ դուր է գալիս երաժշտությունը, հատկապես ջազը։",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "հարցազրույց",
+    "translation": "mülakat",
+    "level": 3,
+    "exampleSentence": "Վաղը կարևոր հարցազրույց ունեմ։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "հեշտ",
+    "translation": "kolay",
+    "level": 3,
+    "exampleSentence": "Այս առաջադրանքը հեշտ էր։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "հետաքրքիր",
+    "translation": "ilginç",
+    "level": 3,
+    "exampleSentence": "Դա շատ հետաքրքիր գաղափար է։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "հիշել",
+    "translation": "hatırlamak",
+    "level": 3,
+    "exampleSentence": "Ես չեմ հիշում նրա անունը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "հիվանդություն",
+    "translation": "hastalık",
+    "level": 3,
+    "exampleSentence": "Այս հիվանդությունը բուժելի է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "հնարավոր",
+    "translation": "mümkün",
+    "level": 3,
+    "exampleSentence": "Հնարավո՞ր է հանդիպել վաղը։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "հնարավորություն",
+    "translation": "fırsat",
+    "level": 3,
+    "exampleSentence": "Սա հիանալի հնարավորություն է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "հոգնած",
+    "translation": "yorgun",
+    "level": 3,
+    "exampleSentence": "Աշխատանքից հետո շատ հոգնած եմ։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "հրաժարվել",
+    "translation": "reddetmek",
+    "level": 3,
+    "exampleSentence": "Նա հրաժարվեց առաջարկից։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "մասնագիտություն",
+    "translation": "meslek",
+    "level": 3,
+    "exampleSentence": "Նրա մասնագիտությունը բժշկություն է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "մասնակցել",
+    "translation": "katılmak",
+    "level": 3,
+    "exampleSentence": "Շատ մարդ մասնակցեց մրցույթին։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "միգուցե",
+    "translation": "belki",
+    "level": 3,
+    "exampleSentence": "Միգուցե վաղը անձրև գա։",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "մոռանալ",
+    "translation": "unutmak",
+    "level": 3,
+    "exampleSentence": "Մի մոռացիր զանգահարել ինձ։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "նպատակ",
+    "translation": "amaç",
+    "level": 3,
+    "exampleSentence": "Իմ նպատակը լեզուն սովորելն է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "որոշել",
+    "translation": "karar vermek",
+    "level": 3,
+    "exampleSentence": "Ես որոշեցի արտերկիր մեկնել։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "որոշում",
+    "translation": "karar",
+    "level": 3,
+    "exampleSentence": "Մենք ճիշտ որոշում կայացրինք։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ուրախ",
+    "translation": "mutlu",
+    "level": 3,
+    "exampleSentence": "Ես ուրախ եմ քեզ տեսնելու համար։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "պատճառ",
+    "translation": "sebep",
+    "level": 3,
+    "exampleSentence": "Ո՞րն է ուշանալուդ պատճառը։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "սովորաբար",
+    "translation": "genellikle",
+    "level": 3,
+    "exampleSentence": "Ես սովորաբար ութին եմ արթնանում։",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "վստահ",
+    "translation": "emin",
+    "level": 3,
+    "exampleSentence": "Ես վստահ եմ իմ պատասխանի մեջ։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "տխուր",
+    "translation": "üzgün",
+    "level": 3,
+    "exampleSentence": "Նա տխուր էր լուրը լսելուց հետո։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "ցավ",
+    "translation": "ağrı",
+    "level": 3,
+    "exampleSentence": "Գլխացավս արդեն անցել է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "փոխել",
+    "translation": "değiştirmek",
+    "level": 3,
+    "exampleSentence": "Ես որոշեցի փոխել իմ ծրագրերը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "փորձ",
+    "translation": "deneyim",
+    "level": 3,
+    "exampleSentence": "Նա մեծ աշխատանքային փորձ ունի։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "քանի որ",
+    "translation": "çünkü",
+    "level": 3,
+    "exampleSentence": "Տանը մնացի, քանի որ հիվանդ էի։",
+    "partOfSpeech": "conjunction"
+  },
+  {
+    "word": "ազդել",
+    "translation": "etkilemek",
+    "level": 4,
+    "exampleSentence": "Եղանակը կարող է ազդել տրամադրության վրա։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ազդեցություն",
+    "translation": "etki",
+    "level": 4,
+    "exampleSentence": "Համացանցն ուժեղ ազդեցություն ունի երիտասարդների վրա։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "աղտոտվածություն",
+    "translation": "kirlilik",
+    "level": 4,
+    "exampleSentence": "Օդի աղտոտվածությունը լուրջ խնդիր է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "այնուամենայնիվ",
+    "translation": "yine de",
+    "level": 4,
+    "exampleSentence": "Դժվար էր, այնուամենայնիվ հաջողեցինք։",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "աչքի ընկնել",
+    "translation": "göze çarpmak",
+    "level": 4,
+    "exampleSentence": "Նրա տաղանդը միանգամից աչքի է ընկնում։",
+    "partOfSpeech": "phrase"
+  },
+  {
+    "word": "ապահովել",
+    "translation": "sağlamak",
+    "level": 4,
+    "exampleSentence": "Կազմակերպությունն ապահովում է անվճար կրթություն։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ապացուցել",
+    "translation": "kanıtlamak",
+    "level": 4,
+    "exampleSentence": "Նա ապացուցեց իր տեսության ճշմարտացիությունը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "արդյունավետ",
+    "translation": "verimli",
+    "level": 4,
+    "exampleSentence": "Այս մեթոդը շատ արդյունավետ է։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "բանակցություն",
+    "translation": "müzakere",
+    "level": 4,
+    "exampleSentence": "Բանակցությունները մի քանի օր տևեցին։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "բարդ",
+    "translation": "karmaşık",
+    "level": 4,
+    "exampleSentence": "Սա շատ բարդ հարց է։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "բացառել",
+    "translation": "hariç tutmak",
+    "level": 4,
+    "exampleSentence": "Չենք կարող բացառել այդ հնարավորությունը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "գիտություն",
+    "translation": "bilim",
+    "level": 4,
+    "exampleSentence": "Գիտությունն օգնում է հասկանալ աշխարհը։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ենթադրել",
+    "translation": "varsaymak",
+    "level": 4,
+    "exampleSentence": "Կարող ենք ենթադրել, որ նա կուշանա։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ենթադրություն",
+    "translation": "varsayım",
+    "level": 4,
+    "exampleSentence": "Այս ենթադրությունը հաստատում է պահանջում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "զարգացնել",
+    "translation": "geliştirmek",
+    "level": 4,
+    "exampleSentence": "Ընկերությունը զարգացնում է նոր արտադրանք։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "զարգացում",
+    "translation": "kalkınma",
+    "level": 4,
+    "exampleSentence": "Կայուն զարգացումը կարևոր նպատակ է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "զգալի",
+    "translation": "önemli ölçüde",
+    "level": 4,
+    "exampleSentence": "Արդյունքները զգալի բարելավում ցույց տվեցին։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "ընդունել",
+    "translation": "kabul etmek",
+    "level": 4,
+    "exampleSentence": "Հանձնաժողովն ընդունեց որոշումը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "իրականացնել",
+    "translation": "gerçekleştirmek",
+    "level": 4,
+    "exampleSentence": "Մենք իրականացրինք բոլոր ծրագրերը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "իրավունք",
+    "translation": "hak",
+    "level": 4,
+    "exampleSentence": "Յուրաքանչյուր մարդ ունի կրթության իրավունք։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "լրագրող",
+    "translation": "gazeteci",
+    "level": 4,
+    "exampleSentence": "Լրագրողը կարևոր հոդված հրապարակեց։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "լրատվամիջոց",
+    "translation": "medya",
+    "level": 4,
+    "exampleSentence": "Լրատվամիջոցները լայնորեն լուսաբանեցին իրադարձությունը։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "խրախուսել",
+    "translation": "teşvik etmek",
+    "level": 4,
+    "exampleSentence": "Ուսուցիչը խրախուսում է ստեղծագործ մտածողությունը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "կառավարություն",
+    "translation": "hükümet",
+    "level": 4,
+    "exampleSentence": "Կառավարությունը նոր օրենք ընդունեց։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "հակասություն",
+    "translation": "çelişki",
+    "level": 4,
+    "exampleSentence": "Նրա խոսքերում հակասություն կա։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "համագործակցություն",
+    "translation": "iş birliği",
+    "level": 4,
+    "exampleSentence": "Երկու ընկերությունների համագործակցությունն արդյունավետ էր։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "համապատասխան",
+    "translation": "uygun",
+    "level": 4,
+    "exampleSentence": "Մենք ընտրեցինք համապատասխան լուծումը։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "համոզել",
+    "translation": "ikna etmek",
+    "level": 4,
+    "exampleSentence": "Նա համոզեց ինձ փոխել կարծիքս։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "հասարակություն",
+    "translation": "toplum",
+    "level": 4,
+    "exampleSentence": "Հասարակությունն արագ է փոխվում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "հաստատել",
+    "translation": "doğrulamak",
+    "level": 4,
+    "exampleSentence": "Փորձը հաստատեց վարկածը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "հետազոտություն",
+    "translation": "araştırma",
+    "level": 4,
+    "exampleSentence": "Հետազոտությունը ցույց տվեց հետաքրքիր արդյունքներ։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "հետևաբար",
+    "translation": "dolayısıyla",
+    "level": 4,
+    "exampleSentence": "Անձրև էր, հետևաբար մնացինք տանը։",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "հնչեղ",
+    "translation": "etkileyici",
+    "level": 4,
+    "exampleSentence": "Նա հնչեղ ելույթ ունեցավ համաժողովում։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "ձեռնամուխ լինել",
+    "translation": "girişmek",
+    "level": 4,
+    "exampleSentence": "Մենք ձեռնամուխ եղանք նոր նախագծին։",
+    "partOfSpeech": "phrase"
+  },
+  {
+    "word": "մրցակցություն",
+    "translation": "rekabet",
+    "level": 4,
+    "exampleSentence": "Շուկայում մրցակցությունը խիստ է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ներդրում",
+    "translation": "yatırım",
+    "level": 4,
+    "exampleSentence": "Նրանք խոշոր ներդրում կատարեցին։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "շահույթ",
+    "translation": "kâr",
+    "level": 4,
+    "exampleSentence": "Ընկերության շահույթն այս տարի աճել է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "շուկայաբանություն",
+    "translation": "pazarlama",
+    "level": 4,
+    "exampleSentence": "Շուկայաբանությունը կարևոր է բիզնեսի համար։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "շրջակա միջավայր",
+    "translation": "çevre",
+    "level": 4,
+    "exampleSentence": "Մենք պետք է պաշտպանենք շրջակա միջավայրը։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "պայմանագիր",
+    "translation": "sözleşme",
+    "level": 4,
+    "exampleSentence": "Կողմերը պայմանագիր ստորագրեցին։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ստեղծել",
+    "translation": "yaratmak",
+    "level": 4,
+    "exampleSentence": "Նկարիչը նոր ստեղծագործություն ստեղծեց։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "վերացական",
+    "translation": "soyut",
+    "level": 4,
+    "exampleSentence": "Փիլիսոփայությունը զբաղվում է վերացական գաղափարներով։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "վերլուծել",
+    "translation": "analiz etmek",
+    "level": 4,
+    "exampleSentence": "Մասնագետները վերլուծեցին տվյալները։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "վերլուծություն",
+    "translation": "analiz",
+    "level": 4,
+    "exampleSentence": "Մենք մանրամասն վերլուծություն ենք կատարել։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "տեխնոլոգիա",
+    "translation": "teknoloji",
+    "level": 4,
+    "exampleSentence": "Նոր տեխնոլոգիան փոխում է մեր կյանքը։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "տեսանկյուն",
+    "translation": "bakış açısı",
+    "level": 4,
+    "exampleSentence": "Տարբեր տեսանկյունները հարստացնում են քննարկումը։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "տնտեսություն",
+    "translation": "ekonomi",
+    "level": 4,
+    "exampleSentence": "Երկրի տնտեսությունը դանդաղ է աճում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "քաղաքականություն",
+    "translation": "siyaset",
+    "level": 4,
+    "exampleSentence": "Նա հետաքրքրված է քաղաքականությամբ։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "քննարկել",
+    "translation": "tartışmak",
+    "level": 4,
+    "exampleSentence": "Մենք երկար քննարկեցինք առաջարկը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "օրենք",
+    "translation": "yasa",
+    "level": 4,
+    "exampleSentence": "Նոր օրենքն ուժի մեջ է մտնում վաղը։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "անաչառ",
+    "translation": "tarafsız",
+    "level": 5,
+    "exampleSentence": "Դատավորը պետք է լինի անաչառ։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "բազմազանություն",
+    "translation": "çeşitlilik",
+    "level": 5,
+    "exampleSentence": "Մշակութային բազմազանությունը հարստացնում է հասարակությունը։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "բացահայտել",
+    "translation": "ortaya çıkarmak",
+    "level": 5,
+    "exampleSentence": "Հետազոտությունը բացահայտեց անսպասելի կապ։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "բացառիկ",
+    "translation": "istisnai",
+    "level": 5,
+    "exampleSentence": "Նա ցուցաբերեց բացառիկ տաղանդ։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "բխել",
+    "translation": "kaynaklanmak",
+    "level": 5,
+    "exampleSentence": "Այս խնդիրը բխում է կառուցվածքային թերություններից։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "դրսևորում",
+    "translation": "tezahür",
+    "level": 5,
+    "exampleSentence": "Բարկությունը հաճախ վախի դրսևորում է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ենթատեքստ",
+    "translation": "bağlam",
+    "level": 5,
+    "exampleSentence": "Բառի իմաստը կախված է ենթատեքստից։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ընդգծել",
+    "translation": "altını çizmek",
+    "level": 5,
+    "exampleSentence": "Հեղինակն ընդգծում է կրթության դերը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ընդհանրացնել",
+    "translation": "genellemek",
+    "level": 5,
+    "exampleSentence": "Վտանգավոր է ընդհանրացնել մեկ դեպքի հիման վրա։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ընկալում",
+    "translation": "algı",
+    "level": 5,
+    "exampleSentence": "Հանրության ընկալումը դանդաղ է փոխվում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "թափանցիկություն",
+    "translation": "şeffaflık",
+    "level": 5,
+    "exampleSentence": "Կառավարման թափանցիկությունը մեծացնում է վստահությունը։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ի դեպ",
+    "translation": "bu arada",
+    "level": 5,
+    "exampleSentence": "Ի դեպ, մի մոռացիր փաստաթղթերը։",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "ինքնավարություն",
+    "translation": "özerklik",
+    "level": 5,
+    "exampleSentence": "Համալսարանն ունի ակադեմիական ինքնավարություն։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ինքնատիպություն",
+    "translation": "özgünlük",
+    "level": 5,
+    "exampleSentence": "Նրա ստեղծագործության ինքնատիպությունը գնահատվեց։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "խորիմաստ",
+    "translation": "derin anlamlı",
+    "level": 5,
+    "exampleSentence": "Բանաստեղծությունը խորիմաստ ուղերձ էր պարունակում։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "խտացնել",
+    "translation": "yoğunlaştırmak",
+    "level": 5,
+    "exampleSentence": "Հեղինակը խտացրեց իր մտքերը մեկ պարբերության մեջ։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "կայունություն",
+    "translation": "istikrar",
+    "level": 5,
+    "exampleSentence": "Տնտեսական կայունությունը կարևոր է զարգացման համար։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "հակառակ",
+    "translation": "aksine",
+    "level": 5,
+    "exampleSentence": "Հակառակ սպասումների՝ նա հաջողեց։",
+    "partOfSpeech": "preposition"
+  },
+  {
+    "word": "հակասական",
+    "translation": "çelişkili",
+    "level": 5,
+    "exampleSentence": "Արդյունքները հակասական էին և լրացուցիչ ուսումնասիրություն պահանջում էին։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "հակիրճ",
+    "translation": "özlü",
+    "level": 5,
+    "exampleSentence": "Նրա պատասխանը հակիրճ էր և դիպուկ։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "համապարփակ",
+    "translation": "kapsamlı",
+    "level": 5,
+    "exampleSentence": "Զեկույցը համապարփակ վերլուծություն էր ներկայացնում։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "համատեքստ",
+    "translation": "bağlam",
+    "level": 5,
+    "exampleSentence": "Որոշումը պետք է դիտարկել պատմական համատեքստում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "համարժեք",
+    "translation": "eşdeğer",
+    "level": 5,
+    "exampleSentence": "Այս երկու եզրույթները համարժեք են։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "համընդհանուր",
+    "translation": "evrensel",
+    "level": 5,
+    "exampleSentence": "Մարդու իրավունքները համընդհանուր արժեքներ են։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "համընդհանրացում",
+    "translation": "genelleme",
+    "level": 5,
+    "exampleSentence": "Չափից շատ համընդհանրացումը կարող է մոլորեցնել։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "համընկնել",
+    "translation": "örtüşmek",
+    "level": 5,
+    "exampleSentence": "Մեր տեսակետները շատ հարցերում համընկնում են։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "հայեցակարգ",
+    "translation": "kavram",
+    "level": 5,
+    "exampleSentence": "Այս հայեցակարգը դժվար է բացատրել։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "հանգամանք",
+    "translation": "koşul",
+    "level": 5,
+    "exampleSentence": "Հանգամանքները ստիպեցին փոխել պլանը։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "հանգել",
+    "translation": "varmak",
+    "level": 5,
+    "exampleSentence": "Հետազոտողները հանգեցին կարևոր եզրակացության։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "հետևապես",
+    "translation": "sonuç olarak",
+    "level": 5,
+    "exampleSentence": "Տվյալները թերի էին, հետևապես եզրակացությունն անվստահելի է։",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "հետևողական",
+    "translation": "tutarlı",
+    "level": 5,
+    "exampleSentence": "Նա հետևողական է իր սկզբունքներում։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "հետևողականություն",
+    "translation": "tutarlılık",
+    "level": 5,
+    "exampleSentence": "Փաստարկի հետևողականությունը տպավորիչ էր։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "հիմնավորում",
+    "translation": "gerekçe",
+    "level": 5,
+    "exampleSentence": "Նա ներկայացրեց համոզիչ հիմնավորում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ձեռնարկել",
+    "translation": "üstlenmek",
+    "level": 5,
+    "exampleSentence": "Կառավարությունը ձեռնարկեց համարձակ բարեփոխումներ։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "մեթոդաբանություն",
+    "translation": "metodoloji",
+    "level": 5,
+    "exampleSentence": "Հետազոտության մեթոդաբանությունը խստորեն մշակված էր։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "մեկնաբանել",
+    "translation": "yorumlamak",
+    "level": 5,
+    "exampleSentence": "Քննադատը մեկնաբանեց վեպի խորհրդանիշները։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "մինչդեռ",
+    "translation": "oysa",
+    "level": 5,
+    "exampleSentence": "Նա հանգիստ էր, մինչդեռ բոլորը անհանգստանում էին։",
+    "partOfSpeech": "conjunction"
+  },
+  {
+    "word": "միտում",
+    "translation": "eğilim",
+    "level": 5,
+    "exampleSentence": "Շուկայում նկատվում է աճի միտում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "նախադրյալ",
+    "translation": "ön koşul",
+    "level": 5,
+    "exampleSentence": "Վստահությունը հաջող համագործակցության նախադրյալ է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "նրբերանգ",
+    "translation": "nüans",
+    "level": 5,
+    "exampleSentence": "Թարգմանիչը պահպանեց բնագրի նրբերանգները։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "շեշտադրել",
+    "translation": "vurgulamak",
+    "level": 5,
+    "exampleSentence": "Բանախոսը շեշտադրեց կրթության դերը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "չափանիշ",
+    "translation": "kriter",
+    "level": 5,
+    "exampleSentence": "Մենք սահմանեցինք գնահատման հստակ չափանիշներ։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "չափավորություն",
+    "translation": "ölçülülük",
+    "level": 5,
+    "exampleSentence": "Չափավորությունը կարևոր է ամեն բանում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "չնայած",
+    "translation": "rağmen",
+    "level": 5,
+    "exampleSentence": "Չնայած դժվարություններին՝ նա չհանձնվեց։",
+    "partOfSpeech": "preposition"
+  },
+  {
+    "word": "պայմանավորել",
+    "translation": "belirlemek",
+    "level": 5,
+    "exampleSentence": "Հաջողությունը պայմանավորված է մանրակրկիտ պլանավորմամբ։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "վարկած",
+    "translation": "hipotez",
+    "level": 5,
+    "exampleSentence": "Գիտնականները փորձարկեցին նոր վարկածը։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "վերագնահատել",
+    "translation": "yeniden değerlendirmek",
+    "level": 5,
+    "exampleSentence": "Մենք ստիպված եղանք վերագնահատել մեր ռազմավարությունը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "վերագրել",
+    "translation": "atfetmek",
+    "level": 5,
+    "exampleSentence": "Հաջողությունն ինքն իրեն մի վերագրիր ամբողջությամբ։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "վերապահում",
+    "translation": "çekince",
+    "level": 5,
+    "exampleSentence": "Ես որոշակի վերապահումներ ունեմ այս ծրագրի վերաբերյալ։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "տարբերակել",
+    "translation": "ayırt etmek",
+    "level": 5,
+    "exampleSentence": "Կարևոր է տարբերակել փաստն ու կարծիքը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ակնածանք",
+    "translation": "saygı duyma",
+    "level": 6,
+    "exampleSentence": "Նա խոսում էր ուսուցչի մասին խորին ակնածանքով։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ակնհայտ",
+    "translation": "aşikâr",
+    "level": 6,
+    "exampleSentence": "Ճշմարտությունն ակնհայտ էր բոլորի համար։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "անդորր",
+    "translation": "huzur",
+    "level": 6,
+    "exampleSentence": "Վանքում տիրում էր խորունկ անդորր։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "անդրդվելի",
+    "translation": "sarsılmaz",
+    "level": 6,
+    "exampleSentence": "Նրա հավատը մնաց անդրդվելի։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "անզիջում",
+    "translation": "ödün vermez",
+    "level": 6,
+    "exampleSentence": "Նա անզիջում էր սկզբունքների հարցում։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "աննկուն",
+    "translation": "boyun eğmez",
+    "level": 6,
+    "exampleSentence": "Աննկուն կամքը հաղթահարեց բոլոր արգելքները։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "անվեհեր",
+    "translation": "yılmaz",
+    "level": 6,
+    "exampleSentence": "Անվեհեր ոգին նրան առաջ էր մղում։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "առ ի վերջո",
+    "translation": "nihayetinde",
+    "level": 6,
+    "exampleSentence": "Առ ի վերջո ճշմարտությունը հաղթանակեց։",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "բարօրություն",
+    "translation": "refah",
+    "level": 6,
+    "exampleSentence": "Հասարակության բարօրությունը պետության գլխավոր նպատակն է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "դիմակայություն",
+    "translation": "direnç",
+    "level": 6,
+    "exampleSentence": "Ժողովրդի դիմակայությունը խորհրդանշում էր ազատության ձգտումը։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "դյուրաբեկ",
+    "translation": "kırılgan",
+    "level": 6,
+    "exampleSentence": "Հիշողությունը դյուրաբեկ է ինչպես ապակին։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "դրվատել",
+    "translation": "övmek",
+    "level": 6,
+    "exampleSentence": "Քննադատները միաձայն դրվատեցին վեպը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ընդերք",
+    "translation": "derinlik",
+    "level": 6,
+    "exampleSentence": "Հոգու ընդերքում թաքնված էր հին ցավ։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "թախիծ",
+    "translation": "hüzün",
+    "level": 6,
+    "exampleSentence": "Աշնան բնապատկերը թախիծ էր ներշնչում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "թերևս",
+    "translation": "belki de",
+    "level": 6,
+    "exampleSentence": "Թերևս սա էր ամենաիմաստուն որոշումը։",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "թովել",
+    "translation": "büyülemek",
+    "level": 6,
+    "exampleSentence": "Երաժշտությունը թովեց ողջ դահլիճը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ի մի բերել",
+    "translation": "bir araya getirmek",
+    "level": 6,
+    "exampleSentence": "Հեղինակին հաջողվեց ի մի բերել տարբեր գաղափարներ։",
+    "partOfSpeech": "phrase"
+  },
+  {
+    "word": "ինքնաճանաչում",
+    "translation": "kendini tanıma",
+    "level": 6,
+    "exampleSentence": "Ճամփորդությունը նրա համար ինքնաճանաչման ուղի դարձավ։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "լրբություն",
+    "translation": "küstahlık",
+    "level": 6,
+    "exampleSentence": "Նրա լրբությունը վրդովեցրեց ներկաներին։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "խարխլել",
+    "translation": "sarsmak",
+    "level": 6,
+    "exampleSentence": "Կեղծ լուրերը խարխլում են հանրության վստահությունը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "խոհականություն",
+    "translation": "basiret",
+    "level": 6,
+    "exampleSentence": "Առաջնորդի խոհականությունը կանխեց ճգնաժամը։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "խորաթափանցություն",
+    "translation": "kavrayış",
+    "level": 6,
+    "exampleSentence": "Փիլիսոփայի խորաթափանցությունը զարմացրեց ունկնդիրներին։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "խորամանկ",
+    "translation": "kurnaz",
+    "level": 6,
+    "exampleSentence": "Աղվեսը հեքիաթներում խորամանկ կերպար է։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "խորասուզվել",
+    "translation": "dalmak",
+    "level": 6,
+    "exampleSentence": "Նա խորասուզվեց հին ձեռագրերի ուսումնասիրության մեջ։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "խորհրդապահություն",
+    "translation": "ketumluk",
+    "level": 6,
+    "exampleSentence": "Դիվանագետի խորհրդապահությունը գնահատվում էր բոլորի կողմից։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "խտացում",
+    "translation": "öz",
+    "level": 6,
+    "exampleSentence": "Այս ասույթը ողջ իմաստության խտացումն է։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "խտացվել",
+    "translation": "billurlaşmak",
+    "level": 6,
+    "exampleSentence": "Տարիների փորձը խտացվեց մի քանի իմաստուն խոսքերում։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "կարոտ",
+    "translation": "özlem",
+    "level": 6,
+    "exampleSentence": "Հայրենիքի կարոտը երբեք չմարեց նրա սրտում։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "հակադրություն",
+    "translation": "tezat",
+    "level": 6,
+    "exampleSentence": "Լույսի և ստվերի հակադրությունն ընդգծում էր նկարի խորությունը։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "համամարդկային",
+    "translation": "insanlığa özgü",
+    "level": 6,
+    "exampleSentence": "Կարեկցանքը համամարդկային արժեք է։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "համապատկեր",
+    "translation": "panorama",
+    "level": 6,
+    "exampleSentence": "Գիրքը ներկայացնում է դարաշրջանի լայն համապատկեր։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "համեստություն",
+    "translation": "tevazu",
+    "level": 6,
+    "exampleSentence": "Չնայած համբավին՝ նա պահպանեց իր համեստությունը։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "համերաշխություն",
+    "translation": "dayanışma",
+    "level": 6,
+    "exampleSentence": "Ճգնաժամի պահին համերաշխությունը փրկեց համայնքը։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "հանդուգնություն",
+    "translation": "cüret",
+    "level": 6,
+    "exampleSentence": "Ծրագիրն աչքի էր ընկնում իր հանդուգնությամբ։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "հեղհեղուկ",
+    "translation": "kararsız",
+    "level": 6,
+    "exampleSentence": "Նրա հեղհեղուկ բնավորությունը դժվարացնում էր որոշումները։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "ճակատագիր",
+    "translation": "kader",
+    "level": 6,
+    "exampleSentence": "Հերոսը պայքարեց իր ճակատագրի դեմ։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ճշմարտանմանություն",
+    "translation": "akla yatkınlık",
+    "level": 6,
+    "exampleSentence": "Պատմվածքի ճշմարտանմանությունը հմայում է ընթերցողին։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "նրբազգաց",
+    "translation": "ince ruhlu",
+    "level": 6,
+    "exampleSentence": "Բանաստեղծը նրբազգաց հոգի ուներ։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "ոգեշնչել",
+    "translation": "ilham vermek",
+    "level": 6,
+    "exampleSentence": "Նրա խոսքերը ոգեշնչեցին մի ողջ սերունդ։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "սասանել",
+    "translation": "sarsmak",
+    "level": 6,
+    "exampleSentence": "Իրադարձությունը սասանեց ողջ համակարգը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "սերմանել",
+    "translation": "aşılamak",
+    "level": 6,
+    "exampleSentence": "Ուսուցիչը սերմանեց աշակերտների մեջ գիտելիքի սերը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "սնուցել",
+    "translation": "beslemek",
+    "level": 6,
+    "exampleSentence": "Ընթերցանությունը սնուցում է երևակայությունը։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "սրամիտ",
+    "translation": "nükteli",
+    "level": 6,
+    "exampleSentence": "Նրա սրամիտ դիտողությունները զվարճացնում էին հյուրերին։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "վեհանձնություն",
+    "translation": "asalet",
+    "level": 6,
+    "exampleSentence": "Նրա վեհանձնությունը դրսևորվեց ամենադժվար պահին։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "վեհաշուք",
+    "translation": "görkemli",
+    "level": 6,
+    "exampleSentence": "Տաճարը վեհաշուք տեսք ուներ մայրամուտին։",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "վեհացնել",
+    "translation": "yüceltmek",
+    "level": 6,
+    "exampleSentence": "Արվեստը կարող է վեհացնել մարդկային հոգին։",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "վեհություն",
+    "translation": "yücelik",
+    "level": 6,
+    "exampleSentence": "Լեռների վեհությունն անկարող է նկարագրել։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "վերածնունդ",
+    "translation": "yeniden doğuş",
+    "level": 6,
+    "exampleSentence": "Ազգային մշակույթը նոր վերածնունդ ապրեց։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "վերապրում",
+    "translation": "deneyim",
+    "level": 6,
+    "exampleSentence": "Պատերազմի վերապրումը հետք թողեց նրա ստեղծագործության վրա։",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "վճռականություն",
+    "translation": "kararlılık",
+    "level": 6,
+    "exampleSentence": "Նրա վճռականությունը ոգեշնչեց ողջ թիմին։",
+    "partOfSpeech": "noun"
+  }
+]

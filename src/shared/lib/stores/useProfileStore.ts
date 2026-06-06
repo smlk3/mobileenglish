@@ -1,3 +1,4 @@
+import type { Session } from '@supabase/supabase-js';
 import { create } from 'zustand';
 import type { ThemeMode } from '../theme';
 
@@ -18,6 +19,10 @@ interface ProfileState {
     // Onboarding
     onboardingCompleted: boolean;
     setOnboardingCompleted: (v: boolean) => void;
+
+    // Supabase auth (null = guest mode)
+    supabaseSession: Session | null;
+    setSupabaseSession: (session: Session | null) => void;
 
     // Daily goal
     dailyGoal: number;
@@ -55,6 +60,9 @@ export const useProfileStore = create<ProfileState>((set) => ({
 
     onboardingCompleted: false,
     setOnboardingCompleted: (v) => set({ onboardingCompleted: v }),
+
+    supabaseSession: null,
+    setSupabaseSession: (session) => set({ supabaseSession: session }),
 
     dailyGoal: 20,
     setDailyGoal: (n) => set({ dailyGoal: n }),

@@ -4,6 +4,457 @@ All notable changes to MobileEnglish are documented here.
 
 ---
 
+## [Unreleased] — 2026-06-07
+
+### feat: Google authentication, cross-device sync (Supabase) & text-to-speech
+
+> **Summary:** Add Supabase-backed Google sign-in (guest mode preserved) and
+> WatermelonDB ↔ Supabase synchronization via Postgres RPC, so a signed-in user's
+> decks / cards / study sessions sync across devices. Add an on-device text-to-speech
+> "speak" button across the study screens. Remove stray tracked files from the repo.
+
+> **Breaking changes:** Database schema v4 → v5 (adds `user_settings.supabase_user_id`);
+> migration included.
+
+---
+
+#### Part A: Text-to-Speech (SpeakButton)
+
+**New component (`src/shared/ui/SpeakButton.tsx`):**
+- Pronunciation button wrapping `expo-speech` (device TTS)
+- Auto-hides when the target language has no voice on the device
+  (`Speech.getAvailableVoicesAsync()` checked once, cached at module level)
+- Tap to speak / tap again to stop; animated pulse while speaking (reanimated)
+- Uses `toBcp47()` from languageConfig to map internal codes → locale (e.g. `de` → `de-DE`)
+
+**Integration:**
+- `app/study.tsx` — overlay button on the flashcard, placed **outside** the
+  GestureDetector so it never triggers flip/swipe; speaks the word on the front and
+  the example sentence on the back
+- `app/deck-detail.tsx` — speak button in each card's action column
+- `app/create-deck.tsx` — speak button on each generated / looked-up word
+- `src/shared/ui/index.ts` — export SpeakButton
+
+---
+
+#### Part B: Supabase Google Authentication (guest mode preserved)
+
+**Client (`src/shared/api/supabase/client.ts`):**
+- `createClient` using `EXPO_PUBLIC_SUPABASE_URL` / `EXPO_PUBLIC_SUPABASE_ANON_KEY`
+- Storage adapter: SecureStore on native, AsyncStorage on web
+- **Chunked SecureStore adapter** — splits values larger than ~2 KB across multiple
+  keys so large Google session tokens persist (SecureStore caps each value at ~2048 bytes);
+  fixes "session not kept after restart"
+
+**Auth service (`src/shared/api/supabase/AuthService.ts`):**
+- `signInWithGoogle()` — web OAuth via `signInWithOAuth` + `expo-web-browser`
+  `openAuthSessionAsync`; PKCE flow exchanges the redirect `?code=` for a session
+  (`exchangeCodeForSession`), with an implicit-flow fallback
+- `signOut()`, `getSession()`, `onAuthStateChange()`
+
+**OAuth deep-link route (`app/auth/callback.tsx`):**
+- Handles the `lingualearn://auth/callback?code=...` redirect (expo-router intercepts
+  the deep link), exchanges the code, returns to Settings
+- Fixes the "Unmatched Route" error that appeared when the browser redirected back
+
+**State & persistence:**
+- `src/shared/lib/stores/useProfileStore.ts` — `supabaseSession` + `setSupabaseSession`
+  (null = guest)
+- `src/entities/UserProfile/model.ts` + schema **v5** + migration — `supabase_user_id`
+  (nullable)
+- `app/_layout.tsx` — restore session on startup; `onAuthStateChange` keeps the store
+  in sync and persists `supabase_user_id`
+
+**Settings UI (`app/(tabs)/settings.tsx`):**
+- New "Account" section: "Sign in with Google" when guest; email + sign-out when signed in
+- i18n keys added (en, tr; other locales fall back to en)
+
+---
+
+#### Part C: WatermelonDB ↔ Supabase Sync (Postgres RPC)
+
+**Backend (`supabase/sync.sql`) — run once in the Supabase SQL Editor:**
+- Tables `decks`, `cards`, `study_sessions` mirroring the local schema, plus
+  `user_id`, `_deleted` (soft delete) and `server_updated_at` (pull cursor)
+- `server_updated_at` trigger on insert/update
+- Row Level Security: `auth.uid() = user_id` on every table
+- `pull(last_pulled_at)` — returns `{ changes: { created, updated, deleted }, timestamp }`
+  per table (server-only columns stripped to match the local schema)
+- `push(changes)` — upsert (last-write-wins) + soft-delete
+- Table + function grants for the `authenticated` role (raw-SQL tables are **not**
+  auto-granted by Supabase — fixes "permission denied for table")
+
+**App (`src/shared/api/supabase/SyncService.ts`):**
+- `syncDatabase()` — WatermelonDB `synchronize()` calling `supabase.rpc('pull' / 'push')`;
+  `sendCreatedAsUpdated: true`; no-ops when not signed in or already syncing
+- Triggers: after sign-in (SIGNED_IN / INITIAL_SESSION) and on app foreground (AppState)
+- Manual "Sync now" button in Settings → Account (for testing / demo)
+
+**Not synced:** `user_settings`, `chat_messages` (per-device; different ids would duplicate).
+
+---
+
+#### Part D: Repo cleanup & dependencies
+
+**Removed stray tracked files:**
+- `git_diff.txt` (3054 lines), `git_staged_diff.txt`, `test1.txt`, `tsc_output.txt`
+- `.gitignore` — ignore `.idea/` and the above artifacts
+
+**Dependencies added:**
+- `@supabase/supabase-js`, `expo-secure-store`, `react-native-url-polyfill`,
+  `expo-auth-session`, `expo-web-browser`, `expo-speech`
+- Native modules → a new development build is required to run these.
+
+---
+
+#### Part E: Manual setup required (Supabase dashboard)
+
+- **Authentication → Providers → Google:** enabled with a **Web** OAuth client
+  (Google Cloud authorized redirect: `https://<project>.supabase.co/auth/v1/callback`)
+- **Authentication → URL Configuration → Redirect URLs:** add `lingualearn://auth/callback`
+- **SQL Editor:** run `supabase/sync.sql`
+
+---
+
+## [Unreleased] — 2026-06-06
+
+### refactor: Complete infrastructure overhaul — bridge-language strategy, SLM removal, category elimination
+
+> **Summary:** Remove on-device SLM (llama.rn) → cloud-only design. Eliminate category system from wordlists → simpler RAG. Expand language support via bridge-language strategy: 11 target languages → Turkish native + Turkish → English native (12 pairs total). Generate ~3,600 calibrated vocabulary entries across all new pairs.
+
+> **Breaking Changes:** 
+> - llama.rn dependency removed; cloud API key now mandatory for all AI features
+> - Category system removed from VectorStore API; all wordlists stripped of category metadata
+> - Language pair matrix reduced from 22 to 12 pairs (ar/ja removed per strategy pivot)
+> - SUPPORTED_NATIVE_LANGUAGES reduced from 6 to 2 (tr, en only)
+> - VectorStore.search() signature changed: `categories` parameter removed
+
+---
+
+#### Part A: Dependency & Native Module Cleanup
+
+**Removed llama.rn and dead code:**
+- Delete `src/shared/api/llm/LocalSLMClient.ts` — on-device GGUF inference client (128 lines)
+- Delete `src/shared/api/llm/ModelDownloadManager.ts` — GGUF catalog manager (346 lines)
+- Delete `app/model-manager.tsx` — "Local Models" screen for model download/management (198 lines)
+- Delete `src/processes/LearningSession.ts` — unused SLM-era orchestrator (never imported)
+- Delete `src/shared/api/rag/dictionary.json` — legacy static dictionary (no longer referenced after VectorStore refactor)
+- Update `package.json` — remove `llama.rn` dependency
+
+**Rationale:**
+- Bridge-language strategy decision: all personalization delegated to cloud LLM
+- On-device inference adds 120MB+ native footprint; removed to simplify builds
+- All AI features now require cloud key; fallback complexity no longer justified
+
+---
+
+#### Part B: Category System Elimination
+
+> **Decision Context:** User requested moving category filtering to cloud LLM for personalization. This decouples wordlist generation from learner context. Result: simpler RAG system, faster generation, no category attribute maintenance.
+
+**Updated VectorStore (`src/shared/api/rag/VectorStore.ts`):**
+- `DictionaryEntry` interface: removed `category: string` field
+  - Now 5 fields only: `word`, `translation`, `level`, `exampleSentence`, `partOfSpeech?`
+- Removed `getByCategory()` method (no longer needed)
+- Removed `getCategories()` method (no longer needed)
+- Updated `search()` signature
+  - Before: `search(level?, interests?, categories?, excludeWords?, limit?)`
+  - After: `search({ level?, interests?, excludeWords?, limit? })`
+- Removed category-based scoring in search algorithm
+  - Before: `score += 3` for category match
+  - After: Only interest matching and exact level bonus remain
+- `WORDLIST_MAP`: keys remain `"target-native"` format (no category subchannel)
+
+**Updated UI — removed category selector:**
+- `app/create-deck.tsx`
+  - Delete `CATEGORY_KEYS` constant (8 category definitions)
+  - Delete `selectedCategory` state
+  - Remove category chip selector UI (horizontal ScrollView block)
+  - Update `generateWords()` call to remove `categories` parameter
+  - Remove `category: selectedCategory` assignment in manual word entry
+  - Remove `import { cefrToLevel }` (unused after refactor)
+- `app/deck-detail.tsx`
+  - Remove unused `cefrToLevel` import
+  - Backward compatibility: fallback category to deck's category if present in old data
+
+**Updated i18n — removed category translations:**
+- `src/shared/i18n/locales/{en|tr|de|fr|es|ar}.ts`
+  - Delete keys: `createDeck.category`, `createDeck.categories.general`, `.business`, `.medical`, `.technology`, `.academic`, `.dailyLife`, `.travel`, `.sports`
+  - Total: 9 keys removed per language file (6 languages → 54 total deletions)
+
+**Updated database integration:**
+- `src/shared/lib/stores/useDatabaseService.ts` — `createStarterDeck()` function
+  - Remove `category: selectedCategory` assignment when creating cards from wordlist
+  - Category now assigned only from card data if present, else null
+
+---
+
+#### Part C: Language Support Expansion — Bridge-Language Strategy
+
+> **Rationale:** Original plan (full 22-pair matrix) caused context explosion and maintenance burden. Bridge-language strategy: assume users know either local language (Turkish) or lingua franca (English). Result: 12 focused pairs instead of 22.
+
+**Updated language configuration (`src/shared/lib/languageConfig.ts`):**
+
+**Target Languages (11 total):**
+1. English (en)
+2. German (de)
+3. French (fr)
+4. Italian (it) — NEW
+5. Spanish (es)
+6. Russian (ru) — NEW
+7. Ukrainian (uk) — NEW
+8. Polish (pl) — NEW
+9. Bulgarian (bg) — NEW
+10. Serbian (sr) — NEW
+11. Armenian (hy) — NEW
+
+**Native Languages (2 total):**
+- Turkish (tr) — REDUCED from 6
+- English (en) — REDUCED from 6
+  - Removed: ar, de, fr, es, ja (bridge-language rationale: not served by 12-pair matrix)
+
+**Level System Unification:**
+- All 11 target languages now use CEFR (A1–C2 mapped to internal 1–6)
+- Removed JLPT (Japanese removed), TORFL (Russian/Ukrainian/Bulgarian/Serbian use CEFR not TORFL)
+- Simplified `levelLabels` configuration: all target langs now map 1→A1, 2→A2, ..., 6→C2
+
+**BCP-47 Locale Expansion (`toBcp47()`):**
+- Added 6 new language mappings:
+  - `it: 'it-IT'` (Italian TTS)
+  - `ru: 'ru-RU'` (Russian TTS)
+  - `uk: 'uk-UA'` (Ukrainian TTS)
+  - `pl: 'pl-PL'` (Polish TTS)
+  - `bg: 'bg-BG'` (Bulgarian TTS)
+  - `sr: 'sr-RS'` (Serbian TTS)
+  - `hy: 'hy-AM'` (Armenian TTS)
+- Ensures expo-speech TTS support for all 12 pairs
+
+---
+
+#### Part D: VectorStore Wiring — 12-Pair Matrix
+
+**Updated VectorStore (`src/shared/api/rag/VectorStore.ts`):**
+
+**Import changes:**
+- Before: 6 imports (en/tr, de/tr, fr/tr, es/tr, ar/tr, ja/tr)
+- After: 12 imports
+  ```typescript
+  import enTr from '../../../../assets/wordlists/en/tr.json';
+  import deTr from '../../../../assets/wordlists/de/tr.json';
+  import frTr from '../../../../assets/wordlists/fr/tr.json';
+  import itTr from '../../../../assets/wordlists/it/tr.json';
+  import esTr from '../../../../assets/wordlists/es/tr.json';
+  import ruTr from '../../../../assets/wordlists/ru/tr.json';
+  import ukTr from '../../../../assets/wordlists/uk/tr.json';
+  import plTr from '../../../../assets/wordlists/pl/tr.json';
+  import bgTr from '../../../../assets/wordlists/bg/tr.json';
+  import srTr from '../../../../assets/wordlists/sr/tr.json';
+  import hyTr from '../../../../assets/wordlists/hy/tr.json';
+  import trEn from '../../../../assets/wordlists/tr/en.json';
+  ```
+
+**WORDLIST_MAP:**
+- Old: 6 keys (en-tr, de-tr, fr-tr, es-tr, ar-tr, ja-tr)
+- New: 12 keys (en-tr, de-tr, fr-tr, it-tr, es-tr, ru-tr, uk-tr, pl-tr, bg-tr, sr-tr, hy-tr, tr-en)
+
+---
+
+#### Part E: Wordlist Generation & Validation
+
+**New wordlist files (11 pairs created):**
+- `assets/wordlists/it/tr.json` — 300 words, 50/level (Italian → Turkish)
+- `assets/wordlists/ru/tr.json` — 300 words, 50/level (Russian → Turkish)
+- `assets/wordlists/uk/tr.json` — 300 words, 50/level (Ukrainian → Turkish)
+- `assets/wordlists/pl/tr.json` — 300 words, 50/level (Polish → Turkish)
+- `assets/wordlists/bg/tr.json` — 300 words, 50/level (Bulgarian → Turkish)
+- `assets/wordlists/sr/tr.json` — 300 words, 50/level (Serbian → Turkish)
+- `assets/wordlists/hy/tr.json` — 300 words, 50/level (Armenian → Turkish)
+- `assets/wordlists/tr/en.json` — 300 words, 50/level (Turkish → English)
+- `assets/wordlists/en/tr.json` — Updated (fixed 1 error, maintained ~1493 words)
+
+**Total vocabulary generated:** 3,600 entries (11 pairs × 300 base words, plus en/tr existing corpus)
+
+**Generation strategy (`scripts/generate-wordlist.ts`):**
+
+1. **Removed category system:**
+   - Delete `CATEGORIES` constant
+   - Updated `WordEntry` interface: removed `category` field
+     - Now: `{ word, translation, level, exampleSentence, partOfSpeech }`
+   - Removed category fallback logic and filtering
+
+2. **Per-language calibration (language standard used):**
+   - German (de) — Goethe/CEFR (A1–C2)
+   - French (fr) — DELF/DALF/CEFR (A1–C2)
+   - Italian (it) — CILS/CEFR (A1–C2)
+   - Spanish (es) — DELE/CEFR (A1–C2)
+   - Russian (ru) — TRFL/CEFR (A1–C2)
+   - Ukrainian (uk) — CEFR (A1–C2, no official scale; adapted)
+   - Polish (pl) — CEFR (A1–C2)
+   - Bulgarian (bg) — CEFR (A1–C2)
+   - Serbian (sr) — CEFR (A1–C2)
+   - Armenian (hy) — CEFR (A1–C2)
+   - Turkish (tr) — TÖMER / CEFR (A1–C2)
+
+3. **Batch generation (multi-agent parallel):**
+   - 11 language pairs × 6 levels = 66 batch API calls
+   - Each batch: ~50 words at specified level + language standard
+   - Used `run_in_background: true` with isolated agent contexts to avoid context explosion
+   - Estimated subagent token usage: ~470k
+
+4. **Example prompt structure:**
+   ```
+   Generate 50 <language> words at <level> (<standard>, e.g., A1-C2 CEFR).
+   Each word should:
+   - Be appropriate for the proficiency level
+   - Have a clear translation to Turkish
+   - Include a realistic example sentence
+   - Include part of speech (noun, verb, adjective, etc.)
+   
+   Return JSON: [{ "word": "...", "translation": "...", "level": 1-6, 
+                   "exampleSentence": "...", "partOfSpeech": "..." }]
+   ```
+
+**Validation framework (custom Node.js script):**
+
+Validated all 12 wordlists for:
+- JSON structure validity
+- Schema conformance (exactly 5 fields: word, translation, level, exampleSentence, partOfSpeech)
+- Exact counts (300 words per pair, 50 per level, no duplicates)
+- Script correctness:
+  - Cyrillic script for ru/uk/bg/sr (no Latin infiltration)
+  - Armenian script for hy (100% alphabetic purity)
+  - Turkish script for tr (Latin + Turkish-specific chars)
+  - Latin script for others
+- No PLACEHOLDER strings, no empty fields
+- No Unicode anomalies (zero-width spaces, invisible characters)
+
+**Result:** All 12 pairs production-ready, 0 critical errors in final output
+
+---
+
+#### Part F: Error Corrections During Generation
+
+**Error 1: en/tr.json — invalid partOfSpeech**
+- Issue: Word "three" had `partOfSpeech: "number"` (non-standard value)
+- Root cause: Agent-generated wordlist contained non-conforming POS tag
+- Fix: Changed "three" to `partOfSpeech: "noun"` (aligned with: one, two, four, five, etc.)
+- Validation: Custom script caught and flagged during post-generation check
+
+**Error 2: hy/tr.json — Cyrillic contamination**
+- Issue: Initial generation contained Cyrillic characters instead of pure Armenian
+- Root cause: Agent hallucination during batch generation
+- Fix: Agent's internal self-correction during generation + post-generation alphabet purity check
+- Result: Final file 100% Armenian script
+
+**Error 3: uk/tr.json — PLACEHOLDER and Russian word**
+- Issue: One entry had "PLACEHOLDER" for exampleSentence; one word was Russian (врач) not Ukrainian
+- Root cause: Agent partial generation during multi-agent parallel execution
+- Fix: Agent corrected during validation loop
+- Result: Final file clean
+
+**Error 4: bg/tr.json — zero-width spaces**
+- Issue: Two entries contained hidden/zero-width Unicode characters
+- Root cause: Agent text generation artifact
+- Fix: Character validation and correction
+- Result: Final file validated
+
+---
+
+#### Part G: Updated Generated Wordlist Index
+
+**Updated `assets/wordlists/index.json`:**
+- Format: `{ version: 1, pairs: [{ target, native, wordCount, levels }] }`
+- All 11 new pairs: 300 words each, levels [1, 2, 3, 4, 5, 6]
+- en/tr: 1493 words (existing large corpus maintained)
+
+Example entry:
+```json
+{ "target": "it", "native": "tr", "wordCount": 300, "levels": [1, 2, 3, 4, 5, 6] }
+```
+
+---
+
+#### Part H: Architecture & API Changes
+
+**HybridLLMManager (`src/shared/api/llm/HybridLLMManager.ts`):**
+- No structural changes (already cloud-only after SLM removal in previous session)
+- All methods accept `targetLanguage` parameter (existing support)
+- Prompts dynamically reference language names via `getLanguageName()`
+
+**Database integration (`src/shared/lib/stores/useDatabaseService.ts`):**
+- `createStarterDeck()` function: remove category assignment when creating starter deck from wordlist
+- Backward compatibility: existing decks with category metadata continue to work
+
+---
+
+#### Part I: Testing & Validation
+
+**TypeScript compilation:**
+- `npx tsc --noEmit` — 0 errors
+- All imports valid, no missing references
+- VectorStore API changes propagated to all callsites
+
+**Wordlist coverage:**
+- 12 pairs loaded in WORDLIST_MAP
+- `getVectorStore(target, native)` returns singleton for each pair
+- All pairs tested for: JSON validity, schema conformance, count accuracy, script correctness
+
+---
+
+#### Part J: Files Modified (Summary)
+
+| File | Type | Changes |
+|------|------|---------|
+| `package.json` | Dependency | Removed llama.rn |
+| `src/shared/lib/languageConfig.ts` | Config | Added 6 languages, reduced native to 2, unified CEFR |
+| `src/shared/api/rag/VectorStore.ts` | Logic | Removed category system, updated 12 imports, removed 2 methods |
+| `scripts/generate-wordlist.ts` | Tooling | Removed category system, per-language calibration prompts |
+| `src/shared/i18n/locales/{en\|tr\|de\|fr\|es\|ar}.ts` | i18n | Deleted 9 category translation keys per file |
+| `app/create-deck.tsx` | UI | Removed category chip selector, updated generateWords() call |
+| `app/deck-detail.tsx` | UI | Removed cefrToLevel import, added category fallback |
+| `src/shared/lib/stores/useDatabaseService.ts` | Logic | Updated createStarterDeck() category assignment |
+| `assets/wordlists/index.json` | Data | Regenerated with 12 pairs, real counts |
+| 11× new wordlist files | Data | Created it/tr, ru/tr, uk/tr, pl/tr, bg/tr, sr/tr, hy/tr, tr/en + en/tr fix |
+
+---
+
+#### Part K: Migration Guide (for other LLMs)
+
+**When continuing development:**
+
+1. **For personalized vocabulary:**
+   - User profile (profession, interests, level) extracted by cloud LLM
+   - Cloud LLM generates vocabulary beyond base wordlist as needed
+   - Generated words **not** stored in VectorStore (VectorStore = base only)
+   - Decoupling allows independent iteration on both systems
+
+2. **To add a new target language:**
+   - Add entry to `SUPPORTED_TARGET_LANGUAGES` in `languageConfig.ts`
+   - Generate 300-word wordlist: `npx ts-node scripts/generate-wordlist.ts --target XX --native tr --all-levels`
+   - Import and wire in `VectorStore.ts`
+   - Test: `getVectorStore('xx', 'tr')` should return non-empty dict
+
+3. **To add a new native language:**
+   - Add to `SUPPORTED_NATIVE_LANGUAGES` in `languageConfig.ts`
+   - Generate wordlists for all targets: `for target in en de fr...; do npx ts-node scripts/generate-wordlist.ts --target $target --native XX --all-levels; done`
+   - Wire all pairs in `VectorStore.ts`
+   - Update `BCP47_MAP` if TTS support needed
+
+4. **Category system (removed):**
+   - If categories needed in future, implement in cloud LLM layer (not wordlist layer)
+   - Wordlists should remain simple: word + translation + level + example + POS only
+
+---
+
+#### Part L: Known Limitations & Future Work
+
+- **Language pair asymmetry:** Only 12 pairs served (not all combinations possible). Supabase sync will handle cross-device sync; dynamic wordlist fetch from bucket planned (Faz 4 in SUPABASE_TODO.md, ertelendi).
+- **On-device TTS:** expo-speech covers 14 languages via device OS. Unsupported pairs will silently fail TTS.
+- **SLM removal:** Users cannot use app offline. Mitigation: cache cloud responses locally (future).
+- **Wordlist generation cost:** Each new pair = 6 API calls (1 per level), ~$0.03–$0.05 total (OpenAI pricing).
+
+---
+
 ## [Unreleased] — 2026-04-04 (4)
 
 ### fix: Uygulama açılışta yükleme ekranında kalıyor — sonsuz döngü

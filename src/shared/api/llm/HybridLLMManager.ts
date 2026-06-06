@@ -6,6 +6,7 @@
  */
 
 import { CloudLLMClient, type CloudProvider } from './CloudLLMClient';
+import { getLanguageName, getLevelLabel } from '../../lib/languageConfig';
 
 export type { CloudProvider };
 
@@ -43,18 +44,6 @@ export interface ProfileAnalysis {
     level: string;
     goals: string[];
 }
-
-import { getLanguageName, getLevelLabel } from '../../lib/languageConfig';
-
-const LANGUAGE_NAMES: Record<string, string> = {
-    tr: 'Turkish',
-    en: 'English',
-    de: 'German',
-    fr: 'French',
-    es: 'Spanish',
-    ar: 'Arabic',
-    ja: 'Japanese',
-};
 
 class HybridLLMManager {
     private static instance: HybridLLMManager;

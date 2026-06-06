@@ -1,0 +1,2102 @@
+[
+  {
+    "word": "батько",
+    "translation": "baba",
+    "level": 1,
+    "exampleSentence": "Мій батько вдома.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "білий",
+    "translation": "beyaz",
+    "level": 1,
+    "exampleSentence": "У мене білий кіт.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "брат",
+    "translation": "erkek kardeş",
+    "level": 1,
+    "exampleSentence": "Мій брат любить футбол.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "бути",
+    "translation": "olmak",
+    "level": 1,
+    "exampleSentence": "Я хочу бути лікарем.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "великий",
+    "translation": "büyük",
+    "level": 1,
+    "exampleSentence": "Це великий дім.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "ви",
+    "translation": "siz",
+    "level": 1,
+    "exampleSentence": "Ви говорите англійською?",
+    "partOfSpeech": "pronoun"
+  },
+  {
+    "word": "він",
+    "translation": "o (erkek)",
+    "level": 1,
+    "exampleSentence": "Він мій друг.",
+    "partOfSpeech": "pronoun"
+  },
+  {
+    "word": "вода",
+    "translation": "su",
+    "level": 1,
+    "exampleSentence": "Я п'ю воду.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "вона",
+    "translation": "o (kadın)",
+    "level": 1,
+    "exampleSentence": "Вона моя сестра.",
+    "partOfSpeech": "pronoun"
+  },
+  {
+    "word": "вчитель",
+    "translation": "öğretmen",
+    "level": 1,
+    "exampleSentence": "Наш вчитель дуже добрий.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "гарний",
+    "translation": "güzel",
+    "level": 1,
+    "exampleSentence": "Який гарний день!",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "говорити",
+    "translation": "konuşmak",
+    "level": 1,
+    "exampleSentence": "Я говорю українською.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "день",
+    "translation": "gün",
+    "level": 1,
+    "exampleSentence": "Сьогодні гарний день.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "дім",
+    "translation": "ev",
+    "level": 1,
+    "exampleSentence": "Це мій дім.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "добрий",
+    "translation": "iyi",
+    "level": 1,
+    "exampleSentence": "Добрий день!",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "друг",
+    "translation": "arkadaş",
+    "level": 1,
+    "exampleSentence": "Він мій найкращий друг.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "жінка",
+    "translation": "kadın",
+    "level": 1,
+    "exampleSentence": "Ця жінка вчителька.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "зелений",
+    "translation": "yeşil",
+    "level": 1,
+    "exampleSentence": "Трава зелена.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "їсти",
+    "translation": "yemek",
+    "level": 1,
+    "exampleSentence": "Я їм хліб.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "йти",
+    "translation": "gitmek, yürümek",
+    "level": 1,
+    "exampleSentence": "Я йду додому.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "кіт",
+    "translation": "kedi",
+    "level": 1,
+    "exampleSentence": "Мій кіт спить.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "книга",
+    "translation": "kitap",
+    "level": 1,
+    "exampleSentence": "Я читаю книгу.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "любити",
+    "translation": "sevmek",
+    "level": 1,
+    "exampleSentence": "Я люблю каву.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "малий",
+    "translation": "küçük",
+    "level": 1,
+    "exampleSentence": "Це малий хлопчик.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "мама",
+    "translation": "anne",
+    "level": 1,
+    "exampleSentence": "Моя мама готує вечерю.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "мати",
+    "translation": "sahip olmak",
+    "level": 1,
+    "exampleSentence": "Я маю собаку.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ми",
+    "translation": "biz",
+    "level": 1,
+    "exampleSentence": "Ми друзі.",
+    "partOfSpeech": "pronoun"
+  },
+  {
+    "word": "молоко",
+    "translation": "süt",
+    "level": 1,
+    "exampleSentence": "Діти п'ють молоко.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ні",
+    "translation": "hayır",
+    "level": 1,
+    "exampleSentence": "Ні, дякую.",
+    "partOfSpeech": "interjection"
+  },
+  {
+    "word": "новий",
+    "translation": "yeni",
+    "level": 1,
+    "exampleSentence": "У мене новий телефон.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "один",
+    "translation": "bir",
+    "level": 1,
+    "exampleSentence": "У мене один брат.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "пити",
+    "translation": "içmek",
+    "level": 1,
+    "exampleSentence": "Я п'ю чай.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "привіт",
+    "translation": "merhaba",
+    "level": 1,
+    "exampleSentence": "Привіт, як справи?",
+    "partOfSpeech": "interjection"
+  },
+  {
+    "word": "робити",
+    "translation": "yapmak",
+    "level": 1,
+    "exampleSentence": "Що ти робиш?",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "сестра",
+    "translation": "kız kardeş",
+    "level": 1,
+    "exampleSentence": "Моя сестра студентка.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "син",
+    "translation": "oğul",
+    "level": 1,
+    "exampleSentence": "Це мій син.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "собака",
+    "translation": "köpek",
+    "level": 1,
+    "exampleSentence": "Собака бігає в парку.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "спати",
+    "translation": "uyumak",
+    "level": 1,
+    "exampleSentence": "Дитина спить.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "так",
+    "translation": "evet",
+    "level": 1,
+    "exampleSentence": "Так, я згоден.",
+    "partOfSpeech": "interjection"
+  },
+  {
+    "word": "там",
+    "translation": "orada",
+    "level": 1,
+    "exampleSentence": "Книга там.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "тут",
+    "translation": "burada",
+    "level": 1,
+    "exampleSentence": "Я тут.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "хліб",
+    "translation": "ekmek",
+    "level": 1,
+    "exampleSentence": "Я купую хліб.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "хлопчик",
+    "translation": "erkek çocuk",
+    "level": 1,
+    "exampleSentence": "Хлопчик грає у дворі.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "хотіти",
+    "translation": "istemek",
+    "level": 1,
+    "exampleSentence": "Я хочу їсти.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "червоний",
+    "translation": "kırmızı",
+    "level": 1,
+    "exampleSentence": "У неї червона сукня.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "читати",
+    "translation": "okumak",
+    "level": 1,
+    "exampleSentence": "Я читаю газету.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "чорний",
+    "translation": "siyah",
+    "level": 1,
+    "exampleSentence": "У мене чорна машина.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "школа",
+    "translation": "okul",
+    "level": 1,
+    "exampleSentence": "Діти йдуть до школи.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "я",
+    "translation": "ben",
+    "level": 1,
+    "exampleSentence": "Я люблю Україну.",
+    "partOfSpeech": "pronoun"
+  },
+  {
+    "word": "яблуко",
+    "translation": "elma",
+    "level": 1,
+    "exampleSentence": "Я їм яблуко.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "автобус",
+    "translation": "otobüs",
+    "level": 2,
+    "exampleSentence": "Я чекаю автобус на зупинці.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "аптека",
+    "translation": "eczane",
+    "level": 2,
+    "exampleSentence": "Аптека за рогом.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "близько",
+    "translation": "yakın",
+    "level": 2,
+    "exampleSentence": "Станція зовсім близько.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "вечеря",
+    "translation": "akşam yemeği",
+    "level": 2,
+    "exampleSentence": "Вечеря готова о сьомій.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "відкритий",
+    "translation": "açık",
+    "level": 2,
+    "exampleSentence": "Магазин відкритий до вечора.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "відпочивати",
+    "translation": "dinlenmek",
+    "level": 2,
+    "exampleSentence": "Влітку ми відпочиваємо на морі.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "вокзал",
+    "translation": "tren garı",
+    "level": 2,
+    "exampleSentence": "Зустрінемося на вокзалі.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "вулиця",
+    "translation": "sokak, cadde",
+    "level": 2,
+    "exampleSentence": "Ця вулиця дуже довга.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "вчора",
+    "translation": "dün",
+    "level": 2,
+    "exampleSentence": "Вчора я був на роботі.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "гаманець",
+    "translation": "cüzdan",
+    "level": 2,
+    "exampleSentence": "Я загубив свій гаманець.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "година",
+    "translation": "saat",
+    "level": 2,
+    "exampleSentence": "Зустріч триватиме годину.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "готель",
+    "translation": "otel",
+    "level": 2,
+    "exampleSentence": "Ми зупинилися в готелі.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "гроші",
+    "translation": "para",
+    "level": 2,
+    "exampleSentence": "У мене мало грошей.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "далеко",
+    "translation": "uzak",
+    "level": 2,
+    "exampleSentence": "Магазин далеко звідси.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "дешевий",
+    "translation": "ucuz",
+    "level": 2,
+    "exampleSentence": "Ці фрукти дуже дешеві.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "довго",
+    "translation": "uzun süre",
+    "level": 2,
+    "exampleSentence": "Я довго чекав на тебе.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "дорогий",
+    "translation": "pahalı",
+    "level": 2,
+    "exampleSentence": "Цей телефон дуже дорогий.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "завтра",
+    "translation": "yarın",
+    "level": 2,
+    "exampleSentence": "Завтра я їду до Києва.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "загублений",
+    "translation": "kayıp",
+    "level": 2,
+    "exampleSentence": "Мій ключ загублений.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "залишати",
+    "translation": "bırakmak",
+    "level": 2,
+    "exampleSentence": "Не залишай двері відчиненими.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "зупинка",
+    "translation": "durak",
+    "level": 2,
+    "exampleSentence": "Наступна зупинка — центр.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "карта",
+    "translation": "kart",
+    "level": 2,
+    "exampleSentence": "Я плачу банківською картою.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "квиток",
+    "translation": "bilet",
+    "level": 2,
+    "exampleSentence": "Скільки коштує квиток?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "кошти",
+    "translation": "maliyet, masraf",
+    "level": 2,
+    "exampleSentence": "Поїздка вимагає великих коштів.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "купувати",
+    "translation": "satın almak",
+    "level": 2,
+    "exampleSentence": "Я купую продукти в супермаркеті.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ліворуч",
+    "translation": "sola",
+    "level": 2,
+    "exampleSentence": "Поверніть ліворуч на перехресті.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "магазин",
+    "translation": "mağaza, dükkan",
+    "level": 2,
+    "exampleSentence": "Магазин відкривається о дев'ятій.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "мапа",
+    "translation": "harita",
+    "level": 2,
+    "exampleSentence": "Подивися на мапу міста.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "місто",
+    "translation": "şehir",
+    "level": 2,
+    "exampleSentence": "Київ — велике місто.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "наступний",
+    "translation": "sonraki",
+    "level": 2,
+    "exampleSentence": "Наступний автобус через десять хвилин.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "недорого",
+    "translation": "ucuza, hesaplı",
+    "level": 2,
+    "exampleSentence": "Тут можна поїсти недорого.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "обід",
+    "translation": "öğle yemeği",
+    "level": 2,
+    "exampleSentence": "Обід о першій годині.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "одяг",
+    "translation": "giysi, kıyafet",
+    "level": 2,
+    "exampleSentence": "Мені потрібен теплий одяг.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "платити",
+    "translation": "ödemek",
+    "level": 2,
+    "exampleSentence": "Я плачу карткою.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "погода",
+    "translation": "hava durumu",
+    "level": 2,
+    "exampleSentence": "Сьогодні гарна погода.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "поїзд",
+    "translation": "tren",
+    "level": 2,
+    "exampleSentence": "Поїзд відправляється о восьмій.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "потяг",
+    "translation": "tren",
+    "level": 2,
+    "exampleSentence": "Я запізнився на потяг.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "праворуч",
+    "translation": "sağa",
+    "level": 2,
+    "exampleSentence": "Аптека буде праворуч.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "продавати",
+    "translation": "satmak",
+    "level": 2,
+    "exampleSentence": "Вони продають свіжі овочі.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "рано",
+    "translation": "erken",
+    "level": 2,
+    "exampleSentence": "Я встаю рано вранці.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "рахунок",
+    "translation": "hesap (fatura)",
+    "level": 2,
+    "exampleSentence": "Принесіть, будь ласка, рахунок.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ресторан",
+    "translation": "restoran",
+    "level": 2,
+    "exampleSentence": "Ми вечеряли в ресторані.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ринок",
+    "translation": "pazar",
+    "level": 2,
+    "exampleSentence": "На ринку дешеві фрукти.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "розклад",
+    "translation": "program, çizelge",
+    "level": 2,
+    "exampleSentence": "Перевір розклад автобусів.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "сніданок",
+    "translation": "kahvaltı",
+    "level": 2,
+    "exampleSentence": "Сніданок входить у ціну.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "сьогодні",
+    "translation": "bugün",
+    "level": 2,
+    "exampleSentence": "Сьогодні я працюю вдома.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "тиждень",
+    "translation": "hafta",
+    "level": 2,
+    "exampleSentence": "Я буду тут цілий тиждень.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ціна",
+    "translation": "fiyat",
+    "level": 2,
+    "exampleSentence": "Яка ціна цього квитка?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "чекати",
+    "translation": "beklemek",
+    "level": 2,
+    "exampleSentence": "Я чекаю на тебе біля входу.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "шукати",
+    "translation": "aramak",
+    "level": 2,
+    "exampleSentence": "Я шукаю свій готель.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "багатий",
+    "translation": "zengin",
+    "level": 3,
+    "exampleSentence": "Він став багатим завдяки власному бізнесу.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "біль",
+    "translation": "ağrı, acı",
+    "level": 3,
+    "exampleSentence": "У мене сильний біль у спині.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "вважати",
+    "translation": "düşünmek, saymak",
+    "level": 3,
+    "exampleSentence": "Я вважаю, що ця ідея чудова.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "вирішувати",
+    "translation": "karar vermek, çözmek",
+    "level": 3,
+    "exampleSentence": "Ми разом вирішуємо цю проблему.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "відповідати",
+    "translation": "cevap vermek, sorumlu olmak",
+    "level": 3,
+    "exampleSentence": "Менеджер відповідає за весь відділ.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "відпустка",
+    "translation": "tatil, izin",
+    "level": 3,
+    "exampleSentence": "Цього літа я планую довгу відпустку.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "впевнений",
+    "translation": "emin, kendinden emin",
+    "level": 3,
+    "exampleSentence": "Я впевнений у своєму рішенні.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "втомлений",
+    "translation": "yorgun",
+    "level": 3,
+    "exampleSentence": "Після роботи я завжди втомлений.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "дзвонити",
+    "translation": "telefon etmek, aramak",
+    "level": 3,
+    "exampleSentence": "Я дзвоню тобі щовечора.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "досвід",
+    "translation": "deneyim, tecrübe",
+    "level": 3,
+    "exampleSentence": "Для цієї посади потрібен досвід роботи.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "думка",
+    "translation": "fikir, düşünce",
+    "level": 3,
+    "exampleSentence": "На мою думку, він має рацію.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "заробляти",
+    "translation": "kazanmak (para)",
+    "level": 3,
+    "exampleSentence": "Він добре заробляє на новій роботі.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "захворіти",
+    "translation": "hastalanmak",
+    "level": 3,
+    "exampleSentence": "Я захворів і залишився вдома.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "звичка",
+    "translation": "alışkanlık",
+    "level": 3,
+    "exampleSentence": "Читати перед сном — моя гарна звичка.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "здоров'я",
+    "translation": "sağlık",
+    "level": 3,
+    "exampleSentence": "Здоров'я важливіше за гроші.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "змінювати",
+    "translation": "değiştirmek",
+    "level": 3,
+    "exampleSentence": "Я хочу змінити свою професію.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "зустріч",
+    "translation": "toplantı, buluşma",
+    "level": 3,
+    "exampleSentence": "Зустріч із клієнтом перенесли на завтра.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "керівник",
+    "translation": "yönetici, lider",
+    "level": 3,
+    "exampleSentence": "Наш керівник дуже вимогливий.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "колега",
+    "translation": "meslektaş",
+    "level": 3,
+    "exampleSentence": "Мій колега допоміг мені з проєктом.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "корисний",
+    "translation": "faydalı",
+    "level": 3,
+    "exampleSentence": "Ця порада була дуже корисною.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "лікар",
+    "translation": "doktor",
+    "level": 3,
+    "exampleSentence": "Лікар порадив мені більше відпочивати.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "лікарня",
+    "translation": "hastane",
+    "level": 3,
+    "exampleSentence": "Його відвезли до лікарні вночі.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ліки",
+    "translation": "ilaç",
+    "level": 3,
+    "exampleSentence": "Приймайте ці ліки тричі на день.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "можливість",
+    "translation": "imkan, fırsat",
+    "level": 3,
+    "exampleSentence": "Це чудова можливість для кар'єри.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "мрія",
+    "translation": "hayal, rüya (umut)",
+    "level": 3,
+    "exampleSentence": "Подорожувати світом — моя мрія.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "настрій",
+    "translation": "ruh hali, keyif",
+    "level": 3,
+    "exampleSentence": "Сьогодні в мене чудовий настрій.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "обирати",
+    "translation": "seçmek",
+    "level": 3,
+    "exampleSentence": "Важко обирати між двома варіантами.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "обов'язок",
+    "translation": "görev, yükümlülük",
+    "level": 3,
+    "exampleSentence": "Кожен має свій обов'язок у команді.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "переживати",
+    "translation": "endişelenmek, yaşamak",
+    "level": 3,
+    "exampleSentence": "Не переживай, усе буде добре.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "погоджуватися",
+    "translation": "kabul etmek, hemfikir olmak",
+    "level": 3,
+    "exampleSentence": "Я погоджуюся з твоєю думкою.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "помилка",
+    "translation": "hata",
+    "level": 3,
+    "exampleSentence": "Усі роблять помилки час від часу.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "посада",
+    "translation": "pozisyon, görev",
+    "level": 3,
+    "exampleSentence": "Він обіймає високу посаду в компанії.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "почуття",
+    "translation": "duygu, his",
+    "level": 3,
+    "exampleSentence": "Важко описати мої почуття словами.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "пояснювати",
+    "translation": "açıklamak",
+    "level": 3,
+    "exampleSentence": "Учитель пояснює нове правило.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "причина",
+    "translation": "sebep, neden",
+    "level": 3,
+    "exampleSentence": "Яка причина твого запізнення?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "пропонувати",
+    "translation": "önermek, teklif etmek",
+    "level": 3,
+    "exampleSentence": "Я пропоную зустрітися в неділю.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "радити",
+    "translation": "tavsiye etmek",
+    "level": 3,
+    "exampleSentence": "Що ти радиш мені зробити?",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "результат",
+    "translation": "sonuç",
+    "level": 3,
+    "exampleSentence": "Ми задоволені результатом роботи.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "робота",
+    "translation": "iş, çalışma",
+    "level": 3,
+    "exampleSentence": "Я шукаю нову роботу.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "розмова",
+    "translation": "konuşma, sohbet",
+    "level": 3,
+    "exampleSentence": "У нас була довга розмова про майбутнє.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "розуміти",
+    "translation": "anlamak",
+    "level": 3,
+    "exampleSentence": "Я не розумію цього питання.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "сердитий",
+    "translation": "kızgın, öfkeli",
+    "level": 3,
+    "exampleSentence": "Чому ти такий сердитий сьогодні?",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "складний",
+    "translation": "zor, karmaşık",
+    "level": 3,
+    "exampleSentence": "Це досить складне завдання.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "співбесіда",
+    "translation": "iş görüşmesi, mülakat",
+    "level": 3,
+    "exampleSentence": "У мене завтра важлива співбесіда.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "стосунки",
+    "translation": "ilişkiler",
+    "level": 3,
+    "exampleSentence": "У них гарні стосунки з колегами.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "сумний",
+    "translation": "üzgün",
+    "level": 3,
+    "exampleSentence": "Після прощання вона була сумна.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "турбуватися",
+    "translation": "endişelenmek, ilgilenmek",
+    "level": 3,
+    "exampleSentence": "Батьки турбуються про дітей.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "успіх",
+    "translation": "başarı",
+    "level": 3,
+    "exampleSentence": "Я бажаю тобі успіху в новій справі.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "хвилюватися",
+    "translation": "heyecanlanmak, kaygılanmak",
+    "level": 3,
+    "exampleSentence": "Не хвилюйся перед іспитом.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "щасливий",
+    "translation": "mutlu",
+    "level": 3,
+    "exampleSentence": "Я почуваюся щасливим поруч із тобою.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "аналізувати",
+    "translation": "analiz etmek",
+    "level": 4,
+    "exampleSentence": "Експерти аналізують ринкові дані.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "бюджет",
+    "translation": "bütçe",
+    "level": 4,
+    "exampleSentence": "Уряд затвердив новий державний бюджет.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "вдосконалювати",
+    "translation": "geliştirmek, iyileştirmek",
+    "level": 4,
+    "exampleSentence": "Компанія постійно вдосконалює свої послуги.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "взаємодія",
+    "translation": "etkileşim, işbirliği",
+    "level": 4,
+    "exampleSentence": "Ефективна взаємодія між відділами підвищує продуктивність.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "взірець",
+    "translation": "örnek, model",
+    "level": 4,
+    "exampleSentence": "Його робота стала взірцем для колег.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "виробництво",
+    "translation": "üretim",
+    "level": 4,
+    "exampleSentence": "Виробництво автомобілів зросло вдвічі.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "вплив",
+    "translation": "etki, nüfuz",
+    "level": 4,
+    "exampleSentence": "Соціальні мережі мають великий вплив на молодь.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "впроваджувати",
+    "translation": "uygulamaya koymak, hayata geçirmek",
+    "level": 4,
+    "exampleSentence": "Уряд впроваджує нові реформи в економіці.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "впроваджувати реформи",
+    "translation": "reformları hayata geçirmek",
+    "level": 4,
+    "exampleSentence": "Складно впроваджувати реформи без підтримки суспільства.",
+    "partOfSpeech": "phrase"
+  },
+  {
+    "word": "галузь",
+    "translation": "sektör, alan",
+    "level": 4,
+    "exampleSentence": "Він працює в галузі інформаційних технологій.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "гіпотеза",
+    "translation": "hipotez, varsayım",
+    "level": 4,
+    "exampleSentence": "Дослідники перевірили свою гіпотезу експериментом.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "глобалізація",
+    "translation": "küreselleşme",
+    "level": 4,
+    "exampleSentence": "Глобалізація впливає на світову економіку.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "дослідження",
+    "translation": "araştırma, inceleme",
+    "level": 4,
+    "exampleSentence": "Наукове дослідження підтвердило ці результати.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "доступний",
+    "translation": "erişilebilir, uygun fiyatlı",
+    "level": 4,
+    "exampleSentence": "Якісна освіта має бути доступною для всіх.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "досягнення",
+    "translation": "başarı, kazanım",
+    "level": 4,
+    "exampleSentence": "Це досягнення стало можливим завдяки команді.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "економіка",
+    "translation": "ekonomi",
+    "level": 4,
+    "exampleSentence": "Економіка країни швидко зростає.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ефективний",
+    "translation": "verimli, etkili",
+    "level": 4,
+    "exampleSentence": "Нам потрібен більш ефективний підхід до роботи.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "забезпечувати",
+    "translation": "sağlamak, temin etmek",
+    "level": 4,
+    "exampleSentence": "Держава забезпечує громадян базовими послугами.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "залежати",
+    "translation": "bağlı olmak",
+    "level": 4,
+    "exampleSentence": "Успіх проєкту залежить від багатьох чинників.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "запит",
+    "translation": "talep, sorgu",
+    "level": 4,
+    "exampleSentence": "Ми отримали запит від потенційного клієнта.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "запроваджувати",
+    "translation": "tanıtmak, yürürlüğe koymak",
+    "level": 4,
+    "exampleSentence": "Школа запроваджує нову систему оцінювання.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "значний",
+    "translation": "önemli, kayda değer",
+    "level": 4,
+    "exampleSentence": "Реформа призвела до значних змін.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "зростання",
+    "translation": "büyüme, artış",
+    "level": 4,
+    "exampleSentence": "Аналітики прогнозують зростання продажів.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "інвестиція",
+    "translation": "yatırım",
+    "level": 4,
+    "exampleSentence": "Іноземні інвестиції стимулюють розвиток ринку.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "конкуренція",
+    "translation": "rekabet",
+    "level": 4,
+    "exampleSentence": "На ринку зросла конкуренція між компаніями.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "критерій",
+    "translation": "kriter, ölçüt",
+    "level": 4,
+    "exampleSentence": "Якість є головним критерієм відбору.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "медіа",
+    "translation": "medya",
+    "level": 4,
+    "exampleSentence": "Сучасні медіа формують громадську думку.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "механізм",
+    "translation": "mekanizma",
+    "level": 4,
+    "exampleSentence": "Учені вивчають механізм цього явища.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "наголошувати",
+    "translation": "vurgulamak, altını çizmek",
+    "level": 4,
+    "exampleSentence": "Доповідач наголошував на важливості освіти.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "наслідок",
+    "translation": "sonuç, netice",
+    "level": 4,
+    "exampleSentence": "Зміна клімату має серйозні наслідки.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "обговорювати",
+    "translation": "tartışmak, görüşmek",
+    "level": 4,
+    "exampleSentence": "Депутати обговорюють новий законопроєкт.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "обмеження",
+    "translation": "kısıtlama, sınırlama",
+    "level": 4,
+    "exampleSentence": "Уряд ввів обмеження на імпорт.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "перешкода",
+    "translation": "engel",
+    "level": 4,
+    "exampleSentence": "Бюрократія є серйозною перешкодою для бізнесу.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "перспектива",
+    "translation": "perspektif, gelecek vaadi",
+    "level": 4,
+    "exampleSentence": "Ця галузь має чудові перспективи розвитку.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "підприємство",
+    "translation": "işletme, kuruluş",
+    "level": 4,
+    "exampleSentence": "Це підприємство експортує товари за кордон.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "політика",
+    "translation": "politika, siyaset",
+    "level": 4,
+    "exampleSentence": "Економічна політика держави змінилася.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "прибуток",
+    "translation": "kâr, gelir",
+    "level": 4,
+    "exampleSentence": "Цього року компанія отримала рекордний прибуток.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "проблема",
+    "translation": "sorun, problem",
+    "level": 4,
+    "exampleSentence": "Ми шукаємо комплексне вирішення проблеми.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "розвиток",
+    "translation": "gelişme, kalkınma",
+    "level": 4,
+    "exampleSentence": "Розвиток технологій змінює наше життя.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ситуація",
+    "translation": "durum",
+    "level": 4,
+    "exampleSentence": "Економічна ситуація залишається складною.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "співпраця",
+    "translation": "işbirliği",
+    "level": 4,
+    "exampleSentence": "Між країнами налагоджено тісну співпрацю.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "споживач",
+    "translation": "tüketici",
+    "level": 4,
+    "exampleSentence": "Закон захищає права споживачів.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "стратегія",
+    "translation": "strateji",
+    "level": 4,
+    "exampleSentence": "Компанія розробила нову маркетингову стратегію.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "сфера",
+    "translation": "alan, saha",
+    "level": 4,
+    "exampleSentence": "Вона спеціалізується у сфері фінансів.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "тенденція",
+    "translation": "eğilim, trend",
+    "level": 4,
+    "exampleSentence": "На ринку спостерігається тенденція до зростання.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "технологія",
+    "translation": "teknoloji",
+    "level": 4,
+    "exampleSentence": "Нові технології спрощують виробництво.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "тримати язик за зубами",
+    "translation": "dilini tutmak, sır saklamak",
+    "level": 4,
+    "exampleSentence": "У такій ситуації краще тримати язик за зубами.",
+    "partOfSpeech": "phrase"
+  },
+  {
+    "word": "управління",
+    "translation": "yönetim",
+    "level": 4,
+    "exampleSentence": "Ефективне управління підвищує прибутковість.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "чинник",
+    "translation": "faktör, etmen",
+    "level": 4,
+    "exampleSentence": "Ціна є вирішальним чинником для покупців.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "явище",
+    "translation": "olgu, fenomen",
+    "level": 4,
+    "exampleSentence": "Глобалізація — складне суспільне явище.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "амбівалентний",
+    "translation": "ikircikli, çelişik",
+    "level": 5,
+    "exampleSentence": "Її ставлення до цього питання було амбівалентним.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "арґумент",
+    "translation": "argüman, kanıt",
+    "level": 5,
+    "exampleSentence": "Він навів переконливий арґумент на захист своєї позиції.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "відповідно",
+    "translation": "buna göre, uygun şekilde",
+    "level": 5,
+    "exampleSentence": "Бюджет скоротили, відповідно зменшили й видатки.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "відтак",
+    "translation": "böylece, dolayısıyla",
+    "level": 5,
+    "exampleSentence": "Дані виявилися неповними, відтак висновки потребують перевірки.",
+    "partOfSpeech": "conjunction"
+  },
+  {
+    "word": "відтінок",
+    "translation": "ton, nüans",
+    "level": 5,
+    "exampleSentence": "У його словах був ледь помітний відтінок іронії.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "впроваджуваний",
+    "translation": "uygulanmakta olan",
+    "level": 5,
+    "exampleSentence": "Впроваджуваний механізм вимагає ретельного контролю.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "всеохопний",
+    "translation": "kapsamlı, her şeyi kuşatan",
+    "level": 5,
+    "exampleSentence": "Реформа має бути всеохопною та послідовною.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "двозначний",
+    "translation": "iki anlamlı, muğlak",
+    "level": 5,
+    "exampleSentence": "Його відповідь була навмисно двозначною.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "доктрина",
+    "translation": "doktrin, öğreti",
+    "level": 5,
+    "exampleSentence": "Ця економічна доктрина зазнала гострої критики.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "достеменно",
+    "translation": "kesin olarak, tam olarak",
+    "level": 5,
+    "exampleSentence": "Достеменно невідомо, коли стався цей злам.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "емпіричний",
+    "translation": "ampirik, deneysel",
+    "level": 5,
+    "exampleSentence": "Висновки ґрунтуються на емпіричних даних.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "запорука",
+    "translation": "teminat, güvence",
+    "level": 5,
+    "exampleSentence": "Наполеглива праця — запорука успіху.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "засадничий",
+    "translation": "temel, esasa ilişkin",
+    "level": 5,
+    "exampleSentence": "Це засадничий принцип демократичного устрою.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "засвідчувати",
+    "translation": "tasdik etmek, kanıtlamak",
+    "level": 5,
+    "exampleSentence": "Документ засвідчує право власності.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "зважати",
+    "translation": "dikkate almak, göz önünde bulundurmak",
+    "level": 5,
+    "exampleSentence": "Слід зважати на думку всіх учасників.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "зокрема",
+    "translation": "özellikle, bilhassa",
+    "level": 5,
+    "exampleSentence": "Багато країн, зокрема Україна, підтримали ініціативу.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "зумовлювати",
+    "translation": "neden olmak, koşullamak",
+    "level": 5,
+    "exampleSentence": "Низка чинників зумовлює таку поведінку ринку.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "інтерпретувати",
+    "translation": "yorumlamak",
+    "level": 5,
+    "exampleSentence": "Результати можна інтерпретувати по-різному.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "концептуальний",
+    "translation": "kavramsal",
+    "level": 5,
+    "exampleSentence": "Автор пропонує новий концептуальний підхід.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "критерійний",
+    "translation": "ölçüte dayalı",
+    "level": 5,
+    "exampleSentence": "Оцінювання здійснюється за критерійним принципом.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "методологія",
+    "translation": "metodoloji, yöntembilim",
+    "level": 5,
+    "exampleSentence": "Дослідження вирізняється чіткою методологією.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "натомість",
+    "translation": "bunun yerine, oysa",
+    "level": 5,
+    "exampleSentence": "Він не сперечався, натомість запропонував компроміс.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "невпинний",
+    "translation": "durmaksızın süren, bitmek bilmeyen",
+    "level": 5,
+    "exampleSentence": "Невпинний розвиток науки вражає сучасників.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "неупереджений",
+    "translation": "tarafsız, önyargısız",
+    "level": 5,
+    "exampleSentence": "Журналіст має залишатися неупередженим.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "нюанс",
+    "translation": "nüans, ince ayrıntı",
+    "level": 5,
+    "exampleSentence": "Перекладач має враховувати кожен мовний нюанс.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "обґрунтований",
+    "translation": "gerekçeli, temellendirilmiş",
+    "level": 5,
+    "exampleSentence": "Його критика була цілком обґрунтованою.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "обґрунтовувати",
+    "translation": "gerekçelendirmek, temellendirmek",
+    "level": 5,
+    "exampleSentence": "Автор ретельно обґрунтовує кожен свій висновок.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "опосередкований",
+    "translation": "dolaylı",
+    "level": 5,
+    "exampleSentence": "Між цими подіями існує лише опосередкований зв'язок.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "парадигма",
+    "translation": "paradigma",
+    "level": 5,
+    "exampleSentence": "Це відкриття змінило наукову парадигму.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "передумова",
+    "translation": "önkoşul, ön şart",
+    "level": 5,
+    "exampleSentence": "Стабільність є передумовою економічного зростання.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "переконливий",
+    "translation": "ikna edici",
+    "level": 5,
+    "exampleSentence": "Доповідь була логічною та переконливою.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "позаяк",
+    "translation": "mademki, çünkü",
+    "level": 5,
+    "exampleSentence": "Позаяк час обмежений, перейдімо до суті.",
+    "partOfSpeech": "conjunction"
+  },
+  {
+    "word": "позиціонувати",
+    "translation": "konumlandırmak",
+    "level": 5,
+    "exampleSentence": "Бренд позиціонує себе як преміальний.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "поступово",
+    "translation": "kademeli olarak, yavaş yavaş",
+    "level": 5,
+    "exampleSentence": "Ситуація поступово стабілізується.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "посутній",
+    "translation": "esaslı, özlü",
+    "level": 5,
+    "exampleSentence": "Він зробив кілька посутніх зауважень до тексту.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "припущення",
+    "translation": "varsayım, tahmin",
+    "level": 5,
+    "exampleSentence": "Це лише припущення, яке потребує доказів.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "проте",
+    "translation": "ancak, fakat",
+    "level": 5,
+    "exampleSentence": "Завдання складне, проте цілком здійсненне.",
+    "partOfSpeech": "conjunction"
+  },
+  {
+    "word": "ретельний",
+    "translation": "titiz, özenli",
+    "level": 5,
+    "exampleSentence": "Проєкт вимагає ретельного аналізу деталей.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "своєрідний",
+    "translation": "kendine özgü, özgün",
+    "level": 5,
+    "exampleSentence": "Автор має своєрідний стиль письма.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "складовий",
+    "translation": "bileşen olan, kurucu",
+    "level": 5,
+    "exampleSentence": "Довіра є складовою частиною будь-якого партнерства.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "спонукати",
+    "translation": "teşvik etmek, sevk etmek",
+    "level": 5,
+    "exampleSentence": "Криза спонукала уряд до рішучих дій.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "сприяти",
+    "translation": "katkıda bulunmak, kolaylaştırmak",
+    "level": 5,
+    "exampleSentence": "Нові закони сприяють розвитку малого бізнесу.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "суперечливий",
+    "translation": "çelişkili, tartışmalı",
+    "level": 5,
+    "exampleSentence": "Це рішення викликало суперечливі оцінки.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "сутність",
+    "translation": "öz, esas",
+    "level": 5,
+    "exampleSentence": "Важливо зрозуміти саму сутність проблеми.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "узагальнювати",
+    "translation": "genellemek, özetlemek",
+    "level": 5,
+    "exampleSentence": "Не варто узагальнювати на основі поодиноких випадків.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "узгоджувати",
+    "translation": "uzlaştırmak, mutabık kalmak",
+    "level": 5,
+    "exampleSentence": "Сторони мають узгодити остаточні умови угоди.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "усебічний",
+    "translation": "her yönlü, kapsamlı",
+    "level": 5,
+    "exampleSentence": "Питання потребує усебічного розгляду.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "характерний",
+    "translation": "karakteristik, tipik",
+    "level": 5,
+    "exampleSentence": "Така поведінка характерна для цього періоду.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "царина",
+    "translation": "alan, saha (mecazi)",
+    "level": 5,
+    "exampleSentence": "Він зробив вагомий внесок у цю наукову царину.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "чинність",
+    "translation": "yürürlük, geçerlilik",
+    "level": 5,
+    "exampleSentence": "Закон набуває чинності з наступного місяця.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "безперечний",
+    "translation": "tartışmasız, su götürmez",
+    "level": 6,
+    "exampleSentence": "Його талант є безперечним для всіх критиків.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "благоговіння",
+    "translation": "huşu, derin saygı",
+    "level": 6,
+    "exampleSentence": "Перед величчю собору відвідувачів охоплювало благоговіння.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "буцімто",
+    "translation": "güya, sözde",
+    "level": 6,
+    "exampleSentence": "Він буцімто не чув мого запитання.",
+    "partOfSpeech": "conjunction"
+  },
+  {
+    "word": "виборний",
+    "translation": "seçkin, seçmeli (nadiren)",
+    "level": 6,
+    "exampleSentence": "До ради входили лише виборні представники громади.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "вишуканий",
+    "translation": "zarif, seçkin, rafine",
+    "level": 6,
+    "exampleSentence": "Його манери вирізнялися вишуканою стриманістю.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "віддзеркалювати",
+    "translation": "yansıtmak",
+    "level": 6,
+    "exampleSentence": "Поезія віддзеркалює дух своєї епохи.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "далекоглядний",
+    "translation": "ileri görüşlü",
+    "level": 6,
+    "exampleSentence": "Це було далекоглядне і виважене рішення.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "достоту",
+    "translation": "tıpatıp, tam olarak",
+    "level": 6,
+    "exampleSentence": "Він достоту відтворив події тієї ночі.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "доцільність",
+    "translation": "uygunluk, yerindelik",
+    "level": 6,
+    "exampleSentence": "Комісія поставила під сумнів доцільність витрат.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "загартований",
+    "translation": "çelikleşmiş, pişmiş (mecazi)",
+    "level": 6,
+    "exampleSentence": "Це загартований випробуваннями характер.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "запаморочливий",
+    "translation": "baş döndürücü",
+    "level": 6,
+    "exampleSentence": "Кар'єра злетіла із запаморочливою швидкістю.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "звитяга",
+    "translation": "kahramanlık, yiğitlik",
+    "level": 6,
+    "exampleSentence": "Народ зберігає пам'ять про звитягу своїх героїв.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "зненацька",
+    "translation": "aniden, beklenmedik şekilde",
+    "level": 6,
+    "exampleSentence": "Гроза налетіла зненацька, заставши нас зненацька.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "знівельований",
+    "translation": "ortadan kaldırılmış, hiçe indirgenmiş",
+    "level": 6,
+    "exampleSentence": "Усі переваги були знівельовані недбалим виконанням.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "зосібна",
+    "translation": "özellikle, bilhassa (edebî)",
+    "level": 6,
+    "exampleSentence": "Митці, зосібна поети, гостро відчувають час.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "імпліцитний",
+    "translation": "örtük, zımni",
+    "level": 6,
+    "exampleSentence": "У тексті присутній імпліцитний заклик до дії.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "квінтесенція",
+    "translation": "öz, en saf hali",
+    "level": 6,
+    "exampleSentence": "Цей роман — квінтесенція всієї його творчості.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "лжесвідчення",
+    "translation": "yalancı şahitlik",
+    "level": 6,
+    "exampleSentence": "За лжесвідчення в суді передбачено покарання.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "майоріти",
+    "translation": "dalgalanmak (bayrak), uzakta belli belirsiz görünmek",
+    "level": 6,
+    "exampleSentence": "Над фортецею майорів синьо-жовтий прапор.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "марнославство",
+    "translation": "kibir, boş gurur",
+    "level": 6,
+    "exampleSentence": "Його вчинками керувало приховане марнославство.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "меланхолія",
+    "translation": "melankoli, hüzün",
+    "level": 6,
+    "exampleSentence": "Осінні краєвиди навіювали тиху меланхолію.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "наснага",
+    "translation": "ilham, içsel güç, şevk",
+    "level": 6,
+    "exampleSentence": "Зустріч із майстром додала йому творчої наснаги.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "нашіптувати",
+    "translation": "fısıldamak, telkin etmek",
+    "level": 6,
+    "exampleSentence": "Совість нашіптувала їй прийняти інше рішення.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "незглибимий",
+    "translation": "dipsiz, anlaşılmaz derin",
+    "level": 6,
+    "exampleSentence": "У її очах ховалася незглибима печаль.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "обопільний",
+    "translation": "karşılıklı, iki taraflı",
+    "level": 6,
+    "exampleSentence": "Угоду укладено на обопільно вигідних умовах.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "одвічний",
+    "translation": "ezeli, çok eski",
+    "level": 6,
+    "exampleSentence": "Це одвічне питання про сенс людського буття.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "осоружний",
+    "translation": "iğrenç, nefret uyandıran",
+    "level": 6,
+    "exampleSentence": "Будь-яка фальш була йому осоружною.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "осягати",
+    "translation": "kavramak, idrak etmek",
+    "level": 6,
+    "exampleSentence": "Людський розум не здатен осягнути безмежжя Всесвіту.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "перебіг",
+    "translation": "seyir, gidişat",
+    "level": 6,
+    "exampleSentence": "Історик ретельно описав перебіг тих подій.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "позірний",
+    "translation": "görünüşte olan, sözde",
+    "level": 6,
+    "exampleSentence": "За позірним спокоєм ховалося велике напруження.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "поступ",
+    "translation": "ilerleme, terakki",
+    "level": 6,
+    "exampleSentence": "Науковий поступ годі спинити.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "промовистий",
+    "translation": "anlamlı, çok şey anlatan",
+    "level": 6,
+    "exampleSentence": "Її мовчання було надзвичайно промовистим.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "пророчий",
+    "translation": "kehanet niteliğinde",
+    "level": 6,
+    "exampleSentence": "Слова поета виявилися пророчими.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "ремствувати",
+    "translation": "yakınmak, sızlanmak",
+    "level": 6,
+    "exampleSentence": "Він мовчки терпів, не ремствуючи на долю.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "розмаїття",
+    "translation": "çeşitlilik, zenginlik",
+    "level": 6,
+    "exampleSentence": "Виставка вражає розмаїттям стилів і форм.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "самобутній",
+    "translation": "özgün, kendine has",
+    "level": 6,
+    "exampleSentence": "Українська культура має самобутній характер.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "святобливий",
+    "translation": "saygılı, takva sahibi",
+    "level": 6,
+    "exampleSentence": "Вона з святобливою повагою ставилася до традицій.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "скрушний",
+    "translation": "kederli, üzüntü dolu",
+    "level": 6,
+    "exampleSentence": "Він зітхнув і скрушно похитав головою.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "споконвічний",
+    "translation": "kadim, öteden beri var olan",
+    "level": 6,
+    "exampleSentence": "Це споконвічна земля наших предків.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "стійкість",
+    "translation": "dayanıklılık, metanet",
+    "level": 6,
+    "exampleSentence": "Народ виявив дивовижну стійкість у скруті.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "суголосний",
+    "translation": "uyumlu, hemâhenk",
+    "level": 6,
+    "exampleSentence": "Його погляди суголосні духові часу.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "сум'яття",
+    "translation": "kargaşa, zihin karışıklığı",
+    "level": 6,
+    "exampleSentence": "Несподівана звістка викликала в неї сум'яття.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "трепетний",
+    "translation": "titrek, hassas, ürperten",
+    "level": 6,
+    "exampleSentence": "Вона зберігала трепетну любов до рідного краю.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "умоглядний",
+    "translation": "kuramsal, soyut, spekülatif",
+    "level": 6,
+    "exampleSentence": "Це радше умоглядна побудова, ніж практичне рішення.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "уособлювати",
+    "translation": "simgelemek, kişileştirmek",
+    "level": 6,
+    "exampleSentence": "Цей герой уособлює мужність цілого народу.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "химерний",
+    "translation": "tuhaf, garip, kaprisli",
+    "level": 6,
+    "exampleSentence": "Туман малював химерні візерунки над річкою.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "шанобливий",
+    "translation": "saygılı, hürmetkâr",
+    "level": 6,
+    "exampleSentence": "Він звертався до вчителя у шанобливому тоні.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "щемливий",
+    "translation": "yürek burkan, dokunaklı",
+    "level": 6,
+    "exampleSentence": "Пісня збудила щемливі спогади дитинства.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "являти собою",
+    "translation": "teşkil etmek, ... olmak",
+    "level": 6,
+    "exampleSentence": "Ця праця являє собою взірець наукової сумлінності.",
+    "partOfSpeech": "phrase"
+  },
+  {
+    "word": "ятрити",
+    "translation": "deşmek, (yarayı) kanatmak",
+    "level": 6,
+    "exampleSentence": "Не варто ятрити старі рани докорами.",
+    "partOfSpeech": "verb"
+  }
+]

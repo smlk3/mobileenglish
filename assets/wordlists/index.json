@@ -2,16 +2,30 @@
     "version": 1,
     "pairs": [
         {
-            "target": "ar",
+            "target": "bg",
             "native": "tr",
-            "wordCount": 0,
-            "levels": []
+            "wordCount": 300,
+            "levels": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ]
         },
         {
             "target": "de",
             "native": "tr",
-            "wordCount": 0,
-            "levels": []
+            "wordCount": 300,
+            "levels": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ]
         },
         {
             "target": "en",
@@ -29,20 +43,119 @@
         {
             "target": "es",
             "native": "tr",
-            "wordCount": 0,
-            "levels": []
+            "wordCount": 300,
+            "levels": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ]
         },
         {
             "target": "fr",
             "native": "tr",
-            "wordCount": 0,
-            "levels": []
+            "wordCount": 300,
+            "levels": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ]
         },
         {
-            "target": "ja",
+            "target": "hy",
             "native": "tr",
-            "wordCount": 0,
-            "levels": []
+            "wordCount": 300,
+            "levels": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ]
+        },
+        {
+            "target": "it",
+            "native": "tr",
+            "wordCount": 300,
+            "levels": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ]
+        },
+        {
+            "target": "pl",
+            "native": "tr",
+            "wordCount": 300,
+            "levels": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ]
+        },
+        {
+            "target": "ru",
+            "native": "tr",
+            "wordCount": 300,
+            "levels": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ]
+        },
+        {
+            "target": "sr",
+            "native": "tr",
+            "wordCount": 300,
+            "levels": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ]
+        },
+        {
+            "target": "tr",
+            "native": "en",
+            "wordCount": 300,
+            "levels": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ]
+        },
+        {
+            "target": "uk",
+            "native": "tr",
+            "wordCount": 300,
+            "levels": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ]
         }
     ]
 }

@@ -1,0 +1,2102 @@
+[
+  {
+    "word": "abla",
+    "translation": "older sister",
+    "level": 1,
+    "exampleSentence": "Benim bir ablam var.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ad",
+    "translation": "name",
+    "level": 1,
+    "exampleSentence": "Senin adın ne?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "anne",
+    "translation": "mother",
+    "level": 1,
+    "exampleSentence": "Annem mutfakta yemek yapıyor.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "araba",
+    "translation": "car",
+    "level": 1,
+    "exampleSentence": "Babamın yeni bir arabası var.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "baba",
+    "translation": "father",
+    "level": 1,
+    "exampleSentence": "Babam her gün işe gidiyor.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "beyaz",
+    "translation": "white",
+    "level": 1,
+    "exampleSentence": "Beyaz bir gömlek giyiyorum.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "bir",
+    "translation": "one",
+    "level": 1,
+    "exampleSentence": "Bir elma yedim.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "büyük",
+    "translation": "big",
+    "level": 1,
+    "exampleSentence": "Bu çok büyük bir ev.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "çay",
+    "translation": "tea",
+    "level": 1,
+    "exampleSentence": "Sabahları çay içerim.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "çocuk",
+    "translation": "child",
+    "level": 1,
+    "exampleSentence": "Çocuk parkta oynuyor.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ekmek",
+    "translation": "bread",
+    "level": 1,
+    "exampleSentence": "Fırından taze ekmek aldım.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "el",
+    "translation": "hand",
+    "level": 1,
+    "exampleSentence": "Ellerini yıka.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ev",
+    "translation": "house",
+    "level": 1,
+    "exampleSentence": "Bizim evimiz çok güzel.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "evet",
+    "translation": "yes",
+    "level": 1,
+    "exampleSentence": "Evet, ben de geliyorum.",
+    "partOfSpeech": "interjection"
+  },
+  {
+    "word": "gece",
+    "translation": "night",
+    "level": 1,
+    "exampleSentence": "İyi geceler, yarın görüşürüz.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "gelmek",
+    "translation": "to come",
+    "level": 1,
+    "exampleSentence": "Yarın bize gelir misin?",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "gitmek",
+    "translation": "to go",
+    "level": 1,
+    "exampleSentence": "Okula yürüyerek gidiyorum.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "göz",
+    "translation": "eye",
+    "level": 1,
+    "exampleSentence": "Onun gözleri çok güzel.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "gün",
+    "translation": "day",
+    "level": 1,
+    "exampleSentence": "Bugün çok güzel bir gün.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "güzel",
+    "translation": "beautiful",
+    "level": 1,
+    "exampleSentence": "Çok güzel bir çiçek.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "hayır",
+    "translation": "no",
+    "level": 1,
+    "exampleSentence": "Hayır, teşekkür ederim.",
+    "partOfSpeech": "interjection"
+  },
+  {
+    "word": "iki",
+    "translation": "two",
+    "level": 1,
+    "exampleSentence": "İki kardeşim var.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "iyi",
+    "translation": "good",
+    "level": 1,
+    "exampleSentence": "Ben çok iyiyim, teşekkürler.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "kadın",
+    "translation": "woman",
+    "level": 1,
+    "exampleSentence": "O kadın benim öğretmenim.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "kapı",
+    "translation": "door",
+    "level": 1,
+    "exampleSentence": "Lütfen kapıyı kapat.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "kara",
+    "translation": "black",
+    "level": 1,
+    "exampleSentence": "Kara bir kedi gördüm.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "kedi",
+    "translation": "cat",
+    "level": 1,
+    "exampleSentence": "Bizim kedimiz çok tatlı.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "kırmızı",
+    "translation": "red",
+    "level": 1,
+    "exampleSentence": "Kırmızı bir araba aldım.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "kitap",
+    "translation": "book",
+    "level": 1,
+    "exampleSentence": "Bu kitabı çok seviyorum.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "köpek",
+    "translation": "dog",
+    "level": 1,
+    "exampleSentence": "Köpek bahçede koşuyor.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "küçük",
+    "translation": "small",
+    "level": 1,
+    "exampleSentence": "Çok küçük bir oda.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "merhaba",
+    "translation": "hello",
+    "level": 1,
+    "exampleSentence": "Merhaba, nasılsın?",
+    "partOfSpeech": "interjection"
+  },
+  {
+    "word": "okul",
+    "translation": "school",
+    "level": 1,
+    "exampleSentence": "Okul sabah sekizde başlıyor.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "olmak",
+    "translation": "to be",
+    "level": 1,
+    "exampleSentence": "Büyük olunca doktor olmak istiyorum.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "öğretmen",
+    "translation": "teacher",
+    "level": 1,
+    "exampleSentence": "Öğretmenimiz çok kibar.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "renk",
+    "translation": "color",
+    "level": 1,
+    "exampleSentence": "En sevdiğin renk ne?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "su",
+    "translation": "water",
+    "level": 1,
+    "exampleSentence": "Bir bardak su içtim.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "süt",
+    "translation": "milk",
+    "level": 1,
+    "exampleSentence": "Her sabah süt içerim.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "şu",
+    "translation": "that",
+    "level": 1,
+    "exampleSentence": "Şu kalem benim.",
+    "partOfSpeech": "pronoun"
+  },
+  {
+    "word": "teşekkür",
+    "translation": "thanks",
+    "level": 1,
+    "exampleSentence": "Yardımın için teşekkür ederim.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "üç",
+    "translation": "three",
+    "level": 1,
+    "exampleSentence": "Üç tane kalem aldım.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "üzüm",
+    "translation": "grape",
+    "level": 1,
+    "exampleSentence": "Üzüm çok tatlı.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "var",
+    "translation": "there is",
+    "level": 1,
+    "exampleSentence": "Masada bir bardak var.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "vermek",
+    "translation": "to give",
+    "level": 1,
+    "exampleSentence": "Bana kalemi verir misin?",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "yapmak",
+    "translation": "to do",
+    "level": 1,
+    "exampleSentence": "Ne yapıyorsun?",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "yatak",
+    "translation": "bed",
+    "level": 1,
+    "exampleSentence": "Yatakta uyuyorum.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "yemek",
+    "translation": "to eat",
+    "level": 1,
+    "exampleSentence": "Akşam yemeği yemek istiyorum.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "yeni",
+    "translation": "new",
+    "level": 1,
+    "exampleSentence": "Yeni bir telefon aldım.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "yeşil",
+    "translation": "green",
+    "level": 1,
+    "exampleSentence": "Yeşil bir ağaç var.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "yumurta",
+    "translation": "egg",
+    "level": 1,
+    "exampleSentence": "Kahvaltıda yumurta yedim.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "açık",
+    "translation": "open",
+    "level": 2,
+    "exampleSentence": "Mağaza saat dokuza kadar açık.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "ağır",
+    "translation": "heavy",
+    "level": 2,
+    "exampleSentence": "Bu çanta çok ağır.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "almak",
+    "translation": "to buy",
+    "level": 2,
+    "exampleSentence": "Marketten meyve almak istiyorum.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ara",
+    "translation": "break",
+    "level": 2,
+    "exampleSentence": "Öğle arasında dışarı çıktık.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "bilet",
+    "translation": "ticket",
+    "level": 2,
+    "exampleSentence": "Tren bileti almam gerekiyor.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "bulmak",
+    "translation": "to find",
+    "level": 2,
+    "exampleSentence": "Anahtarımı bulamıyorum.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "cadde",
+    "translation": "avenue",
+    "level": 2,
+    "exampleSentence": "Bu cadde çok kalabalık.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "çabuk",
+    "translation": "quick",
+    "level": 2,
+    "exampleSentence": "Lütfen biraz çabuk ol.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "dakika",
+    "translation": "minute",
+    "level": 2,
+    "exampleSentence": "Beş dakika sonra geliyorum.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "doğru",
+    "translation": "straight",
+    "level": 2,
+    "exampleSentence": "Buradan doğru gidin, sonra sola dönün.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "dönmek",
+    "translation": "to turn",
+    "level": 2,
+    "exampleSentence": "İkinci sokaktan sağa dönün.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "durak",
+    "translation": "stop",
+    "level": 2,
+    "exampleSentence": "Bir sonraki durakta inmem gerekiyor.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "dükkan",
+    "translation": "shop",
+    "level": 2,
+    "exampleSentence": "Köşedeki dükkandan ekmek aldım.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "eczane",
+    "translation": "pharmacy",
+    "level": 2,
+    "exampleSentence": "En yakın eczane nerede?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "erken",
+    "translation": "early",
+    "level": 2,
+    "exampleSentence": "Bugün işe erken gittim.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "fiyat",
+    "translation": "price",
+    "level": 2,
+    "exampleSentence": "Bu ayakkabının fiyatı nedir?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "garson",
+    "translation": "waiter",
+    "level": 2,
+    "exampleSentence": "Garson hesabı getirdi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "geç",
+    "translation": "late",
+    "level": 2,
+    "exampleSentence": "Toplantıya geç kaldım.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "hafta",
+    "translation": "week",
+    "level": 2,
+    "exampleSentence": "Gelecek hafta tatile çıkıyoruz.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "harita",
+    "translation": "map",
+    "level": 2,
+    "exampleSentence": "Yolu haritada gösterebilir misin?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "hesap",
+    "translation": "bill",
+    "level": 2,
+    "exampleSentence": "Hesabı alabilir miyim?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "indirim",
+    "translation": "discount",
+    "level": 2,
+    "exampleSentence": "Bu mağazada büyük bir indirim var.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "istasyon",
+    "translation": "station",
+    "level": 2,
+    "exampleSentence": "Tren istasyonu nerede?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "kalmak",
+    "translation": "to stay",
+    "level": 2,
+    "exampleSentence": "Bu otelde üç gün kalacağız.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "kapalı",
+    "translation": "closed",
+    "level": 2,
+    "exampleSentence": "Pazar günü dükkanlar kapalı.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "kart",
+    "translation": "card",
+    "level": 2,
+    "exampleSentence": "Kredi kartıyla ödeyebilir miyim?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "köşe",
+    "translation": "corner",
+    "level": 2,
+    "exampleSentence": "Eczane köşede.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "menü",
+    "translation": "menu",
+    "level": 2,
+    "exampleSentence": "Menüyü görebilir miyim, lütfen?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "metro",
+    "translation": "subway",
+    "level": 2,
+    "exampleSentence": "İşe metroyla gidiyorum.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "otel",
+    "translation": "hotel",
+    "level": 2,
+    "exampleSentence": "Şehir merkezinde bir otel ayırttık.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "otobüs",
+    "translation": "bus",
+    "level": 2,
+    "exampleSentence": "Otobüs durağı çok uzak değil.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ödemek",
+    "translation": "to pay",
+    "level": 2,
+    "exampleSentence": "Hesabı nakit ödedim.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "para",
+    "translation": "money",
+    "level": 2,
+    "exampleSentence": "Yanımda yeterli param yok.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "pazar",
+    "translation": "market",
+    "level": 2,
+    "exampleSentence": "Cumartesi günü pazara gidiyoruz.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "saat",
+    "translation": "hour",
+    "level": 2,
+    "exampleSentence": "Şu an saat kaç?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "sağ",
+    "translation": "right",
+    "level": 2,
+    "exampleSentence": "Sağdaki binaya girin.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "sıcak",
+    "translation": "hot",
+    "level": 2,
+    "exampleSentence": "Bugün hava çok sıcak.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "sol",
+    "translation": "left",
+    "level": 2,
+    "exampleSentence": "Soldan ikinci kapı bizim.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "sormak",
+    "translation": "to ask",
+    "level": 2,
+    "exampleSentence": "Yolu birine soralım.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "şehir",
+    "translation": "city",
+    "level": 2,
+    "exampleSentence": "İstanbul çok kalabalık bir şehir.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "tatil",
+    "translation": "holiday",
+    "level": 2,
+    "exampleSentence": "Yaz tatilinde denize gideceğiz.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "tren",
+    "translation": "train",
+    "level": 2,
+    "exampleSentence": "Tren tam saatinde kalktı.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ucuz",
+    "translation": "cheap",
+    "level": 2,
+    "exampleSentence": "Bu lokanta hem güzel hem ucuz.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "uçak",
+    "translation": "airplane",
+    "level": 2,
+    "exampleSentence": "Uçak iki saat gecikti.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "uzak",
+    "translation": "far",
+    "level": 2,
+    "exampleSentence": "Müze buradan çok uzak mı?",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "yakın",
+    "translation": "near",
+    "level": 2,
+    "exampleSentence": "Eczane eve çok yakın.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "yardım",
+    "translation": "help",
+    "level": 2,
+    "exampleSentence": "Bana yardım eder misiniz?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "yavaş",
+    "translation": "slow",
+    "level": 2,
+    "exampleSentence": "Lütfen biraz daha yavaş konuşun.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "yol",
+    "translation": "road",
+    "level": 2,
+    "exampleSentence": "Bu yol şehir merkezine gidiyor.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "zaman",
+    "translation": "time",
+    "level": 2,
+    "exampleSentence": "Hiç boş zamanım yok.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "acele",
+    "translation": "hurry",
+    "level": 3,
+    "exampleSentence": "Acelesi olduğu için erken çıktı.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ağrı",
+    "translation": "pain",
+    "level": 3,
+    "exampleSentence": "Dün geceden beri başımda bir ağrı var.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "anlamak",
+    "translation": "to understand",
+    "level": 3,
+    "exampleSentence": "Söylediklerini tam olarak anlıyorum.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "başarı",
+    "translation": "success",
+    "level": 3,
+    "exampleSentence": "Bu başarı uzun bir çalışmanın sonucu.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "başarmak",
+    "translation": "to succeed",
+    "level": 3,
+    "exampleSentence": "Sonunda sınavı başardım.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "çalışma",
+    "translation": "work",
+    "level": 3,
+    "exampleSentence": "Bu çalışma birkaç ay sürecek.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "deneyim",
+    "translation": "experience",
+    "level": 3,
+    "exampleSentence": "Yeni işim bana çok deneyim kazandırdı.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "duygu",
+    "translation": "feeling",
+    "level": 3,
+    "exampleSentence": "O an yaşadığım duyguyu anlatamam.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "düşünce",
+    "translation": "thought",
+    "level": 3,
+    "exampleSentence": "Bu konudaki düşüncen nedir?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "düşünmek",
+    "translation": "to think",
+    "level": 3,
+    "exampleSentence": "Teklif hakkında biraz düşünmem gerekiyor.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "endişe",
+    "translation": "worry",
+    "level": 3,
+    "exampleSentence": "Geleceğe dair bazı endişelerim var.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "fikir",
+    "translation": "idea",
+    "level": 3,
+    "exampleSentence": "Çok güzel bir fikrin var.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "görüş",
+    "translation": "opinion",
+    "level": 3,
+    "exampleSentence": "Herkesin görüşünü dinlemek istiyorum.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "görüşme",
+    "translation": "interview",
+    "level": 3,
+    "exampleSentence": "Yarın iş görüşmem var.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "hastalık",
+    "translation": "illness",
+    "level": 3,
+    "exampleSentence": "Bu hastalık dinlenmeyle geçer.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "hayal",
+    "translation": "dream",
+    "level": 3,
+    "exampleSentence": "Kendi şirketini kurmak onun en büyük hayali.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "hissetmek",
+    "translation": "to feel",
+    "level": 3,
+    "exampleSentence": "Bugün kendimi çok yorgun hissediyorum.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ilaç",
+    "translation": "medicine",
+    "level": 3,
+    "exampleSentence": "Doktor bana bu ilacı yazdı.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ilgi",
+    "translation": "interest",
+    "level": 3,
+    "exampleSentence": "Müziğe büyük bir ilgisi var.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ilişki",
+    "translation": "relationship",
+    "level": 3,
+    "exampleSentence": "Aralarındaki ilişki çok sağlam.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "inanmak",
+    "translation": "to believe",
+    "level": 3,
+    "exampleSentence": "Onun başaracağına inanıyorum.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "izin",
+    "translation": "permission",
+    "level": 3,
+    "exampleSentence": "Patrondan bir gün izin istedim.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "karar",
+    "translation": "decision",
+    "level": 3,
+    "exampleSentence": "Bu zor kararı tek başıma verdim.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "kararsız",
+    "translation": "undecided",
+    "level": 3,
+    "exampleSentence": "Hangi işi seçeceğim konusunda kararsızım.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "karşılaşmak",
+    "translation": "to encounter",
+    "level": 3,
+    "exampleSentence": "Yolda eski bir arkadaşımla karşılaştım.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "konuşma",
+    "translation": "speech",
+    "level": 3,
+    "exampleSentence": "Müdürün konuşması çok etkileyiciydi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "korkmak",
+    "translation": "to fear",
+    "level": 3,
+    "exampleSentence": "Karanlıktan korkmuyorum.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "maaş",
+    "translation": "salary",
+    "level": 3,
+    "exampleSentence": "Maaşımı her ayın başında alıyorum.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "memnun",
+    "translation": "pleased",
+    "level": 3,
+    "exampleSentence": "Yeni işimden çok memnunum.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "merak",
+    "translation": "curiosity",
+    "level": 3,
+    "exampleSentence": "Sonucu büyük bir merakla bekliyorum.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "mutluluk",
+    "translation": "happiness",
+    "level": 3,
+    "exampleSentence": "Onların mutluluğu beni de mutlu ediyor.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "neden",
+    "translation": "reason",
+    "level": 3,
+    "exampleSentence": "Geç kalmanın bir nedeni var mı?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "öğrenmek",
+    "translation": "to learn",
+    "level": 3,
+    "exampleSentence": "Yeni bir dil öğrenmek istiyorum.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "önemli",
+    "translation": "important",
+    "level": 3,
+    "exampleSentence": "Bu toplantı bizim için çok önemli.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "öneri",
+    "translation": "suggestion",
+    "level": 3,
+    "exampleSentence": "Senin için iyi bir önerim var.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "proje",
+    "translation": "project",
+    "level": 3,
+    "exampleSentence": "Bu projeyi gelecek ay bitireceğiz.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "sağlık",
+    "translation": "health",
+    "level": 3,
+    "exampleSentence": "Sağlık her şeyden önemlidir.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "sebep",
+    "translation": "cause",
+    "level": 3,
+    "exampleSentence": "Bu kararın asıl sebebi nedir?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "sinirli",
+    "translation": "angry",
+    "level": 3,
+    "exampleSentence": "Bugün biraz sinirli görünüyorsun.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "sorun",
+    "translation": "problem",
+    "level": 3,
+    "exampleSentence": "Bu sorunu birlikte çözeriz.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "şikayet",
+    "translation": "complaint",
+    "level": 3,
+    "exampleSentence": "Hizmetle ilgili bir şikayetim var.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "tartışmak",
+    "translation": "to discuss",
+    "level": 3,
+    "exampleSentence": "Bu konuyu uzun uzun tartıştık.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "tavsiye",
+    "translation": "advice",
+    "level": 3,
+    "exampleSentence": "Bana iyi bir tavsiye verdi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "tedavi",
+    "translation": "treatment",
+    "level": 3,
+    "exampleSentence": "Tedavi birkaç hafta sürecek.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "umut",
+    "translation": "hope",
+    "level": 3,
+    "exampleSentence": "Hâlâ her şeyin düzeleceğine dair umudum var.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "uygun",
+    "translation": "suitable",
+    "level": 3,
+    "exampleSentence": "Bu saat senin için uygun mu?",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "üzgün",
+    "translation": "sad",
+    "level": 3,
+    "exampleSentence": "Bu haber beni çok üzgün etti.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "yetenek",
+    "translation": "talent",
+    "level": 3,
+    "exampleSentence": "Çizim konusunda büyük bir yeteneği var.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "yorgun",
+    "translation": "tired",
+    "level": 3,
+    "exampleSentence": "Uzun bir günün ardından çok yorgunum.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "zor",
+    "translation": "difficult",
+    "level": 3,
+    "exampleSentence": "Bu sınav sandığımdan daha zordu.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "ağ",
+    "translation": "network",
+    "level": 4,
+    "exampleSentence": "Sosyal medya ağları haberlerin yayılmasını hızlandırdı.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "amaç",
+    "translation": "purpose",
+    "level": 4,
+    "exampleSentence": "Bu projenin temel amacı verimliliği artırmak.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "araştırma",
+    "translation": "research",
+    "level": 4,
+    "exampleSentence": "Yapılan araştırma çarpıcı sonuçlar ortaya koydu.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ayrım",
+    "translation": "distinction",
+    "level": 4,
+    "exampleSentence": "İki kavram arasındaki ayrım çok ince.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "bağımsız",
+    "translation": "independent",
+    "level": 4,
+    "exampleSentence": "Bağımsız basın demokrasinin temelidir.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "bağlam",
+    "translation": "context",
+    "level": 4,
+    "exampleSentence": "Cümleyi bağlam içinde değerlendirmek gerekir.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "bütçe",
+    "translation": "budget",
+    "level": 4,
+    "exampleSentence": "Şirket yıllık bütçesini yeniden gözden geçirdi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "çevre",
+    "translation": "environment",
+    "level": 4,
+    "exampleSentence": "Çevre kirliliği giderek büyüyen bir sorun.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "değerlendirmek",
+    "translation": "to evaluate",
+    "level": 4,
+    "exampleSentence": "Yöneticiler her teklifi dikkatle değerlendirdi.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "deney",
+    "translation": "experiment",
+    "level": 4,
+    "exampleSentence": "Bilim insanları yeni bir deney tasarladı.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "denge",
+    "translation": "balance",
+    "level": 4,
+    "exampleSentence": "İş ve özel yaşam arasında denge kurmak önemli.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "eğilim",
+    "translation": "tendency",
+    "level": 4,
+    "exampleSentence": "Tüketicilerde dijital alışverişe yönelik bir eğilim var.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ekonomi",
+    "translation": "economy",
+    "level": 4,
+    "exampleSentence": "Ülke ekonomisi son çeyrekte büyüdü.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "etki",
+    "translation": "effect",
+    "level": 4,
+    "exampleSentence": "Reklamların tüketici üzerindeki etkisi büyük.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "gelişme",
+    "translation": "development",
+    "level": 4,
+    "exampleSentence": "Teknolojideki gelişmeler hayatımızı değiştirdi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "girişim",
+    "translation": "enterprise",
+    "level": 4,
+    "exampleSentence": "Genç bir girişim piyasaya yeni bir ürün sundu.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "göstermek",
+    "translation": "to indicate",
+    "level": 4,
+    "exampleSentence": "Veriler satışların arttığını gösteriyor.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "hukuk",
+    "translation": "law",
+    "level": 4,
+    "exampleSentence": "Bu dava hukuk açısından oldukça karmaşık.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "katkı",
+    "translation": "contribution",
+    "level": 4,
+    "exampleSentence": "Onun bu projeye katkısı yadsınamaz.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "kavram",
+    "translation": "concept",
+    "level": 4,
+    "exampleSentence": "Bu kavram çoğu kişi için soyut kalıyor.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "kaynak",
+    "translation": "resource",
+    "level": 4,
+    "exampleSentence": "Doğal kaynakların sürdürülebilir kullanımı şart.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "kuşkusuz",
+    "translation": "undoubtedly",
+    "level": 4,
+    "exampleSentence": "Kuşkusuz bu en zor karardı.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "küresel",
+    "translation": "global",
+    "level": 4,
+    "exampleSentence": "Küresel ısınma tüm dünyayı tehdit ediyor.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "medya",
+    "translation": "media",
+    "level": 4,
+    "exampleSentence": "Olay medyada günlerce yer aldı.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "olanak",
+    "translation": "possibility",
+    "level": 4,
+    "exampleSentence": "Bu anlaşma yeni olanaklar yaratıyor.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ortam",
+    "translation": "atmosphere",
+    "level": 4,
+    "exampleSentence": "Toplantı çok gergin bir ortamda geçti.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "öngörmek",
+    "translation": "to foresee",
+    "level": 4,
+    "exampleSentence": "Uzmanlar fiyatların yükseleceğini öngörüyor.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "piyasa",
+    "translation": "market",
+    "level": 4,
+    "exampleSentence": "Borsa piyasası bugün dalgalı seyretti.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "rekabet",
+    "translation": "competition",
+    "level": 4,
+    "exampleSentence": "Sektördeki rekabet her geçen gün artıyor.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "sanayi",
+    "translation": "industry",
+    "level": 4,
+    "exampleSentence": "Otomotiv sanayi binlerce kişiye iş sağlıyor.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "savunmak",
+    "translation": "to defend",
+    "level": 4,
+    "exampleSentence": "Avukat müvekkilini kararlılıkla savundu.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "siyaset",
+    "translation": "politics",
+    "level": 4,
+    "exampleSentence": "Gençlerin siyasete ilgisi giderek artıyor.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "strateji",
+    "translation": "strategy",
+    "level": 4,
+    "exampleSentence": "Şirket yeni bir pazarlama stratejisi belirledi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "sürdürülebilir",
+    "translation": "sustainable",
+    "level": 4,
+    "exampleSentence": "Sürdürülebilir kalkınma uzun vadeli bir hedeftir.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "süreç",
+    "translation": "process",
+    "level": 4,
+    "exampleSentence": "Karar alma süreci oldukça uzun sürdü.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "şirket",
+    "translation": "company",
+    "level": 4,
+    "exampleSentence": "Şirket yeni bir pazara açılmayı planlıyor.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "teknoloji",
+    "translation": "technology",
+    "level": 4,
+    "exampleSentence": "Yapay zeka teknolojisi hızla gelişiyor.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "toplum",
+    "translation": "society",
+    "level": 4,
+    "exampleSentence": "Bu yasa tüm toplumu yakından ilgilendiriyor.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "tüketici",
+    "translation": "consumer",
+    "level": 4,
+    "exampleSentence": "Tüketici hakları yasayla korunuyor.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "üretim",
+    "translation": "production",
+    "level": 4,
+    "exampleSentence": "Fabrika üretimini yüzde yirmi artırdı.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "veri",
+    "translation": "data",
+    "level": 4,
+    "exampleSentence": "Toplanan veriler ayrıntılı olarak incelendi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "verimli",
+    "translation": "efficient",
+    "level": 4,
+    "exampleSentence": "Yeni sistem çok daha verimli çalışıyor.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "yapay",
+    "translation": "artificial",
+    "level": 4,
+    "exampleSentence": "Yapay zeka birçok sektörü dönüştürüyor.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "yargı",
+    "translation": "judgment",
+    "level": 4,
+    "exampleSentence": "Yargı bağımsızlığı hukuk devletinin temelidir.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "yatırım",
+    "translation": "investment",
+    "level": 4,
+    "exampleSentence": "Şirket teknolojiye büyük yatırım yaptı.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "yaygın",
+    "translation": "widespread",
+    "level": 4,
+    "exampleSentence": "Bu uygulama artık çok yaygın hale geldi.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "yönetim",
+    "translation": "management",
+    "level": 4,
+    "exampleSentence": "Şirketin yönetimi değişti.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "yöntem",
+    "translation": "method",
+    "level": 4,
+    "exampleSentence": "Araştırmacılar yeni bir yöntem geliştirdi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "yükümlülük",
+    "translation": "obligation",
+    "level": 4,
+    "exampleSentence": "Her vatandaşın bazı yasal yükümlülükleri vardır.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "zorunlu",
+    "translation": "compulsory",
+    "level": 4,
+    "exampleSentence": "Bu belge başvuru için zorunlu.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "açımlamak",
+    "translation": "to elucidate",
+    "level": 5,
+    "exampleSentence": "Yazar karmaşık kuramı sade bir dille açımladı.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "aksaklık",
+    "translation": "disruption",
+    "level": 5,
+    "exampleSentence": "Tedarik zincirindeki aksaklıklar üretimi olumsuz etkiledi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ardından",
+    "translation": "subsequently",
+    "level": 5,
+    "exampleSentence": "Sunumun ardından katılımcılar soru yöneltti.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "ayrıca",
+    "translation": "moreover",
+    "level": 5,
+    "exampleSentence": "Ayrıca, bu yaklaşım maliyetleri de düşürmektedir.",
+    "partOfSpeech": "conjunction"
+  },
+  {
+    "word": "belirgin",
+    "translation": "distinct",
+    "level": 5,
+    "exampleSentence": "İki dönem arasında belirgin bir fark gözlemlendi.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "belirleyici",
+    "translation": "decisive",
+    "level": 5,
+    "exampleSentence": "Bu etken sonucu belirleyici bir biçimde etkiledi.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "benimsemek",
+    "translation": "to adopt",
+    "level": 5,
+    "exampleSentence": "Kurum yeni yönetim ilkelerini benimsedi.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "bütünleşmek",
+    "translation": "to integrate",
+    "level": 5,
+    "exampleSentence": "Göçmenlerin topluma bütünleşmesi zaman alır.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "bütünlük",
+    "translation": "integrity",
+    "level": 5,
+    "exampleSentence": "Metnin anlam bütünlüğü korunmalıdır.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "çelişki",
+    "translation": "contradiction",
+    "level": 5,
+    "exampleSentence": "Açıklamalarında ciddi bir çelişki göze çarpıyor.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "çıkarım",
+    "translation": "inference",
+    "level": 5,
+    "exampleSentence": "Verilerden mantıklı bir çıkarım yapmak güçtür.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "çözümleme",
+    "translation": "analysis",
+    "level": 5,
+    "exampleSentence": "Verilerin çözümlemesi haftalar sürdü.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "dayanak",
+    "translation": "basis",
+    "level": 5,
+    "exampleSentence": "İddianın somut bir dayanağı bulunmuyor.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "değişken",
+    "translation": "variable",
+    "level": 5,
+    "exampleSentence": "Deneyde birden fazla değişken kontrol altında tutuldu.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "dolayısıyla",
+    "translation": "consequently",
+    "level": 5,
+    "exampleSentence": "Talep arttı, dolayısıyla fiyatlar da yükseldi.",
+    "partOfSpeech": "conjunction"
+  },
+  {
+    "word": "eşgüdüm",
+    "translation": "coordination",
+    "level": 5,
+    "exampleSentence": "Birimler arası eşgüdüm projenin başarısını belirledi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "etkileşim",
+    "translation": "interaction",
+    "level": 5,
+    "exampleSentence": "İki değişken arasındaki etkileşim incelendi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "geçerli",
+    "translation": "valid",
+    "level": 5,
+    "exampleSentence": "Bu argüman bilimsel açıdan geçerli sayılıyor.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "gerekçe",
+    "translation": "rationale",
+    "level": 5,
+    "exampleSentence": "Kararın gerekçesi raporda ayrıntılı açıklandı.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "gözlemlemek",
+    "translation": "to observe",
+    "level": 5,
+    "exampleSentence": "Araştırmacılar süreci uzun süre gözlemledi.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "güdü",
+    "translation": "motive",
+    "level": 5,
+    "exampleSentence": "Davranışın altında yatan güdü belirsiz kaldı.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ihtimal",
+    "translation": "probability",
+    "level": 5,
+    "exampleSentence": "Bu senaryonun gerçekleşme ihtimali oldukça düşük.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ikilem",
+    "translation": "dilemma",
+    "level": 5,
+    "exampleSentence": "Yönetim ciddi bir etik ikilemle karşı karşıya.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ilke",
+    "translation": "principle",
+    "level": 5,
+    "exampleSentence": "Bu ilkeler kurumun temel değerlerini oluşturur.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "irdelemek",
+    "translation": "to scrutinize",
+    "level": 5,
+    "exampleSentence": "Komisyon raporun her maddesini ayrıntılı irdeledi.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "kapsam",
+    "translation": "scope",
+    "level": 5,
+    "exampleSentence": "Çalışmanın kapsamı başlangıçta net belirlenmeli.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "kapsamak",
+    "translation": "to encompass",
+    "level": 5,
+    "exampleSentence": "Anlaşma birçok farklı alanı kapsıyor.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "kapsamlı",
+    "translation": "comprehensive",
+    "level": 5,
+    "exampleSentence": "Konuyla ilgili kapsamlı bir rapor hazırlandı.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "kavramsal",
+    "translation": "conceptual",
+    "level": 5,
+    "exampleSentence": "Tezin kavramsal çerçevesi titizlikle kuruldu.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "kuram",
+    "translation": "theory",
+    "level": 5,
+    "exampleSentence": "Bu kuram on yıl boyunca tartışıldı.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "nesnel",
+    "translation": "objective",
+    "level": 5,
+    "exampleSentence": "Değerlendirme mümkün olduğunca nesnel olmalı.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "nitelik",
+    "translation": "quality",
+    "level": 5,
+    "exampleSentence": "Adayın taşıması gereken nitelikler ilanda belirtildi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "olgu",
+    "translation": "phenomenon",
+    "level": 5,
+    "exampleSentence": "Göç, çok boyutlu bir toplumsal olgudur.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ölçüt",
+    "translation": "criterion",
+    "level": 5,
+    "exampleSentence": "Değerlendirmede kullanılan ölçütler açıkça belirtilmeli.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "öncelik",
+    "translation": "priority",
+    "level": 5,
+    "exampleSentence": "Güvenlik her zaman ilk önceliğimiz olmalı.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "öngörü",
+    "translation": "foresight",
+    "level": 5,
+    "exampleSentence": "Krizi atlatmaları doğru öngörüleri sayesinde oldu.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "öznel",
+    "translation": "subjective",
+    "level": 5,
+    "exampleSentence": "Bu yorum tamamen öznel bir bakış açısı yansıtıyor.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "pekiştirmek",
+    "translation": "to reinforce",
+    "level": 5,
+    "exampleSentence": "Düzenli tekrar öğrenilenleri pekiştirir.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "saptamak",
+    "translation": "to determine",
+    "level": 5,
+    "exampleSentence": "Sorunun kaynağını saptamak zaman aldı.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "savunu",
+    "translation": "argument",
+    "level": 5,
+    "exampleSentence": "Yazarın savunusu sağlam kanıtlara dayanıyor.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "sürdürmek",
+    "translation": "to maintain",
+    "level": 5,
+    "exampleSentence": "Şirket büyümesini istikrarlı biçimde sürdürdü.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "tutarlı",
+    "translation": "consistent",
+    "level": 5,
+    "exampleSentence": "Politikanın tutarlı biçimde uygulanması gerekir.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "tutum",
+    "translation": "attitude",
+    "level": 5,
+    "exampleSentence": "Eleştirilere karşı yapıcı bir tutum sergiledi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "üstlenmek",
+    "translation": "to undertake",
+    "level": 5,
+    "exampleSentence": "Projenin sorumluluğunu o üstlendi.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "vurgulamak",
+    "translation": "to emphasize",
+    "level": 5,
+    "exampleSentence": "Konuşmacı eğitimin önemini özellikle vurguladı.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "yaklaşım",
+    "translation": "approach",
+    "level": 5,
+    "exampleSentence": "Soruna bütüncül bir yaklaşım benimsendi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "yansıtmak",
+    "translation": "to reflect",
+    "level": 5,
+    "exampleSentence": "Sonuçlar genel eğilimi doğru yansıtıyor.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "yeterlilik",
+    "translation": "competence",
+    "level": 5,
+    "exampleSentence": "Adayın mesleki yeterliliği sınavla ölçüldü.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "yorumlamak",
+    "translation": "to interpret",
+    "level": 5,
+    "exampleSentence": "Aynı veriyi farklı kişiler farklı yorumlayabilir.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "yöneltmek",
+    "translation": "to direct",
+    "level": 5,
+    "exampleSentence": "Eleştirisini doğrudan yönetime yöneltti.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ahenk",
+    "translation": "harmony",
+    "level": 6,
+    "exampleSentence": "Şiirdeki sözcükler kusursuz bir ahenk içinde örülmüştü.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ahval",
+    "translation": "circumstances",
+    "level": 6,
+    "exampleSentence": "İçinde bulunulan ahval, kararın aciliyetini gösteriyordu.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "asude",
+    "translation": "serene",
+    "level": 6,
+    "exampleSentence": "Köyün asude havası şehrin gürültüsünü unutturdu.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "aşikar",
+    "translation": "evident",
+    "level": 6,
+    "exampleSentence": "Niyetinin samimi olmadığı herkes için aşikardı.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "bedbaht",
+    "translation": "wretched",
+    "level": 6,
+    "exampleSentence": "Romanın bedbaht kahramanı talihiyle baş edemedi.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "beyhude",
+    "translation": "futile",
+    "level": 6,
+    "exampleSentence": "Onu ikna etmeye çalışmak beyhude bir çabaydı.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "cüret",
+    "translation": "audacity",
+    "level": 6,
+    "exampleSentence": "Böyle bir teklifi yapma cüretini nereden buldu?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "dirayet",
+    "translation": "fortitude",
+    "level": 6,
+    "exampleSentence": "Kriz boyunca gösterdiği dirayet takdir topladı.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "duçar",
+    "translation": "afflicted",
+    "level": 6,
+    "exampleSentence": "Ağır bir hastalığa duçar olduğunu geç öğrendi.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "fani",
+    "translation": "mortal",
+    "level": 6,
+    "exampleSentence": "Şair, fani dünyanın geçiciliğini dizelere döktü.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "feragat",
+    "translation": "renunciation",
+    "level": 6,
+    "exampleSentence": "Mirastan feragat ederek kardeşlerini düşündü.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "gaflet",
+    "translation": "heedlessness",
+    "level": 6,
+    "exampleSentence": "Bir anlık gaflet, bütün planı altüst etti.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "hakeza",
+    "translation": "likewise",
+    "level": 6,
+    "exampleSentence": "Diğer bölgeler de hakeza aynı sıkıntıyı yaşadı.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "hercai",
+    "translation": "fickle",
+    "level": 6,
+    "exampleSentence": "Hercai mizacı yüzünden hiçbir işte uzun kalamadı.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "icmal",
+    "translation": "summary",
+    "level": 6,
+    "exampleSentence": "Raporun başına kısa bir icmal eklendi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ihtilaf",
+    "translation": "dispute",
+    "level": 6,
+    "exampleSentence": "Taraflar arasındaki ihtilaf mahkemeye taşındı.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "iltifat",
+    "translation": "compliment",
+    "level": 6,
+    "exampleSentence": "Yaptığı zarif iltifat herkesi gülümsetti.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "kifayet",
+    "translation": "sufficiency",
+    "level": 6,
+    "exampleSentence": "Eldeki kaynakların kifayet etmeyeceği anlaşıldı.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "lakayt",
+    "translation": "indifferent",
+    "level": 6,
+    "exampleSentence": "Sorunlara karşı lakayt tavrı tepki çekti.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "manidar",
+    "translation": "meaningful",
+    "level": 6,
+    "exampleSentence": "Sustuğu o anki manidar bakışı çok şey anlatıyordu.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "mefkure",
+    "translation": "ideal",
+    "level": 6,
+    "exampleSentence": "Bir ömür boyu aynı mefkureye bağlı kaldı.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "muğlak",
+    "translation": "ambiguous",
+    "level": 6,
+    "exampleSentence": "Sözleşmenin bu maddesi oldukça muğlak kalmış.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "mukim",
+    "translation": "resident",
+    "level": 6,
+    "exampleSentence": "Yıllardır bu kentte mukim bir ailedir.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "muktedir",
+    "translation": "capable",
+    "level": 6,
+    "exampleSentence": "Bu görevi yürütmeye muktedir tek kişi oydu.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "münhasır",
+    "translation": "exclusive",
+    "level": 6,
+    "exampleSentence": "Bu yetki yalnızca kurula münhasırdır.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "müphem",
+    "translation": "vague",
+    "level": 6,
+    "exampleSentence": "Verdiği cevaplar baştan sona müphemdi.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "müstesna",
+    "translation": "exceptional",
+    "level": 6,
+    "exampleSentence": "Bu, kuralın tek müstesna örneğidir.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "mütehassis",
+    "translation": "touched",
+    "level": 6,
+    "exampleSentence": "Gösterilen ilgiden dolayı son derece mütehassis oldum.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "müteşekkir",
+    "translation": "grateful",
+    "level": 6,
+    "exampleSentence": "Gösterdiği yakınlık için son derece müteşekkirim.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "mütevazı",
+    "translation": "humble",
+    "level": 6,
+    "exampleSentence": "Onca başarıya rağmen mütevazı kişiliğini korudu.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "nadide",
+    "translation": "rare",
+    "level": 6,
+    "exampleSentence": "Müzede pek çok nadide eser sergileniyor.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "nüans",
+    "translation": "nuance",
+    "level": 6,
+    "exampleSentence": "İki kelime arasındaki ince nüansı sezmek gerekir.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "payidar",
+    "translation": "enduring",
+    "level": 6,
+    "exampleSentence": "Bu eserler nesiller boyu payidar kalacak.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "perişan",
+    "translation": "distraught",
+    "level": 6,
+    "exampleSentence": "Haberi alınca perişan bir halde eve döndü.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "sarih",
+    "translation": "explicit",
+    "level": 6,
+    "exampleSentence": "Kanun maddesi bu konuda son derece sarihtir.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "şayan",
+    "translation": "worthy",
+    "level": 6,
+    "exampleSentence": "Gösterdiği özveri her türlü takdire şayandır.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "tahakkuk",
+    "translation": "realization",
+    "level": 6,
+    "exampleSentence": "Yıllar süren hayalin tahakkuku nihayet mümkün oldu.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "tahayyül",
+    "translation": "imagination",
+    "level": 6,
+    "exampleSentence": "Böyle bir sonu kimse tahayyül edememişti.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "tasavvur",
+    "translation": "conception",
+    "level": 6,
+    "exampleSentence": "Geleceğe dair tasavvuru oldukça karamsardı.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "tebessüm",
+    "translation": "smile",
+    "level": 6,
+    "exampleSentence": "Yüzünde belli belirsiz bir tebessüm belirdi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "tedrici",
+    "translation": "gradual",
+    "level": 6,
+    "exampleSentence": "İyileşme tedrici bir seyir izledi.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "tefekkür",
+    "translation": "contemplation",
+    "level": 6,
+    "exampleSentence": "Uzun bir tefekkürün ardından kararını verdi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "telakki",
+    "translation": "perception",
+    "level": 6,
+    "exampleSentence": "Onun sanat telakkisi çağdaşlarından çok farklıydı.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "tereddüt",
+    "translation": "hesitation",
+    "level": 6,
+    "exampleSentence": "Hiç tereddüt etmeden teklifi geri çevirdi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "tevazu",
+    "translation": "modesty",
+    "level": 6,
+    "exampleSentence": "Konuşmasındaki tevazu dinleyenleri etkiledi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "uhde",
+    "translation": "responsibility",
+    "level": 6,
+    "exampleSentence": "Bu görev tamamen onun uhdesindeydi.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "vukuf",
+    "translation": "expertise",
+    "level": 6,
+    "exampleSentence": "Konuya olan vukufu herkesin takdirini kazandı.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "yeknesak",
+    "translation": "monotonous",
+    "level": 6,
+    "exampleSentence": "Günlerin yeknesak akışı onu bunaltmaya başladı.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "zahir",
+    "translation": "apparent",
+    "level": 6,
+    "exampleSentence": "Meselenin zahiri ile hakikati birbirinden çok farklıydı.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "zinde",
+    "translation": "vigorous",
+    "level": 6,
+    "exampleSentence": "Düzenli yürüyüş onu hep zinde tuttu.",
+    "partOfSpeech": "adjective"
+  }
+]

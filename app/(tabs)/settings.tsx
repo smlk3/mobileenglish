@@ -14,6 +14,8 @@ import {
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import type UserSettingsModel from '../../src/entities/UserProfile/model';
 import HybridLLMManager from '../../src/shared/api/llm/HybridLLMManager';
+import { AuthService } from '../../src/shared/api/supabase/AuthService';
+import { syncDatabase } from '../../src/shared/api/supabase/SyncService';
 import { getLanguageConfig, getLevelLabel, SUPPORTED_TARGET_LANGUAGES } from '../../src/shared/lib/languageConfig';
 import { getUserSettings } from '../../src/shared/lib/stores/useDatabaseService';
 import { useProfileStore } from '../../src/shared/lib/stores/useProfileStore';
@@ -25,10 +27,14 @@ export default function SettingsScreen() {
     const router = useRouter();
     const themeMode = useProfileStore((s) => s.themeMode);
     const toggleTheme = useProfileStore((s) => s.toggleTheme);
+    const supabaseSession = useProfileStore((s) => s.supabaseSession);
+    const setSupabaseSession = useProfileStore((s) => s.setSupabaseSession);
     const tc = themeMode === 'dark' ? colors.dark : colors.light;
     const { top } = useSafeAreaInsets();
 
     const [settings, setSettings] = useState<UserSettingsModel | null>(null);
+    const [authLoading, setAuthLoading] = useState(false);
+    const [syncing, setSyncing] = useState(false);
 
     const loadSettings = useCallback(async () => {
         const s = await getUserSettings();
@@ -84,7 +90,90 @@ const navigateToSettingModal = (type: string, title: string, currentValue: strin
         }
     };
 
+    const handleGoogleSignIn = async () => {
+        if (authLoading) return;
+        setAuthLoading(true);
+        try {
+            const session = await AuthService.signInWithGoogle();
+            if (session) {
+                setSupabaseSession(session);
+                if (settings) await settings.updateSettings({ supabaseUserId: session.user.id });
+                loadSettings();
+            }
+        } catch (e: any) {
+            Alert.alert(t('common.error'), e?.message || t('settings.signInFailed'));
+        } finally {
+            setAuthLoading(false);
+        }
+    };
+
+    const handleSync = async () => {
+        if (syncing) return;
+        setSyncing(true);
+        try {
+            await syncDatabase();
+            loadSettings();
+            Alert.alert(t('settings.syncNow'), t('settings.syncDone'));
+        } catch (e: any) {
+            Alert.alert(t('common.error'), e?.message || t('settings.syncFailed'));
+        } finally {
+            setSyncing(false);
+        }
+    };
+
+    const handleSignOut = () => {
+        Alert.alert(t('settings.signOut'), t('settings.signOutConfirm'), [
+            { text: t('common.cancel'), style: 'cancel' },
+            {
+                text: t('settings.signOut'),
+                style: 'destructive',
+                onPress: async () => {
+                    try {
+                        await AuthService.signOut();
+                        setSupabaseSession(null);
+                        if (settings) await settings.updateSettings({ supabaseUserId: null });
+                        loadSettings();
+                    } catch (e: any) {
+                        Alert.alert(t('common.error'), e?.message || 'Error');
+                    }
+                },
+            },
+        ]);
+    };
+
     const sections = [
+        {
+            title: t('settings.account'),
+            items: supabaseSession
+                ? [
+                      {
+                          icon: 'person-circle' as const,
+                          iconColor: colors.success.main,
+                          title: supabaseSession.user.email || t('settings.signedIn'),
+                          subtitle: t('settings.tapToSignOut'),
+                          type: 'nav' as const,
+                          onPress: handleSignOut,
+                      },
+                      {
+                          icon: 'sync' as const,
+                          iconColor: colors.primary[400],
+                          title: syncing ? t('settings.syncing') : t('settings.syncNow'),
+                          subtitle: t('settings.syncDesc'),
+                          type: 'nav' as const,
+                          onPress: handleSync,
+                      },
+                  ]
+                : [
+                      {
+                          icon: 'logo-google' as const,
+                          iconColor: colors.accent[400],
+                          title: authLoading ? t('settings.signingIn') : t('settings.signInWithGoogle'),
+                          subtitle: t('settings.guestMode'),
+                          type: 'nav' as const,
+                          onPress: handleGoogleSignIn,
+                      },
+                  ],
+        },
         {
             title: t('settings.appearance'),
             items: [

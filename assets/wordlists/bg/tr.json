@@ -1,0 +1,2102 @@
+[
+  {
+    "word": "ам",
+    "translation": "ye (çocuk dili)",
+    "level": 1,
+    "exampleSentence": "Бебето иска да ам.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "баба",
+    "translation": "büyükanne",
+    "level": 1,
+    "exampleSentence": "Моята баба прави сладко.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "баща",
+    "translation": "baba",
+    "level": 1,
+    "exampleSentence": "Баща ми работи в града.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "бял",
+    "translation": "beyaz",
+    "level": 1,
+    "exampleSentence": "Снегът е бял.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "вода",
+    "translation": "su",
+    "level": 1,
+    "exampleSentence": "Искам чаша вода.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "голям",
+    "translation": "büyük",
+    "level": 1,
+    "exampleSentence": "Това е голям дом.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "ден",
+    "translation": "gün",
+    "level": 1,
+    "exampleSentence": "Днес е хубав ден.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "дете",
+    "translation": "çocuk",
+    "level": 1,
+    "exampleSentence": "Детето спи сега.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "добър",
+    "translation": "iyi",
+    "level": 1,
+    "exampleSentence": "Той е добър човек.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "дом",
+    "translation": "ev",
+    "level": 1,
+    "exampleSentence": "Отивам си в дома.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "едно",
+    "translation": "bir",
+    "level": 1,
+    "exampleSentence": "Имам едно куче.",
+    "partOfSpeech": "pronoun"
+  },
+  {
+    "word": "жена",
+    "translation": "kadın",
+    "level": 1,
+    "exampleSentence": "Тази жена е лекар.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "здравей",
+    "translation": "merhaba",
+    "level": 1,
+    "exampleSentence": "Здравей, как си?",
+    "partOfSpeech": "interjection"
+  },
+  {
+    "word": "зелен",
+    "translation": "yeşil",
+    "level": 1,
+    "exampleSentence": "Тревата е зелена.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "имам",
+    "translation": "sahip olmak",
+    "level": 1,
+    "exampleSentence": "Имам нова книга.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "книга",
+    "translation": "kitap",
+    "level": 1,
+    "exampleSentence": "Чета интересна книга.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "котка",
+    "translation": "kedi",
+    "level": 1,
+    "exampleSentence": "Котката спи на стола.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "куче",
+    "translation": "köpek",
+    "level": 1,
+    "exampleSentence": "Кучето тича в двора.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "къща",
+    "translation": "ev",
+    "level": 1,
+    "exampleSentence": "Те живеят в малка къща.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "майка",
+    "translation": "anne",
+    "level": 1,
+    "exampleSentence": "Майка ми готви вечеря.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "малък",
+    "translation": "küçük",
+    "level": 1,
+    "exampleSentence": "Имам малък брат.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "мляко",
+    "translation": "süt",
+    "level": 1,
+    "exampleSentence": "Децата пият мляко.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "много",
+    "translation": "çok",
+    "level": 1,
+    "exampleSentence": "Имам много приятели.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "мъж",
+    "translation": "erkek",
+    "level": 1,
+    "exampleSentence": "Този мъж е учител.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "нов",
+    "translation": "yeni",
+    "level": 1,
+    "exampleSentence": "Купих нов телефон.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "нощ",
+    "translation": "gece",
+    "level": 1,
+    "exampleSentence": "Нощта е тиха.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "огън",
+    "translation": "ateş",
+    "level": 1,
+    "exampleSentence": "Огънят е топъл.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "око",
+    "translation": "göz",
+    "level": 1,
+    "exampleSentence": "Окото ми боли.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "отивам",
+    "translation": "gitmek",
+    "level": 1,
+    "exampleSentence": "Отивам на училище.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "пет",
+    "translation": "beş",
+    "level": 1,
+    "exampleSentence": "Имам пет ябълки.",
+    "partOfSpeech": "pronoun"
+  },
+  {
+    "word": "пиша",
+    "translation": "yazmak",
+    "level": 1,
+    "exampleSentence": "Пиша писмо на баба.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "пия",
+    "translation": "içmek",
+    "level": 1,
+    "exampleSentence": "Пия вода всеки ден.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "приятел",
+    "translation": "arkadaş",
+    "level": 1,
+    "exampleSentence": "Той е мой добър приятел.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ръка",
+    "translation": "el",
+    "level": 1,
+    "exampleSentence": "Измий си ръката.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "син",
+    "translation": "mavi",
+    "level": 1,
+    "exampleSentence": "Небето е синьо.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "сладък",
+    "translation": "tatlı",
+    "level": 1,
+    "exampleSentence": "Тортата е много сладка.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "спя",
+    "translation": "uyumak",
+    "level": 1,
+    "exampleSentence": "Спя осем часа.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "стол",
+    "translation": "sandalye",
+    "level": 1,
+    "exampleSentence": "Седни на стола.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "съм",
+    "translation": "olmak",
+    "level": 1,
+    "exampleSentence": "Аз съм студент.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "тук",
+    "translation": "burada",
+    "level": 1,
+    "exampleSentence": "Ела тук, моля.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "училище",
+    "translation": "okul",
+    "level": 1,
+    "exampleSentence": "Децата ходят на училище.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "хляб",
+    "translation": "ekmek",
+    "level": 1,
+    "exampleSentence": "Купувам пресен хляб.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ходя",
+    "translation": "yürümek",
+    "level": 1,
+    "exampleSentence": "Ходя пеша до работа.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "храна",
+    "translation": "yemek",
+    "level": 1,
+    "exampleSentence": "Храната е вкусна.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "хубав",
+    "translation": "güzel",
+    "level": 1,
+    "exampleSentence": "Времето е хубаво днес.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "червен",
+    "translation": "kırmızı",
+    "level": 1,
+    "exampleSentence": "Ябълката е червена.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "черен",
+    "translation": "siyah",
+    "level": 1,
+    "exampleSentence": "Котката е черна.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "чета",
+    "translation": "okumak",
+    "level": 1,
+    "exampleSentence": "Чета книга вечер.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "човек",
+    "translation": "insan",
+    "level": 1,
+    "exampleSentence": "Този човек е мил.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ям",
+    "translation": "yemek (fiil)",
+    "level": 1,
+    "exampleSentence": "Ям закуска сутрин.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "автобус",
+    "translation": "otobüs",
+    "level": 2,
+    "exampleSentence": "Автобусът идва след пет минути.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "адрес",
+    "translation": "adres",
+    "level": 2,
+    "exampleSentence": "Кажи ми твоя адрес.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "багаж",
+    "translation": "bagaj",
+    "level": 2,
+    "exampleSentence": "Багажът ми е тежък.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "билет",
+    "translation": "bilet",
+    "level": 2,
+    "exampleSentence": "Купих билет за влака.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "благодаря",
+    "translation": "teşekkür ederim",
+    "level": 2,
+    "exampleSentence": "Благодаря за помощта.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "близо",
+    "translation": "yakın",
+    "level": 2,
+    "exampleSentence": "Магазинът е близо до дома.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "болница",
+    "translation": "hastane",
+    "level": 2,
+    "exampleSentence": "Болницата е в центъра.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "вдясно",
+    "translation": "sağda",
+    "level": 2,
+    "exampleSentence": "Завий вдясно на ъгъла.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "влак",
+    "translation": "tren",
+    "level": 2,
+    "exampleSentence": "Влакът тръгва в осем.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "време",
+    "translation": "hava / zaman",
+    "level": 2,
+    "exampleSentence": "Времето днес е слънчево.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "вчера",
+    "translation": "dün",
+    "level": 2,
+    "exampleSentence": "Вчера бях на пазар.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "гара",
+    "translation": "istasyon",
+    "level": 2,
+    "exampleSentence": "Чакам те на гарата.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "град",
+    "translation": "şehir",
+    "level": 2,
+    "exampleSentence": "Живея в голям град.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "далеч",
+    "translation": "uzak",
+    "level": 2,
+    "exampleSentence": "Селото е далеч от тук.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "дрехи",
+    "translation": "giysiler",
+    "level": 2,
+    "exampleSentence": "Купих нови дрехи.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "евтин",
+    "translation": "ucuz",
+    "level": 2,
+    "exampleSentence": "Тази риза е евтина.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "закуска",
+    "translation": "kahvaltı",
+    "level": 2,
+    "exampleSentence": "Закуската е готова.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "затворен",
+    "translation": "kapalı",
+    "level": 2,
+    "exampleSentence": "Магазинът е затворен сега.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "здраве",
+    "translation": "sağlık",
+    "level": 2,
+    "exampleSentence": "Желая ти добро здраве.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "карта",
+    "translation": "harita / kart",
+    "level": 2,
+    "exampleSentence": "Гледам картата на града.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "колко",
+    "translation": "ne kadar",
+    "level": 2,
+    "exampleSentence": "Колко струва това?",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "купувам",
+    "translation": "satın almak",
+    "level": 2,
+    "exampleSentence": "Купувам плодове на пазара.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "лекар",
+    "translation": "doktor",
+    "level": 2,
+    "exampleSentence": "Имам час при лекар.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ляво",
+    "translation": "sol",
+    "level": 2,
+    "exampleSentence": "Банката е от лявата страна.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "магазин",
+    "translation": "mağaza",
+    "level": 2,
+    "exampleSentence": "Магазинът отваря в девет.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "месец",
+    "translation": "ay",
+    "level": 2,
+    "exampleSentence": "Този месец е много зает.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "минута",
+    "translation": "dakika",
+    "level": 2,
+    "exampleSentence": "Изчакай само една минута.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "облекло",
+    "translation": "kıyafet",
+    "level": 2,
+    "exampleSentence": "Облеклото му е елегантно.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "отворен",
+    "translation": "açık",
+    "level": 2,
+    "exampleSentence": "Аптеката е отворена днес.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "пазар",
+    "translation": "pazar / market",
+    "level": 2,
+    "exampleSentence": "Отивам на пазар сутринта.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "пари",
+    "translation": "para",
+    "level": 2,
+    "exampleSentence": "Нямам достатъчно пари.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "плащам",
+    "translation": "ödemek",
+    "level": 2,
+    "exampleSentence": "Плащам с карта.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "помагам",
+    "translation": "yardım etmek",
+    "level": 2,
+    "exampleSentence": "Помагам на майка си.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "посока",
+    "translation": "yön",
+    "level": 2,
+    "exampleSentence": "В коя посока е центърът?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "пресечка",
+    "translation": "kavşak",
+    "level": 2,
+    "exampleSentence": "Завий на следващата пресечка.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "пътувам",
+    "translation": "seyahat etmek",
+    "level": 2,
+    "exampleSentence": "Обичам да пътувам през лятото.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ресторант",
+    "translation": "restoran",
+    "level": 2,
+    "exampleSentence": "Вечеряме в нов ресторант.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "самолет",
+    "translation": "uçak",
+    "level": 2,
+    "exampleSentence": "Самолетът каца в три.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "седмица",
+    "translation": "hafta",
+    "level": 2,
+    "exampleSentence": "Следващата седмица съм на почивка.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "скъп",
+    "translation": "pahalı",
+    "level": 2,
+    "exampleSentence": "Този часовник е много скъп.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "спирка",
+    "translation": "durak",
+    "level": 2,
+    "exampleSentence": "Слизам на следващата спирка.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "струвам",
+    "translation": "değerinde olmak",
+    "level": 2,
+    "exampleSentence": "Колко струва билетът?",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "сутрин",
+    "translation": "sabah",
+    "level": 2,
+    "exampleSentence": "Сутрин пия кафе.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "такси",
+    "translation": "taksi",
+    "level": 2,
+    "exampleSentence": "Викам такси до летището.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "тръгвам",
+    "translation": "yola çıkmak",
+    "level": 2,
+    "exampleSentence": "Тръгвам рано сутринта.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "улица",
+    "translation": "sokak",
+    "level": 2,
+    "exampleSentence": "Живея на тиха улица.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "утре",
+    "translation": "yarın",
+    "level": 2,
+    "exampleSentence": "Утре имам изпит.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "хотел",
+    "translation": "otel",
+    "level": 2,
+    "exampleSentence": "Отседнахме в хубав хотел.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "чакам",
+    "translation": "beklemek",
+    "level": 2,
+    "exampleSentence": "Чакам автобуса от десет минути.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "час",
+    "translation": "saat",
+    "level": 2,
+    "exampleSentence": "Срещата е в един час.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "връщам",
+    "translation": "geri vermek",
+    "level": 3,
+    "exampleSentence": "Връщам книгата утре.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "възможност",
+    "translation": "imkân, fırsat",
+    "level": 3,
+    "exampleSentence": "Това е добра възможност за работа.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "грижа",
+    "translation": "endişe, ilgi",
+    "level": 3,
+    "exampleSentence": "Тя се грижа за болната си майка.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "длъжност",
+    "translation": "görev, pozisyon",
+    "level": 3,
+    "exampleSentence": "Той заема висока длъжност.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "доволен",
+    "translation": "memnun",
+    "level": 3,
+    "exampleSentence": "Доволен съм от резултата.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "договор",
+    "translation": "sözleşme",
+    "level": 3,
+    "exampleSentence": "Подписахме нов договор.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "заплата",
+    "translation": "maaş",
+    "level": 3,
+    "exampleSentence": "Заплатата ми се покачи.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "здравословен",
+    "translation": "sağlıklı",
+    "level": 3,
+    "exampleSentence": "Спортът е здравословен навик.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "значение",
+    "translation": "anlam, önem",
+    "level": 3,
+    "exampleSentence": "Това решение има голямо значение.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "избирам",
+    "translation": "seçmek",
+    "level": 3,
+    "exampleSentence": "Трудно е да избирам подарък.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "интервю",
+    "translation": "mülakat",
+    "level": 3,
+    "exampleSentence": "Имам интервю за работа утре.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "колега",
+    "translation": "iş arkadaşı",
+    "level": 3,
+    "exampleSentence": "Моят колега е много опитен.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "лечение",
+    "translation": "tedavi",
+    "level": 3,
+    "exampleSentence": "Лечението продължи два месеца.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "мнение",
+    "translation": "görüş, fikir",
+    "level": 3,
+    "exampleSentence": "Какво е твоето мнение по въпроса?",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "надявам се",
+    "translation": "ummak",
+    "level": 3,
+    "exampleSentence": "Надявам се да успееш.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "напрежение",
+    "translation": "gerginlik, stres",
+    "level": 3,
+    "exampleSentence": "Чувствам голямо напрежение на работа.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "настроение",
+    "translation": "ruh hâli",
+    "level": 3,
+    "exampleSentence": "Днес съм в добро настроение.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "обяснявам",
+    "translation": "açıklamak",
+    "level": 3,
+    "exampleSentence": "Учителят обяснява урока бавно.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "опит",
+    "translation": "deneyim",
+    "level": 3,
+    "exampleSentence": "Имам опит в тази област.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "отговорност",
+    "translation": "sorumluluk",
+    "level": 3,
+    "exampleSentence": "Поемам пълна отговорност за това.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "отношение",
+    "translation": "ilişki, tutum",
+    "level": 3,
+    "exampleSentence": "Имаме добро отношение помежду си.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "плащане",
+    "translation": "ödeme",
+    "level": 3,
+    "exampleSentence": "Плащането се извършва онлайн.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "повишение",
+    "translation": "terfi",
+    "level": 3,
+    "exampleSentence": "Получих повишение в работата.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "подготвям",
+    "translation": "hazırlamak",
+    "level": 3,
+    "exampleSentence": "Подготвям презентация за срещата.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "предлагам",
+    "translation": "önermek, teklif etmek",
+    "level": 3,
+    "exampleSentence": "Предлагам да започнем веднага.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "предпочитам",
+    "translation": "tercih etmek",
+    "level": 3,
+    "exampleSentence": "Предпочитам чай пред кафе.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "приятен",
+    "translation": "hoş, keyifli",
+    "level": 3,
+    "exampleSentence": "Прекарахме приятна вечер заедно.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "проблем",
+    "translation": "problem, sorun",
+    "level": 3,
+    "exampleSentence": "Трябва да решим този проблем.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "разбирам",
+    "translation": "anlamak",
+    "level": 3,
+    "exampleSentence": "Сега разбирам твоята гледна точка.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "развитие",
+    "translation": "gelişim",
+    "level": 3,
+    "exampleSentence": "Компанията е в постоянно развитие.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "решавам",
+    "translation": "karar vermek, çözmek",
+    "level": 3,
+    "exampleSentence": "Трудно решавам какво да правя.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "решение",
+    "translation": "karar, çözüm",
+    "level": 3,
+    "exampleSentence": "Това беше правилно решение.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "сериозен",
+    "translation": "ciddi",
+    "level": 3,
+    "exampleSentence": "Това е сериозен въпрос.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "симптом",
+    "translation": "belirti",
+    "level": 3,
+    "exampleSentence": "Симптомите изчезнаха бързо.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ситуация",
+    "translation": "durum",
+    "level": 3,
+    "exampleSentence": "Ситуацията е сложна.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "случвам се",
+    "translation": "olmak, gerçekleşmek",
+    "level": 3,
+    "exampleSentence": "Какво се случва тук?",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "смятам",
+    "translation": "düşünmek, saymak",
+    "level": 3,
+    "exampleSentence": "Смятам, че имаш право.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "сравнявам",
+    "translation": "karşılaştırmak",
+    "level": 3,
+    "exampleSentence": "Сравнявам двете оферти.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "среща",
+    "translation": "toplantı, buluşma",
+    "level": 3,
+    "exampleSentence": "Срещата започва в десет.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "съвет",
+    "translation": "tavsiye",
+    "level": 3,
+    "exampleSentence": "Дай ми един съвет, моля.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "съгласен",
+    "translation": "hemfikir",
+    "level": 3,
+    "exampleSentence": "Напълно съм съгласен с теб.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "тревожа се",
+    "translation": "endişelenmek",
+    "level": 3,
+    "exampleSentence": "Не се тревожа за изпита.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "трудност",
+    "translation": "zorluk",
+    "level": 3,
+    "exampleSentence": "Преодоляхме всяка трудност.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "уверен",
+    "translation": "kendinden emin",
+    "level": 3,
+    "exampleSentence": "Тя е уверена в способностите си.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "умора",
+    "translation": "yorgunluk",
+    "level": 3,
+    "exampleSentence": "Чувствам силна умора вечер.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "услуга",
+    "translation": "hizmet",
+    "level": 3,
+    "exampleSentence": "Тази услуга е безплатна.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "успех",
+    "translation": "başarı",
+    "level": 3,
+    "exampleSentence": "Пожелавам ти успех.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "характер",
+    "translation": "karakter",
+    "level": 3,
+    "exampleSentence": "Той има силен характер.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "цел",
+    "translation": "hedef, amaç",
+    "level": 3,
+    "exampleSentence": "Моята цел е да науча езика.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "чувствам",
+    "translation": "hissetmek",
+    "level": 3,
+    "exampleSentence": "Чувствам се по-добре днес.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "анализ",
+    "translation": "analiz",
+    "level": 4,
+    "exampleSentence": "Анализът показва ясна тенденция.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "влияние",
+    "translation": "etki, nüfuz",
+    "level": 4,
+    "exampleSentence": "Медиите имат голямо влияние върху обществото.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "възприятие",
+    "translation": "algı",
+    "level": 4,
+    "exampleSentence": "Възприятието за риск варира при хората.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "глобален",
+    "translation": "küresel",
+    "level": 4,
+    "exampleSentence": "Това е глобален икономически проблем.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "данни",
+    "translation": "veri",
+    "level": 4,
+    "exampleSentence": "Данните потвърждават хипотезата.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "достоверен",
+    "translation": "güvenilir, sahih",
+    "level": 4,
+    "exampleSentence": "Източникът е напълно достоверен.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "ефективност",
+    "translation": "verimlilik",
+    "level": 4,
+    "exampleSentence": "Новата система повиши ефективността.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "законодателство",
+    "translation": "yasama, mevzuat",
+    "level": 4,
+    "exampleSentence": "Новото законодателство влиза в сила догодина.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "изследване",
+    "translation": "araştırma",
+    "level": 4,
+    "exampleSentence": "Изследването продължи три години.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "икономика",
+    "translation": "ekonomi",
+    "level": 4,
+    "exampleSentence": "Икономиката расте бавно тази година.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "инвестиция",
+    "translation": "yatırım",
+    "level": 4,
+    "exampleSentence": "Инвестицията се изплати бързо.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "иновация",
+    "translation": "yenilik, inovasyon",
+    "level": 4,
+    "exampleSentence": "Фирмата залага на иновации.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "капка по капка",
+    "translation": "damla damla (yavaş yavaş)",
+    "level": 4,
+    "exampleSentence": "Капка по капка вир става.",
+    "partOfSpeech": "phrase"
+  },
+  {
+    "word": "качество",
+    "translation": "kalite",
+    "level": 4,
+    "exampleSentence": "Качеството на продукта е отлично.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "конкуренция",
+    "translation": "rekabet",
+    "level": 4,
+    "exampleSentence": "Конкуренцията на пазара е силна.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "концепция",
+    "translation": "kavram, konsept",
+    "level": 4,
+    "exampleSentence": "Концепцията е новаторска.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "критерий",
+    "translation": "kriter, ölçüt",
+    "level": 4,
+    "exampleSentence": "Изборът се прави по строги критерии.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "медия",
+    "translation": "medya",
+    "level": 4,
+    "exampleSentence": "Социалните медии променят комуникацията.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "механизъм",
+    "translation": "mekanizma",
+    "level": 4,
+    "exampleSentence": "Механизмът на реакцията е сложен.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "наука",
+    "translation": "bilim",
+    "level": 4,
+    "exampleSentence": "Науката напредва с бързи темпове.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "обществен",
+    "translation": "kamusal, toplumsal",
+    "level": 4,
+    "exampleSentence": "Това е важен обществен дебат.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "очаквам",
+    "translation": "beklemek (ummak)",
+    "level": 4,
+    "exampleSentence": "Очаквам значителни промени скоро.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "пазарен",
+    "translation": "piyasaya ait",
+    "level": 4,
+    "exampleSentence": "Пазарният дял на фирмата нараства.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "печалба",
+    "translation": "kâr",
+    "level": 4,
+    "exampleSentence": "Компанията отчете рекордна печалба.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "подход",
+    "translation": "yaklaşım",
+    "level": 4,
+    "exampleSentence": "Те възприеха нов подход към проблема.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "показател",
+    "translation": "gösterge",
+    "level": 4,
+    "exampleSentence": "Икономическите показатели се подобряват.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "потребител",
+    "translation": "tüketici, kullanıcı",
+    "level": 4,
+    "exampleSentence": "Потребителите търсят по-добро качество.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "предприятие",
+    "translation": "işletme",
+    "level": 4,
+    "exampleSentence": "Предприятието наема стотици хора.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "представа",
+    "translation": "tasavvur, fikir",
+    "level": 4,
+    "exampleSentence": "Нямам представа какво се случи.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "приложение",
+    "translation": "uygulama",
+    "level": 4,
+    "exampleSentence": "Теорията намира практическо приложение.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "производство",
+    "translation": "üretim",
+    "level": 4,
+    "exampleSentence": "Производството се автоматизира постепенно.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "проучване",
+    "translation": "inceleme, anket",
+    "level": 4,
+    "exampleSentence": "Проучването обхвана хиляди участници.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "развивам",
+    "translation": "geliştirmek",
+    "level": 4,
+    "exampleSentence": "Те развиват иновативна технология.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "разход",
+    "translation": "harcama, gider",
+    "level": 4,
+    "exampleSentence": "Разходите трябва да бъдат намалени.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "реализирам",
+    "translation": "gerçekleştirmek",
+    "level": 4,
+    "exampleSentence": "Успяхме да реализираме проекта.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "ресурс",
+    "translation": "kaynak",
+    "level": 4,
+    "exampleSentence": "Природните ресурси са ограничени.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "риск",
+    "translation": "risk",
+    "level": 4,
+    "exampleSentence": "Всяка инвестиция носи риск.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "стратегия",
+    "translation": "strateji",
+    "level": 4,
+    "exampleSentence": "Фирмата приема дългосрочна стратегия.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "структура",
+    "translation": "yapı",
+    "level": 4,
+    "exampleSentence": "Организационната структура е сложна.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "същност",
+    "translation": "öz, mahiyet",
+    "level": 4,
+    "exampleSentence": "Това е същността на спора.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "тенденция",
+    "translation": "eğilim, trend",
+    "level": 4,
+    "exampleSentence": "Наблюдава се ясна тенденция към растеж.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "технология",
+    "translation": "teknoloji",
+    "level": 4,
+    "exampleSentence": "Технологията се развива бързо.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "управление",
+    "translation": "yönetim",
+    "level": 4,
+    "exampleSentence": "Управлението на проекта е ефективно.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "устойчив",
+    "translation": "sürdürülebilir, dayanıklı",
+    "level": 4,
+    "exampleSentence": "Целта е устойчиво развитие.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "финансов",
+    "translation": "finansal",
+    "level": 4,
+    "exampleSentence": "Финансовият отчет е готов.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "функция",
+    "translation": "işlev, fonksiyon",
+    "level": 4,
+    "exampleSentence": "Всеки орган изпълнява своя функция.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "хвърлям прах в очите",
+    "translation": "göz boyamak",
+    "level": 4,
+    "exampleSentence": "Рекламата само хвърля прах в очите.",
+    "partOfSpeech": "phrase"
+  },
+  {
+    "word": "хипотеза",
+    "translation": "hipotez",
+    "level": 4,
+    "exampleSentence": "Хипотезата беше потвърдена от опита.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "цифров",
+    "translation": "dijital",
+    "level": 4,
+    "exampleSentence": "Живеем в цифрова епоха.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "явление",
+    "translation": "olgu, fenomen",
+    "level": 4,
+    "exampleSentence": "Това е често срещано природно явление.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "аргументирам",
+    "translation": "gerekçelendirmek",
+    "level": 5,
+    "exampleSentence": "Авторът аргументира тезата си убедително.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "взаимодействие",
+    "translation": "etkileşim",
+    "level": 5,
+    "exampleSentence": "Взаимодействието между фактори е сложно.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "впрочем",
+    "translation": "esasen, aslında",
+    "level": 5,
+    "exampleSentence": "Впрочем, това не променя основния извод.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "вследствие",
+    "translation": "neticesinde, sonucunda",
+    "level": 5,
+    "exampleSentence": "Вследствие на реформата цените се промениха.",
+    "partOfSpeech": "preposition"
+  },
+  {
+    "word": "възниквам",
+    "translation": "ortaya çıkmak, doğmak",
+    "level": 5,
+    "exampleSentence": "Възниква въпросът за надеждността.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "двусмислен",
+    "translation": "iki anlamlı, muğlak",
+    "level": 5,
+    "exampleSentence": "Изказването му беше умишлено двусмислено.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "диференциация",
+    "translation": "farklılaşma",
+    "level": 5,
+    "exampleSentence": "Социалната диференциация се задълбочава.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "доколкото",
+    "translation": "-diği ölçüde",
+    "level": 5,
+    "exampleSentence": "Доколкото знам, проектът още не е приключил.",
+    "partOfSpeech": "conjunction"
+  },
+  {
+    "word": "достатъчно",
+    "translation": "yeterince",
+    "level": 5,
+    "exampleSentence": "Доказателствата не са достатъчно убедителни.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "достоверност",
+    "translation": "güvenilirlik, sahihlik",
+    "level": 5,
+    "exampleSentence": "Достоверността на данните е под въпрос.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "евентуален",
+    "translation": "olası, muhtemel",
+    "level": 5,
+    "exampleSentence": "Обсъдихме евентуалните последици.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "залагам",
+    "translation": "esas almak, dayandırmak",
+    "level": 5,
+    "exampleSentence": "Авторът залага на строга аргументация.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "именно",
+    "translation": "tam da, özellikle",
+    "level": 5,
+    "exampleSentence": "Именно това поражда основните противоречия.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "интерпретация",
+    "translation": "yorum",
+    "level": 5,
+    "exampleSentence": "Текстът допуска различни интерпретации.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "критерийен",
+    "translation": "ölçütsel, kriter temelli",
+    "level": 5,
+    "exampleSentence": "Оценката се извършва на критерийна основа.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "методология",
+    "translation": "metodoloji",
+    "level": 5,
+    "exampleSentence": "Методологията на изследването е прозрачна.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "нагледен",
+    "translation": "açık, gözle görülür",
+    "level": 5,
+    "exampleSentence": "Авторът дава нагледен пример.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "недвусмислен",
+    "translation": "kesin, açık seçik",
+    "level": 5,
+    "exampleSentence": "Получихме недвусмислен отговор.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "независимо",
+    "translation": "bağımsız olarak, -e rağmen",
+    "level": 5,
+    "exampleSentence": "Независимо от трудностите, проектът успя.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "неизбежен",
+    "translation": "kaçınılmaz",
+    "level": 5,
+    "exampleSentence": "Промяната изглежда неизбежна.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "обуславям",
+    "translation": "koşullamak, belirlemek",
+    "level": 5,
+    "exampleSentence": "Множество фактори обуславят резултата.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "обхват",
+    "translation": "kapsam",
+    "level": 5,
+    "exampleSentence": "Обхватът на изследването е широк.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "относителен",
+    "translation": "göreceli, nispi",
+    "level": 5,
+    "exampleSentence": "Истината тук е относителна.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "очевидно",
+    "translation": "açıkça, belli ki",
+    "level": 5,
+    "exampleSentence": "Очевидно изводът се нуждае от преоценка.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "паралелно",
+    "translation": "paralel olarak",
+    "level": 5,
+    "exampleSentence": "Двата процеса протичат паралелно.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "поради",
+    "translation": "-den dolayı, nedeniyle",
+    "level": 5,
+    "exampleSentence": "Поради липса на време отложихме срещата.",
+    "partOfSpeech": "preposition"
+  },
+  {
+    "word": "последователен",
+    "translation": "tutarlı, ardışık",
+    "level": 5,
+    "exampleSentence": "Аргументацията е логична и последователна.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "посредством",
+    "translation": "vasıtasıyla, aracılığıyla",
+    "level": 5,
+    "exampleSentence": "Целта се постига посредством сътрудничество.",
+    "partOfSpeech": "preposition"
+  },
+  {
+    "word": "предполагам",
+    "translation": "varsaymak, tahmin etmek",
+    "level": 5,
+    "exampleSentence": "Предполагам, че резултатите ще се различават.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "предпоставка",
+    "translation": "önkoşul, varsayım",
+    "level": 5,
+    "exampleSentence": "Това е необходима предпоставка за успех.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "преобладавам",
+    "translation": "baskın olmak, ağır basmak",
+    "level": 5,
+    "exampleSentence": "Положителните мнения преобладават.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "произтичам",
+    "translation": "kaynaklanmak, ileri gelmek",
+    "level": 5,
+    "exampleSentence": "Изводът произтича пряко от данните.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "противоречие",
+    "translation": "çelişki",
+    "level": 5,
+    "exampleSentence": "В текста има вътрешно противоречие.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "процедура",
+    "translation": "prosedür",
+    "level": 5,
+    "exampleSentence": "Процедурата е строго регламентирана.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "разглеждам",
+    "translation": "ele almak, incelemek",
+    "level": 5,
+    "exampleSentence": "Авторът разглежда въпроса задълбочено.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "следователно",
+    "translation": "dolayısıyla, bu yüzden",
+    "level": 5,
+    "exampleSentence": "Хипотезата е невярна, следователно я отхвърляме.",
+    "partOfSpeech": "conjunction"
+  },
+  {
+    "word": "специфичен",
+    "translation": "özgül, spesifik",
+    "level": 5,
+    "exampleSentence": "Всеки случай има специфични особености.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "съвкупност",
+    "translation": "bütünlük, toplam",
+    "level": 5,
+    "exampleSentence": "Това е съвкупност от взаимосвързани фактори.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "съответно",
+    "translation": "buna göre, sırasıyla",
+    "level": 5,
+    "exampleSentence": "Резултатите варират съответно на условията.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "съответствие",
+    "translation": "uygunluk, uyum",
+    "level": 5,
+    "exampleSentence": "Действията са в съответствие със закона.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "същевременно",
+    "translation": "aynı zamanda",
+    "level": 5,
+    "exampleSentence": "Същевременно следва да отчетем и рисковете.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "съществен",
+    "translation": "esaslı, önemli",
+    "level": 5,
+    "exampleSentence": "Това е съществена разлика между двата подхода.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "така че",
+    "translation": "öyle ki, böylece",
+    "level": 5,
+    "exampleSentence": "Подредихме данните така че да са съпоставими.",
+    "partOfSpeech": "conjunction"
+  },
+  {
+    "word": "тенденциозен",
+    "translation": "taraflı, eğilimli",
+    "level": 5,
+    "exampleSentence": "Докладът звучи донякъде тенденциозно.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "теоретичен",
+    "translation": "teorik",
+    "level": 5,
+    "exampleSentence": "Това е чисто теоретичен модел.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "уточнявам",
+    "translation": "netleştirmek, belirginleştirmek",
+    "level": 5,
+    "exampleSentence": "Нека уточня основната теза.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "целесъобразен",
+    "translation": "amaca uygun, makul",
+    "level": 5,
+    "exampleSentence": "Подобна мярка е целесъобразна.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "частично",
+    "translation": "kısmen",
+    "level": 5,
+    "exampleSentence": "Хипотезата се потвърждава само частично.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "честота",
+    "translation": "sıklık, frekans",
+    "level": 5,
+    "exampleSentence": "Честотата на явлението нараства.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "явен",
+    "translation": "aşikâr, belirgin",
+    "level": 5,
+    "exampleSentence": "Налице е явен напредък в работата.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "безпрецедентен",
+    "translation": "emsalsiz, eşi görülmemiş",
+    "level": 6,
+    "exampleSentence": "Кризата придоби безпрецедентен мащаб.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "благоговение",
+    "translation": "huşu, derin saygı",
+    "level": 6,
+    "exampleSentence": "Той говореше за нея с благоговение.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "бленувам",
+    "translation": "hayalini kurmak, özlemini çekmek",
+    "level": 6,
+    "exampleSentence": "От години бленувам за тази среща.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "брожение",
+    "translation": "kaynaşma, hoşnutsuzluk",
+    "level": 6,
+    "exampleSentence": "В обществото назряваше глухо брожение.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "въжделение",
+    "translation": "şiddetli arzu, özlem",
+    "level": 6,
+    "exampleSentence": "Свободата беше тяхно най-съкровено въжделение.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "възвишен",
+    "translation": "yüce, ulvi",
+    "level": 6,
+    "exampleSentence": "Поетът пише с възвишен слог.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "възмездие",
+    "translation": "ceza, kısas",
+    "level": 6,
+    "exampleSentence": "Героят търси справедливо възмездие.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "глумя се",
+    "translation": "alay etmek, eğlenmek",
+    "level": 6,
+    "exampleSentence": "Тълпата се глумеше над беззащитния.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "дихотомия",
+    "translation": "ikilik, dikotomi",
+    "level": 6,
+    "exampleSentence": "Авторът преодолява тази дихотомия.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "ефимерен",
+    "translation": "geçici, kısa ömürlü",
+    "level": 6,
+    "exampleSentence": "Славата често е ефимерна.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "злободневен",
+    "translation": "güncel, can alıcı",
+    "level": 6,
+    "exampleSentence": "Темата остава изключително злободневна.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "иманентен",
+    "translation": "içkin, içsel",
+    "level": 6,
+    "exampleSentence": "Противоречието е иманентно на системата.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "имплицитен",
+    "translation": "örtük, zımni",
+    "level": 6,
+    "exampleSentence": "Текстът съдържа имплицитна критика.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "красноречив",
+    "translation": "belagatli, etkileyici konuşan",
+    "level": 6,
+    "exampleSentence": "Това е красноречиво доказателство за провала.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "ламтя",
+    "translation": "hırsla istemek, göz dikmek",
+    "level": 6,
+    "exampleSentence": "Той ламти за власт и богатство.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "малодушие",
+    "translation": "korkaklık, cesaretsizlik",
+    "level": 6,
+    "exampleSentence": "Той се укори за своето малодушие.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "мимолетен",
+    "translation": "gelip geçici, anlık",
+    "level": 6,
+    "exampleSentence": "Това беше само мимолетно увлечение.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "набъбвам",
+    "translation": "şişmek, kabarmak",
+    "level": 6,
+    "exampleSentence": "Реката набъбна след поройните дъждове.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "недоимък",
+    "translation": "yokluk, kıtlık",
+    "level": 6,
+    "exampleSentence": "Народът живееше в постоянен недоимък.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "необозрим",
+    "translation": "uçsuz bucaksız",
+    "level": 6,
+    "exampleSentence": "Пред тях се простираше необозрима равнина.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "низвергвам",
+    "translation": "devirmek, alaşağı etmek",
+    "level": 6,
+    "exampleSentence": "Революцията низвергна стария режим.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "нравствен",
+    "translation": "ahlaki",
+    "level": 6,
+    "exampleSentence": "Това повдига сложен нравствен въпрос.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "обезсърчен",
+    "translation": "cesareti kırılmış, ümitsiz",
+    "level": 6,
+    "exampleSentence": "След провала той беше дълбоко обезсърчен.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "опровергавам",
+    "translation": "çürütmek, yalanlamak",
+    "level": 6,
+    "exampleSentence": "Новите данни опровергаха старата теория.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "отколе",
+    "translation": "öteden beri, çoktan",
+    "level": 6,
+    "exampleSentence": "Отколе се знаеше за тази опасност.",
+    "partOfSpeech": "adverb"
+  },
+  {
+    "word": "парадигма",
+    "translation": "paradigma",
+    "level": 6,
+    "exampleSentence": "Откритието промени научната парадигма.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "поврат",
+    "translation": "dönüm noktası, dönüş",
+    "level": 6,
+    "exampleSentence": "Това беше решителен поврат в историята.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "повсеместен",
+    "translation": "her yere yayılmış, yaygın",
+    "level": 6,
+    "exampleSentence": "Явлението придоби повсеместен характер.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "подмолен",
+    "translation": "sinsi, gizliden gizliye",
+    "level": 6,
+    "exampleSentence": "Те водеха подмолна борба за влияние.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "помрачавам",
+    "translation": "gölgelemek, karartmak",
+    "level": 6,
+    "exampleSentence": "Нищо не можеше да помрачи радостта им.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "пренебрегвам",
+    "translation": "göz ardı etmek, ihmal etmek",
+    "level": 6,
+    "exampleSentence": "Не бива да пренебрегваме тези сигнали.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "присъщ",
+    "translation": "özgü, doğasında olan",
+    "level": 6,
+    "exampleSentence": "Любопитството е присъщо на човека.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "провъзгласявам",
+    "translation": "ilan etmek, beyan etmek",
+    "level": 6,
+    "exampleSentence": "Документът провъзгласява нови принципи.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "прозрение",
+    "translation": "kavrayış, sezgi",
+    "level": 6,
+    "exampleSentence": "Романът е изпълнен с дълбоки прозрения.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "противоречив",
+    "translation": "çelişkili, tartışmalı",
+    "level": 6,
+    "exampleSentence": "Реформата получи противоречиви оценки.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "разнопосочен",
+    "translation": "farklı yönlü, çok yönlü",
+    "level": 6,
+    "exampleSentence": "Експертите изразиха разнопосочни мнения.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "самобитен",
+    "translation": "özgün, kendine has",
+    "level": 6,
+    "exampleSentence": "Творчеството ѝ е напълно самобитно.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "своеобразен",
+    "translation": "kendine özgü, alışılmadık",
+    "level": 6,
+    "exampleSentence": "Авторът има своеобразен стил.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "скверня",
+    "translation": "kirletmek, lekelemek",
+    "level": 6,
+    "exampleSentence": "Не бива да скверним паметта на загиналите.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "съзерцавам",
+    "translation": "temaşa etmek, derin derin seyretmek",
+    "level": 6,
+    "exampleSentence": "Тя дълго съзерцаваше морето.",
+    "partOfSpeech": "verb"
+  },
+  {
+    "word": "съкровен",
+    "translation": "en içten, mahrem",
+    "level": 6,
+    "exampleSentence": "Той сподели най-съкровените си мисли.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "тленен",
+    "translation": "fani, ölümlü",
+    "level": 6,
+    "exampleSentence": "Всичко тленно е обречено да отмине.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "трансцендентен",
+    "translation": "aşkın, transandantal",
+    "level": 6,
+    "exampleSentence": "Философът разглежда трансцендентни въпроси.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "тривиален",
+    "translation": "sıradan, basmakalıp",
+    "level": 6,
+    "exampleSentence": "Изводът се оказа изненадващо тривиален.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "тщеславие",
+    "translation": "kibir, boş gurur",
+    "level": 6,
+    "exampleSentence": "Тщеславието погуби много велики хора.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "умозрителен",
+    "translation": "spekülatif, kuramsal",
+    "level": 6,
+    "exampleSentence": "Доводите му са чисто умозрителни.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "упование",
+    "translation": "güven, tevekkül",
+    "level": 6,
+    "exampleSentence": "Цялото му упование беше в бъдещето.",
+    "partOfSpeech": "noun"
+  },
+  {
+    "word": "хаплив",
+    "translation": "iğneleyici, sivri dilli",
+    "level": 6,
+    "exampleSentence": "Критиката му беше остра и хаплива.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "хипертрофиран",
+    "translation": "abartılı, aşırı büyümüş",
+    "level": 6,
+    "exampleSentence": "Текстът страда от хипертрофирана образност.",
+    "partOfSpeech": "adjective"
+  },
+  {
+    "word": "чезна",
+    "translation": "yitip gitmek, eriyip kaybolmak",
+    "level": 6,
+    "exampleSentence": "Спомените бавно чезнат с годините.",
+    "partOfSpeech": "verb"
+  }
+]
