@@ -4,6 +4,118 @@ All notable changes to MobileEnglish are documented here.
 
 ---
 
+## [Unreleased] — 2026-06-07
+
+### feat: Google authentication, cross-device sync (Supabase) & text-to-speech
+
+> **Summary:** Add Supabase-backed Google sign-in (guest mode preserved) and
+> WatermelonDB ↔ Supabase synchronization via Postgres RPC, so a signed-in user's
+> decks / cards / study sessions sync across devices. Add an on-device text-to-speech
+> "speak" button across the study screens. Remove stray tracked files from the repo.
+
+> **Breaking changes:** Database schema v4 → v5 (adds `user_settings.supabase_user_id`);
+> migration included.
+
+---
+
+#### Part A: Text-to-Speech (SpeakButton)
+
+**New component (`src/shared/ui/SpeakButton.tsx`):**
+- Pronunciation button wrapping `expo-speech` (device TTS)
+- Auto-hides when the target language has no voice on the device
+  (`Speech.getAvailableVoicesAsync()` checked once, cached at module level)
+- Tap to speak / tap again to stop; animated pulse while speaking (reanimated)
+- Uses `toBcp47()` from languageConfig to map internal codes → locale (e.g. `de` → `de-DE`)
+
+**Integration:**
+- `app/study.tsx` — overlay button on the flashcard, placed **outside** the
+  GestureDetector so it never triggers flip/swipe; speaks the word on the front and
+  the example sentence on the back
+- `app/deck-detail.tsx` — speak button in each card's action column
+- `app/create-deck.tsx` — speak button on each generated / looked-up word
+- `src/shared/ui/index.ts` — export SpeakButton
+
+---
+
+#### Part B: Supabase Google Authentication (guest mode preserved)
+
+**Client (`src/shared/api/supabase/client.ts`):**
+- `createClient` using `EXPO_PUBLIC_SUPABASE_URL` / `EXPO_PUBLIC_SUPABASE_ANON_KEY`
+- Storage adapter: SecureStore on native, AsyncStorage on web
+- **Chunked SecureStore adapter** — splits values larger than ~2 KB across multiple
+  keys so large Google session tokens persist (SecureStore caps each value at ~2048 bytes);
+  fixes "session not kept after restart"
+
+**Auth service (`src/shared/api/supabase/AuthService.ts`):**
+- `signInWithGoogle()` — web OAuth via `signInWithOAuth` + `expo-web-browser`
+  `openAuthSessionAsync`; PKCE flow exchanges the redirect `?code=` for a session
+  (`exchangeCodeForSession`), with an implicit-flow fallback
+- `signOut()`, `getSession()`, `onAuthStateChange()`
+
+**OAuth deep-link route (`app/auth/callback.tsx`):**
+- Handles the `lingualearn://auth/callback?code=...` redirect (expo-router intercepts
+  the deep link), exchanges the code, returns to Settings
+- Fixes the "Unmatched Route" error that appeared when the browser redirected back
+
+**State & persistence:**
+- `src/shared/lib/stores/useProfileStore.ts` — `supabaseSession` + `setSupabaseSession`
+  (null = guest)
+- `src/entities/UserProfile/model.ts` + schema **v5** + migration — `supabase_user_id`
+  (nullable)
+- `app/_layout.tsx` — restore session on startup; `onAuthStateChange` keeps the store
+  in sync and persists `supabase_user_id`
+
+**Settings UI (`app/(tabs)/settings.tsx`):**
+- New "Account" section: "Sign in with Google" when guest; email + sign-out when signed in
+- i18n keys added (en, tr; other locales fall back to en)
+
+---
+
+#### Part C: WatermelonDB ↔ Supabase Sync (Postgres RPC)
+
+**Backend (`supabase/sync.sql`) — run once in the Supabase SQL Editor:**
+- Tables `decks`, `cards`, `study_sessions` mirroring the local schema, plus
+  `user_id`, `_deleted` (soft delete) and `server_updated_at` (pull cursor)
+- `server_updated_at` trigger on insert/update
+- Row Level Security: `auth.uid() = user_id` on every table
+- `pull(last_pulled_at)` — returns `{ changes: { created, updated, deleted }, timestamp }`
+  per table (server-only columns stripped to match the local schema)
+- `push(changes)` — upsert (last-write-wins) + soft-delete
+- Table + function grants for the `authenticated` role (raw-SQL tables are **not**
+  auto-granted by Supabase — fixes "permission denied for table")
+
+**App (`src/shared/api/supabase/SyncService.ts`):**
+- `syncDatabase()` — WatermelonDB `synchronize()` calling `supabase.rpc('pull' / 'push')`;
+  `sendCreatedAsUpdated: true`; no-ops when not signed in or already syncing
+- Triggers: after sign-in (SIGNED_IN / INITIAL_SESSION) and on app foreground (AppState)
+- Manual "Sync now" button in Settings → Account (for testing / demo)
+
+**Not synced:** `user_settings`, `chat_messages` (per-device; different ids would duplicate).
+
+---
+
+#### Part D: Repo cleanup & dependencies
+
+**Removed stray tracked files:**
+- `git_diff.txt` (3054 lines), `git_staged_diff.txt`, `test1.txt`, `tsc_output.txt`
+- `.gitignore` — ignore `.idea/` and the above artifacts
+
+**Dependencies added:**
+- `@supabase/supabase-js`, `expo-secure-store`, `react-native-url-polyfill`,
+  `expo-auth-session`, `expo-web-browser`, `expo-speech`
+- Native modules → a new development build is required to run these.
+
+---
+
+#### Part E: Manual setup required (Supabase dashboard)
+
+- **Authentication → Providers → Google:** enabled with a **Web** OAuth client
+  (Google Cloud authorized redirect: `https://<project>.supabase.co/auth/v1/callback`)
+- **Authentication → URL Configuration → Redirect URLs:** add `lingualearn://auth/callback`
+- **SQL Editor:** run `supabase/sync.sql`
+
+---
+
 ## [Unreleased] — 2026-06-06
 
 ### refactor: Complete infrastructure overhaul — bridge-language strategy, SLM removal, category elimination
