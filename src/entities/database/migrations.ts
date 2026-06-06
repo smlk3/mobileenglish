@@ -39,5 +39,16 @@ export const migrations = schemaMigrations({
                 unsafeExecuteSql('CREATE INDEX IF NOT EXISTS idx_study_sessions_completed_at ON study_sessions (completed_at);'),
             ],
         },
+        {
+            toVersion: 5,
+            steps: [
+                addColumns({
+                    table: 'user_settings',
+                    columns: [
+                        { name: 'supabase_user_id', type: 'string', isOptional: true },
+                    ],
+                }),
+            ],
+        },
     ],
 });

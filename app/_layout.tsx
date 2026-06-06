@@ -1,18 +1,21 @@
-import 'react-native-get-random-values';
-import '../src/shared/i18n'; // i18n must be initialized before any screen renders
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import * as SplashScreen from 'expo-splash-screen';
 import { Stack, useRouter } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useRef, useState } from 'react';
-import { Animated, Image, StyleSheet, Text, View } from 'react-native';
+import { Animated, AppState, Image, StyleSheet, Text } from 'react-native';
+import 'react-native-get-random-values';
 import 'react-native-reanimated';
+import '../src/shared/api/supabase/client'; // Supabase client and polyfills
+import '../src/shared/i18n'; // i18n must be initialized before any screen renders
 import i18n from '../src/shared/i18n';
 
 SplashScreen.preventAutoHideAsync();
 
 import { initializeDefaultSettings } from '../src/entities/database';
 import HybridLLMManager from '../src/shared/api/llm/HybridLLMManager';
+import { AuthService } from '../src/shared/api/supabase/AuthService';
+import { syncDatabase } from '../src/shared/api/supabase/SyncService';
 import { getUserSettings } from '../src/shared/lib/stores/useDatabaseService';
 import { useProfileStore } from '../src/shared/lib/stores/useProfileStore';
 
@@ -34,6 +37,34 @@ export default function RootLayout() {
       setTimeout(() => router.replace('/onboarding' as any), 0);
     }
   }, [isReady, onboardingCompleted]);
+
+  // Keep the store in sync with Supabase auth state changes, persist the linked
+  // supabase_user_id to the DB, and run a sync when a session becomes available.
+  useEffect(() => {
+    const subscription = AuthService.onAuthStateChange(async (event, session) => {
+      useProfileStore.getState().setSupabaseSession(session);
+      try {
+        const s = await getUserSettings();
+        if (s) await s.updateSettings({ supabaseUserId: session?.user?.id ?? null });
+      } catch (e) {
+        console.warn('Failed to persist supabase_user_id:', e);
+      }
+      if (session && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION')) {
+        syncDatabase().catch((e) => console.warn('Sync failed:', e));
+      }
+    });
+    return () => subscription?.unsubscribe();
+  }, []);
+
+  // Sync when the app returns to the foreground (only while signed in).
+  useEffect(() => {
+    const sub = AppState.addEventListener('change', (state) => {
+      if (state === 'active' && useProfileStore.getState().supabaseSession) {
+        syncDatabase().catch((e) => console.warn('Sync failed:', e));
+      }
+    });
+    return () => sub.remove();
+  }, []);
 
   useEffect(() => {
     if (didInit.current) return;
@@ -95,6 +126,14 @@ export default function RootLayout() {
           useProfileStore.getState().setActiveModel('none');
         }
 
+      }
+
+      // Restore Supabase session (null = guest mode)
+      try {
+        const session = await AuthService.getSession();
+        useProfileStore.getState().setSupabaseSession(session);
+      } catch (e) {
+        console.warn('Supabase session restore failed:', e);
       }
     };
 

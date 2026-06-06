@@ -7,9 +7,12 @@
 
 ## Faz 0: Ön Koşullar (Manuel Kurulum)
 
-- [ ] **Supabase projesi oluştur** — supabase.com üzerinden ücretsiz proje aç
-- [ ] `SUPABASE_URL` ve `SUPABASE_ANON_KEY` değerlerini al
-- [ ] `.env.local` dosyası oluştur (git'e ekleme — `.gitignore`'a ekle)
+- [x] **Supabase projesi oluştur** — supabase.com üzerinden ücretsiz proje aç
+  - **Enable Data API:** Seçili (ON)
+  - **Automatically expose new tables:** Seçili Değil (OFF - Manuel güvenlik kontrolü için)
+  - **Enable automatic RLS:** Seçili (ON - Yeni tablolarda RLS zorunluluğu için)
+- [x] `SUPABASE_URL` ve `SUPABASE_ANON_KEY` değerlerini al
+- [x] `.env.local` dosyası oluştur (git'e ekleme — `.gitignore`'a ekle)
 - [ ] `app.config.js` veya `app.config.ts` dosyasına `extra` bloğu ekle; EAS Build için `eas.json`'a secret olarak tanımla
 - [ ] **Google Cloud Console** → OAuth 2.0 Client ID oluştur (Android + iOS ayrı ayrı)
   - Android: SHA-1 parmak izi gerekli (`keytool` ile üret)
@@ -20,15 +23,15 @@
 
 ## Faz 1: Supabase İstemcisi
 
-- [ ] Paketleri kur:
+- [x] Paketleri kur:
   ```bash
   npx expo install @supabase/supabase-js expo-secure-store react-native-url-polyfill
   ```
-- [ ] `src/shared/api/supabase/client.ts` dosyasını oluştur
+- [x] `src/shared/api/supabase/client.ts` dosyasını oluştur
   - `react-native-url-polyfill/auto` import'u en üste ekle
   - `expo-secure-store` tabanlı `AsyncStorage` adaptörü yaz
   - `createClient()` ile global client export et
-- [ ] `app/_layout.tsx` veya entry noktasına URL polyfill import'unu ekle
+- [x] `app/_layout.tsx` veya entry noktasına URL polyfill import'unu ekle
 
 ---
 
@@ -85,7 +88,7 @@
 ## Faz 4: Wordlist Bucket (Ertelendi)
 
 > **Neden ertelendi:** Mevcut wordlist klasörü yalnızca 337KB. APK boyutuna etkisi ihmal edilebilir.  
-> Dil sayısı artıp toplam boyut >5MB'ı geçince bu fazı gündeme al.
+> Dil sayısı artıp toplam boyut >50MB'ı geçince bu fazı gündeme al.
 
 - [ ] `scripts/upload-to-bucket.ts` yaz (Supabase `service_role` key ile — asla APK'ya dahil etme)
 - [ ] Supabase Dashboard → Storage → `wordlists` adında public bucket oluştur

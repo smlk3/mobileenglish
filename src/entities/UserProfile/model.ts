@@ -33,6 +33,7 @@ export default class UserSettings extends Model {
     @field('daily_goal') dailyGoal!: number;
     @field('notifications_enabled') notificationsEnabled!: boolean;
     @field('onboarding_completed') onboardingCompleted!: boolean;
+    @field('supabase_user_id') supabaseUserId!: string | null;
     @readonly @date('created_at') createdAt!: Date;
     @readonly @date('updated_at') updatedAt!: Date;
 
@@ -91,6 +92,7 @@ export default class UserSettings extends Model {
         dailyGoal?: number;
         notificationsEnabled?: boolean;
         onboardingCompleted?: boolean;
+        supabaseUserId?: string | null;
     }) {
         await this.update((settings) => {
             if (updates.theme !== undefined) settings.theme = updates.theme;
@@ -99,6 +101,7 @@ export default class UserSettings extends Model {
             if (updates.dailyGoal !== undefined) settings.dailyGoal = updates.dailyGoal;
             if (updates.notificationsEnabled !== undefined) settings.notificationsEnabled = updates.notificationsEnabled;
             if (updates.onboardingCompleted !== undefined) settings.onboardingCompleted = updates.onboardingCompleted;
+            if (updates.supabaseUserId !== undefined) settings.supabaseUserId = updates.supabaseUserId;
         });
     }
 }
