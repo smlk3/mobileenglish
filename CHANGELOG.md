@@ -4,6 +4,19 @@ All notable changes to MobileEnglish are documented here.
 
 ---
 
+## [Unreleased] — 2026-06-08
+
+### security: hardening + audit documentation
+
+- Stopped logging chat message **content** to the console (privacy).
+- Gemini API key is now sent via the **`x-goog-api-key` header** instead of the URL query string.
+- Hardened `.gitignore` to ignore **all** `.env*` files (was only `.env*.local`).
+- Added **`SECURITY.md`** documenting the security posture (RLS / PKCE / `SECURITY DEFINER` model, secrets handling) and a dependency-advisory assessment: the `npm audit` findings are build/dev-tooling only (not shipped in the APK); remediation is a deliberate **post-launch Expo SDK upgrade** (`npm audit fix --force` would break the project and must not be used).
+
+> Review notes: RLS enforced on all synced tables; sync RPCs force `user_id = auth.uid()` (no cross-user access, no SQL-injection surface); `delete_account` is `SECURITY DEFINER` with a pinned `search_path` and self-only scope; no secrets in code or git history.
+
+---
+
 ## [Unreleased] — 2026-06-07 (continued)
 
 ### feat & fix: AI-personalized vocabulary, simpler API-key flow, SRS corrections, quiz fixes & dead-code cleanup
