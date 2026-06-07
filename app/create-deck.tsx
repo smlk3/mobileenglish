@@ -15,6 +15,7 @@ import {
     View,
 } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
+import HybridLLMManager from '../src/shared/api/llm/HybridLLMManager';
 import { getVectorStore } from '../src/shared/api/rag/VectorStore';
 import { getLevelOptions } from '../src/shared/lib/languageConfig';
 import { SpeakButton } from '../src/shared/ui/SpeakButton';
@@ -36,6 +37,7 @@ export default function CreateDeckScreen() {
     const themeMode = useProfileStore((s) => s.themeMode);
     const targetLanguage = useProfileStore((s) => s.targetLanguage);
     const nativeLanguage = useProfileStore((s) => s.nativeLanguage);
+    const isCloudAvailable = useProfileStore((s) => s.isCloudAvailable);
     const tc = themeMode === 'dark' ? colors.dark : colors.light;
     const profile = useProfileStore();
 
@@ -49,6 +51,7 @@ export default function CreateDeckScreen() {
     // Word list (shared between both tabs)
     const [generatedWords, setGeneratedWords] = useState<GeneratedWord[]>([]);
     const [isGenerating, setIsGenerating] = useState(false);
+    const [isGeneratingAI, setIsGeneratingAI] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
 
     // Tab state
@@ -93,6 +96,51 @@ export default function CreateDeckScreen() {
             Alert.alert(t('common.error'), t('createDeck.generateError'));
         } finally {
             setIsGenerating(false);
+        }
+    };
+
+    // ─── AI Personalized Generate (optional, additive) ─────────────
+    const generatePersonalized = async () => {
+        if (!isCloudAvailable || isGeneratingAI) return;
+        setIsGeneratingAI(true);
+        try {
+            const existingWords = [
+                ...(await fetchAllCardFronts()),
+                ...generatedWords.map((w) => w.word),
+            ];
+            const aiWords = await HybridLLMManager.getInstance().selectNewWords(
+                {
+                    profession: profile.profession || '',
+                    interests: profile.interests || [],
+                    level: String(selectedLevel),
+                    goals: profile.goals || [],
+                },
+                existingWords,
+                wordCount,
+                nativeLanguage,
+                targetLanguage,
+            );
+
+            const seen = new Set(generatedWords.map((w) => w.word.toLowerCase()));
+            const newOnes = aiWords
+                .filter((w) => w.word && !seen.has(w.word.toLowerCase()))
+                .map((w) => ({
+                    word: w.word,
+                    translation: w.translation,
+                    cefrLevel: w.cefrLevel,
+                    exampleSentence: w.exampleSentence,
+                    source: 'ai' as const,
+                }));
+
+            if (newOnes.length === 0) {
+                Alert.alert(t('common.error'), t('createDeck.generateError'));
+                return;
+            }
+            setGeneratedWords((prev) => [...prev, ...newOnes]);
+        } catch {
+            Alert.alert(t('common.error'), t('createDeck.generateError'));
+        } finally {
+            setIsGeneratingAI(false);
         }
     };
 
@@ -329,7 +377,7 @@ export default function CreateDeckScreen() {
                         {/* Word Count */}
                         <Text style={[styles.label, { color: tc.textSecondary }]}>{t('createDeck.wordCount')}</Text>
                         <View style={styles.chipRow}>
-                            {[5, 10, 15, 20].map((count) => (
+                            {[5, 10, 15, 20, 30, 50].map((count) => (
                                 <TouchableOpacity
                                     key={count}
                                     style={[
@@ -369,6 +417,47 @@ export default function CreateDeckScreen() {
                                 </>
                             )}
                         </TouchableOpacity>
+
+                        {/* Optional: personalized words via cloud AI (additive) */}
+                        <TouchableOpacity
+                            style={[
+                                styles.generateButton,
+                                styles.aiButton,
+                                {
+                                    backgroundColor: isCloudAvailable ? colors.primary[600] : tc.surface,
+                                    borderColor: tc.border,
+                                    opacity: isCloudAvailable ? 1 : 0.6,
+                                },
+                            ]}
+                            onPress={generatePersonalized}
+                            disabled={!isCloudAvailable || isGeneratingAI || isGenerating}
+                            activeOpacity={0.8}
+                        >
+                            {isGeneratingAI ? (
+                                <ActivityIndicator size="small" color={isCloudAvailable ? '#fff' : tc.textMuted} />
+                            ) : (
+                                <>
+                                    <Ionicons
+                                        name="sparkles"
+                                        size={18}
+                                        color={isCloudAvailable ? '#fff' : tc.textMuted}
+                                    />
+                                    <Text
+                                        style={[
+                                            styles.generateText,
+                                            { color: isCloudAvailable ? '#fff' : tc.textMuted },
+                                        ]}
+                                    >
+                                        {t('createDeck.generatePersonalized')}
+                                    </Text>
+                                </>
+                            )}
+                        </TouchableOpacity>
+                        {!isCloudAvailable && (
+                            <Text style={[styles.aiHint, { color: tc.textMuted }]}>
+                                {t('createDeck.aiRequiresConnection')}
+                            </Text>
+                        )}
                     </Animated.View>
                 )}
 
@@ -658,6 +747,15 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: typography.fontSize.md,
         fontWeight: '700',
+    },
+    aiButton: {
+        marginTop: spacing.md,
+        borderWidth: 1,
+    },
+    aiHint: {
+        fontSize: typography.fontSize.xs,
+        textAlign: 'center',
+        marginTop: spacing.sm,
     },
     // Manual Add
     manualInputRow: {

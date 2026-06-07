@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Animated, { FadeInRight, FadeOutRight } from 'react-native-reanimated';
 import { borderRadius, shadows, spacing, typography } from '../lib/theme';
 import { type BadgeDefinition } from '../lib/xpSystem';
 
@@ -26,11 +25,7 @@ export function BadgeToast({ badge, visible, onHide }: BadgeToastProps) {
     if (!visible || !badge) return null;
 
     return (
-        <Animated.View
-            entering={FadeInRight.duration(350).springify()}
-            exiting={FadeOutRight.duration(400)}
-            style={[styles.container, { borderLeftColor: badge.color }]}
-        >
+        <View style={[styles.container, { borderLeftColor: badge.color }]}>
             <View style={[styles.iconBox, { backgroundColor: badge.color + '25' }]}>
                 <Text style={styles.emoji}>{badge.emoji}</Text>
             </View>
@@ -39,7 +34,7 @@ export function BadgeToast({ badge, visible, onHide }: BadgeToastProps) {
                 <Text style={styles.badgeName}>{badge.name}</Text>
                 <Text style={styles.badgeDesc} numberOfLines={1}>{badge.description}</Text>
             </View>
-        </Animated.View>
+        </View>
     );
 }
 

@@ -4,6 +4,49 @@ All notable changes to MobileEnglish are documented here.
 
 ---
 
+## [Unreleased] — 2026-06-07 (continued)
+
+### feat & fix: AI-personalized vocabulary, simpler API-key flow, SRS corrections, quiz fixes & dead-code cleanup
+
+> **Summary:** Wire up cloud-LLM personalized word generation in deck creation; radically simplify API-key setup (Gemini-first, paste-from-clipboard, "Advanced" collapsed); fix two SM-2 scheduling bugs; fix the multiple-choice quiz results "black screen"; offer a new starter deck when the level/target language changes; and remove a large amount of dead code.
+
+---
+
+#### Part A: AI-personalized vocabulary generation
+
+- Revived + rewrote `HybridLLMManager.selectNewWords` (was orphaned dead code): CEFR-calibrated prompt, clean schema (`word/translation/level/exampleSentence/partOfSpeech`), asymmetric rule (word + example in target, translation in native), native-script requirement, stronger dedup, fixed level mapping (`cefrToLevel`, not `parseInt`).
+- `app/create-deck.tsx` — new "✨ Generate personalized words" button that appends profile-based cloud words to the list; disabled with a hint when no AI connection. The local "Generate Words" stays the mandatory base.
+- Word-count options 5/10/15/20 → 5/10/15/20/30/50; the "AI Generate" tab renamed to "Generate Words" (it was always local generation).
+
+#### Part B: Simpler API-key setup
+
+- `app/setting-modal.tsx` — Gemini is the default; "Get a free Gemini key" button (opens Google AI Studio), 3-step guide, "Paste from clipboard" (`expo-clipboard`); provider / base-URL / model collapsed under "Advanced".
+- Removed the redundant standalone "AI Provider" step (Settings row + `ai_provider` modal case).
+- Saving a key now writes only the active provider and clears stale ones — fixes requests being misrouted to a leftover custom/Azure endpoint ("prepayment credits depleted" 429).
+
+#### Part C: SRS scheduling fixes (`src/entities/SRS/SRSAlgorithm.ts`)
+
+- "Good" now maps to SM-2 quality **4** (was 3) → the ease factor no longer erodes on every correct answer (intervals grow ~×2.5 instead of decaying to ×1.3).
+- "Easy" graduation sets `repetitions` correctly so the next "Good" no longer collapses the interval (the 4-day → 1-day bug).
+
+#### Part D: Level / target-language change → starter deck
+
+- Changing level or target language in Settings now offers to create a matching CEFR starter deck (prompt + create), so study content follows the new level.
+
+#### Part E: Quiz "black screen" fix (`app/quiz-mc.tsx`, `XPToast`, `BadgeToast`)
+
+- Root cause: the results tree used Reanimated `Animated.*` with layout animations; on-device the layout-animation system left the results container stuck at `opacity: 0` (cleared only on touch). `XPToast` also combined a `transform` with `entering`/`exiting` (the Reanimated warning).
+- Fix: results now rendered with plain `View`/`Text` (no Reanimated); removed all entering/exiting layout animations from the quiz screen and from `XPToast`/`BadgeToast`; switch to the results phase **before** the awaited DB write; visible fallback instead of a `null` render.
+
+#### Part F: Dead-code & architecture cleanup
+
+- Expo-template leftovers removed: `app/modal.tsx` (+ its `Stack.Screen`), `components/{hello-wave,external-link,parallax-scroll-view,themed-text,themed-view,haptic-tab,ui/collapsible}`, `hooks/{use-color-scheme,use-color-scheme.web,use-theme-color}`, `constants/theme.ts`.
+- Unused `src/shared/ui` design system removed: `GlassCard, GradientButton, GhostButton, StatBadge, ProgressBar, SectionHeader, Chip` + barrel `index.ts`.
+- Orphaned `ProfileUpdater`, `QuizEngine` removed; dead `HybridLLMManager` methods (`generateQuizContent`, `checkGrammar`, `analyzeProfile`, `generateFallbackQuiz`) and dead `VectorStore` methods (`getAll`, `getByLevel`, `getRandomWords`, `getLevels`, `getStats`) removed.
+- Result: a single coherent UI system; empty `hooks/`, `constants/`, `src/processes/`, `src/features/` directories gone.
+
+---
+
 ## [Unreleased] — 2026-06-07
 
 ### feat: Google authentication, cross-device sync (Supabase) & text-to-speech

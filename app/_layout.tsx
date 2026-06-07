@@ -253,10 +253,6 @@ export default function RootLayout() {
           name="onboarding"
           options={{ headerShown: false, animation: 'fade' }}
         />
-        <Stack.Screen
-          name="modal"
-          options={{ presentation: 'modal', title: 'Modal' }}
-        />
       </Stack>
       <StatusBar style={themeMode === 'dark' ? 'light' : 'dark'} />
     </ThemeProvider>

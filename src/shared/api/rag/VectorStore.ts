@@ -56,16 +56,6 @@ export class VectorStore {
         this.dictionary = WORDLIST_MAP[key] ?? [];
     }
 
-    /** Get all entries */
-    getAll(): DictionaryEntry[] {
-        return this.dictionary;
-    }
-
-    /** Get entries by level (1-6) */
-    getByLevel(level: number): DictionaryEntry[] {
-        return this.dictionary.filter((entry) => entry.level === level);
-    }
-
     /**
      * Search entries by user interests and level.
      * This is the main wordlist query method.
@@ -125,31 +115,6 @@ export class VectorStore {
     }
 
     /**
-     * Get random words for a level (fallback when no interests)
-     */
-    getRandomWords(level: number, count: number = 5, excludeWords: string[] = []): DictionaryEntry[] {
-        const excludeSet = new Set(excludeWords.map((w) => w.toLowerCase()));
-        const levelWords = this.getByLevel(level).filter(
-            (entry) => !excludeSet.has(entry.word.toLowerCase()),
-        );
-
-        // Fisher-Yates shuffle
-        const shuffled = [...levelWords];
-        for (let i = shuffled.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-        }
-
-        return shuffled.slice(0, count);
-    }
-
-    /** Get available levels */
-    getLevels(): number[] {
-        const levels = new Set(this.dictionary.map((e) => e.level));
-        return Array.from(levels).sort((a, b) => a - b);
-    }
-
-    /**
      * Find a single entry by exact word match (case-insensitive).
      * Falls back to prefix match if no exact result found.
      */
@@ -158,15 +123,6 @@ export class VectorStore {
         const exact = this.dictionary.find((e) => e.word.toLowerCase() === lower);
         if (exact) return exact;
         return this.dictionary.find((e) => e.word.toLowerCase().startsWith(lower)) ?? null;
-    }
-
-    /** Get word count per level */
-    getStats(): Record<number, number> {
-        const stats: Record<number, number> = {};
-        for (const entry of this.dictionary) {
-            stats[entry.level] = (stats[entry.level] || 0) + 1;
-        }
-        return stats;
     }
 
     /** Whether this store has any words loaded */

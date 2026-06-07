@@ -205,20 +205,6 @@ const navigateToSettingModal = (type: string, title: string, currentValue: strin
                     type: 'nav' as const,
                     onPress: () => navigateToSettingModal('api_key', t('settings.cloudApiKey'), ''),
                 },
-                {
-                    icon: 'swap-horizontal' as const,
-                    iconColor: colors.warning.main,
-                    title: t('settings.aiProvider'),
-                    subtitle: apiKeys?.activeProvider === 'custom' && apiKeys.custom
-                        ? `Custom: ${apiKeys.custom.model}`
-                        : apiKeys?.activeProvider === 'gemini' && apiKeys.gemini
-                          ? 'Google Gemini'
-                          : apiKeys?.activeProvider === 'openai' && apiKeys.openai
-                            ? 'OpenAI GPT-4o-mini'
-                            : t('settings.mockMode'),
-                    type: 'nav' as const,
-                    onPress: () => navigateToSettingModal('ai_provider', t('settings.aiProvider'), apiKeys?.activeProvider || (apiKeys?.custom ? 'custom' : apiKeys?.gemini ? 'gemini' : 'openai')),
-                },
             ],
         },
         {
