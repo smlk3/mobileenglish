@@ -1,16 +1,12 @@
 import { useEffect, useRef } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import Animated, {
-    FadeInUp,
-    FadeOutUp,
     useAnimatedStyle,
     useSharedValue,
-    withDelay,
     withSequence,
     withSpring,
-    withTiming,
 } from 'react-native-reanimated';
-import { borderRadius, colors, shadows, spacing, typography } from '../lib/theme';
+import { borderRadius, shadows, spacing, typography } from '../lib/theme';
 import { getXPColor } from '../lib/xpSystem';
 
 interface XPToastProps {
@@ -48,8 +44,6 @@ export function XPToast({ amount, label, visible, onHide }: XPToastProps) {
 
     return (
         <Animated.View
-            entering={FadeInUp.duration(300).springify()}
-            exiting={FadeOutUp.duration(400)}
             style={[styles.container, animStyle, { borderColor: xpColor + '60' }]}
         >
             <Text style={[styles.amount, { color: xpColor }]}>+{amount} XP</Text>

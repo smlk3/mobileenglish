@@ -22,11 +22,13 @@ export interface SRSResult extends SRSState {
     nextReview: number;     // Timestamp of next review
 }
 
-// Rating to quality mapping for SM-2
+// Rating to quality mapping for SM-2.
+// "good" maps to quality 4 (correct response) so the ease factor stays stable —
+// quality 3 would subtract ~0.14 from EF on every correct answer, eroding intervals.
 const RATING_QUALITY: Record<Rating, number> = {
     again: 0,
-    hard: 2,
-    good: 3,
+    hard: 3,
+    good: 4,
     easy: 5,
 };
 
@@ -111,11 +113,14 @@ export class SRSAlgorithm {
                 }
 
             case 'easy':
-                // Immediately graduate with a longer interval
+                // Immediately graduate with a longer interval.
+                // repetitions is set to 2 (not +1) so the next "good" review treats this
+                // as an established review card; otherwise calculateNewInterval() would see
+                // repetitions <= 1 and collapse the 4-day interval back to 1 day.
                 return {
                     interval: EASY_GRADUATING_INTERVAL,
                     easeFactor: state.easeFactor + 0.15,
-                    repetitions: state.repetitions + 1,
+                    repetitions: 2,
                     status: 'graduated',
                     nextReview: now + EASY_GRADUATING_INTERVAL * 24 * 60 * 60 * 1000,
                 };

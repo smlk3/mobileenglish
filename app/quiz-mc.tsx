@@ -12,9 +12,6 @@ import {
     View,
 } from 'react-native';
 import Animated, {
-    FadeIn,
-    FadeInDown,
-    FadeInUp,
     useAnimatedStyle,
     useSharedValue,
     withSequence,
@@ -241,33 +238,29 @@ export default function QuizMCScreen() {
                         questionOpacity.value = withTiming(1, { duration: 300 });
                         questionTranslateY.value = withSpring(0, { damping: 12 });
                     } else {
-                        // Session done
-                        const elapsed = Math.round((Date.now() - startTime) / 1000);
-                        try {
-                            await recordStudySession({
-                                deckId: params.deckId || 'all',
-                                cardsStudied: questions.length,
-                                cardsCorrect: isCorrect ? correctCount + 1 : correctCount,
-                                durationSeconds: elapsed,
-                                sessionType: 'quiz',
-                            });
-                        } catch {
-                            // ignore
-                        }
-                        setPhase('results');
-                        // Award perfect bonus at session end
+                        // Session done — switch to results FIRST so the screen never
+                        // goes blank, then record + award XP without blocking the render.
                         const finalCorrect = isCorrect ? correctCount + 1 : correctCount;
                         const accuracy = Math.round((finalCorrect / questions.length) * 100);
+                        setPhase('results');
+
+                        const elapsed = Math.round((Date.now() - startTime) / 1000);
+                        recordStudySession({
+                            deckId: params.deckId || 'all',
+                            cardsStudied: questions.length,
+                            cardsCorrect: finalCorrect,
+                            durationSeconds: elapsed,
+                            sessionType: 'quiz',
+                        }).catch(() => {});
+
                         if (accuracy === 100)
                             handleXPAward(XP.MC_PERFECT_BONUS, '🌟 Perfect!', {
                                 isPerfectQuiz: true,
                                 isSessionEnd: true,
-                                // UX #7: pass streak (using 0 as placeholder — streak checked on home focus)
                             });
                         else if (accuracy >= 90)
                             handleXPAward(0, '', { isHighAccuracyMC: true, isSessionEnd: true });
                         else
-                            // still mark session end even for normal finish
                             awardXP(0, { isSessionEnd: true }).catch(() => {});
                     }
                 }, 220);
@@ -353,7 +346,7 @@ export default function QuizMCScreen() {
 
         return (
             <View style={[styles.container, { backgroundColor: tc.background }]}>
-                <Animated.View entering={FadeInDown.duration(700)} style={styles.resultsContent}>
+                <View style={styles.resultsContent}>
                     {/* Result emoji with glow ring */}
                     <View style={[styles.resultEmojiWrap, {
                         shadowColor: resultColor,
@@ -366,21 +359,14 @@ export default function QuizMCScreen() {
                         <Text style={{ fontSize: 56 }}>{emoji}</Text>
                     </View>
 
-                    <Animated.Text
-                        entering={FadeInDown.delay(150).duration(500)}
-                        style={[styles.resultsTitle, { color: tc.text }]}
-                    >
+                    <Text style={[styles.resultsTitle, { color: tc.text }]}>
                         {isPerfect ? t('quiz.results.title') + ' 🏆' : isGood ? t('quiz.results.title') + ' ⭐' : t('quiz.results.title')}
-                    </Animated.Text>
-                    <Animated.Text
-                        entering={FadeInDown.delay(220).duration(500)}
-                        style={[styles.resultsSubtitle, { color: tc.textSecondary }]}
-                    >
+                    </Text>
+                    <Text style={[styles.resultsSubtitle, { color: tc.textSecondary }]}>
                         {params.deckName || 'Deck'}
-                    </Animated.Text>
+                    </Text>
 
-                    <Animated.View
-                        entering={FadeInDown.delay(300).duration(500)}
+                    <View
                         style={[styles.statsRow, {
                             backgroundColor: tc.surface,
                             borderColor: tc.border,
@@ -406,29 +392,41 @@ export default function QuizMCScreen() {
                             <Text style={[styles.statValue, { color: resultColor }]}>{accuracy}%</Text>
                             <Text style={[styles.statLabel, { color: tc.textMuted }]}>{t('quiz.accuracyLabel')}</Text>
                         </View>
-                    </Animated.View>
+                    </View>
 
-                    <Animated.View entering={FadeInDown.delay(420).duration(500)}>
-                        <TouchableOpacity
-                            style={[styles.doneBtn, {
-                                backgroundColor: colors.primary[500],
-                                shadowColor: colors.primary[400],
-                                shadowOffset: { width: 0, height: 6 },
-                                shadowOpacity: 0.45,
-                                shadowRadius: 14,
-                                elevation: 8,
-                            }]}
-                            onPress={() => router.back()}
-                        >
-                            <Text style={styles.doneBtnText}>{t('common.done')}</Text>
-                        </TouchableOpacity>
-                    </Animated.View>
-                </Animated.View>
+                    <TouchableOpacity
+                        style={[styles.doneBtn, {
+                            backgroundColor: colors.primary[500],
+                            shadowColor: colors.primary[400],
+                            shadowOffset: { width: 0, height: 6 },
+                            shadowOpacity: 0.45,
+                            shadowRadius: 14,
+                            elevation: 8,
+                        }]}
+                        onPress={() => router.back()}
+                    >
+                        <Text style={styles.doneBtnText}>{t('common.done')}</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }
 
-    if (!currentQuestion) return null;
+    // Safety net: never leave a blank screen if we somehow run out of questions.
+    if (!currentQuestion) {
+        return (
+            <View style={[styles.center, { backgroundColor: tc.background }]}>
+                <Text style={{ fontSize: 48, marginBottom: spacing.lg }}>🎉</Text>
+                <Text style={[styles.errorTitle, { color: tc.text }]}>{t('quiz.results.title')}</Text>
+                <TouchableOpacity
+                    style={[styles.doneBtn, { backgroundColor: colors.primary[500] }]}
+                    onPress={() => router.back()}
+                >
+                    <Text style={styles.doneBtnText}>{t('common.done')}</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
 
     const { choices } = currentQuestion;
     const progress = (currentIndex + 1) / questions.length;
@@ -466,7 +464,7 @@ export default function QuizMCScreen() {
                 onHide={() => setActiveBadge(null)}
             />
             {/* Header */}
-            <Animated.View entering={FadeIn} style={styles.header}>
+            <Animated.View style={styles.header}>
                 <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
                     <Ionicons name="close" size={26} color={tc.text} />
                 </TouchableOpacity>
@@ -526,7 +524,7 @@ export default function QuizMCScreen() {
                     </Text>
                     {currentQuestion.card.exampleSentence && (
                         <Text style={[styles.questionExample, { color: tc.textSecondary }]}>
-                            "{currentQuestion.card.exampleSentence}"
+                            {`"${currentQuestion.card.exampleSentence}"`}
                         </Text>
                     )}
                 </Animated.View>
@@ -553,10 +551,7 @@ export default function QuizMCScreen() {
                         }
 
                         return (
-                            <Animated.View
-                                key={i}
-                                entering={FadeInUp.duration(300).delay(i * 60)}
-                            >
+                            <Animated.View key={i}>
                                 <TouchableOpacity
                                     style={[
                                         styles.choiceBtn,
