@@ -45,6 +45,11 @@ All notable changes to MobileEnglish are documented here.
 - Orphaned `ProfileUpdater`, `QuizEngine` removed; dead `HybridLLMManager` methods (`generateQuizContent`, `checkGrammar`, `analyzeProfile`, `generateFallbackQuiz`) and dead `VectorStore` methods (`getAll`, `getByLevel`, `getRandomWords`, `getLevels`, `getStats`) removed.
 - Result: a single coherent UI system; empty `hooks/`, `constants/`, `src/processes/`, `src/features/` directories gone.
 
+#### Part G: Play Store prep
+
+- `eas.json` — Supabase env vars (`EXPO_PUBLIC_SUPABASE_URL` / `EXPO_PUBLIC_SUPABASE_ANON_KEY`) added to all build profiles, so cloud (EAS) builds don't ship with an unconfigured Supabase client (auth/sync would silently fail). The anon/publishable key is client-safe.
+- **Account deletion** (Google Play requirement): `supabase/delete-account.sql` adds a `delete_account()` RPC (SECURITY DEFINER, caller-only) that removes the user's data + auth row; `AuthService.deleteAccount()` calls it then signs out; Settings → Account gains a "Delete account" action (with confirmation).
+
 ---
 
 ## [Unreleased] — 2026-06-07
