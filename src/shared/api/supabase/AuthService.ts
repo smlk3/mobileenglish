@@ -60,6 +60,13 @@ export const AuthService = {
     if (error) throw error;
   },
 
+  /** Permanently delete the signed-in user's account + synced data, then sign out. */
+  async deleteAccount() {
+    const { error } = await supabase.rpc('delete_account');
+    if (error) throw error;
+    await supabase.auth.signOut();
+  },
+
   async getSession() {
     const { data: { session }, error } = await supabase.auth.getSession();
     if (error) throw error;

@@ -141,6 +141,27 @@ const navigateToSettingModal = (type: string, title: string, currentValue: strin
         ]);
     };
 
+    const handleDeleteAccount = () => {
+        Alert.alert(t('settings.deleteAccount'), t('settings.deleteAccountConfirm'), [
+            { text: t('common.cancel'), style: 'cancel' },
+            {
+                text: t('settings.deleteAccount'),
+                style: 'destructive',
+                onPress: async () => {
+                    try {
+                        await AuthService.deleteAccount();
+                        setSupabaseSession(null);
+                        if (settings) await settings.updateSettings({ supabaseUserId: null });
+                        loadSettings();
+                        Alert.alert(t('settings.deleteAccount'), t('settings.deleteAccountDone'));
+                    } catch (e: any) {
+                        Alert.alert(t('common.error'), e?.message || t('settings.deleteAccountFailed'));
+                    }
+                },
+            },
+        ]);
+    };
+
     const sections = [
         {
             title: t('settings.account'),
@@ -161,6 +182,14 @@ const navigateToSettingModal = (type: string, title: string, currentValue: strin
                           subtitle: t('settings.syncDesc'),
                           type: 'nav' as const,
                           onPress: handleSync,
+                      },
+                      {
+                          icon: 'trash-outline' as const,
+                          iconColor: colors.error.main,
+                          title: t('settings.deleteAccount'),
+                          subtitle: t('settings.deleteAccountDesc'),
+                          type: 'nav' as const,
+                          onPress: handleDeleteAccount,
                       },
                   ]
                 : [

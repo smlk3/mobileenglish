@@ -4,6 +4,19 @@ All notable changes to MobileEnglish are documented here.
 
 ---
 
+## [Unreleased] — 2026-06-08
+
+### security: hardening + audit documentation
+
+- Stopped logging chat message **content** to the console (privacy).
+- Gemini API key is now sent via the **`x-goog-api-key` header** instead of the URL query string.
+- Hardened `.gitignore` to ignore **all** `.env*` files (was only `.env*.local`).
+- Added **`SECURITY.md`** documenting the security posture (RLS / PKCE / `SECURITY DEFINER` model, secrets handling) and a dependency-advisory assessment: the `npm audit` findings are build/dev-tooling only (not shipped in the APK); remediation is a deliberate **post-launch Expo SDK upgrade** (`npm audit fix --force` would break the project and must not be used).
+
+> Review notes: RLS enforced on all synced tables; sync RPCs force `user_id = auth.uid()` (no cross-user access, no SQL-injection surface); `delete_account` is `SECURITY DEFINER` with a pinned `search_path` and self-only scope; no secrets in code or git history.
+
+---
+
 ## [Unreleased] — 2026-06-07 (continued)
 
 ### feat & fix: AI-personalized vocabulary, simpler API-key flow, SRS corrections, quiz fixes & dead-code cleanup
@@ -44,6 +57,11 @@ All notable changes to MobileEnglish are documented here.
 - Unused `src/shared/ui` design system removed: `GlassCard, GradientButton, GhostButton, StatBadge, ProgressBar, SectionHeader, Chip` + barrel `index.ts`.
 - Orphaned `ProfileUpdater`, `QuizEngine` removed; dead `HybridLLMManager` methods (`generateQuizContent`, `checkGrammar`, `analyzeProfile`, `generateFallbackQuiz`) and dead `VectorStore` methods (`getAll`, `getByLevel`, `getRandomWords`, `getLevels`, `getStats`) removed.
 - Result: a single coherent UI system; empty `hooks/`, `constants/`, `src/processes/`, `src/features/` directories gone.
+
+#### Part G: Play Store prep
+
+- `eas.json` — Supabase env vars (`EXPO_PUBLIC_SUPABASE_URL` / `EXPO_PUBLIC_SUPABASE_ANON_KEY`) added to all build profiles, so cloud (EAS) builds don't ship with an unconfigured Supabase client (auth/sync would silently fail). The anon/publishable key is client-safe.
+- **Account deletion** (Google Play requirement): `supabase/delete-account.sql` adds a `delete_account()` RPC (SECURITY DEFINER, caller-only) that removes the user's data + auth row; `AuthService.deleteAccount()` calls it then signs out; Settings → Account gains a "Delete account" action (with confirmation).
 
 ---
 
