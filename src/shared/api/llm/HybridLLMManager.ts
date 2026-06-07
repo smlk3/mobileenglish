@@ -1,12 +1,10 @@
 /**
- * LLMManager - Cloud LLM orchestrator
- *
- * Cloud LLM (Strategist): Deep analysis, curriculum planning, RAG word selection
- * Cloud LLM (Tutor): Chat, quiz generation, grammar checking
+ * HybridLLMManager — Cloud LLM orchestrator.
+ * Live capabilities: chat (AI tutor) and personalized vocabulary selection.
  */
 
 import { CloudLLMClient, type CloudProvider } from './CloudLLMClient';
-import { getLanguageName, getLevelLabel } from '../../lib/languageConfig';
+import { cefrToLevel, getLanguageName, getLevelLabel } from '../../lib/languageConfig';
 
 export type { CloudProvider };
 
@@ -18,24 +16,9 @@ export interface ChatMessage {
 export interface WordSelection {
     word: string;
     translation: string;
-    cefrLevel: string;
-    category: string;
+    cefrLevel: string;       // internal "1".."6"
     exampleSentence: string;
-    pronunciation?: string;
-}
-
-export interface QuizContent {
-    question: string;
-    options: string[];
-    correctAnswer: string;
-    explanation: string;
-}
-
-export interface GrammarResult {
-    isCorrect: boolean;
-    correctedSentence: string;
-    explanation: string;
-    score: number; // 0-100
+    partOfSpeech?: string;
 }
 
 export interface ProfileAnalysis {
@@ -109,58 +92,6 @@ class HybridLLMManager {
         return this.cloudClient.chat(messages);
     }
 
-    async generateQuizContent(words: WordSelection[], targetLanguage: string = 'en'): Promise<QuizContent[]> {
-        const targetLangName = getLanguageName(targetLanguage);
-        const prompt = `Generate fill-in-the-blank quiz questions for these ${targetLangName} words.
-For each word, create a sentence in ${targetLangName} with a blank where the word should go, and provide 4 options.
-
-Words: ${words.map((w) => `${w.word} (${w.translation})`).join(', ')}
-
-Return JSON array: [{ "question": "sentence with ___", "options": ["a","b","c","d"], "correctAnswer": "word", "explanation": "brief explanation" }]`;
-
-        const messages: ChatMessage[] = [
-            { role: 'system', content: 'You are a language learning assistant. Generate quiz questions in valid JSON format.' },
-            { role: 'user', content: prompt },
-        ];
-
-        try {
-            const response = await this.cloudClient.chat(messages, true);
-            return this.parseJSON<QuizContent[]>(response) || this.generateFallbackQuiz(words);
-        } catch {
-            return this.generateFallbackQuiz(words);
-        }
-    }
-
-    async checkGrammar(sentence: string, targetWord?: string, targetLanguage: string = 'en'): Promise<GrammarResult> {
-        const targetLangName = getLanguageName(targetLanguage);
-        const prompt = `Check this ${targetLangName} sentence for grammar: "${sentence}"
-${targetWord ? `The sentence should use the word "${targetWord}".` : ''}
-
-Return JSON: { "isCorrect": bool, "correctedSentence": "...", "explanation": "brief, encouraging feedback", "score": 0-100 }`;
-
-        const messages: ChatMessage[] = [
-            { role: 'system', content: `You are a friendly ${targetLangName} tutor. Be encouraging and helpful. Return valid JSON.` },
-            { role: 'user', content: prompt },
-        ];
-
-        try {
-            const response = await this.cloudClient.chat(messages, true);
-            return this.parseJSON<GrammarResult>(response) || {
-                isCorrect: true,
-                correctedSentence: sentence,
-                explanation: 'Great effort! Keep practicing.',
-                score: 70,
-            };
-        } catch {
-            return {
-                isCorrect: true,
-                correctedSentence: sentence,
-                explanation: 'Could not analyze at this time. Keep up the good work!',
-                score: 70,
-            };
-        }
-    }
-
     // ─── Cloud LLM (The Strategist) ────────────────────────────
 
     async selectNewWords(
@@ -176,67 +107,55 @@ Return JSON: { "isCorrect": bool, "correctedSentence": "...", "explanation": "br
 
         const nativeLangName = getLanguageName(nativeLanguage);
         const targetLangName = getLanguageName(targetLanguage);
-        const levelLabel = getLevelLabel(targetLanguage, parseInt(profile.level, 10) || 3);
+        const level = cefrToLevel(profile.level || '3');
+        const levelLabel = getLevelLabel(targetLanguage, level);
 
-        const prompt = `You are selecting ${targetLangName} vocabulary words for a ${nativeLangName}-speaking learner.
+        const profession = profile.profession?.trim() || '—';
+        const interests = profile.interests?.filter(Boolean).join(', ') || '—';
+        const goals = profile.goals?.filter(Boolean).join(', ') || '—';
+        const exclude = existingWords.slice(-100).join(', ') || '—';
 
-User Profile:
-- Profession: ${profile.profession}
-- Interests: ${profile.interests.join(', ')}
-- Level: ${levelLabel}
-- Goals: ${profile.goals.join(', ')}
+        const systemPrompt = `You are a vocabulary curriculum expert and lexicographer for ${targetLangName}. You select words STRICTLY calibrated to CEFR (the standard for ${targetLangName}). Output ONLY a valid JSON array, nothing else.`;
 
-Already known words (exclude these): ${existingWords.slice(-50).join(', ')}
+        const prompt = `Select ${count} ${targetLangName} vocabulary words for a ${nativeLangName}-speaking learner, personalized to their profile.
 
-Select ${count} new ${targetLangName} words that are:
-1. Relevant to the user's profession and interests
-2. Appropriate for their proficiency level (${levelLabel})
-3. Practical and commonly used in real life
-4. NOT already in their known words list
+PROFILE:
+- Profession: ${profession}
+- Interests: ${interests}
+- Goals: ${goals}
+- CEFR level: ${levelLabel} (internal ${level})
 
-Return JSON array: [{ "word": "...", "translation": "${nativeLangName} translation", "cefrLevel": "${levelLabel}", "category": "medical/sports/daily", "exampleSentence": "example in ${targetLangName}", "pronunciation": "" }]`;
+CALIBRATION: every word must genuinely belong to CEFR ${levelLabel} for ${targetLangName} (calibrate by official CEFR word lists and frequency). Strongly prefer words relevant to the profession/interests above, while staying level-appropriate, practical and commonly used.
+
+RULES:
+- ASYMMETRIC: "word" and "exampleSentence" are ALWAYS in ${targetLangName}; "translation" is ALWAYS in ${nativeLangName}. Never mix.
+- Write "word" in ${targetLangName}'s native script/orthography.
+- Exclude these already-known words: ${exclude}
+- Unique words only; no duplicates, no proper nouns, nothing offensive.
+- partOfSpeech (lowercase): noun, verb, adjective, adverb, pronoun, preposition, conjunction, interjection, phrase.
+
+Return ONLY a JSON array (no markdown):
+[{"word":"...","translation":"...","level":${level},"exampleSentence":"...","partOfSpeech":"noun"}]`;
 
         const messages: ChatMessage[] = [
-            { role: 'system', content: 'You are a vocabulary selection specialist. Return valid JSON only.' },
+            { role: 'system', content: systemPrompt },
             { role: 'user', content: prompt },
         ];
 
         try {
             const response = await this.cloudClient.chat(messages, true);
-            return this.parseJSON<WordSelection[]>(response) || [];
+            const raw = this.parseJSON<any[]>(response) || [];
+            return raw
+                .filter((w) => w && w.word && w.translation)
+                .map((w) => ({
+                    word: String(w.word).trim(),
+                    translation: String(w.translation).trim(),
+                    cefrLevel: String(w.level ?? level),
+                    exampleSentence: String(w.exampleSentence || '').trim(),
+                    partOfSpeech: w.partOfSpeech ? String(w.partOfSpeech).trim() : undefined,
+                }));
         } catch {
             return [];
-        }
-    }
-
-    async analyzeProfile(chatHistory: string[]): Promise<Partial<ProfileAnalysis>> {
-        if (!this.isCloudReady) return {};
-
-        const prompt = `Analyze these user messages to extract profile information.
-
-IMPORTANT: Use "Smart Filtering" - Only extract SPECIFIC, actionable information:
-- KEEP: "I'm a nurse at a cardiac unit" → profession: "nurse", interests: ["cardiology"]
-- IGNORE: "I like football" (too generic unless combined with specific context)
-- KEEP: "I play for the local football club's reserve team" → interests: ["competitive football"]
-
-Messages:
-${chatHistory.map((m, i) => `${i + 1}. "${m}"`).join('\n')}
-
-Return JSON with only new/specific tags found:
-{ "profession": "string or empty", "interests": ["specific items"], "level": "detected level or empty", "goals": ["specific learning goals"] }
-
-Only include fields where you found specific information. Return {} if nothing specific was found.`;
-
-        const messages: ChatMessage[] = [
-            { role: 'system', content: 'You are a profile analysis expert. Extract only specific, non-generic information. Return valid JSON.' },
-            { role: 'user', content: prompt },
-        ];
-
-        try {
-            const response = await this.cloudClient.chat(messages, true);
-            return this.parseJSON<Partial<ProfileAnalysis>>(response) || {};
-        } catch {
-            return {};
         }
     }
 
@@ -257,25 +176,6 @@ Only include fields where you found specific information. Return {} if nothing s
             console.warn('Failed to parse JSON from LLM response:', text.substring(0, 200));
             return null;
         }
-    }
-
-    /** Fallback quiz generator — uses translations from the word list as wrong answers */
-    private generateFallbackQuiz(words: WordSelection[]): QuizContent[] {
-        const allTranslations = words.map((w) => w.translation);
-        return words.map((word, index) => {
-            const wrongOptions = allTranslations
-                .filter((_, i) => i !== index)
-                .slice(0, 3);
-            while (wrongOptions.length < 3) {
-                wrongOptions.push(`option ${wrongOptions.length + 1}`);
-            }
-            return {
-                question: `What is the meaning of "${word.word}"?`,
-                options: [word.translation, ...wrongOptions].sort(() => Math.random() - 0.5),
-                correctAnswer: word.translation,
-                explanation: `"${word.word}" means "${word.translation}". Example: ${word.exampleSentence}`,
-            };
-        });
     }
 }
 

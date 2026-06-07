@@ -16,13 +16,19 @@ import {
     View,
 } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
+import * as Clipboard from 'expo-clipboard';
+import * as WebBrowser from 'expo-web-browser';
 import HybridLLMManager, { type CloudProvider } from '../src/shared/api/llm/HybridLLMManager';
 import {
+    cefrToLevel,
+    getLanguageName,
+    getLevelLabel,
     getLevelOptions,
     SUPPORTED_NATIVE_LANGUAGES,
     SUPPORTED_TARGET_LANGUAGES,
 } from '../src/shared/lib/languageConfig';
-import { getUserSettings } from '../src/shared/lib/stores/useDatabaseService';
+import { getVectorStore } from '../src/shared/api/rag/VectorStore';
+import { createStarterDeck, getUserSettings } from '../src/shared/lib/stores/useDatabaseService';
 import { useProfileStore } from '../src/shared/lib/stores/useProfileStore';
 import { borderRadius, colors, spacing, typography } from '../src/shared/lib/theme';
 
@@ -51,7 +57,8 @@ export default function SettingModalScreen() {
     const [selectedValue, setSelectedValue] = useState(params.currentValue || '');
 
     // API key screen specific state
-    const [selectedProvider, setSelectedProvider] = useState<CloudProvider>('openai');
+    const [selectedProvider, setSelectedProvider] = useState<CloudProvider>('gemini');
+    const [showAdvanced, setShowAdvanced] = useState(false);
     const [customBaseUrl, setCustomBaseUrl] = useState('');
     const [customModel, setCustomModel] = useState('');
     const [isSaving, setIsSaving] = useState(false);
@@ -62,6 +69,19 @@ export default function SettingModalScreen() {
         if (key.length > 4) {
             setSelectedProvider(detectProvider(key));
         }
+    };
+
+    const handlePaste = async () => {
+        const text = await Clipboard.getStringAsync();
+        if (text?.trim()) {
+            handleApiKeyChange(text.trim());
+        } else {
+            Alert.alert(t('common.error'), t('settingModal.apiKey.pasteEmpty'));
+        }
+    };
+
+    const openKeyPage = () => {
+        WebBrowser.openBrowserAsync('https://aistudio.google.com/app/apikey');
     };
 
     // Auto-fill existing keys when opening the API key or provider page
@@ -80,23 +100,51 @@ export default function SettingModalScreen() {
                     setTextValue(keys.custom.apiKey);
                     setCustomBaseUrl(keys.custom.baseUrl || '');
                     setCustomModel(keys.custom.model || '');
+                    setShowAdvanced(true); // existing non-Gemini key → reveal advanced
                 } else if (currentActive === 'gemini' && keys.gemini) {
                     setSelectedProvider('gemini');
                     setTextValue(keys.gemini);
                 } else if (keys.openai) {
                     setSelectedProvider('openai');
                     setTextValue(keys.openai);
+                    setShowAdvanced(true); // existing non-Gemini key → reveal advanced
                 }
-            } else if (params.type === 'ai_provider') {
-                 // For AI Provider modal, pre-select the active provider
-                 const fallbackActive = keys.custom?.apiKey ? 'custom' : keys.gemini ? 'gemini' : keys.openai ? 'openai' : '';
-                 const currentActive = keys.activeProvider || fallbackActive;
-                 if (currentActive && !selectedValue) {
-                     setSelectedValue(currentActive);
-                 }
             }
         });
-    }, [params.type, selectedValue]);
+    }, [params.type]);
+
+    // After a level/target-language change, offer to create a matching starter deck.
+    const offerStarterDeck = (
+        targetLanguage: string,
+        level: number,
+        nativeLanguage: string,
+        profession: string,
+        interests: string[],
+    ) => {
+        if (getVectorStore(targetLanguage, nativeLanguage).isEmpty) return; // no base words for this pair
+        const langName = getLanguageName(targetLanguage);
+        const levelLabel = getLevelLabel(targetLanguage, level);
+        Alert.alert(
+            t('settingModal.newDeck.title'),
+            t('settingModal.newDeck.message', { lang: langName, level: levelLabel }),
+            [
+                { text: t('common.cancel'), style: 'cancel' },
+                {
+                    text: t('settingModal.newDeck.create'),
+                    onPress: () => {
+                        createStarterDeck({
+                            targetLanguage,
+                            nativeLanguage,
+                            level,
+                            interests,
+                            profession,
+                            deckName: `${langName} ${levelLabel}`,
+                        }).catch(() => {});
+                    },
+                },
+            ],
+        );
+    };
 
     const save = async () => {
         try {
@@ -137,60 +185,39 @@ export default function SettingModalScreen() {
                         return;
                     }
 
-                    const currentKeys = settings.apiKeys;
+                    // Write only the active provider's config and clear stale ones
+                    // (e.g. an old custom/Azure endpoint) so requests can't be misrouted.
                     if (selectedProvider === 'custom') {
                         await settings.updateApiKeys({
-                            ...currentKeys,
                             activeProvider: 'custom',
                             custom: {
                                 apiKey: key,
                                 baseUrl: customBaseUrl.trim(),
                                 model: customModel.trim() || 'gpt-4o-mini',
                             },
+                            openai: undefined,
+                            gemini: undefined,
                         });
                     } else if (selectedProvider === 'openai') {
-                        await settings.updateApiKeys({ ...currentKeys, activeProvider: 'openai', openai: key });
+                        await settings.updateApiKeys({ activeProvider: 'openai', openai: key, gemini: undefined, custom: undefined });
                     } else {
-                        await settings.updateApiKeys({ ...currentKeys, activeProvider: 'gemini', gemini: key });
+                        await settings.updateApiKeys({ activeProvider: 'gemini', gemini: key, openai: undefined, custom: undefined });
                     }
                     useProfileStore.getState().setCloudAvailable(true);
                     useProfileStore.getState().setActiveModel('cloud');
                     break;
                 }
-                case 'ai_provider': {
-                    const keys = settings.apiKeys;
-                    if (selectedValue === 'openai' && keys.openai) {
-                        HybridLLMManager.getInstance().configureCloud(keys.openai, 'openai');
-                        await settings.updateApiKeys({ activeProvider: 'openai' });
-                    } else if (selectedValue === 'gemini' && keys.gemini) {
-                        HybridLLMManager.getInstance().configureCloud(keys.gemini, 'gemini');
-                        await settings.updateApiKeys({ activeProvider: 'gemini' });
-                    } else if (selectedValue === 'custom' && keys.custom) {
-                        HybridLLMManager.getInstance().configureCloud(
-                            keys.custom.apiKey,
-                            'custom',
-                            keys.custom.baseUrl,
-                            keys.custom.model,
-                        );
-                        await settings.updateApiKeys({ activeProvider: 'custom' });
-                    } else {
-                        const name =
-                            selectedValue === 'openai'
-                                ? 'OpenAI'
-                                : selectedValue === 'gemini'
-                                  ? 'Gemini'
-                                  : 'Custom Endpoint';
-                        Alert.alert(
-                            t('settingModal.apiKey.noKeyTitle'),
-                            t('settingModal.apiKey.noKeyDesc', { name }),
-                        );
-                        return;
-                    }
-                    break;
-                }
                 case 'target_language': {
                     await settings.updateSettings({ targetLanguage: selectedValue });
                     useProfileStore.getState().setTargetLanguage(selectedValue);
+                    const tTags = settings.profileTags;
+                    offerStarterDeck(
+                        selectedValue,
+                        cefrToLevel(tTags.level || '3'),
+                        settings.nativeLanguage || 'tr',
+                        tTags.profession || '',
+                        tTags.interests || [],
+                    );
                     break;
                 }
                 case 'level': {
@@ -199,6 +226,14 @@ export default function SettingModalScreen() {
                         ...useProfileStore.getState(),
                         level: selectedValue,
                     });
+                    const lTags = settings.profileTags;
+                    offerStarterDeck(
+                        settings.targetLanguage || 'en',
+                        parseInt(selectedValue, 10) || 3,
+                        settings.nativeLanguage || 'tr',
+                        lTags.profession || '',
+                        lTags.interests || [],
+                    );
                     break;
                 }
                 case 'native_language': {
@@ -243,7 +278,7 @@ export default function SettingModalScreen() {
                 }
             }
             router.back();
-        } catch (error) {
+        } catch {
             setIsSaving(false);
             Alert.alert(t('common.error'), t('settingModal.saveFailed'));
         }
@@ -255,175 +290,168 @@ export default function SettingModalScreen() {
                 return (
                     <Animated.View entering={FadeInDown.duration(400)}>
                         <Text style={[styles.description, { color: tc.textSecondary }]}>
-                            {t('settingModal.apiKey.description')}
+                            {t('settingModal.apiKey.simpleDescription')}
                         </Text>
 
-                        {/* Provider selector */}
-                        <Text style={[styles.label, { color: tc.textMuted }]}>{t('settingModal.apiKey.provider')}</Text>
-                        <View style={styles.providerRow}>
-                            {CLOUD_PROVIDERS.map((p) => (
-                                <TouchableOpacity
-                                    key={p.key}
-                                    style={[
-                                        styles.providerChip,
-                                        {
-                                            backgroundColor:
-                                                selectedProvider === p.key
-                                                    ? colors.primary[500]
-                                                    : tc.surface,
-                                            borderColor:
-                                                selectedProvider === p.key
-                                                    ? colors.primary[500]
-                                                    : tc.border,
-                                        },
-                                    ]}
-                                    onPress={() => setSelectedProvider(p.key)}
-                                >
-                                    <Text
-                                        style={[
-                                            styles.providerChipText,
-                                            {
-                                                color:
-                                                    selectedProvider === p.key
-                                                        ? '#fff'
-                                                        : tc.text,
-                                            },
-                                        ]}
-                                    >
-                                        {p.label}
-                                    </Text>
-                                    <Text
-                                        style={[
-                                            styles.providerChipSub,
-                                            {
-                                                color:
-                                                    selectedProvider === p.key
-                                                        ? 'rgba(255,255,255,0.75)'
-                                                        : tc.textMuted,
-                                            },
-                                        ]}
-                                        numberOfLines={1}
-                                    >
-                                        {p.subtitle}
-                                    </Text>
-                                </TouchableOpacity>
-                            ))}
+                        {/* Free badge */}
+                        <View style={[styles.freeBadge, { backgroundColor: colors.success.main + '18' }]}>
+                            <Ionicons name="gift-outline" size={16} color={colors.success.main} />
+                            <Text style={[styles.freeBadgeText, { color: colors.success.main }]}>
+                                {t('settingModal.apiKey.freeBadge')}
+                            </Text>
                         </View>
 
+                        {/* Get a free Gemini key */}
+                        <TouchableOpacity
+                            style={[styles.getKeyButton, { backgroundColor: colors.primary[500] }]}
+                            onPress={openKeyPage}
+                        >
+                            <Ionicons name="open-outline" size={18} color="#fff" />
+                            <Text style={styles.getKeyButtonText}>{t('settingModal.apiKey.getFreeKey')}</Text>
+                        </TouchableOpacity>
+
+                        {/* 3-step guide */}
+                        <View style={styles.steps}>
+                            <Text style={[styles.stepText, { color: tc.textSecondary }]}>{t('settingModal.apiKey.step1')}</Text>
+                            <Text style={[styles.stepText, { color: tc.textSecondary }]}>{t('settingModal.apiKey.step2')}</Text>
+                            <Text style={[styles.stepText, { color: tc.textSecondary }]}>{t('settingModal.apiKey.step3')}</Text>
+                        </View>
+
+                        {/* Key input + paste */}
                         <Text style={[styles.label, { color: tc.textMuted, marginTop: spacing.md }]}>
                             {t('settingModal.apiKey.label')}
                         </Text>
-                        <TextInput
-                            style={[
-                                styles.input,
-                                { backgroundColor: tc.surface, color: tc.text, borderColor: tc.border },
-                            ]}
-                            placeholder={
-                                selectedProvider === 'openai'
-                                    ? 'sk-...'
-                                    : selectedProvider === 'gemini'
-                                      ? 'AIzaSy...'
-                                      : t('settingModal.apiKey.yourKey')
-                            }
-                            placeholderTextColor={tc.textMuted}
-                            value={textValue}
-                            onChangeText={handleApiKeyChange}
-                            secureTextEntry
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                        />
+                        <View style={styles.keyRow}>
+                            <TextInput
+                                style={[
+                                    styles.input,
+                                    styles.keyInput,
+                                    { backgroundColor: tc.surface, color: tc.text, borderColor: tc.border },
+                                ]}
+                                placeholder={
+                                    selectedProvider === 'openai'
+                                        ? 'sk-...'
+                                        : selectedProvider === 'gemini'
+                                          ? 'AIzaSy...'
+                                          : t('settingModal.apiKey.yourKey')
+                                }
+                                placeholderTextColor={tc.textMuted}
+                                value={textValue}
+                                onChangeText={handleApiKeyChange}
+                                secureTextEntry
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                            />
+                            <TouchableOpacity
+                                style={[styles.pasteButton, { backgroundColor: tc.surface, borderColor: tc.border }]}
+                                onPress={handlePaste}
+                                accessibilityLabel={t('settingModal.apiKey.paste')}
+                            >
+                                <Ionicons name="clipboard-outline" size={20} color={colors.primary[400]} />
+                            </TouchableOpacity>
+                        </View>
 
-                        {/* Custom endpoint extra fields */}
-                        {selectedProvider === 'custom' && (
+                        {/* Advanced settings toggle */}
+                        <TouchableOpacity style={styles.advancedToggle} onPress={() => setShowAdvanced((v) => !v)}>
+                            <Ionicons
+                                name={showAdvanced ? 'chevron-down' : 'chevron-forward'}
+                                size={16}
+                                color={tc.textMuted}
+                            />
+                            <Text style={[styles.advancedToggleText, { color: tc.textMuted }]}>
+                                {t('settingModal.apiKey.advanced')}
+                            </Text>
+                        </TouchableOpacity>
+
+                        {showAdvanced && (
                             <>
-                                <Text style={[styles.label, { color: tc.textMuted, marginTop: spacing.md }]}>
-                                    {t('settingModal.apiKey.baseUrl')}
-                                </Text>
-                                <TextInput
-                                    style={[
-                                        styles.input,
-                                        {
-                                            backgroundColor: tc.surface,
-                                            color: tc.text,
-                                            borderColor: tc.border,
-                                        },
-                                    ]}
-                                    placeholder="Örn: https://models.inference.ai.azure.com"
-                                    placeholderTextColor={tc.textMuted}
-                                    value={customBaseUrl}
-                                    onChangeText={setCustomBaseUrl}
-                                    autoCapitalize="none"
-                                    autoCorrect={false}
-                                    keyboardType="url"
-                                />
-                                <Text style={[styles.hint, { color: tc.textMuted }]}>
-                                    {t('settingModal.apiKey.baseUrlHint')}
-                                </Text>
+                                <Text style={[styles.label, { color: tc.textMuted }]}>{t('settingModal.apiKey.provider')}</Text>
+                                <View style={styles.providerRow}>
+                                    {CLOUD_PROVIDERS.map((p) => (
+                                        <TouchableOpacity
+                                            key={p.key}
+                                            style={[
+                                                styles.providerChip,
+                                                {
+                                                    backgroundColor:
+                                                        selectedProvider === p.key ? colors.primary[500] : tc.surface,
+                                                    borderColor:
+                                                        selectedProvider === p.key ? colors.primary[500] : tc.border,
+                                                },
+                                            ]}
+                                            onPress={() => setSelectedProvider(p.key)}
+                                        >
+                                            <Text
+                                                style={[
+                                                    styles.providerChipText,
+                                                    { color: selectedProvider === p.key ? '#fff' : tc.text },
+                                                ]}
+                                            >
+                                                {p.label}
+                                            </Text>
+                                            <Text
+                                                style={[
+                                                    styles.providerChipSub,
+                                                    {
+                                                        color:
+                                                            selectedProvider === p.key
+                                                                ? 'rgba(255,255,255,0.75)'
+                                                                : tc.textMuted,
+                                                    },
+                                                ]}
+                                                numberOfLines={1}
+                                            >
+                                                {p.subtitle}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    ))}
+                                </View>
 
-                                <Text style={[styles.label, { color: tc.textMuted, marginTop: spacing.md }]}>
-                                    {t('settingModal.apiKey.modelName')}
-                                </Text>
-                                <TextInput
-                                    style={[
-                                        styles.input,
-                                        {
-                                            backgroundColor: tc.surface,
-                                            color: tc.text,
-                                            borderColor: tc.border,
-                                        },
-                                    ]}
-                                    placeholder="gpt-4o-mini"
-                                    placeholderTextColor={tc.textMuted}
-                                    value={customModel}
-                                    onChangeText={setCustomModel}
-                                    autoCapitalize="none"
-                                    autoCorrect={false}
-                                />
+                                {selectedProvider === 'custom' && (
+                                    <>
+                                        <Text style={[styles.label, { color: tc.textMuted, marginTop: spacing.md }]}>
+                                            {t('settingModal.apiKey.baseUrl')}
+                                        </Text>
+                                        <TextInput
+                                            style={[
+                                                styles.input,
+                                                { backgroundColor: tc.surface, color: tc.text, borderColor: tc.border },
+                                            ]}
+                                            placeholder="Örn: https://models.inference.ai.azure.com"
+                                            placeholderTextColor={tc.textMuted}
+                                            value={customBaseUrl}
+                                            onChangeText={setCustomBaseUrl}
+                                            autoCapitalize="none"
+                                            autoCorrect={false}
+                                            keyboardType="url"
+                                        />
+                                        <Text style={[styles.hint, { color: tc.textMuted }]}>
+                                            {t('settingModal.apiKey.baseUrlHint')}
+                                        </Text>
+
+                                        <Text style={[styles.label, { color: tc.textMuted, marginTop: spacing.md }]}>
+                                            {t('settingModal.apiKey.modelName')}
+                                        </Text>
+                                        <TextInput
+                                            style={[
+                                                styles.input,
+                                                { backgroundColor: tc.surface, color: tc.text, borderColor: tc.border },
+                                            ]}
+                                            placeholder="gpt-4o-mini"
+                                            placeholderTextColor={tc.textMuted}
+                                            value={customModel}
+                                            onChangeText={setCustomModel}
+                                            autoCapitalize="none"
+                                            autoCorrect={false}
+                                        />
+                                    </>
+                                )}
                             </>
                         )}
 
                         <Text style={[styles.hint, { color: tc.textMuted, marginTop: spacing.sm }]}>
                             {t('settingModal.apiKey.hint')}
                         </Text>
-                    </Animated.View>
-                );
-
-            case 'ai_provider':
-                return (
-                    <Animated.View entering={FadeInDown.duration(400)}>
-                        {CLOUD_PROVIDERS.map((provider) => (
-                            <TouchableOpacity
-                                key={provider.key}
-                                style={[
-                                    styles.optionCard,
-                                    {
-                                        backgroundColor: tc.surface,
-                                        borderColor:
-                                            selectedValue === provider.key
-                                                ? colors.primary[500]
-                                                : tc.border,
-                                        borderWidth: selectedValue === provider.key ? 2 : 1,
-                                    },
-                                ]}
-                                onPress={() => setSelectedValue(provider.key)}
-                            >
-                                <View>
-                                    <Text style={[styles.optionTitle, { color: tc.text }]}>
-                                        {provider.label}
-                                    </Text>
-                                    <Text style={[styles.optionSubtitle, { color: tc.textSecondary }]}>
-                                        {provider.subtitle}
-                                    </Text>
-                                </View>
-                                {selectedValue === provider.key && (
-                                    <Ionicons
-                                        name="checkmark-circle"
-                                        size={24}
-                                        color={colors.primary[500]}
-                                    />
-                                )}
-                            </TouchableOpacity>
-                        ))}
                     </Animated.View>
                 );
 
@@ -741,6 +769,68 @@ const styles = StyleSheet.create({
     hint: {
         fontSize: typography.fontSize.xs,
         marginTop: spacing.sm,
+    },
+    freeBadge: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: spacing.xs,
+        alignSelf: 'flex-start',
+        paddingHorizontal: spacing.md,
+        paddingVertical: spacing.xs,
+        borderRadius: borderRadius.full,
+        marginBottom: spacing.md,
+    },
+    freeBadgeText: {
+        fontSize: typography.fontSize.sm,
+        fontWeight: '600',
+    },
+    getKeyButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: spacing.sm,
+        paddingVertical: spacing.md,
+        borderRadius: borderRadius.md,
+    },
+    getKeyButtonText: {
+        color: '#fff',
+        fontSize: typography.fontSize.base,
+        fontWeight: '700',
+    },
+    steps: {
+        gap: spacing.xs,
+        marginTop: spacing.md,
+    },
+    stepText: {
+        fontSize: typography.fontSize.sm,
+        lineHeight: 20,
+    },
+    keyRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: spacing.sm,
+    },
+    keyInput: {
+        flex: 1,
+    },
+    pasteButton: {
+        width: 48,
+        height: 48,
+        borderRadius: borderRadius.md,
+        borderWidth: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    advancedToggle: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: spacing.xs,
+        paddingVertical: spacing.md,
+        marginTop: spacing.xs,
+    },
+    advancedToggleText: {
+        fontSize: typography.fontSize.sm,
+        fontWeight: '600',
     },
     providerRow: {
         gap: spacing.sm,
