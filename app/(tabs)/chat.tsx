@@ -166,7 +166,6 @@ export default function ChatScreen() {
                             timestamp: m.createdAt,
                         })),
                     );
-                    console.log(`[Chat] Loaded ${dbMessages.length} messages for session ${activeSessionId}`);
                 } else {
                     const welcomeMsg: Message = {
                         id: uuidv4(),
@@ -202,7 +201,6 @@ const sendMessage = async () => {
         };
 
         setMessages((prev) => [...prev, userMessage]);
-        console.log(`\n--- Chat Update ---\n👤 USER: ${userMessage.content}`);
         setInput('');
         setIsTyping(true);
 
@@ -237,7 +235,6 @@ const sendMessage = async () => {
 
             setMessages((prev) => [...prev, aiMessage]);
             setStreamingContent('');
-            console.log(`🤖 AI: ${aiMessage.content}\n-------------------\n`);
 
             // Persist AI message + update last message preview
             try {

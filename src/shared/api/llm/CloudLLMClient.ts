@@ -147,10 +147,13 @@ export class CloudLLMClient {
         const systemMessage = messages.find((m) => m.role === 'system');
 
         const response = await this.fetchWithTimeout(
-            `${config.baseUrl}/models/${config.model}:generateContent?key=${config.apiKey}`,
+            `${config.baseUrl}/models/${config.model}:generateContent`,
             {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-goog-api-key': config.apiKey,
+                },
                 body: JSON.stringify({
                     contents,
                     systemInstruction: systemMessage
