@@ -1,5 +1,8 @@
 import { Model } from '@nozbe/watermelondb';
 import { date, field, readonly, writer } from '@nozbe/watermelondb/decorators';
+import type { ApiKeys } from '../../shared/lib/apiKeyStore';
+
+export type { ApiKeys, CustomEndpoint } from '../../shared/lib/apiKeyStore';
 
 export interface ProfileTags {
     profession: string;
@@ -7,19 +10,6 @@ export interface ProfileTags {
     level: string; // A1-C2
     nativeLanguage: string;
     goals: string[];
-}
-
-export interface CustomEndpoint {
-    apiKey: string;
-    baseUrl: string;
-    model: string;
-}
-
-export interface ApiKeys {
-    activeProvider?: 'openai' | 'gemini' | 'custom';
-    openai?: string;
-    gemini?: string;
-    custom?: CustomEndpoint;
 }
 
 export default class UserSettings extends Model {
@@ -52,8 +42,11 @@ export default class UserSettings extends Model {
         }
     }
 
-    /** Parsed API keys */
-    get apiKeys(): ApiKeys {
+    /**
+     * @deprecated API keys now live in secure storage (src/shared/lib/apiKeyStore).
+     * This getter only reads the legacy DB column for the one-time migration.
+     */
+    get legacyApiKeys(): ApiKeys {
         try {
             return JSON.parse(this.apiKeysRaw);
         } catch {
@@ -78,10 +71,10 @@ export default class UserSettings extends Model {
         });
     }
 
-    @writer async updateApiKeys(keys: Partial<ApiKeys>) {
-        const currentKeys = this.apiKeys;
+    /** Wipes the legacy plain-DB key column after migration to secure storage. */
+    @writer async clearLegacyApiKeys() {
         await this.update((settings) => {
-            settings.apiKeysRaw = JSON.stringify({ ...currentKeys, ...keys });
+            settings.apiKeysRaw = JSON.stringify({});
         });
     }
 

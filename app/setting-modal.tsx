@@ -28,6 +28,7 @@ import {
     SUPPORTED_TARGET_LANGUAGES,
 } from '../src/shared/lib/languageConfig';
 import { getVectorStore } from '../src/shared/api/rag/VectorStore';
+import { getApiKeys, setApiKeys } from '../src/shared/lib/apiKeyStore';
 import { createStarterDeck, getUserSettings } from '../src/shared/lib/stores/useDatabaseService';
 import { useProfileStore } from '../src/shared/lib/stores/useProfileStore';
 import { borderRadius, colors, spacing, typography } from '../src/shared/lib/theme';
@@ -84,12 +85,9 @@ export default function SettingModalScreen() {
         WebBrowser.openBrowserAsync('https://aistudio.google.com/app/apikey');
     };
 
-    // Auto-fill existing keys when opening the API key or provider page
+    // Auto-fill existing keys when opening the API key page
     useEffect(() => {
-        getUserSettings().then((settings) => {
-            if (!settings) return;
-            const keys = settings.apiKeys;
-            
+        getApiKeys().then((keys) => {
             if (params.type === 'api_key') {
                 // For API Key modal, default to the explicitly active provider, or fallback
                 const fallbackActive = keys.custom?.apiKey ? 'custom' : keys.gemini ? 'gemini' : 'openai';
@@ -185,23 +183,21 @@ export default function SettingModalScreen() {
                         return;
                     }
 
-                    // Write only the active provider's config and clear stale ones
-                    // (e.g. an old custom/Azure endpoint) so requests can't be misrouted.
+                    // Full replace in secure storage: only the active provider's config
+                    // is kept, so requests can't be misrouted to a stale endpoint.
                     if (selectedProvider === 'custom') {
-                        await settings.updateApiKeys({
+                        await setApiKeys({
                             activeProvider: 'custom',
                             custom: {
                                 apiKey: key,
                                 baseUrl: customBaseUrl.trim(),
                                 model: customModel.trim() || 'gpt-4o-mini',
                             },
-                            openai: undefined,
-                            gemini: undefined,
                         });
                     } else if (selectedProvider === 'openai') {
-                        await settings.updateApiKeys({ activeProvider: 'openai', openai: key, gemini: undefined, custom: undefined });
+                        await setApiKeys({ activeProvider: 'openai', openai: key });
                     } else {
-                        await settings.updateApiKeys({ activeProvider: 'gemini', gemini: key, openai: undefined, custom: undefined });
+                        await setApiKeys({ activeProvider: 'gemini', gemini: key });
                     }
                     useProfileStore.getState().setCloudAvailable(true);
                     useProfileStore.getState().setActiveModel('cloud');

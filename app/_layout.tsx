@@ -16,6 +16,7 @@ import { initializeDefaultSettings } from '../src/entities/database';
 import HybridLLMManager from '../src/shared/api/llm/HybridLLMManager';
 import { AuthService } from '../src/shared/api/supabase/AuthService';
 import { syncDatabase } from '../src/shared/api/supabase/SyncService';
+import { getApiKeys, hasAnyKey, setApiKeys } from '../src/shared/lib/apiKeyStore';
 import { getUserSettings } from '../src/shared/lib/stores/useDatabaseService';
 import { useProfileStore } from '../src/shared/lib/stores/useProfileStore';
 
@@ -106,8 +107,21 @@ export default function RootLayout() {
           useProfileStore.getState().setThemeMode('light');
         }
 
-        // Configure cloud API if key exists (no validation on startup — keys were validated on entry)
-        const keys = settings.apiKeys;
+        // One-time migration: move legacy API keys out of the plain SQLite column
+        // into secure storage, then wipe the DB copy.
+        try {
+          const legacy = settings.legacyApiKeys;
+          if (hasAnyKey(legacy)) {
+            const current = await getApiKeys();
+            if (!hasAnyKey(current)) await setApiKeys(legacy);
+            await settings.clearLegacyApiKeys();
+          }
+        } catch (e) {
+          console.warn('API key migration failed:', e);
+        }
+
+        // Configure cloud API if a key exists (no validation on startup — keys were validated on entry)
+        const keys = await getApiKeys();
         if (keys.openai) {
           llm.configureCloud(keys.openai, 'openai');
           useProfileStore.getState().setCloudAvailable(true);
@@ -120,9 +134,7 @@ export default function RootLayout() {
           llm.configureCloud(keys.custom.apiKey, 'custom', keys.custom.baseUrl, keys.custom.model);
           useProfileStore.getState().setCloudAvailable(true);
           useProfileStore.getState().setActiveModel('cloud');
-        }
-
-        if (!keys.openai && !keys.gemini && !keys.custom) {
+        } else {
           useProfileStore.getState().setActiveModel('none');
         }
 

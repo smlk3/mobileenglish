@@ -118,6 +118,12 @@ declare
   updated jsonb;
   deleted jsonb;
 begin
+  -- Whitelist: this function is callable via PostgREST, so never accept
+  -- arbitrary table names (prevents error-based schema probing).
+  if tbl not in ('decks', 'cards', 'study_sessions') then
+    raise exception 'invalid table';
+  end if;
+
   execute format($q$
     select coalesce(jsonb_agg(to_jsonb(t) - 'user_id' - '_deleted' - 'server_updated_at'), '[]'::jsonb)
     from public.%I t

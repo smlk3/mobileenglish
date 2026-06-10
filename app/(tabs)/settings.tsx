@@ -16,6 +16,7 @@ import type UserSettingsModel from '../../src/entities/UserProfile/model';
 import HybridLLMManager from '../../src/shared/api/llm/HybridLLMManager';
 import { AuthService } from '../../src/shared/api/supabase/AuthService';
 import { syncDatabase } from '../../src/shared/api/supabase/SyncService';
+import { getApiKeys, type ApiKeys } from '../../src/shared/lib/apiKeyStore';
 import { getLanguageConfig, getLevelLabel, SUPPORTED_TARGET_LANGUAGES } from '../../src/shared/lib/languageConfig';
 import { getUserSettings } from '../../src/shared/lib/stores/useDatabaseService';
 import { useProfileStore } from '../../src/shared/lib/stores/useProfileStore';
@@ -35,6 +36,7 @@ export default function SettingsScreen() {
     const [settings, setSettings] = useState<UserSettingsModel | null>(null);
     const [authLoading, setAuthLoading] = useState(false);
     const [syncing, setSyncing] = useState(false);
+    const [apiKeys, setApiKeysState] = useState<ApiKeys>({});
 
     const loadSettings = useCallback(async () => {
         const s = await getUserSettings();
@@ -51,20 +53,21 @@ export default function SettingsScreen() {
                 goals: tags.goals,
             });
             profile.setTargetLanguage(s.targetLanguage || 'en');
-            // Configure LLM based on active provider or fallback to available keys
-            const keys = s.apiKeys;
-            const active = keys.activeProvider || (keys.custom ? 'custom' : keys.gemini ? 'gemini' : keys.openai ? 'openai' : undefined);
-            
-            if (active === 'custom' && keys.custom) {
-                HybridLLMManager.getInstance().configureCloud(keys.custom.apiKey, 'custom', keys.custom.baseUrl, keys.custom.model);
-                useProfileStore.getState().setCloudAvailable(true);
-            } else if (active === 'gemini' && keys.gemini) {
-                HybridLLMManager.getInstance().configureCloud(keys.gemini, 'gemini');
-                useProfileStore.getState().setCloudAvailable(true);
-            } else if (active === 'openai' && keys.openai) {
-                HybridLLMManager.getInstance().configureCloud(keys.openai, 'openai');
-                useProfileStore.getState().setCloudAvailable(true);
-            }
+        }
+        // Configure LLM from secure storage based on the active provider
+        const keys = await getApiKeys();
+        setApiKeysState(keys);
+        const active = keys.activeProvider || (keys.custom ? 'custom' : keys.gemini ? 'gemini' : keys.openai ? 'openai' : undefined);
+
+        if (active === 'custom' && keys.custom) {
+            HybridLLMManager.getInstance().configureCloud(keys.custom.apiKey, 'custom', keys.custom.baseUrl, keys.custom.model);
+            useProfileStore.getState().setCloudAvailable(true);
+        } else if (active === 'gemini' && keys.gemini) {
+            HybridLLMManager.getInstance().configureCloud(keys.gemini, 'gemini');
+            useProfileStore.getState().setCloudAvailable(true);
+        } else if (active === 'openai' && keys.openai) {
+            HybridLLMManager.getInstance().configureCloud(keys.openai, 'openai');
+            useProfileStore.getState().setCloudAvailable(true);
         }
     }, []);
 
@@ -75,8 +78,7 @@ export default function SettingsScreen() {
     );
 
     const profileTags = settings?.profileTags;
-    const apiKeys = settings?.apiKeys;
-const navigateToSettingModal = (type: string, title: string, currentValue: string) => {
+    const navigateToSettingModal = (type: string, title: string, currentValue: string) => {
         router.push({
             pathname: '/setting-modal',
             params: { type, title, currentValue },

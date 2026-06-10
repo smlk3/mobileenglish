@@ -4,7 +4,7 @@ This document summarizes the app's security posture, the design decisions behind
 and the status of known dependency advisories. It is intended for maintainers and
 for project handover.
 
-_Last reviewed: 2026-06-08_
+_Last reviewed: 2026-06-10_
 
 ---
 
@@ -13,7 +13,12 @@ _Last reviewed: 2026-06-08_
 - **Guest-first:** the app is fully usable without an account; in guest mode all data
   stays on the device.
 - **AI keys (BYOK):** the user's AI provider key is stored in the device secure storage
-  (Android Keystore via `expo-secure-store`), never in the database and never logged.
+  (Android Keystore via `expo-secure-store` — `src/shared/lib/apiKeyStore.ts`), never in
+  the database and never logged. _Note: before 2026-06-10 keys lived in the local SQLite
+  `user_settings` table; a one-time startup migration moves them into secure storage and
+  wipes the DB copy._
+- **Android backups:** `android:allowBackup` is disabled (`expo-build-properties`), so
+  app data (including the local SQLite DB) is excluded from device/cloud backups.
 - **Supabase keys:** only the **anon / publishable** key ships in the app (it is
   client-safe by design). The **`service_role` key is never bundled** — it is not used
   anywhere in the client.
@@ -36,12 +41,25 @@ _Last reviewed: 2026-06-08_
 - **Account deletion** (`delete_account`, `SECURITY DEFINER`) is argument-free, pins
   `search_path = public`, and only ever touches `auth.uid()`'s own data + auth row.
 
-## 3. Hardening applied (2026-06-08)
+## 3. Hardening applied
+
+**2026-06-08**
 
 - Removed chat message **content** from `console` logs (privacy).
 - Gemini API key now sent via the **`x-goog-api-key` header** instead of the URL query
   string.
 - `.gitignore` broadened to ignore **all** `.env*` files.
+
+**2026-06-10**
+
+- **AI API keys moved out of plain SQLite into secure storage** (Android Keystore via
+  `expo-secure-store`), with a one-time migration that wipes the legacy DB column.
+- **`android:allowBackup` disabled** via `expo-build-properties` — the local DB no
+  longer lands in Android auto-backups.
+- **`_changes_for` RPC hardened with a table whitelist** (`decks`/`cards`/
+  `study_sessions`): the helper is reachable via PostgREST, and although
+  `SECURITY INVOKER` + RLS already prevented data access, arbitrary table names could
+  be probed via error messages. Re-run `supabase/sync.sql` to apply.
 
 ## 4. Dependency advisories (`npm audit`)
 

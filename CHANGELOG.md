@@ -4,6 +4,29 @@ All notable changes to MobileEnglish are documented here.
 
 ---
 
+## [Unreleased] — 2026-06-10
+
+### security: API keys to secure storage, backups disabled, RPC whitelist
+
+> Follow-up security scan findings (the only real gap from the previous review):
+> AI provider keys were stored in the plain SQLite `user_settings` table — not in
+> secure storage as documented — and Android's default `allowBackup=true` could
+> include that DB in cloud backups.
+
+- **API keys → secure storage:** new `src/shared/lib/apiKeyStore.ts` (Android Keystore
+  via `expo-secure-store`; AsyncStorage on web). All readers/writers
+  (`_layout`, Settings, setting-modal) now use it; `UserSettings.updateApiKeys` removed.
+  A one-time startup **migration** moves existing keys from the DB into secure storage
+  and wipes the legacy column.
+- **Android backups disabled:** `expo-build-properties` plugin with
+  `android.allowBackup=false` (new native config → requires a new development build).
+- **`_changes_for` RPC whitelist** in `supabase/sync.sql` (`decks`/`cards`/
+  `study_sessions` only) — blocks error-based schema probing via PostgREST.
+  **Action:** re-run `supabase/sync.sql` in the Supabase SQL Editor.
+- `SECURITY.md` corrected/updated accordingly.
+
+---
+
 ## [Unreleased] — 2026-06-08
 
 ### security: hardening + audit documentation
